@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="page-header">
+	<h1>{{ page_heading }}</h1>
+</div>
+            
+<div class="panel panel-primary">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				{% for table_heading in table_headings %}
+					<th>{{ table_heading }}</th>
+				{% endfor%}
+			</tr>
+		</thead>
+		<tbody> 
+			{% for agenda in agendas %}
+				<tr id={{ agenda.id }} onclick="document.location='{% url 'agenda-edit' agenda.id %}';">
+					<td>{{ agenda.id }}</td>
+					<td>{{ agenda.date }}</td>
+					<td>{{ agenda.location }}</td>
+				</tr>
+			{% endfor%}
+		</tbody>
+	</table>
+</div>
+
+<a href={% url 'agenda-add' %}><button type="button" class="btn btn-primary" data-toggle="button">Add agenda</button></a>
+	
+		
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load setclass %}
+
+{% block content %}
+
+
+<div class="page-header">
+	<h1>{{ page_heading }} {{ meeting_id }}</h1>
+</div>
+
+
+
+{# MEETING DETAILS #}
+ 
+<h1><small>Meeting details</small></h1>
+
+	{% ifequal editable_section 'is_meeting_details' %}
+
+		<div class="well">
+			<form action="" method="POST">
+				{% csrf_token %}
+   				{% for field in existing_data_forms %}
+					<div>
+			   			{{ field.label_tag }} {{ field|setclass:"form-control" }}
+					</div>
+					<br>
+				{% endfor %}
+   			 	<button type="submit" class="btn btn-primary" name="save_meeting_details_button" value="save_meeting_details" data-toggle="button">Save meeting details</button>
+				<button type="submit" class="btn btn-default" name="cancel_meeting_details_button" value="cancel_meeting_details" data-toggle="button">Discard changes</button>
+				<button type="submit" class="btn btn-danger" name="delete_meeting_button" value="delete_meeting" data-toggle="button">Delete meeting</button>
+			</form>
+		</div>
+
+	{% else %}
+
+		<div class="well">
+			<p><strong>Date:</strong> &nbsp &nbsp &nbsp {{ meeting.date }}</p>
+			<p><strong>Location:</strong> &nbsp &nbsp {{ meeting.location }}</p>
+			{% ifequal editable_section 'none' %}
+				<form action="" method="POST">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-primary" name="edit_meeting_details_button" value="edit_meeting_details" data-toggle="button">Edit meeting details</button>
+				</form>
+			{% endifequal %}
+		</div>
+
+	{% endifequal %}
+
+
+
+{# TASKS REVIEW #}
+<h1><small>Task review</small></h1>
+<div class="well">
+	{# List of incomplete tasks #}
+	<h2><small>Tasks outstanding</small></h2>
+	<div class="panel panel-primary">
+		<table class="table">
+			<thead>
+				<tr>
+					{% for heading in task_list_headings %}
+						<th>{{ heading }}</th>
+					{% endfor%}
+				</tr>
+			</thead>
+			<tbody> 
+				{% for task in incomplete_task_list %}
+					<tr>
+						<td>{{ task.description }}</td>
+						<td>{{ task.participant }}</td>
+						<td>{{ task.deadline }}</td>
+					</tr>
+				{% endfor%}
+			</tbody>
+		</table>
+	</div>
+	{# List of tasks completed since last meeting #}
+	<h2><small>Tasks completed since last meeting</small></h2>
+	<div class="panel panel-primary">
+		<table class="table">
+			<thead>
+				<tr>
+					{% for heading in task_list_headings %}
+						<th>{{ heading }}</th>
+					{% endfor%}
+				</tr>
+			</thead>
+			<tbody> 
+				{% for task in completed_task_list %}
+					<tr>
+						<td>{{ task.description }}</td>
+						<td>{{ task.participant }}</td>
+						<td>{{ task.deadline }}</td>
+					</tr>
+				{% endfor%}
+			</tbody>
+		</table>
+	</div>
+	<a href={% url 'task-list' %}><button type="button" class="btn btn-primary" data-toggle="button">Edit tasks</button></a>
+</div>
+
+
+
+
+{# MAIN ITEMS #}
+
+<h1><small>Main items</small></h1>
+
+	{% ifequal editable_section 'is_main_items' %}
+
+		<div class="well">
+			<form action="" method="POST">
+				{% csrf_token %}
+				{{ existing_data_formset.management_form }}
+				{% for item in existing_data_formset %}
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							{{ item.heading|setclass:"form-control" }}
+						</div>
+						<div class="panel-body">
+								{{ item.background|setclass:"form-control" }}
+								{{ item.id|setclass:"form-control" }}
+						    	{{ item.variety|setclass:"form-control" }}
+						</div>
+					</div>
+				{% endfor %}
+				<button type="submit" class="btn btn-primary" name="save_main_items_button" value="save_main_items" data-toggle="button">Save main items</button>
+			</form>
+		</div>
+
+	{% else %}
+
+		<div class="well">
+			{% for item in main_items %}
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						{{ item.heading }}
+					</div>
+					<div class="panel-body">
+						{{ item.background }}
+					</div>
+				</div>
+			{% endfor %}
+			{% ifequal editable_section 'none' %}
+				<form action="" method="POST">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-primary" name="edit_main_items_button" value="edit_main_items" data-toggle="button">Edit main items</button>
+					<button type="submit" class="btn btn-default" name="add_main_item_button" value="add_main_item" data-toggle="button">Add another main item</button>
+				</form>
+			{% endifequal %}
+		</div>
+		
+	{% endifequal %}
+
+<div class="well">
+	{% ifequal editable_section 'none' %}
+		<a href={% url 'minutes-edit' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Create minutes from this agenda</button></a>
+	{% endifequal %}
+	<a href='#'><button type="button" class="btn btn-default" data-toggle="button">Format for distribution</button></a>
+</div>
+
+<br><br>
+
+{% comment %}
+		
+{# PRELIMINARY ITEMS #}
+
+<h1><small>Preliminary items</small></h1>
+
+{% endcomment %}
+
+
+
+{% endblock %}

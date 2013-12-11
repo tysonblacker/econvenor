@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load setclass %}
+
+{% block content %}
+
+
+<div class="page-header">
+	<h1>{{ page_heading }}</h1>
+</div>
+
+ 
+<div class="well"> 
+      
+	<form action="" method="POST">
+			{% csrf_token %}
+    		{% for field in participant_form %}
+				<div>
+      			{{ field.label_tag }} {{ field|setclass:"form-control" }}
+				</div>
+				<br>
+			{% endfor %}
+     	 	<button type="submit" class="btn btn-primary" name="button" value="submit" data-toggle="button">Save changes</button>
+     	 	<a href={% url 'participant-view' participant_id %}><button type="button" class="btn btn-default" data-toggle="button">Cancel</button></a>
+     	 	<button type="submit" class="btn btn-danger" name="button" value="delete-participant" data-toggle="button">Delete participant</button>
+	</form>
+
+</div>
+	
+{% endblock %}

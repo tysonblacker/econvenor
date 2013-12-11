@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="page-header">
+	<h1>Dashboard</h1>
+</div>
+
+
+<br><br>
+  
+<div class="row">
+	<div class="col-lg-3">
+		<div class="well">
+			<h2>Participants</h2>
+			<p>Manage the group's participants.</p>
+			<p><a class="btn btn-primary" href={% url 'participant-list' %} role="button">Participants &raquo;</a></p>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<div class="well">
+			<h2>Tasks</h2>
+			<p>Manage the group's tasks.</p>
+			<p><a class="btn btn-primary" href={% url 'task-list' %} role="button">Tasks &raquo;</a></p>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<div class="well">
+			<h2>Agendas</h2>
+			<p>Manage the group's agendas.</p>
+			<p><a class="btn btn-primary" href={% url 'agenda-list' %} role="button">Agendas &raquo;</a></p>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<div class="well">
+			<h2>Minutes</h2>
+			<p>Manage the group's minutes.</p>
+			<p><a class="btn btn-primary" href={% url 'minutes-list' %} role="button">Minutes &raquo;</a></p>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

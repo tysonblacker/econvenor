@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="page-header">
+	<h1>{{ page_heading }}</h1>
+</div>
+
+<div class="panel panel-primary">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				{% for table_heading in table_headings %}
+					<th>{{ table_heading }}</th>
+				{% endfor%}
+			</tr>
+		</thead>
+		<tbody> 
+			{% for task in tasks %}
+				<tr id={{ task.id }} onclick="document.location='{% url 'task-edit' task.id %}';">
+					<td>{{ task.description }}</td>
+					<td>{{ task.participant }}</td>
+					<td>{{ task.deadline }}</td>
+					<td>{{ task.status }}</td>
+				</tr>
+			{% endfor%}
+		</tbody>
+	</table>
+</div>
+
+<a href={% url 'task-add' %}><button type="button" class="btn btn-primary" data-toggle="button">Add task</button></a>
+	
+	
+{% endblock %}
