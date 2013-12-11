@@ -47,7 +47,7 @@ def user_logout(request):
 def dashboard(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
-	return render_to_response('dashboard.html', RequestContext(request))
+	return render_to_response('dashboard.html', {'user': request.user}, RequestContext(request))
 	
 
 def participant_list(request):
@@ -111,7 +111,7 @@ def participant_view(request, participant_id):
 def task_list(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
-	tasks = Task.objects.all().order_by('deadline')
+	tasks = Task.objects.filter(owner=request.user).order_by('deadline')
 	page_heading = 'Tasks'
 	table_headings = ('Description', 'Assigned to', 'Deadline', 'Status',)
 	return render_to_response('task_list.html', {'tasks': tasks, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
@@ -133,6 +133,8 @@ def task_edit(request, task_id):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
 	task = Task.objects.get(pk=int(task_id))
+	if task.owner != request.user:
+		return HttpResponseRedirect(reverse('index'))
 	page_heading = task
 	if request.method == "POST" and request.POST['button']=='delete-task':
 		task.delete()

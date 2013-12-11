@@ -42,6 +42,7 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li class="active"><a href="#">Bug report / Feature request</a></li>
 						<li><a href="#">Help</a></li>
+						<p class="navbar-text">Hi, {{ user }}</p>
 						<a href={% url 'logout' %}><button type="submit" class="btn btn-default navbar-btn" name="logout_button" value="logout" data-toggle="button">Sign out</button></a>
       				</ul>
       				
