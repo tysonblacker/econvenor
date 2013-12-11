@@ -75,6 +75,8 @@ def participant_edit(request, participant_id):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
 	participant = Participant.objects.get(pk=int(participant_id))
+	if participant.owner != request.user:
+		return HttpResponseRedirect(reverse('index'))
 	page_heading = 'Edit %s/s details' % participant
 	if request.method == "POST" and request.POST['button']=='delete-participant':
 		participant.delete()
@@ -91,6 +93,8 @@ def participant_view(request, participant_id):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
 	participant = Participant.objects.get(pk=int(participant_id))
+	if participant.owner != request.user:
+		return HttpResponseRedirect(reverse('index'))
 	tasks = participant.task_set.all()
 	page_heading = participant
 	table_headings = ('Description', 'Deadline', 'Status')
