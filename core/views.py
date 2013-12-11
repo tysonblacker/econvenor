@@ -56,7 +56,7 @@ def participant_list(request):
 	participants = Participant.objects.filter(owner=request.user).order_by('first_name')
 	page_heading = 'Participants'
 	table_headings = ('First name', 'Last name', 'Email address', 'Phone number',)
-	return render_to_response('participant_list.html', {'participants': participants, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
+	return render_to_response('participant_list.html', {'user': request.user, 'participants': participants, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
 
 
 def participant_add(request):
@@ -68,7 +68,7 @@ def participant_add(request):
 		return HttpResponseRedirect(reverse('participant-list'))
 	else:
 		participant_form = ParticipantForm()
-	return render_to_response('participant_add.html', {'participant_form': participant_form, 'page_heading': page_heading}, RequestContext(request))
+	return render_to_response('participant_add.html', {'user': request.user, 'participant_form': participant_form, 'page_heading': page_heading}, RequestContext(request))
 			 
 		
 def participant_edit(request, participant_id):
@@ -86,7 +86,7 @@ def participant_edit(request, participant_id):
 		return HttpResponseRedirect(reverse('participant-list'))
 	else:
 		participant_form = ParticipantForm(instance=participant)		
-	return render_to_response('participant_edit.html', {'participant_form': participant_form, 'page_heading': page_heading, 'participant_id': participant_id}, RequestContext(request))
+	return render_to_response('participant_edit.html', {'user': request.user, 'participant_form': participant_form, 'page_heading': page_heading, 'participant_id': participant_id}, RequestContext(request))
 
 
 def participant_view(request, participant_id):
@@ -105,7 +105,7 @@ def participant_view(request, participant_id):
 	elif request.method == "POST" and request.POST['new_task_button']=='new_task_save':
 		save_and_add_owner(request, TaskForm(request.POST))
 		new_task_form = {}
-	return render_to_response('participant_view.html', {'participant': participant, 'page_heading': page_heading, 'table_headings': table_headings, 'tasks': tasks, 'new_task_form': new_task_form}, RequestContext(request))
+	return render_to_response('participant_view.html', {'user': request.user, 'participant': participant, 'page_heading': page_heading, 'table_headings': table_headings, 'tasks': tasks, 'new_task_form': new_task_form}, RequestContext(request))
 
 
 def task_list(request):
@@ -114,7 +114,7 @@ def task_list(request):
 	tasks = Task.objects.filter(owner=request.user).order_by('deadline')
 	page_heading = 'Tasks'
 	table_headings = ('Description', 'Assigned to', 'Deadline', 'Status',)
-	return render_to_response('task_list.html', {'tasks': tasks, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
+	return render_to_response('task_list.html', {'user': request.user, 'tasks': tasks, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
 	
 
 def task_add(request):
@@ -126,7 +126,7 @@ def task_add(request):
 		return HttpResponseRedirect(reverse('task-list'))
 	else:
 		task_form = TaskForm()
-	return render_to_response('task_add.html', {'task_form': task_form, 'page_heading': page_heading}, RequestContext(request))
+	return render_to_response('task_add.html', {'user': request.user, 'task_form': task_form, 'page_heading': page_heading}, RequestContext(request))
 	
 		
 def task_edit(request, task_id):
@@ -144,14 +144,14 @@ def task_edit(request, task_id):
 		return HttpResponseRedirect(reverse('task-list'))
 	else:
 		task_form = TaskForm(instance=task)		
-	return render_to_response('task_edit.html', {'task_form': task_form, 'page_heading': page_heading, 'task_id': task_id}, RequestContext(request))
+	return render_to_response('task_edit.html', {'user': request.user, 'task_form': task_form, 'page_heading': page_heading, 'task_id': task_id}, RequestContext(request))
 
 
 def agenda_list(request):
 	agendas = Meeting.objects.all()
 	page_heading = 'Agendas'
 	table_headings = ('Meeting number', 'Date', 'Location',)
-	return render_to_response('agenda_list.html', {'agendas': agendas, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
+	return render_to_response('agenda_list.html', {'user': request.user, 'agendas': agendas, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
 	
 	
 def agenda_add(request):
@@ -166,7 +166,7 @@ def agenda_add(request):
  			return HttpResponseRedirect(reverse('agenda-edit', args=(meeting_id,)))
 	else:
 		meeting_form = MeetingForm()
-		return render_to_response('agenda_add.html', {'meeting_form': meeting_form, 'page_heading': page_heading}, RequestContext(request))
+		return render_to_response('agenda_add.html', {'user': request.user, 'meeting_form': meeting_form, 'page_heading': page_heading}, RequestContext(request))
 
 
 def agenda_edit(request, meeting_id):
@@ -231,14 +231,14 @@ def agenda_edit(request, meeting_id):
 				existing_data_formset = AgendaItemFormSetWithSpare(instance=meeting, queryset=main_items)
 				editable_section = 'is_main_items'
 		
-	return render_to_response('agenda_edit.html', {'meeting_id': meeting_id, 'meeting': meeting, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form}, RequestContext(request))
+	return render_to_response('agenda_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form}, RequestContext(request))
 	
 
 def minutes_list(request):
 	minutes = Meeting.objects.all()
 	page_heading = 'Minutes'
 	table_headings = ('Meeting number', 'Date', 'Location',)
-	return render_to_response('minutes_list.html', {'minutes': minutes, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
+	return render_to_response('minutes_list.html', {'user': request.user, 'minutes': minutes, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
 
 
 def minutes_edit(request, meeting_id):
@@ -352,11 +352,11 @@ def minutes_edit(request, meeting_id):
 				task_data_formset = TaskFormSet(instance=meeting)				
 				editable_section = 'is_main_items'	
 						
-	return render_to_response('minutes_edit.html', {'meeting_id': meeting_id, 'meeting': meeting, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'decision_data_formset': decision_data_formset, 'task_data_formset': task_data_formset}, RequestContext(request))
+	return render_to_response('minutes_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'decision_data_formset': decision_data_formset, 'task_data_formset': task_data_formset}, RequestContext(request))
 
 
 def decision_list(request):
 	decisions = Decision.objects.all()
 	page_heading = 'Decisions'
 	table_headings = ('Decision', 'Meeting', 'Agenda item',)
-	return render_to_response('decision_list.html', {'decisions': decisions, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
+	return render_to_response('decision_list.html', {'user': request.user, 'decisions': decisions, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
