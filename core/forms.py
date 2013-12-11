@@ -30,6 +30,7 @@ class TaskForm(forms.ModelForm):
         	'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'}),
         	'deadline': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Deadline'}),
         	'status': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Status'}),
+        	'owner': forms.HiddenInput(),
         }
 
 
@@ -37,3 +38,6 @@ class ParticipantForm(forms.ModelForm):
     
     class Meta:
         model = Participant
+        widgets = {
+        	'owner': forms.HiddenInput(),
+        }

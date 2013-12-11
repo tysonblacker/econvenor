@@ -62,6 +62,7 @@
 	<form class="form-inline" role="form" action="" method="POST">
 		<div class="form-group">
 			{% csrf_token %}
+			{{ new_task_form.owner }}
 			<input type='hidden' id="id_participant" name='participant' value= '{{ participant.id }}' />
     		<div class="well">
    				<div class="col-sm-4">

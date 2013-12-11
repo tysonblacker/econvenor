@@ -11,8 +11,12 @@ from core.forms import DecisionForm, ItemForm, MeetingForm, ParticipantForm, Tas
 
 
 
-def confirm_logged_in():
-	pass
+def save_and_add_owner(request, form_object):
+	form = form_object
+	if form.is_valid():
+		temp_form = form.save(commit=False)
+		temp_form.owner = request.user
+		temp_form.save()
 
 
 def index(request):
@@ -42,7 +46,7 @@ def dashboard(request):
 	
 
 def participant_list(request):
-	participants = Participant.objects.all()
+	participants = Participant.objects.all().order_by('first_name')
 	page_heading = 'Participants'
 	table_headings = ('First name', 'Last name', 'Email address', 'Phone number',)
 	return render_to_response('participant_list.html', {'participants': participants, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
@@ -51,10 +55,8 @@ def participant_list(request):
 def participant_add(request):
 	page_heading = 'Add a participant'
 	if request.method == "POST":
-		participant_form = ParticipantForm(request.POST)
-		if participant_form.is_valid():
-			participant_form.save()
-			return HttpResponseRedirect(reverse('participant-list'))
+		save_and_add_owner(request, ParticipantForm(request.POST))
+		return HttpResponseRedirect(reverse('participant-list'))
 	else:
 		participant_form = ParticipantForm()
 	return render_to_response('participant_add.html', {'participant_form': participant_form, 'page_heading': page_heading}, RequestContext(request))
@@ -67,10 +69,8 @@ def participant_edit(request, participant_id):
 		participant.delete()
 		return HttpResponseRedirect(reverse('participant-list'))
 	elif request.method == "POST":
-		participant_form = ParticipantForm(request.POST, instance=participant)
-		if participant_form.is_valid():
-			participant_form.save()
-			return HttpResponseRedirect(reverse('participant-list'))
+		save_and_add_owner(request, ParticipantForm(request.POST, instance=participant))
+		return HttpResponseRedirect(reverse('participant-list'))
 	else:
 		participant_form = ParticipantForm(instance=participant)		
 	return render_to_response('participant_edit.html', {'participant_form': participant_form, 'page_heading': page_heading, 'participant_id': participant_id}, RequestContext(request))
@@ -86,15 +86,13 @@ def participant_view(request, participant_id):
 		if request.method == "POST" and request.POST['add_task_button']=='add_task':
 			new_task_form = TaskForm()
 	elif request.method == "POST" and request.POST['new_task_button']=='new_task_save':
-		new_task_form = TaskForm(request.POST)
-		if new_task_form.is_valid():
-			new_task_form.save()
-			new_task_form = {}
+		save_and_add_owner(request, TaskForm(request.POST))
+		new_task_form = {}
 	return render_to_response('participant_view.html', {'participant': participant, 'page_heading': page_heading, 'table_headings': table_headings, 'tasks': tasks, 'new_task_form': new_task_form}, RequestContext(request))
 
 
 def task_list(request):
-	tasks = Task.objects.all().order_by('status').reverse()
+	tasks = Task.objects.all().order_by('deadline')
 	page_heading = 'Tasks'
 	table_headings = ('Description', 'Assigned to', 'Deadline', 'Status',)
 	return render_to_response('task_list.html', {'tasks': tasks, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
@@ -103,10 +101,8 @@ def task_list(request):
 def task_add(request):
 	page_heading = 'Add a task'
 	if request.method == "POST":
-		task_form = TaskForm(request.POST)
-		if task_form.is_valid():
-			task_form.save()
-			return HttpResponseRedirect(reverse('task-list'))
+		save_and_add_owner(request, TaskForm(request.POST))
+		return HttpResponseRedirect(reverse('task-list'))
 	else:
 		task_form = TaskForm()
 	return render_to_response('task_add.html', {'task_form': task_form, 'page_heading': page_heading}, RequestContext(request))
@@ -119,10 +115,8 @@ def task_edit(request, task_id):
 		task.delete()
 		return HttpResponseRedirect(reverse('task-list'))
 	elif request.method == "POST":
-		task_form = TaskForm(request.POST, instance=task)
-		if task_form.is_valid():
-			task_form.save()
-			return HttpResponseRedirect(reverse('task-list'))
+		save_and_add_owner(request, TaskForm(request.POST, instance=task))
+		return HttpResponseRedirect(reverse('task-list'))
 	else:
 		task_form = TaskForm(instance=task)		
 	return render_to_response('task_edit.html', {'task_form': task_form, 'page_heading': page_heading, 'task_id': task_id}, RequestContext(request))
