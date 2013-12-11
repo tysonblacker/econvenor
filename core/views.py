@@ -10,6 +10,7 @@ from core.models import Decision, Item, Meeting, Participant, Task
 from core.forms import DecisionForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
 
 
+# Helper functions
 
 def save_and_add_owner(request, form_object):
 	form = form_object
@@ -17,7 +18,9 @@ def save_and_add_owner(request, form_object):
 		temp_form = form.save(commit=False)
 		temp_form.owner = request.user
 		temp_form.save()
+    
 
+# View functions
 
 def index(request):
 	error = ''
@@ -36,23 +39,29 @@ def index(request):
 	return render_to_response('index.html', {'error': error}, RequestContext(request))
 
 
-def logout(request):
+def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('index'))
 
 
 def dashboard(request):
-    return render_to_response('dashboard.html', RequestContext(request))
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
+	return render_to_response('dashboard.html', RequestContext(request))
 	
 
 def participant_list(request):
-	participants = Participant.objects.all().order_by('first_name')
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
+	participants = Participant.objects.filter(owner=request.user).order_by('first_name')
 	page_heading = 'Participants'
 	table_headings = ('First name', 'Last name', 'Email address', 'Phone number',)
 	return render_to_response('participant_list.html', {'participants': participants, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
 
 
 def participant_add(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
 	page_heading = 'Add a participant'
 	if request.method == "POST":
 		save_and_add_owner(request, ParticipantForm(request.POST))
@@ -63,6 +72,8 @@ def participant_add(request):
 			 
 		
 def participant_edit(request, participant_id):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
 	participant = Participant.objects.get(pk=int(participant_id))
 	page_heading = 'Edit %s/s details' % participant
 	if request.method == "POST" and request.POST['button']=='delete-participant':
@@ -77,6 +88,8 @@ def participant_edit(request, participant_id):
 
 
 def participant_view(request, participant_id):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
 	participant = Participant.objects.get(pk=int(participant_id))
 	tasks = participant.task_set.all()
 	page_heading = participant
@@ -92,6 +105,8 @@ def participant_view(request, participant_id):
 
 
 def task_list(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
 	tasks = Task.objects.all().order_by('deadline')
 	page_heading = 'Tasks'
 	table_headings = ('Description', 'Assigned to', 'Deadline', 'Status',)
@@ -99,6 +114,8 @@ def task_list(request):
 	
 
 def task_add(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
 	page_heading = 'Add a task'
 	if request.method == "POST":
 		save_and_add_owner(request, TaskForm(request.POST))
@@ -109,6 +126,8 @@ def task_add(request):
 	
 		
 def task_edit(request, task_id):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
 	task = Task.objects.get(pk=int(task_id))
 	page_heading = task
 	if request.method == "POST" and request.POST['button']=='delete-task':
