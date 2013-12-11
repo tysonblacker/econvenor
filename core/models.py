@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Meeting(models.Model):
-	owner = models.ForeignKey(User)
+	owner = models.ForeignKey(User, null=True, blank=True)
 	date = models.DateTimeField()
 	location = models.TextField()
 	description = models.CharField(max_length=100, blank=True)
@@ -13,7 +13,7 @@ class Meeting(models.Model):
 
 
 class Participant(models.Model):
-	owner = models.ForeignKey(User)
+	owner = models.ForeignKey(User, null=True, blank=True)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100, blank=True)
 	email_address = models.EmailField()
@@ -25,7 +25,7 @@ class Participant(models.Model):
     	
     	
 class Item(models.Model):
-	owner = models.ForeignKey(User)
+	owner = models.ForeignKey(User, null=True, blank=True)
 	meeting = models.ForeignKey(Meeting)
 #	participant = models.ForeignKey(Participant)
 	heading = models.CharField(max_length=100)
@@ -38,7 +38,7 @@ class Item(models.Model):
 
 
 class Decision(models.Model):
-	owner = models.ForeignKey(User)
+	owner = models.ForeignKey(User, null=True, blank=True)
 	meeting = models.ForeignKey(Meeting)
 	item = models.ForeignKey(Item)
 	description = models.TextField()
@@ -48,9 +48,9 @@ class Decision(models.Model):
 
 
 class Task(models.Model):
-	owner = models.ForeignKey(User)
-	meeting = models.ForeignKey(Meeting, null=True)
-	item = models.ForeignKey(Item, null=True)
+	owner = models.ForeignKey(User, null=True, blank=True)
+	meeting = models.ForeignKey(Meeting, null=True, blank=True)
+	item = models.ForeignKey(Item, null=True, blank=True)
 	participant = models.ForeignKey(Participant, null=True)
 	description = models.CharField(max_length=200, blank=True)
 	deadline = models.DateField(null=True, blank=True)
