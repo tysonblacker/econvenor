@@ -12,16 +12,26 @@
 <div class="well"> 
       
 	<form action="" method="POST">
+		<div class="form-group">
 			{% csrf_token %}
-    		{% for field in participant_form %}
-				<div>
-      			{{ field.label_tag }} {{ field|setclass:"form-control" }}
-				</div>
-				<br>
-			{% endfor %}
-     	 	<button type="submit" class="btn btn-primary" name="button" value="submit" data-toggle="button">Save changes</button>
-     	 	<a href={% url 'participant-view' participant_id %}><button type="button" class="btn btn-default" data-toggle="button">Cancel</button></a>
-     	 	<button type="submit" class="btn btn-danger" name="button" value="delete-participant" data-toggle="button">Delete participant</button>
+    	</div>
+    	
+    	{% for hidden in participant_form.hidden_fields %}
+   			<div class="form-group">
+   				{{ hidden }}
+   			</div>
+		{% endfor %}	
+
+    	{% for field in participant_form.visible_fields %}
+			<div>
+				{{ field.label_tag }} {{ field|setclass:"form-control" }}
+			</div>
+			<br>
+		{% endfor %}
+		
+	<button type="submit" class="btn btn-primary" name="button" value="submit" data-toggle="button">Save changes</button>
+    <a href={% url 'participant-view' participant_id %}><button type="button" class="btn btn-default" data-toggle="button">Cancel</button></a>
+    <button type="submit" class="btn btn-danger" name="button" value="delete-participant" data-toggle="button">Delete participant</button>
 	</form>
 
 </div>
