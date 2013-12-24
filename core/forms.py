@@ -7,6 +7,9 @@ class MeetingForm(forms.ModelForm):
     
     class Meta:
         model = Meeting
+        widgets = {
+        	'location': forms.Textarea(attrs={'rows': 3}),
+        }
 
 
 class ItemForm(forms.ModelForm):
