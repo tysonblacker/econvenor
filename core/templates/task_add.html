@@ -15,7 +15,14 @@
 		<div class="form-group">
 			{% csrf_token %}
     	</div>
-    	{% for field in task_form %}
+    	
+    	{% for hidden in task_form.hidden_fields %}
+   			<div class="form-group">
+   				{{ hidden }}
+   			</div>
+		{% endfor %}
+    	
+    	{% for field in task_form.visible_fields %}
 			<div class="form-group">
       			{{ field.label_tag }}
       			{{ field|setclass:"form-control" }}

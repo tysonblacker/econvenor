@@ -31,6 +31,8 @@ class TaskForm(forms.ModelForm):
         	'deadline': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Deadline'}),
         	'status': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Status'}),
         	'owner': forms.HiddenInput(),
+        	'meeting': forms.HiddenInput(),
+        	'item': forms.HiddenInput(),
         }
 
 
