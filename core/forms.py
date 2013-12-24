@@ -24,6 +24,12 @@ class DecisionForm(forms.ModelForm):
 
 class TaskForm(forms.ModelForm):
     
+    def __init__(self, user, *args, **kwargs):
+        super(TaskForm, self).__init__(*args, **kwargs)
+        self.fields['participant'].queryset = Participant.objects.filter(owner=user)
+    
+    
+    
     class Meta:
         model = Task
         widgets = {

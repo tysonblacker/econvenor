@@ -122,10 +122,10 @@ def task_add(request):
 		return HttpResponseRedirect(reverse('index'))
 	page_heading = 'Add a task'
 	if request.method == "POST":
-		save_and_add_owner(request, TaskForm(request.POST))
+		save_and_add_owner(request, TaskForm(request.user, request.POST))
 		return HttpResponseRedirect(reverse('task-list'))
 	else:
-		task_form = TaskForm()
+		task_form = TaskForm(request.user)
 	return render_to_response('task_add.html', {'user': request.user, 'task_form': task_form, 'page_heading': page_heading}, RequestContext(request))
 	
 		
@@ -140,10 +140,10 @@ def task_edit(request, task_id):
 		task.delete()
 		return HttpResponseRedirect(reverse('task-list'))
 	elif request.method == "POST":
-		save_and_add_owner(request, TaskForm(request.POST, instance=task))
+		save_and_add_owner(request, TaskForm(request.user, request.POST, instance=task))
 		return HttpResponseRedirect(reverse('task-list'))
 	else:
-		task_form = TaskForm(instance=task)		
+		task_form = TaskForm(request.user, instance=task)		
 	return render_to_response('task_edit.html', {'user': request.user, 'task_form': task_form, 'page_heading': page_heading, 'task_id': task_id}, RequestContext(request))
 
 
