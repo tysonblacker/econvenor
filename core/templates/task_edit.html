@@ -12,18 +12,28 @@
 <div class="well"> 
       
 	<form action="" method="POST">
+		<div class="form-group">
 			{% csrf_token %}
-    		{% for field in task_form %}
-				<div>
-      			{{ field.label_tag }} {{ field|setclass:"form-control" }}
-				</div>
-				<br>
-			{% endfor %}
-     	 	<button type="submit" class="btn btn-primary" name="button" value="submit" data-toggle="button">Save changes</button>
-     	 	<a href={% url 'task-list' %}><button type="button" class="btn btn-default" data-toggle="button">Cancel</button></a>
+		</div>
+			
+		{% for hidden in task_form.hidden_fields %}
+			<div class="form-group">
+   				{{ hidden }}
+   			</div>
+		{% endfor %}
+		
+    	{% for field in task_form.visible_fields %}
+			<div>
+	   			{{ field.label_tag }} {{ field|setclass:"form-control" }}
+			</div>
+			<br>
+		{% endfor %}
+			
+  	 	<button type="submit" class="btn btn-primary" name="button" value="submit" data-toggle="button">Save changes</button>
+   	 	<a href={% url 'task-list' %}><button type="button" class="btn btn-default" data-toggle="button">Cancel</button></a>
 
 {# comment #}
-     	 	<button type="submit" class="btn btn-danger" name="button" value="delete-task" data-toggle="button">Delete task</button>
+     	 <button type="submit" class="btn btn-danger" name="button" value="delete-task" data-toggle="button">Delete task</button>
 {# endcomment #}     	 	
 
 	</form>
