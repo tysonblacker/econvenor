@@ -101,9 +101,9 @@ def participant_view(request, participant_id):
 	new_task_form = {}
 	if 'add_task_button' in request.POST:
 		if request.method == "POST" and request.POST['add_task_button']=='add_task':
-			new_task_form = TaskForm()
+			new_task_form = TaskForm(request.user)
 	elif request.method == "POST" and request.POST['new_task_button']=='new_task_save':
-		save_and_add_owner(request, TaskForm(request.POST))
+		save_and_add_owner(request, TaskForm(request.user, request.POST))
 		new_task_form = {}
 	return render_to_response('participant_view.html', {'user': request.user, 'participant': participant, 'page_heading': page_heading, 'table_headings': table_headings, 'tasks': tasks, 'new_task_form': new_task_form}, RequestContext(request))
 
