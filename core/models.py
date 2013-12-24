@@ -54,7 +54,7 @@ class Task(models.Model):
 	participant = models.ForeignKey(Participant, null=True)
 	description = models.CharField(max_length=200, blank=True)
 	deadline = models.DateField(null=True, blank=True)
-	status = models.CharField(max_length=20, blank=True)
+	status = models.CharField(max_length=10, choices=(('Incomplete', 'Incomplete'), ('Complete', 'Complete')), blank=True)
 	
 	def __unicode__(self):
 		return self.description
