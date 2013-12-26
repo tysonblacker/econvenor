@@ -5,6 +5,10 @@ from core.models import Decision, Item, Meeting, Participant, Task
 
 class MeetingForm(forms.ModelForm):
     
+    def __init__(self, user, *args, **kwargs):
+        super(MeetingForm, self).__init__(*args, **kwargs)
+        self.fields['owner'].queryset = Meeting.objects.filter(owner=user)
+        
     class Meta:
         model = Meeting
         widgets = {

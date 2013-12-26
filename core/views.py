@@ -148,24 +148,24 @@ def task_edit(request, task_id):
 
 
 def agenda_list(request):
-	agendas = Meeting.objects.all()
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
+	agendas = Meeting.objects.filter(owner=request.user).order_by('date')
 	page_heading = 'Agendas'
-	table_headings = ('Meeting number', 'Date', 'Location',)
+	table_headings = ('Date', 'Description', 'Location',)
 	return render_to_response('agenda_list.html', {'user': request.user, 'agendas': agendas, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
 	
 	
 def agenda_add(request):
 	page_heading = 'Create agenda'
 	if request.method == "POST":
-		meeting_form = MeetingForm(request.POST)
-		if meeting_form.is_valid():
-			meeting_form.save()
-			new_meeting = Meeting.objects.values().order_by('id').reverse()[:1]
- 			new_meeting_dictionary = new_meeting[0]
- 			meeting_id = str(new_meeting_dictionary['id'])
- 			return HttpResponseRedirect(reverse('agenda-edit', args=(meeting_id,)))
+		save_and_add_owner(request, MeetingForm(request.user, request.POST))
+		new_meeting = Meeting.objects.values().order_by('id').reverse()[:1]
+ 		new_meeting_dictionary = new_meeting[0]
+ 		meeting_id = str(new_meeting_dictionary['id'])
+ 		return HttpResponseRedirect(reverse('agenda-edit', args=(meeting_id,)))
 	else:
-		meeting_form = MeetingForm()
+		meeting_form = MeetingForm(request.user)
 		return render_to_response('agenda_add.html', {'user': request.user, 'meeting_form': meeting_form, 'page_heading': page_heading}, RequestContext(request))
 
 
@@ -189,7 +189,7 @@ def agenda_edit(request, meeting_id):
 	if request.method == "POST":
 		if 'edit_meeting_details_button' in request.POST:
 			if request.POST['edit_meeting_details_button']=='edit_meeting_details':
-				existing_data_forms = MeetingForm(instance=meeting)
+				existing_data_forms = MeetingForm(request.user, instance=meeting)
 				editable_section = 'is_meeting_details'
 		if 'save_meeting_details_button' in request.POST:
 			if request.POST['save_meeting_details_button']=='save_meeting_details':

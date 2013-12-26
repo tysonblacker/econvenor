@@ -19,8 +19,8 @@
 		<tbody> 
 			{% for agenda in agendas %}
 				<tr id={{ agenda.id }} onclick="document.location='{% url 'agenda-edit' agenda.id %}';">
-					<td>{{ agenda.id }}</td>
 					<td>{{ agenda.date }}</td>
+					<td>{{ agenda.description }}</td>
 					<td>{{ agenda.location }}</td>
 				</tr>
 			{% endfor%}
