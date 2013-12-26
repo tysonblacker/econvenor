@@ -141,7 +141,8 @@
 											{{ decision.item|setclass:"form-control" }}
 										</div>
 									{% endifequal %}
-								{% endfor %} 
+								{% endfor %}
+								<button type="submit" class="btn btn-default" name="add_decision_minutes_button" value="add_decision_item_{{ item.id.value }}" data-toggle="button">Add a decision to this item</button>
 							</div>
 							
 							<p><strong>Tasks:</strong></p>
@@ -166,14 +167,9 @@
 										</div>
 										</div>
 									{% endifequal %}
-								{% endfor %} 
-							</div>
-														
-						</div>
-												
-						<div class="panel-body">
-							<button type="submit" class="btn btn-default" name="add_decision_minutes_button" value="add_decision_item_{{ item.id.value }}" data-toggle="button">Add a decision to this item</button>
-							<button type="submit" class="btn btn-default" name="add_task_minutes_button" value="add_task_item_{{ item.id.value }}" data-toggle="button">Add a task to this item</button>
+								{% endfor %}
+								<button type="submit" class="btn btn-default" name="add_task_minutes_button" value="add_task_item_{{ item.id.value }}" data-toggle="button">Add a task to this item</button>
+							</div>						
 						</div>	
 					</div>
 				{% endfor %}
