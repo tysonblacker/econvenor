@@ -189,7 +189,7 @@ def agenda_edit(request, meeting_id):
 	if request.method == "POST":
 		if 'edit_meeting_details_button' in request.POST:
 			if request.POST['edit_meeting_details_button']=='edit_meeting_details':
-				existing_data_forms = MeetingForm(request.user, instance=meeting)
+				existing_data_forms = MeetingForm(instance=meeting)
 				editable_section = 'is_meeting_details'
 		if 'save_meeting_details_button' in request.POST:
 			if request.POST['save_meeting_details_button']=='save_meeting_details':

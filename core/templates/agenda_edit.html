@@ -19,7 +19,14 @@
 		<div class="well">
 			<form action="" method="POST">
 				{% csrf_token %}
-   				{% for field in existing_data_forms %}
+				
+				{% for hidden in existing_data_forms.hidden_fields %}
+   					<div class="form-group">
+   						{{ hidden }}
+   					</div>
+				{% endfor %}	
+
+    			{% for field in existing_data_forms.visible_fields %}
 					<div>
 			   			{{ field.label_tag }} {{ field|setclass:"form-control" }}
 					</div>
