@@ -157,6 +157,8 @@ def agenda_list(request):
 	
 	
 def agenda_add(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
 	page_heading = 'Create agenda'
 	if request.method == "POST":
 		save_and_add_owner(request, MeetingForm(request.POST))
@@ -170,6 +172,8 @@ def agenda_add(request):
 
 
 def agenda_edit(request, meeting_id):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
 	page_heading = 'Create agenda for meeting'
 	task_list_headings = ('Description', 'Assigned to', 'Deadline')
 	meeting = Meeting.objects.get(pk=int(meeting_id))
@@ -205,7 +209,6 @@ def agenda_edit(request, meeting_id):
 				return HttpResponseRedirect(reverse('agenda-list'))
 				
 	# Management of main items 
-#TO DO: Allow "save and add another main item" for new forms
 	if request.method == "POST":
 		# when 'edit_main_items_button' has been pressed
 		if 'edit_main_items_button' in request.POST:
@@ -234,6 +237,8 @@ def agenda_edit(request, meeting_id):
 	
 
 def minutes_list(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
 	minutes = Meeting.objects.all()
 	page_heading = 'Minutes'
 	table_headings = ('Meeting number', 'Date', 'Location',)
@@ -241,6 +246,8 @@ def minutes_list(request):
 
 
 def minutes_edit(request, meeting_id):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
 	page_heading = 'Create minutes for meeting'
 	task_list_headings = ('Description', 'Assigned to', 'Deadline')
 	meeting = Meeting.objects.get(pk=int(meeting_id))
@@ -355,6 +362,8 @@ def minutes_edit(request, meeting_id):
 
 
 def decision_list(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
 	decisions = Decision.objects.all()
 	page_heading = 'Decisions'
 	table_headings = ('Decision', 'Meeting', 'Agenda item',)
