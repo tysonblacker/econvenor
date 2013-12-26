@@ -225,6 +225,7 @@ def agenda_edit(request, meeting_id):
 					if last_item_added: # check that last_item_added exists before trying to add data to it
 						if last_item_added.variety == '':
 							last_item_added.variety = 'main'
+							last_item_added.owner = request.user
 							last_item_added.save()
 			 		editable_section = 'none'
 		# when 'add_main_item_button' has been pressed
