@@ -181,11 +181,10 @@ def agenda_edit(request, meeting_id):
 	existing_data_forms = []
 	existing_data_formset = {}
 	editable_section = 'none'
-	incomplete_task_list = Task.objects.filter(status="Incomplete")
-	completed_task_list = Task.objects.filter(status="Complete")
+	incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
+	completed_task_list = Task.objects.filter(owner=request.user, status="Complete")
 	
 	# Management of meeting details
-# TO DO: Add a delete button when meeting details are being edited
 	if request.method == "POST":
 		if 'edit_meeting_details_button' in request.POST:
 			if request.POST['edit_meeting_details_button']=='edit_meeting_details':
