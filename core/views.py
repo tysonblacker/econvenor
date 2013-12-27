@@ -231,7 +231,7 @@ def agenda_edit(request, meeting_id):
 def minutes_list(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
-	minutes = Meeting.objects.filter(owner=request.user)
+	minutes = Meeting.objects.filter(owner=request.user, agenda_locked=True)
 	page_heading = 'Minutes'
 	table_headings = ('Meeting number', 'Date', 'Location',)
 	return render_to_response('minutes_list.html', {'user': request.user, 'minutes': minutes, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
@@ -245,6 +245,8 @@ def minutes_edit(request, meeting_id):
 	meeting = Meeting.objects.get(pk=int(meeting_id))
 	if meeting.owner != request.user:
 		return HttpResponseRedirect(reverse('index'))
+	meeting.agenda_locked = True
+	meeting.save()
 	AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=True, widgets={'variety': HiddenInput(), 'background': Textarea(attrs={'rows': 3}), 'minute_notes': Textarea(attrs={'rows': 4}),})
 	DecisionFormSet = inlineformset_factory(Meeting, Decision, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'description': Textarea(attrs={'rows': 2}), 'owner': HiddenInput(),})
 	TaskFormSet = inlineformset_factory(Meeting, Task, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'status': HiddenInput(), 'owner': HiddenInput(),})

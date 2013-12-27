@@ -10,6 +10,7 @@ class MeetingForm(forms.ModelForm):
         widgets = {
         	'location': forms.Textarea(attrs={'rows': 3}),
         	'owner': forms.HiddenInput(),
+        	'agenda_locked': forms.HiddenInput(),
         }
 
 
