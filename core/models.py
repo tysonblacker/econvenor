@@ -10,7 +10,7 @@ class Meeting(models.Model):
 	agenda_locked = models.BooleanField()
 
 	def __unicode__(self):
-		return ' on '.join([self.description, self.date])
+		return ' on '.join([self.description, str(self.date)])
 
 
 class Participant(models.Model):
