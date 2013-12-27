@@ -8,19 +8,8 @@ from django.contrib.auth import authenticate, login, logout
 
 from core.models import Decision, Item, Meeting, Participant, Task
 from core.forms import DecisionForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
+from core.utils import save_and_add_owner
 
-
-# Helper functions
-
-def save_and_add_owner(request, form_object):
-	form = form_object
-	if form.is_valid():
-		temp_form = form.save(commit=False)
-		temp_form.owner = request.user
-		temp_form.save()
-    
-
-# View functions
 
 def index(request):
 	error = ''
