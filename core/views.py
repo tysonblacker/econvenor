@@ -166,10 +166,12 @@ def agenda_edit(request, meeting_id):
 	page_heading = 'Create agenda for meeting'
 	task_list_headings = ('Description', 'Assigned to', 'Deadline')
 	meeting = Meeting.objects.get(pk=int(meeting_id))
+	if meeting.owner != request.user:
+		return HttpResponseRedirect(reverse('index'))
 	AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=True, widgets={'variety': HiddenInput()})
 	AgendaItemFormSetWithSpare = inlineformset_factory(Meeting, Item, extra=1, can_delete=True, widgets={'variety': HiddenInput()})
-	main_items = meeting.item_set.filter(variety__exact='main')
-	preliminary_items = meeting.item_set.filter(variety__exact='preliminary')
+	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
+	preliminary_items = meeting.item_set.filter(owner=request.user, variety__exact='preliminary')
 	new_data_form = {}
 	existing_data_forms = []
 	existing_data_formset = {}
@@ -229,7 +231,7 @@ def agenda_edit(request, meeting_id):
 def minutes_list(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
-	minutes = Meeting.objects.all()
+	minutes = Meeting.objects.filter(owner=request.user)
 	page_heading = 'Minutes'
 	table_headings = ('Meeting number', 'Date', 'Location',)
 	return render_to_response('minutes_list.html', {'user': request.user, 'minutes': minutes, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
@@ -241,18 +243,20 @@ def minutes_edit(request, meeting_id):
 	page_heading = 'Create minutes for meeting'
 	task_list_headings = ('Description', 'Assigned to', 'Deadline')
 	meeting = Meeting.objects.get(pk=int(meeting_id))
+	if meeting.owner != request.user:
+		return HttpResponseRedirect(reverse('index'))
 	AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=True, widgets={'variety': HiddenInput(), 'background': Textarea(attrs={'rows': 3}), 'minute_notes': Textarea(attrs={'rows': 4}),})
 	DecisionFormSet = inlineformset_factory(Meeting, Decision, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'description': Textarea(attrs={'rows': 2}), 'owner': HiddenInput(),})
 	TaskFormSet = inlineformset_factory(Meeting, Task, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'status': HiddenInput(), 'owner': HiddenInput(),})
-	main_items = meeting.item_set.filter(variety__exact='main')
+	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
 	new_data_form = {}
 	existing_data_forms = []
 	existing_data_formset = {}
 	decision_data_formset = {}
 	task_data_formset = {}
 	editable_section = 'none'
-	incomplete_task_list = Task.objects.filter(status="Incomplete")
-	completed_task_list = Task.objects.filter(status="Complete")
+	incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
+	completed_task_list = Task.objects.filter(owner=request.user, status="Complete")
 	
 	def save_minutes_data(request, meeting):
 		existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
