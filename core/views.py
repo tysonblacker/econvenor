@@ -242,8 +242,8 @@ def minutes_edit(request, meeting_id):
 	task_list_headings = ('Description', 'Assigned to', 'Deadline')
 	meeting = Meeting.objects.get(pk=int(meeting_id))
 	AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=True, widgets={'variety': HiddenInput(), 'background': Textarea(attrs={'rows': 3}), 'minute_notes': Textarea(attrs={'rows': 4}),})
-	DecisionFormSet = inlineformset_factory(Meeting, Decision, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'description': Textarea(attrs={'rows': 2}),})
-	TaskFormSet = inlineformset_factory(Meeting, Task, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'status': HiddenInput()})
+	DecisionFormSet = inlineformset_factory(Meeting, Decision, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'description': Textarea(attrs={'rows': 2}), 'owner': HiddenInput(),})
+	TaskFormSet = inlineformset_factory(Meeting, Task, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'status': HiddenInput(), 'owner': HiddenInput(),})
 	main_items = meeting.item_set.filter(variety__exact='main')
 	new_data_form = {}
 	existing_data_forms = []
@@ -254,10 +254,20 @@ def minutes_edit(request, meeting_id):
 	incomplete_task_list = Task.objects.filter(status="Incomplete")
 	completed_task_list = Task.objects.filter(status="Complete")
 	
+	def save_minutes_data(request, meeting):
+		existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
+		if existing_data_formset.is_valid():
+			existing_data_formset.save()
+		decision_data_formset = DecisionFormSet(request.POST, instance=meeting)
+		if decision_data_formset.is_valid():
+			decision_data_formset.save()
+		task_data_formset = TaskFormSet(request.POST, instance=meeting)
+		if task_data_formset.is_valid():
+			task_data_formset.save()
+		
 	if request.method == "POST":
 	
 		# Management of meeting details
-# TO DO: Add form fields for start time, end time, attendance and apologies
 		if 'edit_meeting_details_minutes_button' in request.POST:
 			if request.POST['edit_meeting_details_minutes_button']=='edit_meeting_details':
 				existing_data_forms = MeetingForm(instance=meeting)
@@ -271,6 +281,7 @@ def minutes_edit(request, meeting_id):
 		if 'cancel_meeting_details_minutes_button' in request.POST:
 			if request.POST['cancel_meeting_details_minutes_button']=='cancel_meeting_details':
 				editable_section = 'none'
+				
 		# Management of main items 
 		if 'edit_main_items_agenda_button' in request.POST:
 			if request.POST['edit_main_items_agenda_button']=='edit_main_items':
@@ -280,69 +291,26 @@ def minutes_edit(request, meeting_id):
 				editable_section = 'is_main_items'
 		if 'save_main_items_agenda_button' in request.POST:
 			if request.POST['save_main_items_agenda_button']=='save_main_items':
-				existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
-				if existing_data_formset.is_valid():
-					existing_data_formset.save()
-				decision_data_formset = DecisionFormSet(request.POST, instance=meeting)
-				if decision_data_formset.is_valid():
-					decision_data_formset.save()
-				task_data_formset = TaskFormSet(request.POST, instance=meeting)
-				if task_data_formset.is_valid():
-					task_data_formset.save()
-					last_task_added = meeting.task_set.last()
-					if last_task_added: # check that last_task_added exists before trying to add data to it
-						if last_task_added.status == '':
-							last_task_added.status = 'Incomplete'
-							last_task_added.save()
+				save_minutes_data(request, meeting)
 				editable_section = 'none'
 		if 'add_decision_minutes_button' in request.POST:
 			if 'add_decision_item_' in request.POST['add_decision_minutes_button']:
-				existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
-				if existing_data_formset.is_valid():
-					existing_data_formset.save()
-				decision_data_formset = DecisionFormSet(request.POST, instance=meeting)
-				if decision_data_formset.is_valid():
-					decision_data_formset.save()
-					task_data_formset = TaskFormSet(request.POST, instance=meeting)
-				if task_data_formset.is_valid():
-					task_data_formset.save()
-					last_task_added = meeting.task_set.last()
-					if last_task_added:
-						if last_task_added.status == '':
-							last_task_added.status = 'Incomplete'
-							last_item_added.save()
-				if 'add_decision_item_' in request.POST['add_decision_minutes_button']:
-					item_number = str(request.POST['add_decision_minutes_button'])
-					item_number = item_number[18:]
-					new_decision = Decision(item_id=int(item_number), meeting_id=meeting_id)
-					new_decision.save()
+				save_minutes_data(request, meeting)
+				item_number = str(request.POST['add_decision_minutes_button'])
+				item_number = item_number[18:]
+				new_decision = Decision(item_id=int(item_number), meeting_id=meeting_id, owner=request.user)
+				new_decision.save()
 				existing_data_formset = AgendaItemFormSet(instance=meeting, queryset=main_items)
 				decision_data_formset = DecisionFormSet(instance=meeting)				
 				task_data_formset = TaskFormSet(instance=meeting)				
 				editable_section = 'is_main_items'
-			
-			
 		if 'add_task_minutes_button' in request.POST:
 			if 'add_task_item_' in request.POST['add_task_minutes_button']:
-				existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
-				if existing_data_formset.is_valid():
-					existing_data_formset.save()
-				decision_data_formset = DecisionFormSet(request.POST, instance=meeting)
-				if decision_data_formset.is_valid():
-					decision_data_formset.save()
-					task_data_formset = TaskFormSet(request.POST, instance=meeting)
-				if task_data_formset.is_valid():
-					task_data_formset.save()
-					last_task_added = meeting.task_set.last()
-					if last_task_added:
-						if last_task_added.status == '':
-							last_task_added.status = 'Incomplete'
-							last_task_added.save()
-				if 'add_task_item_' in request.POST['add_task_minutes_button']:
-					item_number = str(request.POST['add_task_minutes_button'])
-					item_number = item_number[14:]
-					new_task = Task(item_id=int(item_number), meeting_id=meeting_id)
-					new_task.save()
+				save_minutes_data(request, meeting)
+				item_number = str(request.POST['add_task_minutes_button'])
+				item_number = item_number[14:]
+				new_task = Task(item_id=int(item_number), meeting_id=meeting_id, owner=request.user, status = 'Incomplete')
+				new_task.save()
 				existing_data_formset = AgendaItemFormSet(instance=meeting, queryset=main_items)
 				decision_data_formset = DecisionFormSet(instance=meeting)				
 				task_data_formset = TaskFormSet(instance=meeting)				
@@ -354,7 +322,7 @@ def minutes_edit(request, meeting_id):
 def decision_list(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
-	decisions = Decision.objects.all()
+	decisions = Decision.objects.filter(owner=request.user)
 	page_heading = 'Decisions'
 	table_headings = ('Decision', 'Meeting', 'Agenda item',)
 	return render_to_response('decision_list.html', {'user': request.user, 'decisions': decisions, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))

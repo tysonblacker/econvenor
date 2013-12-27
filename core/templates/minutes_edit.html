@@ -139,6 +139,7 @@
 											{{ decision.id|setclass:"form-control" }}
 											{{ decision.meeting|setclass:"form-control" }}
 											{{ decision.item|setclass:"form-control" }}
+											{{ decision.owner|setclass:"form-control" }}
 											{{ decision.DELETE.label_tag }}{{ decision.DELETE|setclass:"form-control"}}
 										</div>
 									{% endifequal %}
@@ -163,10 +164,11 @@
 												</div>
 												<div>
 													{{ task.DELETE.label_tag }}{{ task.DELETE|setclass:"form-control"}}
-												</div
+												</div>
 												{{ task.status|setclass:"form-control" }}
 												{{ task.id|setclass:"form-control" }}
 												{{ task.meeting|setclass:"form-control" }}
+												{{ task.owner|setclass:"form-control" }}
 												{{ task.item|setclass:"form-control" }}
 										</div>
 										</div>
