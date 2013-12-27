@@ -337,7 +337,7 @@ def minutes_edit(request, meeting_id):
 					if last_task_added:
 						if last_task_added.status == '':
 							last_task_added.status = 'Incomplete'
-							last_item_added.save()
+							last_task_added.save()
 				if 'add_task_item_' in request.POST['add_task_minutes_button']:
 					item_number = str(request.POST['add_task_minutes_button'])
 					item_number = item_number[14:]
