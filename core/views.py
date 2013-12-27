@@ -166,8 +166,8 @@ def agenda_edit(request, meeting_id):
 	page_heading = 'Create agenda for meeting'
 	task_list_headings = ('Description', 'Assigned to', 'Deadline')
 	meeting = Meeting.objects.get(pk=int(meeting_id))
-	AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=False, widgets={'variety': HiddenInput()})
-	AgendaItemFormSetWithSpare = inlineformset_factory(Meeting, Item, extra=1, can_delete=False, widgets={'variety': HiddenInput()})
+	AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=True, widgets={'variety': HiddenInput()})
+	AgendaItemFormSetWithSpare = inlineformset_factory(Meeting, Item, extra=1, can_delete=True, widgets={'variety': HiddenInput()})
 	main_items = meeting.item_set.filter(variety__exact='main')
 	preliminary_items = meeting.item_set.filter(variety__exact='preliminary')
 	new_data_form = {}
