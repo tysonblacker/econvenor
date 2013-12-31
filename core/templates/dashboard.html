@@ -11,34 +11,55 @@
 <br><br>
   
 <div class="row">
+	
 	<div class="col-lg-3">
 		<div class="well">
-			<h2>Participants</h2>
-			<p>Manage the group's participants.</p>
-			<p><a class="btn btn-primary" href={% url 'participant-list' %} role="button">Participants &raquo;</a></p>
+			<h2>Last meeting</h2>
+			<p><strong>Date:</strong> {{ last_meeting.date }}</p>
+			<p><strong>Minutes status:</strong> {{ last_meeting.agenda_locked }}</p>
+			<p><strong>Days ago:</strong> << no. of days >></p>
+			<p><a class="btn btn-primary" href={% url 'minutes-list' %} role="button">Manage meetings &raquo;</a></p>
 		</div>
 	</div>
+	
 	<div class="col-lg-3">
 		<div class="well">
-			<h2>Tasks</h2>
-			<p>Manage the group's tasks.</p>
-			<p><a class="btn btn-primary" href={% url 'task-list' %} role="button">Tasks &raquo;</a></p>
+			<h2>Next meeting</h2>
+			<p><strong>Date:</strong> {{ next_meeting.date }}</p>
+			<p><strong>Location:</strong> {{ next_meeting.location }}</p>
+			<p><strong>Agenda status:</strong> {{ next_meeting.agenda_locked }}</p>
+			<p><a class="btn btn-primary" href={% url 'minutes-list' %} role="button">Manage meetings &raquo;</a></p>
 		</div>
 	</div>
-	<div class="col-lg-3">
+	
+	
+	<div class="col-lg-6">
 		<div class="well">
-			<h2>Agendas</h2>
-			<p>Manage the group's agendas.</p>
-			<p><a class="btn btn-primary" href={% url 'agenda-list' %} role="button">Agendas &raquo;</a></p>
+			<h2>Incomplete tasks</h2>
+			<div class="panel panel-primary">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							{% for heading in task_headings %}
+								<th>{{ heading }}</th>
+							{% endfor%}
+						</tr>
+					</thead>
+					<tbody> 
+						{% for task in tasks %}
+							<tr id={{ task.id }} onclick="document.location='{% url 'task-edit' task.id %}';">
+								<td>{{ task.description }}</td>
+								<td>{{ task.participant }}</td>
+								<td>{{ task.deadline }}</td>
+							</tr>
+						{% endfor%}
+					</tbody>
+				</table>
+			</div>
+			<p><a class="btn btn-primary" href={% url 'task-list' %} role="button">Manage tasks &raquo;</a></p>
 		</div>
 	</div>
-	<div class="col-lg-3">
-		<div class="well">
-			<h2>Minutes</h2>
-			<p>Manage the group's minutes.</p>
-			<p><a class="btn btn-primary" href={% url 'minutes-list' %} role="button">Minutes &raquo;</a></p>
-		</div>
-	</div>
+	
 </div>
 
 
