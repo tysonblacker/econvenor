@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Meeting(models.Model):
 	owner = models.ForeignKey(User, null=True, blank=True)
-	date = models.DateTimeField()
+	date = models.DateField()
 	location = models.TextField()
 	description = models.CharField(max_length=100, choices=(('Ordinary meeting', 'Ordinary meeting'), ('Special meeting', 'Special meeting')), blank=True)
 	agenda_locked = models.BooleanField(default=False)
