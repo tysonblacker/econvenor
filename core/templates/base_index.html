@@ -48,8 +48,15 @@
 				{% block content %}
 				{% endblock %}
 		</div>
-{#		<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>  ...this breaks the buttons #}
+
+		<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script> 
 		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		
+		<script type="text/javascript">
+		var bootstrapButton = $.fn.button.noConflict()
+		$.fn.bootstrapBtn = bootstrapButton 
+		</script>
+		
 	</body>
 </html>
 
