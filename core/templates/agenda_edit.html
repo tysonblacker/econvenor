@@ -28,7 +28,13 @@
 
     			{% for field in existing_data_forms.visible_fields %}
 					<div>
-			   			{{ field.label_tag }} {{ field|setclass:"form-control" }}
+			   			{{ field.label_tag }}
+			   			{% ifequal field.label "Date" %}
+      						<br>
+      						{{ field }}
+      					{% else %}
+	      					{{ field|setclass:"form-control" }}
+	      				{% endifequal %}
 					</div>
 					<br>
 				{% endfor %}

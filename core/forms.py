@@ -11,6 +11,7 @@ class MeetingForm(forms.ModelForm):
         	'location': forms.Textarea(attrs={'rows': 3}),
         	'owner': forms.HiddenInput(),
         	'agenda_locked': forms.HiddenInput(),
+        	'date': forms.DateInput(attrs={'class': 'datepicker'}),
         }
 
 
@@ -38,7 +39,7 @@ class TaskForm(forms.ModelForm):
         model = Task
         widgets = {
         	'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'}),
-        	'deadline': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Deadline'}),
+        	'deadline': forms.DateInput(attrs={'class': 'datepicker'}),
         	'status': forms.Select(attrs={'class': 'form-control'}),
         	'owner': forms.HiddenInput(),
         	'meeting': forms.HiddenInput(),

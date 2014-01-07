@@ -25,7 +25,12 @@
     	{% for field in task_form.visible_fields %}
 			<div class="form-group">
       			{{ field.label_tag }}
-      			{{ field|setclass:"form-control" }}
+      			{% ifequal field.label "Deadline" %}
+      				<br>
+      				{{ field }}
+      			{% else %}
+	      			{{ field|setclass:"form-control" }}
+	      		{% endifequal %}
 			</div>
 		{% endfor %}
 

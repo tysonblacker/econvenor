@@ -14,6 +14,7 @@
 
 		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 		<link href="{% static 'css/econvener.css' %}" rel="stylesheet">
+		<link href="{% static 'css/jqueryui-1.10.3.smoothness.css' %}" rel="stylesheet">
 	</head>
 
 	<body>
@@ -62,12 +63,20 @@
 		
 		<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script> 
 		<script src="{% static 'js/bootstrap.min.js' %}"></script>
-		
+		<script src="{% static 'js/jqueryui-1.10.3.core.js' %}"></script>
+		<script src="{% static 'js/jqueryui-1.10.3.datepicker.js' %}"></script>
+						
 		<script type="text/javascript">
 		var bootstrapButton = $.fn.button.noConflict()
 		$.fn.bootstrapBtn = bootstrapButton 
 		</script>
 		
+		<script type="text/javascript">
+    		$(function() {
+        		$('.datepicker').datepicker({ dateFormat: "yy-mm-dd" });
+   			});
+		</script>
+
 	</body>
 </html>
 

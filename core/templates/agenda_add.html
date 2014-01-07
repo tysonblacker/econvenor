@@ -17,7 +17,8 @@
 			{% csrf_token %}
 			<p class="help-block">Once you save the meeting details you can begin to build the agenda.</p>
    			<br>
-			<p><strong>Date:</strong> {{ meeting_form.date|setclass:"form-control" }}</p>
+			<p><strong>Date:</strong></p>
+			<p>{{ meeting_form.date }}</p>
 			<p><strong>Location:</strong> {{ meeting_form.location|setclass:"form-control" }}</p>
 			<p><strong>Type of meeting:</strong> {{ meeting_form.description|setclass:"form-control" }}</p>
 			<button type="submit" class="btn btn-primary" data-toggle="button">Save meeting details</button></a>
