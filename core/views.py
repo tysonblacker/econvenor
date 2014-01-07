@@ -216,12 +216,16 @@ def agenda_edit(request, meeting_id):
 			if request.POST['save_main_items_button']=='save_main_items':
 				existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
 				if existing_data_formset.is_valid():
-					existing_data_formset.save()
+					existing_data_formset.save() # This formset.save() deletes any deleted forms
+					for form in existing_data_formset:
+						if form.cleaned_data['DELETE'] == True:
+							pass
+						else:					
+							save_and_add_owner(request, form)
 					last_item_added = meeting.item_set.last()
 					if last_item_added: # check that last_item_added exists before trying to add data to it
 						if last_item_added.variety == '':
 							last_item_added.variety = 'main'
-							last_item_added.owner = request.user
 							last_item_added.save()
 			 		editable_section = 'none'
 		# when 'add_main_item_button' has been pressed
