@@ -132,7 +132,9 @@
 							{{ item.heading|setclass:"form-control" }}
 						</div>
 						<div class="panel-body">
-								{{ item.background|setclass:"form-control" }}
+								{{ item.time_limit.label_tag }}{{ item.time_limit|setclass:"form-control" }}		
+								{{ item.explainer.label_tag }}{{ item.explainer|setclass:"form-control" }}
+								{{ item.background.label_tag }}{{ item.background|setclass:"form-control" }}
 								{{ item.id|setclass:"form-control" }}
 						    	{{ item.variety|setclass:"form-control" }}
 						    	<br>
@@ -150,9 +152,11 @@
 			{% for item in main_items %}
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						{{ item.heading }}
+						<strong>{{ item.heading }}</strong>
+						<p class="pull-right">{{ item.time_limit}} minutes</p>
 					</div>
 					<div class="panel-body">
+						<p class="text-muted">To be introduced by {{ item.explainer }}</p>
 						{{ item.background|linebreaks }}
 					</div>
 				</div>
