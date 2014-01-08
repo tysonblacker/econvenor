@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from core.models import Decision, Item, Meeting, Participant, Task
 from core.forms import DecisionForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
-from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date
+from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date, convert_markdown_to_html
 
 
 def index(request):
@@ -362,3 +362,8 @@ def decision_list(request):
 	page_heading = 'Decisions'
 	table_headings = ('Decision', 'Meeting', 'Agenda item',)
 	return render_to_response('decision_list.html', {'user': request.user, 'decisions': decisions, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
+	
+	
+def user_guide(request):
+    page_content = convert_markdown_to_html("core/text/user_guide.mkd")
+    return render_to_response('markdown_template.html', {'page_content': page_content}, RequestContext(request))

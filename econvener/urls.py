@@ -33,4 +33,7 @@ urlpatterns = patterns('',
 	url(r'^minutes/(\d{1,4})/edit/$', views.minutes_edit, name="minutes-edit"),
 
 	url(r'^decisions/$', views.decision_list, name="decision-list"),
+	
+	url(r'^user-guide/$', views.user_guide, name="user-guide"),
+		
 )

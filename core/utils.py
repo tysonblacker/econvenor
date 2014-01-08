@@ -1,5 +1,7 @@
 from core.models import Item, Meeting
 
+import markdown
+
 
 def save_and_add_owner(request, form_object):
 	form = form_object
@@ -29,4 +31,12 @@ def find_preceding_meeting_date(user, meeting_id):
 			preceding_meeting_date = meeting.date
 			break
 	return preceding_meeting_date
-			
+
+
+def convert_markdown_to_html(mkd_file):
+	f = open(mkd_file, "r")
+	mkd_content = f.read()
+	html_content = markdown.markdown(mkd_content)
+	f.close()
+	return html_content
+
