@@ -15,7 +15,8 @@
 <h1><small>Meeting details</small></h1>
 
 	{% ifequal editable_section 'is_meeting_details' %}
-
+		<div class="row">
+  		<div class="col-md-6">
 		<div class="well">
 			<form action="" method="POST">
 				{% csrf_token %}
@@ -43,21 +44,52 @@
 				<button type="submit" class="btn btn-danger" name="delete_meeting_button" value="delete_meeting" data-toggle="button">Delete meeting</button>
 			</form>
 		</div>
+		</div>
+		</div>
 
 	{% else %}
 
-		<div class="well">
-			<p><strong>Date:</strong> &nbsp &nbsp &nbsp {{ meeting.date }}</p>
-			<p><strong>Location:</strong> &nbsp &nbsp {{ meeting.location }}</p>
-			<p><strong>Scheduled duration:</strong> &nbsp &nbsp {{ meeting_duration }} minutes</p>
-			{% ifequal editable_section 'none' %}
-				<form action="" method="POST">
-					{% csrf_token %}
-					<button type="submit" class="btn btn-primary" name="edit_meeting_details_button" value="edit_meeting_details" data-toggle="button">Edit meeting details</button>
-				</form>
-			{% endifequal %}
-		</div>
-
+	<div class="row">
+  	<div class="col-md-6">
+  	<div class="well">
+		<div class="panel panel-primary">
+			
+		<table class="table">
+			<thead>
+				<tr>
+					<th>{{ meeting.description }} of **group name**</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody> 
+				<tr>
+					<td><strong>Date</strong></td>
+					<td>{{ meeting.date }}</td>
+				</tr>
+				<tr>
+					<td><strong>Time</strong></td>
+					<td>**2:00pm**</td>
+				</tr>
+				<tr>
+					<td><strong>Scheduled duration</strong></td>
+					<td>{{ meeting_duration }} minutes</td>
+				</tr>
+				<tr>
+					<td><strong>Location</strong></td>
+					<td>{{ meeting.location|linebreaks }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+		{% ifequal editable_section 'none' %}
+			<form action="" method="POST">
+				{% csrf_token %}
+				<button type="submit" class="btn btn-primary" name="edit_meeting_details_button" value="edit_meeting_details" data-toggle="button">Edit meeting details</button>
+			</form>
+		{% endifequal %}
+	</div>
+	</div>
+	</div>
 	{% endifequal %}
 
 
@@ -83,6 +115,10 @@
 						<td>{{ task.participant }}</td>
 						<td>{{ task.deadline }}</td>
 					</tr>
+				{% empty %}
+				<tr>
+					<td>None</td>
+				</tr>
 				{% endfor%}
 			</tbody>
 		</table>
@@ -105,6 +141,11 @@
 						<td>{{ task.participant }}</td>
 						<td>{{ task.deadline }}</td>
 					</tr>
+				{% empty %}
+				<tr>
+					<td>None</td>
+				</tr>
+				
 				{% endfor%}
 			</tbody>
 		</table>
