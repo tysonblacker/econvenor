@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from core.models import Decision, Item, Meeting, Participant, Task
 from core.forms import DecisionForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
-from core.utils import save_and_add_owner, calculate_meeting_duration
+from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date
 
 
 def index(request):
@@ -181,8 +181,12 @@ def agenda_edit(request, meeting_id):
 	existing_data_forms = []
 	existing_data_formset = {}
 	editable_section = 'none'
+	preceding_meeting_date = find_preceding_meeting_date(request.user, meeting_id)
 	incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
-	completed_task_list = Task.objects.filter(owner=request.user, status="Complete")
+	completed_task_list = []
+	if preceding_meeting_date != None:
+		completed_task_list = Task.objects.filter(owner=request.user, status="Complete", deadline__gte=preceding_meeting_date).exclude(deadline__gte=meeting.date)
+
 	
 	# Management of meeting details
 	if request.method == "POST":
