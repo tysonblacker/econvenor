@@ -272,13 +272,16 @@ def minutes_edit(request, meeting_id):
 	def save_minutes_data(request, meeting):
 		existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
 		if existing_data_formset.is_valid():
-			existing_data_formset.save()
+			for form in existing_data_formset:
+				save_and_add_owner(request, form)
 		decision_data_formset = DecisionFormSet(request.POST, instance=meeting)
 		if decision_data_formset.is_valid():
-			decision_data_formset.save()
+			for form in decision_data_formset:
+				save_and_add_owner(request, form)
 		task_data_formset = TaskFormSet(request.POST, instance=meeting)
 		if task_data_formset.is_valid():
-			task_data_formset.save()
+			for form in task_data_formset:
+				save_and_add_owner(request, form)
 		
 	if request.method == "POST":
 	
