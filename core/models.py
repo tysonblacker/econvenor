@@ -28,8 +28,9 @@ class Participant(models.Model):
 class Item(models.Model):
 	owner = models.ForeignKey(User, null=True, blank=True)
 	meeting = models.ForeignKey(Meeting)
-#	participant = models.ForeignKey(Participant)
 	heading = models.CharField(max_length=100)
+	time_limit = models.IntegerField()
+	explainer = models.ForeignKey(Participant)
 	background = models.TextField(blank=True)
 	variety = models.CharField(max_length=20, blank=True) # 'preliminary', 'main', etc
 	minute_notes = models.TextField(blank=True)
