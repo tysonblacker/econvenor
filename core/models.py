@@ -60,3 +60,12 @@ class Task(models.Model):
 	
 	def __unicode__(self):
 		return self.description
+		
+		
+class Account(models.Model):
+	owner = models.ForeignKey(User, null=True, blank=True)
+	join_date = models.DateField(null=True, blank=True)
+	group_name = models.CharField(max_length=200, blank=True)
+	
+	def __unicode__(self):
+		return self.owner
