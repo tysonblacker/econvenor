@@ -3,7 +3,7 @@ from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.forms.models import inlineformset_factory
-from django.forms import HiddenInput, Textarea
+from django.forms import HiddenInput, Textarea, DateInput
 from django.contrib.auth import authenticate, login, logout
 
 from core.models import Decision, Item, Meeting, Participant, Task
@@ -258,7 +258,7 @@ def minutes_edit(request, meeting_id):
 	meeting.save()
 	AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=True, widgets={'variety': HiddenInput(), 'background': Textarea(attrs={'rows': 3}), 'minute_notes': Textarea(attrs={'rows': 4}),})
 	DecisionFormSet = inlineformset_factory(Meeting, Decision, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'description': Textarea(attrs={'rows': 2}), 'owner': HiddenInput(),})
-	TaskFormSet = inlineformset_factory(Meeting, Task, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'status': HiddenInput(), 'owner': HiddenInput(),})
+	TaskFormSet = inlineformset_factory(Meeting, Task, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'status': HiddenInput(), 'owner': HiddenInput(), 'deadline': DateInput(attrs={'class': 'datepicker'}),})
 	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
 	new_data_form = {}
 	existing_data_forms = []

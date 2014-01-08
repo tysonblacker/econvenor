@@ -19,9 +19,21 @@
 		<div class="well">
 			<form action="" method="POST">
 				{% csrf_token %}
-   				{% for field in existing_data_forms %}
+   				{% for hidden in existing_data_forms.hidden_fields %}
+   					<div class="form-group">
+   						{{ hidden }}
+   					</div>
+				{% endfor %}	
+
+    			{% for field in existing_data_forms.visible_fields %}
 					<div>
-			   			{{ field.label_tag }} {{ field|setclass:"form-control" }}
+			   			{{ field.label_tag }}
+			   			{% ifequal field.label "Date" %}
+      						<br>
+      						{{ field }}
+      					{% else %}
+	      					{{ field|setclass:"form-control" }}
+	      				{% endifequal %}
 					</div>
 					<br>
 				{% endfor %}
@@ -160,7 +172,7 @@
 											   		{{ task.participant|setclass:"form-control" }}
 									   			</div>
 									   			<div class="col-sm-4">
-									   				{{ task.deadline|setclass:"form-control" }}
+									   				{{ task.deadline }}
 												</div>
 												<div>
 													{{ task.DELETE.label_tag }}{{ task.DELETE|setclass:"form-control"}}
