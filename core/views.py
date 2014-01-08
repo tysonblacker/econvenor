@@ -235,6 +235,20 @@ def agenda_edit(request, meeting_id):
 				editable_section = 'is_main_items'
 		
 	return render_to_response('agenda_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form}, RequestContext(request))
+
+
+def agenda_distribute(request, meeting_id):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
+	meeting = Meeting.objects.get(pk=int(meeting_id))
+	if meeting.owner != request.user:
+		return HttpResponseRedirect(reverse('index'))
+	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
+	preliminary_items = meeting.item_set.filter(owner=request.user, variety__exact='preliminary')
+	incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
+	completed_task_list = Task.objects.filter(owner=request.user, status="Complete")
+	participants = Participant.objects.filter(owner=request.user).order_by('first_name')
+	return render_to_response('agenda_distribute.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list, 'main_items': main_items, 'preliminary_items': preliminary_items, 'participants': participants}, RequestContext(request))
 	
 
 def minutes_list(request):

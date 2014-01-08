@@ -172,7 +172,7 @@
 	{% ifequal editable_section 'none' %}
 		<a href={% url 'minutes-edit' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Create minutes from this agenda</button></a>
 	{% endifequal %}
-	<a href='#'><button type="button" class="btn btn-default" data-toggle="button">Format for distribution</button></a>
+	<a href={% url 'agenda-distribute' meeting_id %}><button type="button" class="btn btn-default" data-toggle="button">Format for distribution</button></a>
 </div>
 
 <br><br>
