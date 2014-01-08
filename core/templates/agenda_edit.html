@@ -49,6 +49,7 @@
 		<div class="well">
 			<p><strong>Date:</strong> &nbsp &nbsp &nbsp {{ meeting.date }}</p>
 			<p><strong>Location:</strong> &nbsp &nbsp {{ meeting.location }}</p>
+			<p><strong>Scheduled duration:</strong> &nbsp &nbsp {{ meeting_duration }} minutes</p>
 			{% ifequal editable_section 'none' %}
 				<form action="" method="POST">
 					{% csrf_token %}

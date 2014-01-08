@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from core.models import Decision, Item, Meeting, Participant, Task
 from core.forms import DecisionForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
-from core.utils import save_and_add_owner
+from core.utils import save_and_add_owner, calculate_meeting_duration
 
 
 def index(request):
@@ -233,8 +233,8 @@ def agenda_edit(request, meeting_id):
 			if request.POST['add_main_item_button']=='add_main_item':
 				existing_data_formset = AgendaItemFormSetWithSpare(instance=meeting, queryset=main_items)
 				editable_section = 'is_main_items'
-		
-	return render_to_response('agenda_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form}, RequestContext(request))
+	meeting_duration = calculate_meeting_duration(meeting_id)
+	return render_to_response('agenda_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'meeting_duration': meeting_duration, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form}, RequestContext(request))
 
 
 def agenda_distribute(request, meeting_id):
