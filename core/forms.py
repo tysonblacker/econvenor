@@ -1,6 +1,6 @@
 from django import forms
 
-from core.models import Decision, Item, Meeting, Participant, Task
+from core.models import Account, Decision, Item, Meeting, Participant, Task
 
 
 class MeetingForm(forms.ModelForm):
@@ -32,9 +32,7 @@ class TaskForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['participant'].queryset = Participant.objects.filter(owner=user)
-    
-    
-    
+        
     class Meta:
         model = Task
         widgets = {
@@ -53,4 +51,14 @@ class ParticipantForm(forms.ModelForm):
         model = Participant
         widgets = {
         	'owner': forms.HiddenInput(),
+        }
+        
+        
+class AccountForm(forms.ModelForm):
+    
+    class Meta:
+        model = Account
+        widgets = {
+        	'owner': forms.HiddenInput(),
+        	'join_date': forms.DateInput(attrs={'class': 'datepicker'}),
         }

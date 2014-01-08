@@ -6,8 +6,8 @@ from django.forms.models import inlineformset_factory
 from django.forms import HiddenInput, Textarea, DateInput
 from django.contrib.auth import authenticate, login, logout
 
-from core.models import Decision, Item, Meeting, Participant, Task
-from core.forms import DecisionForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
+from core.models import Account, Decision, Item, Meeting, Participant, Task
+from core.forms import AccountForm, DecisionForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
 from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date, convert_markdown_to_html
 
 
@@ -367,3 +367,16 @@ def decision_list(request):
 def user_guide(request):
     page_content = convert_markdown_to_html("core/text/user_guide.mkd")
     return render_to_response('markdown_template.html', {'page_content': page_content}, RequestContext(request))
+        
+      
+def account_settings(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
+	page_heading = 'Account settings'
+	if request.method == "POST":
+		save_and_add_owner(request, AccountForm(request.POST))
+		return HttpResponseRedirect(reverse('dashboard'))
+	else:
+		account = Account.objects.filter(owner=request.user).last()
+		account_form = AccountForm(instance=account)
+	return render_to_response('account_settings.html', {'user': request.user, 'account_form': account_form, 'page_heading': page_heading}, RequestContext(request))

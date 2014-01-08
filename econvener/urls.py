@@ -36,4 +36,6 @@ urlpatterns = patterns('',
 	
 	url(r'^user-guide/$', views.user_guide, name="user-guide"),
 		
+	url(r'^account-settings/$', views.account_settings, name="account-settings"),
+	
 )
