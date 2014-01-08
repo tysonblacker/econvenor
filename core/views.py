@@ -41,7 +41,8 @@ def dashboard(request):
 	meetings = Meeting.objects.filter(owner=request.user).order_by('date')
 	next_meeting = meetings.last()
 	last_meeting = meetings.first()
-	return render_to_response('dashboard.html', {'user': request.user, 'last_meeting': last_meeting, 'next_meeting': next_meeting, 'tasks': tasks, 'task_headings': task_headings}, RequestContext(request))
+	account = Account.objects.filter(owner=request.user).last()
+	return render_to_response('dashboard.html', {'user': request.user, 'last_meeting': last_meeting, 'next_meeting': next_meeting, 'tasks': tasks, 'task_headings': task_headings, 'account': account}, RequestContext(request))
 	
 
 def participant_list(request):
@@ -168,7 +169,7 @@ def agenda_add(request):
 def agenda_edit(request, meeting_id):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
-	page_heading = 'Create agenda for meeting'
+	page_heading = 'Create agenda'
 	task_list_headings = ('Description', 'Assigned to', 'Deadline')
 	meeting = Meeting.objects.get(pk=int(meeting_id))
 	if meeting.owner != request.user:
@@ -186,6 +187,7 @@ def agenda_edit(request, meeting_id):
 	completed_task_list = []
 	if preceding_meeting_date != None:
 		completed_task_list = Task.objects.filter(owner=request.user, status="Complete", deadline__gte=preceding_meeting_date).exclude(deadline__gte=meeting.date)
+	account = Account.objects.filter(owner=request.user).last()
 
 	
 	# Management of meeting details
@@ -238,7 +240,7 @@ def agenda_edit(request, meeting_id):
 				existing_data_formset = AgendaItemFormSetWithSpare(instance=meeting, queryset=main_items)
 				editable_section = 'is_main_items'
 	meeting_duration = calculate_meeting_duration(meeting_id)
-	return render_to_response('agenda_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'meeting_duration': meeting_duration, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form}, RequestContext(request))
+	return render_to_response('agenda_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'meeting_duration': meeting_duration, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'account': account}, RequestContext(request))
 
 
 def agenda_distribute(request, meeting_id):
@@ -286,6 +288,7 @@ def minutes_edit(request, meeting_id):
 	editable_section = 'none'
 	incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
 	completed_task_list = Task.objects.filter(owner=request.user, status="Complete")
+	account = Account.objects.filter(owner=request.user).last()
 	
 	def save_minutes_data(request, meeting):
 		existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
@@ -352,7 +355,7 @@ def minutes_edit(request, meeting_id):
 				task_data_formset = TaskFormSet(instance=meeting)				
 				editable_section = 'is_main_items'	
 						
-	return render_to_response('minutes_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'decision_data_formset': decision_data_formset, 'task_data_formset': task_data_formset}, RequestContext(request))
+	return render_to_response('minutes_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'decision_data_formset': decision_data_formset, 'task_data_formset': task_data_formset, 'account': account}, RequestContext(request))
 
 
 def decision_list(request):
