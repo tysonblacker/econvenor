@@ -1,6 +1,6 @@
 from django import forms
 
-from core.models import Account, Decision, Item, Meeting, Participant, Task
+from core.models import Account, Bug, Decision, Feature, Item, Meeting, Participant, Task
 
 
 class MeetingForm(forms.ModelForm):
@@ -62,3 +62,29 @@ class AccountForm(forms.ModelForm):
         	'owner': forms.HiddenInput(),
         	'join_date': forms.DateInput(attrs={'class': 'datepicker'}),
         }
+        
+        
+class BugForm(forms.ModelForm):
+
+	class Meta:
+		model = Bug
+		widgets = {
+		   	'trigger': forms.Textarea(attrs={'rows': 3}),
+		   	'behaviour': forms.Textarea(attrs={'rows': 3}),
+		   	'goal': forms.Textarea(attrs={'rows': 3}),
+			'owner': forms.HiddenInput(),
+			'status': forms.HiddenInput(),
+			'date': forms.HiddenInput(),
+        }
+
+
+class FeatureForm(forms.ModelForm):
+
+	class Meta:
+		model = Feature
+		widgets = {
+			'owner': forms.HiddenInput(),
+			'status': forms.HiddenInput(),
+			'date': forms.HiddenInput(),
+        }
+
