@@ -23,6 +23,10 @@
 					<td>{{ minute.date }}</td>
 					<td>{{ minute.location }}</td>
 				</tr>
+			{% empty %}
+				<tr>
+					<td>There are no minutes yet.</td>
+				</tr>
 			{% endfor%}
 		</tbody>
 	</table>

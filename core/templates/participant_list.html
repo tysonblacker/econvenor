@@ -24,6 +24,10 @@
 					<td>{{ participant.email_address }}</td>
 					<td>{{ participant.phone_number }}</td>
 				</tr>
+			{% empty %}
+				<tr>
+					<td>There are no participants yet.</td>
+				</tr>
 			{% endfor%}
 		</tbody>
 	</table>

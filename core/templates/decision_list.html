@@ -23,6 +23,10 @@
 					<td>{{ decision.meeting }}</td>
 					<td>{{ decision.item }}</td>
 				</tr>
+			{% empty %}
+				<tr>
+					<td>There are no decisions yet.</td>
+				</tr>
 			{% endfor%}
 		</tbody>
 	</table>

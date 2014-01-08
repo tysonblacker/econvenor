@@ -23,6 +23,10 @@
 					<td>{{ agenda.description }}</td>
 					<td>{{ agenda.location }}</td>
 				</tr>
+			{% empty %}
+				<tr>
+					<td>There are no agendas yet.</td>
+				</tr>
 			{% endfor%}
 		</tbody>
 	</table>
