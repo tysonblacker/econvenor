@@ -16,8 +16,7 @@
 			{% csrf_token %}
 			<p><strong>Group name:</strong></p>
 			<p>{{ account_form.group_name|setclass:"form-control" }}</p>
-			<p><strong>Date joined:</strong></p>
-			<p>{{ account_form.join_date }}</p>
+			<p>{{ account_date_altered }}</p>
 			<p>{{ account_form.owner }}</p>
 			
 			<button type="submit" class="btn btn-primary" data-toggle="button">Save account details</button></a>

@@ -60,7 +60,7 @@ class AccountForm(forms.ModelForm):
         model = Account
         widgets = {
         	'owner': forms.HiddenInput(),
-        	'join_date': forms.DateInput(attrs={'class': 'datepicker'}),
+        	'date_altered': forms.HiddenInput(),
         }
         
         

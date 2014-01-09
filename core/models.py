@@ -64,7 +64,7 @@ class Task(models.Model):
 		
 class Account(models.Model):
 	owner = models.ForeignKey(User, null=True, blank=True)
-	join_date = models.DateField(null=True, blank=True)
+	date_altered = models.DateField(auto_now_add=True)
 	group_name = models.CharField(max_length=200, blank=True)
 	
 	def __unicode__(self):
