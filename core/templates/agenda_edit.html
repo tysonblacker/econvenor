@@ -242,7 +242,7 @@
 						</div>
 					</div>
 				{% endfor %}
-				<button type="submit" class="btn btn-primary" name="save_main_items_button" value="save_main_items" data-toggle="button">Save main items</button>
+				<button type="submit" class="btn btn-primary" name="save_report_items_button" value="save_report_items" data-toggle="button">Save report items</button>
 			</form>
 		</div>
 
@@ -328,6 +328,64 @@
 		</div>
 		
 	{% endifequal %}
+
+
+{# FINAL ITEMS #}
+
+<h1><small>Final items</small></h1>
+
+	{% ifequal editable_section 'is_final_items' %}
+
+		<div class="well">
+			<form action="" method="POST">
+				{% csrf_token %}
+				{{ existing_data_formset.management_form }}
+				{% for item in existing_data_formset %}
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							{{ item.heading|setclass:"form-control" }}
+						</div>
+						<div class="panel-body">
+								{{ item.time_limit.label_tag }}{{ item.time_limit|setclass:"form-control" }}		
+								{{ item.background.label_tag }}{{ item.background|setclass:"form-control" }}
+								{{ item.id|setclass:"form-control" }}
+						    	{{ item.variety|setclass:"form-control" }}
+						    	<br>
+						    	{{ item.DELETE.label_tag }}{{ item.DELETE|setclass:"form-control"}}
+						</div>
+					</div>
+				{% endfor %}
+				<button type="submit" class="btn btn-primary" name="save_final_items_button" value="save_final_items" data-toggle="button">Save final items</button>
+			</form>
+		</div>
+
+	{% else %}
+
+		<div class="well">
+			{% for item in final_items %}
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<strong>{{ item.heading }}</strong>
+						<p class="pull-right">{{ item.time_limit}} minutes</p>
+					</div>
+					{% ifnotequal item.background '' %}
+						<div class="panel-body">
+							{{ item.background|linebreaks }}
+						</div>
+					{% endifnotequal %}
+				</div>
+			{% endfor %}
+			{% ifequal editable_section 'none' %}
+				<form action="" method="POST">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-default" name="edit_final_items_button" value="edit_final_items" data-toggle="button">Edit final items</button>
+					<button type="submit" class="btn btn-default" name="add_final_item_button" value="add_final_item" data-toggle="button">Add a final item</button>
+				</form>
+			{% endifequal %}
+		</div>
+		
+	{% endifequal %}
+
 
 <div class="well">
 	{% ifequal editable_section 'none' %}

@@ -179,6 +179,7 @@ def agenda_edit(request, meeting_id):
 	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
 	preliminary_items = meeting.item_set.filter(owner=request.user, variety__exact='preliminary')
 	report_items = meeting.item_set.filter(owner=request.user, variety__exact='report')
+	final_items = meeting.item_set.filter(owner=request.user, variety__exact='final')
 	new_data_form = {}
 	existing_data_forms = []
 	existing_data_formset = {}
@@ -300,9 +301,40 @@ def agenda_edit(request, meeting_id):
 			if request.POST['add_main_item_button']=='add_main_item':
 				existing_data_formset = AgendaItemFormSetWithSpare(instance=meeting, queryset=main_items)
 				editable_section = 'is_main_items'
+	
+	# Management of final items 
+	if request.method == "POST":
+		# when 'edit_final_items_button' has been pressed
+		if 'edit_final_items_button' in request.POST:
+			if request.POST['edit_final_items_button']=='edit_final_items':
+				existing_data_formset = AgendaItemFormSet(instance=meeting, queryset=final_items)
+				editable_section = 'is_final_items'
+		# when 'save_final_items_button' has been pressed
+		elif 'save_final_items_button' in request.POST:
+			if request.POST['save_final_items_button']=='save_final_items':
+				existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
+				if existing_data_formset.is_valid():
+					existing_data_formset.save() # This formset.save() deletes any deleted forms
+					for form in existing_data_formset:
+						if form.cleaned_data['DELETE'] == True:
+							pass
+						else:					
+							save_and_add_owner(request, form)
+					last_item_added = meeting.item_set.last()
+					if last_item_added: # check that last_item_added exists before trying to add data to it
+						if last_item_added.variety == '':
+							last_item_added.variety = 'final'
+							last_item_added.save()
+			 		editable_section = 'none'
+		# when 'add_final_item_button' has been pressed
+		elif 'add_final_item_button' in request.POST:
+			if request.POST['add_final_item_button']=='add_final_item':
+				existing_data_formset = AgendaItemFormSetWithSpare(instance=meeting, queryset=final_items)
+				editable_section = 'is_final_items'
+	
 		
 	meeting_duration = calculate_meeting_duration(meeting_id)
-	return render_to_response('agenda_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'meeting_duration': meeting_duration, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'preliminary_items': preliminary_items, 'report_items': report_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'account': account}, RequestContext(request))
+	return render_to_response('agenda_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'meeting_duration': meeting_duration, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'preliminary_items': preliminary_items, 'report_items': report_items, 'final_items': final_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'account': account}, RequestContext(request))
 
 
 def agenda_distribute(request, meeting_id):
