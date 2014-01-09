@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="page-header">
+	<h1>{{ page_heading }}</h1>
+</div>
+
+<div class="panel panel-primary">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				{% for table_heading in table_headings %}
+					<th>{{ table_heading }}</th>
+				{% endfor%}
+			</tr>
+		</thead>
+		<tbody> 
+			{% for bug in bugs %}
+				<tr>
+					<td>{{ bug.id }}</td>
+					<td>{{ bug.title }}</td>
+					<td>{{ bug.date }}</td>
+				</tr>
+			{% empty %}
+				<tr>
+					<td>No bugs have been reported yet.</td>
+				</tr>
+			{% endfor%}
+		</tbody>
+	</table>
+</div>
+
+<a href={% url 'bug-report' %}><button type="button" class="btn btn-primary" data-toggle="button">Report a bug</button></a>
+	
+	
+{% endblock %}

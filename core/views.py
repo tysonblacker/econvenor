@@ -6,8 +6,8 @@ from django.forms.models import inlineformset_factory
 from django.forms import HiddenInput, Textarea, DateInput
 from django.contrib.auth import authenticate, login, logout
 
-from core.models import Account, Decision, Item, Meeting, Participant, Task
-from core.forms import AccountForm, DecisionForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
+from core.models import Account, Bug, Decision, Feature, Item, Meeting, Participant, Task
+from core.forms import AccountForm, BugForm, DecisionForm, FeatureForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
 from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date, convert_markdown_to_html
 
 
@@ -239,6 +239,7 @@ def agenda_edit(request, meeting_id):
 			if request.POST['add_main_item_button']=='add_main_item':
 				existing_data_formset = AgendaItemFormSetWithSpare(instance=meeting, queryset=main_items)
 				editable_section = 'is_main_items'
+		
 	meeting_duration = calculate_meeting_duration(meeting_id)
 	return render_to_response('agenda_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'meeting_duration': meeting_duration, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'account': account}, RequestContext(request))
 
@@ -383,3 +384,45 @@ def account_settings(request):
 		account = Account.objects.filter(owner=request.user).last()
 		account_form = AccountForm(instance=account)
 	return render_to_response('account_settings.html', {'user': request.user, 'account_form': account_form, 'page_heading': page_heading}, RequestContext(request))
+	
+
+def bug_report(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
+	page_heading = 'Report a bug'
+	if request.method == "POST":
+		save_and_add_owner(request, BugForm(request.POST))
+		return HttpResponseRedirect(reverse('bug-list'))
+	else:
+		bug_form = BugForm()
+	return render_to_response('bug_report.html', {'user': request.user, 'bug_form': bug_form, 'page_heading': page_heading}, RequestContext(request))
+	
+
+def bug_list(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
+	bugs = Bug.objects.all()
+	page_heading = 'Bugs reported'
+	table_headings = ('Bug number', 'Description', 'Date reported',)
+	return render_to_response('bug_list.html', {'user': request.user, 'bugs': bugs, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
+	
+	
+def feature_request(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
+	page_heading = 'Request a feature'
+	if request.method == "POST":
+		save_and_add_owner(request, FeatureForm(request.POST))
+		return HttpResponseRedirect(reverse('dashboard'))
+	else:
+		feature_form = FeatureForm()
+	return render_to_response('feature_request.html', {'user': request.user, 'feature_form': feature_form, 'page_heading': page_heading}, RequestContext(request))
+	
+	
+def feature_list(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
+	features = Feature.objects.all()
+	page_heading = 'Features requested'
+	table_headings = ('Request number', 'Description', 'Date requested',)
+	return render_to_response('feature_list.html', {'user': request.user, 'features': features, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))

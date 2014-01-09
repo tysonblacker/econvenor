@@ -83,6 +83,9 @@ class FeatureForm(forms.ModelForm):
 	class Meta:
 		model = Feature
 		widgets = {
+			'goal': forms.Textarea(attrs={'rows': 3}),
+			'shortcoming': forms.Textarea(attrs={'rows': 3}),
+			'suggestion': forms.Textarea(attrs={'rows': 3}),
 			'owner': forms.HiddenInput(),
 			'status': forms.HiddenInput(),
 			'date': forms.HiddenInput(),
