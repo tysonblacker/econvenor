@@ -343,12 +343,17 @@ def agenda_distribute(request, meeting_id):
 	meeting = Meeting.objects.get(pk=int(meeting_id))
 	if meeting.owner != request.user:
 		return HttpResponseRedirect(reverse('index'))
+	task_list_headings = ('Description', 'Assigned to', 'Deadline')
 	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
 	preliminary_items = meeting.item_set.filter(owner=request.user, variety__exact='preliminary')
+	report_items = meeting.item_set.filter(owner=request.user, variety__exact='report')
+	final_items = meeting.item_set.filter(owner=request.user, variety__exact='final')	
 	incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
 	completed_task_list = Task.objects.filter(owner=request.user, status="Complete")
 	participants = Participant.objects.filter(owner=request.user).order_by('first_name')
-	return render_to_response('agenda_distribute.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list, 'main_items': main_items, 'preliminary_items': preliminary_items, 'participants': participants}, RequestContext(request))
+	meeting_duration = calculate_meeting_duration(meeting_id)
+	account = Account.objects.filter(owner=request.user).last()
+	return render_to_response('agenda_distribute.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'meeting_duration': meeting_duration, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list, 'main_items': main_items, 'preliminary_items': preliminary_items, 'report_items': report_items, 'final_items': final_items, 'participants': participants, 'account': account}, RequestContext(request))
 	
 
 def minutes_list(request):
