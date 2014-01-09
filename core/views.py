@@ -270,7 +270,7 @@ def minutes_list(request):
 def minutes_edit(request, meeting_id):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
-	page_heading = 'Create minutes for meeting'
+	page_heading = 'Create minutes'
 	task_list_headings = ('Description', 'Assigned to', 'Deadline')
 	meeting = Meeting.objects.get(pk=int(meeting_id))
 	if meeting.owner != request.user:
@@ -420,7 +420,7 @@ def bug_list(request):
 def feature_request(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
-	page_heading = 'Request a feature'
+	page_heading = 'Request a feature/change'
 	if request.method == "POST":
 		save_and_add_owner(request, FeatureForm(request.POST))
 		return HttpResponseRedirect(reverse('dashboard'))
@@ -433,6 +433,6 @@ def feature_list(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
 	features = Feature.objects.all()
-	page_heading = 'Features requested'
+	page_heading = 'Features/changes requested'
 	table_headings = ('Request number', 'Description', 'Date requested',)
 	return render_to_response('feature_list.html', {'user': request.user, 'features': features, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
