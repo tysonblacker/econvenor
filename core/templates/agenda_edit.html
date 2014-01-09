@@ -84,13 +84,73 @@
 		{% ifequal editable_section 'none' %}
 			<form action="" method="POST">
 				{% csrf_token %}
-				<button type="submit" class="btn btn-primary" name="edit_meeting_details_button" value="edit_meeting_details" data-toggle="button">Edit meeting details</button>
+				<button type="submit" class="btn btn-default" name="edit_meeting_details_button" value="edit_meeting_details" data-toggle="button">Edit meeting details</button>
 			</form>
 		{% endifequal %}
 	</div>
 	</div>
 	</div>
 	{% endifequal %}
+
+
+{# PRELIMINARY ITEMS #}
+
+<h1><small>Preliminary items</small></h1>
+
+	{% ifequal editable_section 'is_preliminary_items' %}
+
+		<div class="well">
+			<form action="" method="POST">
+				{% csrf_token %}
+				{{ existing_data_formset.management_form }}
+				{% for item in existing_data_formset %}
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							{{ item.heading|setclass:"form-control" }}
+						</div>
+						<div class="panel-body">
+								{{ item.time_limit.label_tag }}{{ item.time_limit|setclass:"form-control" }}		
+								{{ item.background.label_tag }}{{ item.background|setclass:"form-control" }}    
+								{{ item.id|setclass:"form-control" }}
+						    	{{ item.variety|setclass:"form-control" }}
+						    	<br>
+						    	{{ item.DELETE.label_tag }}{{ item.DELETE|setclass:"form-control"}}
+						</div>
+					</div>
+				{% endfor %}
+				<button type="submit" class="btn btn-primary" name="save_preliminary_items_button" value="save_preliminary_items" data-toggle="button">Save preliminary items</button>
+			</form>
+		</div>
+
+	{% else %}
+
+		<div class="well">
+			{% for item in preliminary_items %}
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<strong>{{ item.heading }}</strong>
+						<p class="pull-right">{{ item.time_limit}} minutes</p>
+					</div>
+					{% ifnotequal item.background '' %}
+						<div class="panel-body">
+							{{ item.background|linebreaks }}
+						</div>
+					{% endifnotequal %}
+				</div>
+			{% endfor %}
+			{% ifequal editable_section 'none' %}
+				<form action="" method="POST">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-default" name="edit_preliminary_items_button" value="edit_preliminary_items" data-toggle="button">Edit preliminary items</button>
+					<button type="submit" class="btn btn-default" name="add_preliminary_item_button" value="add_preliminary_item" data-toggle="button">Add a preliminary item</button>
+				</form>
+			{% endifequal %}
+		</div>
+		
+	{% endifequal %}
+
+
+
 
 
 
@@ -151,7 +211,7 @@
 		</table>
 	</div>
 	{% ifequal editable_section 'none' %}
-		<a href={% url 'task-list' %}><button type="button" class="btn btn-primary" data-toggle="button">Edit tasks</button></a>
+		<a href={% url 'task-list' %}><button type="button" class="btn btn-default" data-toggle="button">Edit tasks</button></a>
 	{% endifequal %}
 </div>
 
@@ -206,7 +266,7 @@
 			{% ifequal editable_section 'none' %}
 				<form action="" method="POST">
 					{% csrf_token %}
-					<button type="submit" class="btn btn-primary" name="edit_main_items_button" value="edit_main_items" data-toggle="button">Edit main items</button>
+					<button type="submit" class="btn btn-default" name="edit_main_items_button" value="edit_main_items" data-toggle="button">Edit main items</button>
 					<button type="submit" class="btn btn-default" name="add_main_item_button" value="add_main_item" data-toggle="button">Add a main item</button>
 				</form>
 			{% endifequal %}
@@ -218,19 +278,8 @@
 	{% ifequal editable_section 'none' %}
 		<a href={% url 'minutes-edit' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Create minutes from this agenda</button></a>
 	{% endifequal %}
-	<a href={% url 'agenda-distribute' meeting_id %}><button type="button" class="btn btn-default" data-toggle="button">Format for distribution</button></a>
+	<a href={% url 'agenda-distribute' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Format for distribution</button></a>
 </div>
-
-<br><br>
-
-{% comment %}
-		
-{# PRELIMINARY ITEMS #}
-
-<h1><small>Preliminary items</small></h1>
-
-{% endcomment %}
-
 
 
 {% endblock %}
