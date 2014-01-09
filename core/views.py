@@ -371,7 +371,17 @@ def decision_list(request):
 def user_guide(request):
     page_content = convert_markdown_to_html("core/text/user_guide.mkd")
     return render_to_response('markdown_template.html', {'page_content': page_content}, RequestContext(request))
-        
+
+
+def faqs(request):
+    page_content = convert_markdown_to_html("core/text/faqs.mkd")
+    return render_to_response('markdown_template.html', {'page_content': page_content}, RequestContext(request))
+    
+
+def ask_question(request):
+    page_content = convert_markdown_to_html("core/text/ask_question.mkd")
+    return render_to_response('markdown_template.html', {'page_content': page_content}, RequestContext(request))
+    
       
 def account_settings(request):
 	if not request.user.is_authenticated():

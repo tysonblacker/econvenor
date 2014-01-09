@@ -35,12 +35,13 @@ urlpatterns = patterns('',
 	url(r'^decisions/$', views.decision_list, name="decision-list"),
 	
 	url(r'^user-guide/$', views.user_guide, name="user-guide"),
-		
+	url(r'^faqs/$', views.faqs, name="faqs"),
+	url(r'^ask-question/$', views.ask_question, name="ask-question"),
+			
 	url(r'^account-settings/$', views.account_settings, name="account-settings"),
 
 	url(r'^bugs/$', views.bug_list, name="bug-list"),	
 	url(r'^bugs/report/$', views.bug_report, name="bug-report"),
-
 	url(r'^features/$', views.feature_list, name="feature-list"),		
 	url(r'^features/request/$', views.feature_request, name="feature-request"),
 	
