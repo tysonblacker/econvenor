@@ -175,7 +175,9 @@ def agenda_edit(request, meeting_id):
 	if meeting.owner != request.user:
 		return HttpResponseRedirect(reverse('index'))
 	AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=True, widgets={'variety': HiddenInput(), 'background': Textarea(attrs={'rows': 3}),})
+	AgendaItemFormSet.form.base_fields['explainer'].queryset = Participant.objects.filter(owner=request.user)
 	AgendaItemFormSetWithSpare = inlineformset_factory(Meeting, Item, extra=1, can_delete=True, widgets={'variety': HiddenInput(), 'background': Textarea(attrs={'rows': 3}),})
+	AgendaItemFormSetWithSpare.form.base_fields['explainer'].queryset = Participant.objects.filter(owner=request.user)
 	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
 	preliminary_items = meeting.item_set.filter(owner=request.user, variety__exact='preliminary')
 	report_items = meeting.item_set.filter(owner=request.user, variety__exact='report')
@@ -376,8 +378,10 @@ def minutes_edit(request, meeting_id):
 	meeting.agenda_locked = True
 	meeting.save()
 	AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=True, widgets={'variety': HiddenInput(), 'background': Textarea(attrs={'rows': 3}), 'minute_notes': Textarea(attrs={'rows': 4}),})
+	AgendaItemFormSet.form.base_fields['explainer'].queryset = Participant.objects.filter(owner=request.user)
 	DecisionFormSet = inlineformset_factory(Meeting, Decision, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'description': Textarea(attrs={'rows': 2}), 'owner': HiddenInput(),})
 	TaskFormSet = inlineformset_factory(Meeting, Task, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'status': HiddenInput(), 'owner': HiddenInput(), 'deadline': DateInput(attrs={'class': 'datepicker'}),})
+	TaskFormSet.form.base_fields['participant'].queryset = Participant.objects.filter(owner=request.user)
 	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
 	new_data_form = {}
 	existing_data_forms = []
