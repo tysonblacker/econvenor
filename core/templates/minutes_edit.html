@@ -15,11 +15,13 @@
 <h1><small>Meeting details</small></h1>
 
 	{% ifequal editable_section 'is_meeting_details' %}
-
+		<div class="row">
+  		<div class="col-md-6">
 		<div class="well">
 			<form action="" method="POST">
 				{% csrf_token %}
-   				{% for hidden in existing_data_forms.hidden_fields %}
+				
+				{% for hidden in existing_data_forms.hidden_fields %}
    					<div class="form-group">
    						{{ hidden }}
    					</div>
@@ -41,20 +43,48 @@
 				<button type="submit" class="btn btn-default" name="cancel_meeting_details_minutes_button" value="cancel_meeting_details" data-toggle="button">Discard changes</button>
 			</form>
 		</div>
+		</div>
+		</div>
 
 	{% else %}
 
-		<div class="well">
-			<p><strong>Date:</strong> &nbsp &nbsp &nbsp {{ meeting.date }}</p>
-			<p><strong>Location:</strong> &nbsp &nbsp {{ meeting.location }}</p>
-			{% ifequal editable_section 'none' %}
-				<form action="" method="POST">
-					{% csrf_token %}
-					<button type="submit" class="btn btn-primary" name="edit_meeting_details_minutes_button" value="edit_meeting_details" data-toggle="button">Edit meeting details</button>
-				</form>
-			{% endifequal %}
-		</div>
-
+	<div class="row">
+  	<div class="col-md-6">
+  	<div class="well">
+		<div class="panel panel-primary">
+			
+		<table class="table">
+			<thead>
+				<tr>
+					<th>{{ meeting.description }} of {{ account.group_name }}</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody> 
+				<tr>
+					<td><strong>Date</strong></td>
+					<td>{{ meeting.date }}</td>
+				</tr>
+				<tr>
+					<td><strong>Time</strong></td>
+					<td>**2:00pm**</td>
+				</tr>
+				<tr>
+					<td><strong>Location</strong></td>
+					<td>{{ meeting.location|linebreaks }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+		{% ifequal editable_section 'none' %}
+			<form action="" method="POST">
+				{% csrf_token %}
+				<button type="submit" class="btn btn-default" name="edit_meeting_details_minutes_button" value="edit_meeting_details" data-toggle="button">Edit meeting details</button>
+			</form>
+		{% endifequal %}
+	</div>
+	</div>
+	</div>
 	{% endifequal %}
 
 
@@ -139,6 +169,9 @@
 							<div class="form-group">
 								{{ item.minute_notes.label_tag }}{{ item.minute_notes|setclass:"form-control" }}
 							</div>
+							<div class="form-group">								
+								{{ item.time_limit.label_tag }}{{ item.time_limit|setclass:"form-control" }}		
+							</div>								
 								{{ item.id|setclass:"form-control" }}
 						    	{{ item.variety|setclass:"form-control" }}
 						
@@ -204,8 +237,46 @@
 						{{ item.heading }}
 					</div>
 					<div class="panel-body">
-						{{ item.background|linebreaks }}
+						{{ item.minute_notes|linebreaks }}
 					</div>
+					
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Decision/s</th>
+							</tr>
+						</thead>
+						<tbody> 
+							{% for decision in decision_items %}
+								{% ifequal decision.item_id item.id %}
+									<tr>
+										<td>{{ decision.description }}</td>
+							{% endifequal %}
+						{% endfor %}
+						</tbody>
+					</table>
+					<br>			
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Task</th>
+								<th>Assigned to</th>
+								<th>Deadline</th>
+							</tr>
+						</thead>
+						<tbody> 
+							{% for task in task_items %}
+								{% ifequal task.item_id item.id %}
+									<tr>
+										<td>{{ task.description }}</td>
+										<td>{{ task.participant }}</td>
+										<td>{{ task.deadline }}</td>
+									</tr>
+								{% endifequal %}
+							{% endfor %}
+						</tbody>
+					</table>
+					
 				</div>
 			{% endfor %}
 			{% ifequal editable_section 'none' %}

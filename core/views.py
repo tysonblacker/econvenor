@@ -383,6 +383,8 @@ def minutes_edit(request, meeting_id):
 	TaskFormSet = inlineformset_factory(Meeting, Task, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'status': HiddenInput(), 'owner': HiddenInput(), 'deadline': DateInput(attrs={'class': 'datepicker'}),})
 	TaskFormSet.form.base_fields['participant'].queryset = Participant.objects.filter(owner=request.user)
 	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
+	decision_items = meeting.decision_set.filter(owner=request.user)
+	task_items = meeting.task_set.filter(owner=request.user)
 	new_data_form = {}
 	existing_data_forms = []
 	existing_data_formset = {}
@@ -458,7 +460,7 @@ def minutes_edit(request, meeting_id):
 				task_data_formset = TaskFormSet(instance=meeting)				
 				editable_section = 'is_main_items'	
 						
-	return render_to_response('minutes_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'decision_data_formset': decision_data_formset, 'task_data_formset': task_data_formset, 'account': account}, RequestContext(request))
+	return render_to_response('minutes_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'decision_items': decision_items, 'task_items': task_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'decision_data_formset': decision_data_formset, 'task_data_formset': task_data_formset, 'account': account}, RequestContext(request))
 
 
 def decision_list(request):
