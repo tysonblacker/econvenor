@@ -18,10 +18,11 @@
 		</thead>
 		<tbody> 
 			{% for bug in bugs %}
-				<tr>
+				<tr id={{ bug.id }} onclick="document.location='{% url 'bug-edit' bug.id %}';">
 					<td>{{ bug.id }}</td>
 					<td>{{ bug.title }}</td>
 					<td>{{ bug.date }}</td>
+					<td>{{ bug.status }}</td>
 				</tr>
 			{% empty %}
 				<tr>

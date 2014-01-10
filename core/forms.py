@@ -73,7 +73,6 @@ class BugForm(forms.ModelForm):
 		   	'behaviour': forms.Textarea(attrs={'rows': 3}),
 		   	'goal': forms.Textarea(attrs={'rows': 3}),
 			'owner': forms.HiddenInput(),
-			'status': forms.HiddenInput(),
 			'date': forms.HiddenInput(),
         }
 
