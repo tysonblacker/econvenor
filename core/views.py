@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from core.models import Account, Bug, Decision, Feature, Item, Meeting, Participant, Task
 from core.forms import AccountForm, BugForm, DecisionForm, FeatureForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
 from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date, convert_markdown_to_html
+from core.pdfs import create_pdf_agenda
 
 
 def index(request):
@@ -563,3 +564,18 @@ def feature_list(request):
 	page_heading = 'Features/changes requested'
 	table_headings = ('Request number', 'Description', 'Date requested',)
 	return render_to_response('feature_list.html', {'user': request.user, 'features': features, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
+	
+	
+def print_agenda(request, meeting_id):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('index'))
+	meeting = Meeting.objects.get(pk=int(meeting_id))
+	if meeting.owner != request.user:
+		return HttpResponseRedirect(reverse('index'))
+	response = create_pdf_agenda(request, meeting_id)
+	return response
+    
+    
+# email = EmailMessage('Hello', 'Body', 'from@from.com', ['to@to.com'])
+#   email.attach('invoicex.pdf', pdf , 'application/pdf')
+#   email.send()
