@@ -6,11 +6,26 @@ from reportlab.lib.colors import CMYKColor, black
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle, Frame, PageTemplate
 
 from core.models import Account, Meeting, Task
 
 from core.utils import calculate_meeting_duration, find_preceding_meeting_date
+
+# Define text styles
+styles = getSampleStyleSheet()
+normalStyle = styles['Normal']
+heading1Style = styles['Heading1']
+heading2Style = styles['Heading2']
+heading3Style = styles['Heading3']
+
+def footer(canvas, doc):
+    canvas.saveState()
+    P = Paragraph("Page %d" % doc.page,
+                  normalStyle)
+    w, h = P.wrap(doc.width, doc.bottomMargin)
+    P.drawOn(canvas, doc.leftMargin, h)
+    canvas.restoreState()
 
 
 def create_pdf_agenda(request, meeting_id, **kwargs):
@@ -30,14 +45,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		pagesize=A4)
 	Document = []
     
-    # Define text styles
-	styles = getSampleStyleSheet()
-	normalStyle = styles['Normal']
-	heading1Style = styles['Heading1']
-	heading2Style = styles['Heading2']
-	heading3Style = styles['Heading3']
-		
-	# Define colors
+    # Define colors
 	heading_color = CMYKColor(0.4,0,0.2,0)	
 	background_color = CMYKColor(0.2,0,0.1,0)
 			
@@ -117,6 +125,12 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		('BACKGROUND', (0, 0), (-1, 0), background_color)]))
 	Document.append(t)
 	Document.append(Spacer(0,3*mm))
+	
+	
+	frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height,
+               id='body')
+	template = PageTemplate(id='footer', frames=frame, onPage=footer)
+	doc.addPageTemplates([template])
 	
 	
 	
