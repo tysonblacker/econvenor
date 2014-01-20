@@ -67,11 +67,26 @@ def create_long_item_table(section_heading, item_list, Document, t):
 			hAlign='LEFT')
 		heading_t.setStyle(TableStyle(
 			[('ALIGN',(-1,0),(-1,0),'RIGHT')]))
-		t = Table([(heading_t,),
-			(Paragraph('To be introduced by ' + str(item.explainer), normalStyle),),
-			(Paragraph(item.background, normalStyle),),],
-			colWidths=[450],
-			hAlign='LEFT')
+		if item.explainer and item.background:
+			t = Table([(heading_t,),
+				(Paragraph('To be introduced by ' + str(item.explainer), normalStyle),),
+				(Paragraph(item.background, normalStyle),),],
+				colWidths=[450],
+				hAlign='LEFT')
+		if item.explainer and (item.background == ''):
+			t = Table([(heading_t,),
+				(Paragraph('To be introduced by ' + str(item.explainer), normalStyle),),],
+				colWidths=[450],
+				hAlign='LEFT')				
+		if (item.explainer == None) and item.background:
+			t = Table([(heading_t,),
+				(Paragraph(item.background, normalStyle),),],
+				colWidths=[450],
+				hAlign='LEFT')
+		if (item.explainer == None) and (item.background == ''):
+			t = Table([(heading_t,),],
+				colWidths=[450],
+				hAlign='LEFT')		
 		t.setStyle(TableStyle(
 			[('GRID', (0,0), (1,-1), 0.5, black),
 			('BACKGROUND', (0, 0), (-1, 0), background_color),
