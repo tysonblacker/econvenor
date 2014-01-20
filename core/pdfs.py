@@ -9,7 +9,6 @@ from reportlab.lib.units import mm
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle, Frame, PageTemplate
 
 from core.models import Account, Meeting, Task
-
 from core.utils import calculate_meeting_duration, find_preceding_meeting_date
 
 
@@ -34,7 +33,7 @@ def footer(canvas, doc):
     canvas.restoreState()
 
 
-def create_short_table(section_heading, item_list, Document, t):
+def create_short_item_table(section_heading, item_list, Document, t):
 	Document.append(Paragraph(section_heading, heading2Style))
 	for item in item_list:
 		heading_t = Table([(item.heading, str(item.time_limit) + ' minutes')],
@@ -60,7 +59,7 @@ def create_short_table(section_heading, item_list, Document, t):
 		Document.append(t)
 		Document.append(Spacer(0,3*mm))
 
-def create_long_table(section_heading, item_list, Document, t):
+def create_long_item_table(section_heading, item_list, Document, t):
 	Document.append(Paragraph(section_heading, heading2Style))
 	for item in item_list:
 		heading_t = Table([(item.heading, str(item.time_limit) + ' minutes')],
@@ -83,11 +82,25 @@ def create_long_table(section_heading, item_list, Document, t):
 		Document.append(Spacer(0,3*mm))
 
 
+def create_task_table(section_heading, task_list, Document, t):
+	Document.append(Paragraph(section_heading, heading3Style))
+	completed_tasks = [(task.description, task.participant, task.deadline) for task in task_list]
+	headings = ('Description', 'Assigned to', 'Deadline')
+	if task_list:
+		t = Table([headings] + completed_tasks, colWidths=[280,100,70], hAlign='LEFT')
+	else:
+		t = Table([headings] + [('No tasks','','')], colWidths=[280,100,70], hAlign='LEFT')
+	t.setStyle(TableStyle(
+		[('GRID', (0,0), (-1,-1), 0.5, black),
+		('BACKGROUND', (0, 0), (-1, 0), background_color)]))
+	Document.append(t)
+	Document.append(Spacer(0,3*mm))
+
 def create_pdf_agenda(request, meeting_id, **kwargs):
+
 	# Set up the HttpResponse
 	response = HttpResponse(content_type='application/pdf')
 	response['Content-Disposition'] = 'filename="AgendaForPrinting.pdf"'
-#	Replace line above with the line below after testing is finished
 #	response['Content-Disposition'] = 'attachment; filename="AgendaForPrinting.pdf"'
     
     # Set up the document framework
@@ -114,12 +127,12 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		completed_task_list = Task.objects.filter(owner=request.user, status="Complete", deadline__gte=preceding_meeting_date).exclude(deadline__gte=meeting.date)
 	meeting_duration = calculate_meeting_duration(meeting_id)
 		
-	# Agenda heading
+	# Add main heading to document
 	Document.append(Paragraph(account.group_name, heading2Style))
 	Document.append(Paragraph("Meeting Agenda", heading1Style))
 	Document.append(Spacer(0,3*mm))
 	
-	# Meeting details
+	# Add meeting details to document
 	Document.append(Paragraph("Meeting details", heading2Style))
 	t = Table([('Date', meeting.date),
 		('Time', '*14:00*'),
@@ -134,54 +147,34 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	Document.append(t)
 	Document.append(Spacer(0,3*mm))
 		
-	# Preliminary items
-	create_short_table('Preliminary items', preliminary_items, Document, t)
+	# Add preliminary items to document
+	create_short_item_table('Preliminary items', preliminary_items, Document, t)
 	
-	# Task review - Tasks outstanding
+	# Add task review to document
 	Document.append(Paragraph("Task review", heading2Style))
-	Document.append(Paragraph("Tasks outstanding", heading3Style))
-	headings = ('Description', 'Assigned to', 'Deadline')
-	incomplete_tasks = [(task.description, task.participant, task.deadline) for task in incomplete_task_list]
-	t = Table([headings] + incomplete_tasks, colWidths=[280,100,70], hAlign='LEFT')
-	t.setStyle(TableStyle(
-		[('GRID', (0,0), (-1,-1), 0.5, black),
-		('BACKGROUND', (0, 0), (-1, 0), background_color)]))
-	Document.append(t)
-	Document.append(Spacer(0,3*mm))
+	create_task_table("Tasks outstanding", incomplete_task_list, Document, t)
+	create_task_table("Tasks completed since last meeting", completed_task_list, Document, t)
+		
+	# Add reports to document
+	create_long_item_table('Reports', report_items, Document, t)
 	
-	# Task review - Tasks completed since last meeting
-	Document.append(Paragraph("Tasks completed since last meeting", heading3Style))
-	completed_tasks = [(task.description, task.participant, task.deadline) for task in completed_task_list]
-	if completed_task_list:
-		t = Table([headings] + completed_tasks, colWidths=[280,100,70], hAlign='LEFT')
-	else:
-		t = Table([headings] + [('No tasks','','')], colWidths=[280,100,70], hAlign='LEFT')
-	t.setStyle(TableStyle(
-		[('GRID', (0,0), (-1,-1), 0.5, black),
-		('BACKGROUND', (0, 0), (-1, 0), background_color)]))
-	Document.append(t)
-	Document.append(Spacer(0,3*mm))
+	# Add main items to document
+	create_long_item_table('Main items', main_items, Document, t)
 	
-	# Reports
-	create_long_table('Reports', report_items, Document, t)
+	# Add final items to document
+	create_short_item_table('Final items', final_items, Document, t)
 	
-	# Main items
-	create_long_table('Main items', main_items, Document, t)
-	
-	# Final items
-	create_short_table('Final items', final_items, Document, t)
-	
+	# Build the PDF
 	frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height,
-               id='body')
+		id='body')
 	template = PageTemplate(id='footer', frames=frame, onPage=footer)
 	doc.addPageTemplates([template])
-	
-	
-	# Build and return the PDF
 	doc.build(Document)
 	
+	# Get the PDF
 	pdf = buffer.getvalue()
 	buffer.close()
-	
 	response.write(pdf)
+	
+	# Return the PDF
 	return response
