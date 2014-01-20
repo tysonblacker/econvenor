@@ -17,8 +17,10 @@ from core.utils import calculate_meeting_duration, find_preceding_meeting_date
 
 
 # Define colors
-heading_color = CMYKColor(0.2,0,0.1,0.4)	
-background_color = CMYKColor(0.2,0,0.1,0.4)
+heading_color = CMYKColor(0.3,0,0.15,0.6)	
+text_color = CMYKColor(0,0,0,0.9)
+table_color = CMYKColor(0.3,0,0.15,0.6)
+row_color = CMYKColor(0.1,0,0.05,0.2)
 
 # Create text style sheet
 styles = getSampleStyleSheet()
@@ -35,6 +37,7 @@ reportlab.rl_config.warnOnMissingFontGlyphs = 0
 # Define 'normal' text style
 normalStyle = styles['Normal']
 normalStyle.fontName = font_name
+normalStyle.textColor = text_color
 normalStyle.alignment = TA_JUSTIFY
 normalStyle.fontSize=10
 normalStyle.leading=14
@@ -48,11 +51,17 @@ styles.add(ParagraphStyle(name='Item',
 	textColor = white))
 itemStyle = styles['Item']
 
-# Define 'item' text style
+# Define 'rightitem' text style
 styles.add(ParagraphStyle(name='RightItem',
 	parent=styles['Item'],
 	alignment = TA_RIGHT))
 rightItemStyle = styles['RightItem']
+
+# Define 'darkitem' text style
+styles.add(ParagraphStyle(name='DarkItem',
+	parent=styles['Item'],
+	textColor = heading_color))
+darkItemStyle = styles['DarkItem']
 
 # Define 'heading1' text style
 heading1Style = styles['Heading1']
@@ -83,7 +92,9 @@ heading3Style.spaceAfter=6
 
 def footer(canvas, doc):
     canvas.saveState()
-    canvas.setLineWidth(0.5)
+    canvas.setLineWidth(1)
+    canvas.setFillColor(text_color)
+    canvas.setStrokeColor(table_color)
     canvas.setFont(font_name, 10)
     canvas.line(25*mm,13*mm,185*mm,13*mm)
     right_text = "Page %s" % (doc.page)
@@ -106,11 +117,12 @@ def create_short_item_table(section_heading, item_list, Document, t):
 			t = Table([(heading_t,)],
 				colWidths=[160*mm])
 		t.setStyle(TableStyle(
-			[('GRID', (0,0), (1,-1), 1, background_color),
-			('BACKGROUND', (0, 0), (-1, 0), background_color),
-			('LEFTPADDING', (0, 0), (-1, 0), 0),
-			('TOPPADDING', (0, 0), (-1, 0), 0),
-			('BOTTOMPADDING', (0, 0), (-1, 0), 0)]))
+			[('GRID', (0,0), (1,-1), 1, table_color),
+			('BACKGROUND', (0,0), (-1,0), table_color),
+			('LEFTPADDING', (0,0), (-1,0), 0),
+			('TOPPADDING', (0,0), (-1,0), 0),
+			('BOTTOMPADDING', (0,0), (-1,0), 0),
+			]))
 		Document.append(t)
 		Document.append(Spacer(0,5*mm))
 
@@ -138,8 +150,8 @@ def create_long_item_table(section_heading, item_list, Document, t):
 			t = Table([(heading_t,)],
 				colWidths=[160*mm])		
 		t.setStyle(TableStyle(
-			[('GRID', (0,0), (1,-1), 1, background_color),
-			('BACKGROUND', (0, 0), (-1, 0), background_color),
+			[('GRID', (0,0), (1,-1), 1, table_color),
+			('BACKGROUND', (0, 0), (-1, 0), table_color),
 			('LEFTPADDING', (0, 0), (-1, 0), 0),
 			('TOPPADDING', (0, 0), (-1, 0), 0),
 			('BOTTOMPADDING', (0, 0), (-1, 0), 0)]))
@@ -156,8 +168,9 @@ def create_task_table(section_heading, task_list, Document, t):
 	else:
 		t = Table([headings] + [('No tasks','','')], colWidths=[90*mm,40*mm,30*mm])
 	t.setStyle(TableStyle(
-		[('GRID', (0,0), (-1,-1), 1, background_color),
-		('BACKGROUND', (0, 0), (-1, 0), background_color)]))
+		[('GRID', (0,0), (-1,-1), 1, table_color),
+		('ROWBACKGROUNDS', (0,1), (-1,-1), [white, row_color]),
+		('BACKGROUND', (0, 0), (-1, 0), table_color)]))
 	Document.append(t)
 	Document.append(Spacer(0,3*mm))
 
@@ -211,15 +224,15 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	
 	# Add meeting details to document
 	Document.append(Paragraph("Meeting details", heading2Style))
-	t = Table([(Paragraph('Date', itemStyle), Paragraph(meeting.date.strftime("%A %B %d, %Y"), normalStyle)),
-		(Paragraph('Time', itemStyle), Paragraph('*14:00*', normalStyle)),
-		(Paragraph('Duration', itemStyle), Paragraph(str(meeting_duration) + " minutes", normalStyle)),
-		(Paragraph('Location', itemStyle), Paragraph(meeting.location, normalStyle))],
-		colWidths=[27*mm,55*mm],
+	t = Table([(Paragraph('Date', darkItemStyle), Paragraph(meeting.date.strftime("%A %B %d, %Y"), normalStyle)),
+		(Paragraph('Time', darkItemStyle), Paragraph('*14:00*', normalStyle)),
+		(Paragraph('Duration', darkItemStyle), Paragraph(str(meeting_duration) + " minutes", normalStyle)),
+		(Paragraph('Location', darkItemStyle), Paragraph(meeting.location, normalStyle))],
+		colWidths=[22*mm,55*mm],
 		hAlign='LEFT')
-	t.setStyle(TableStyle([('GRID', (0,0), (-1,-1), 1, background_color),
+	t.setStyle(TableStyle([('GRID', (0,0), (-1,-1), 1, table_color),
 		('VALIGN',(0,0),(-1,-1),'TOP'),
-		('BACKGROUND', (0, 0), (0, -1), background_color),
+		('ROWBACKGROUNDS', (0,0), (1,-1), [white, row_color]),
 		]))
 	Document.append(t)
 	Document.append(Spacer(0,3*mm))
