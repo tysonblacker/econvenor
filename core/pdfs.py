@@ -7,7 +7,10 @@ from reportlab.lib.enums import TA_JUSTIFY, TA_RIGHT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
+from reportlab.pdfbase.pdfmetrics import registerFont, registerFontFamily
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Paragraph, BaseDocTemplate, Spacer, Table, TableStyle, Frame, PageTemplate
+import reportlab.rl_config
 
 from core.models import Account, Meeting, Task
 from core.utils import calculate_meeting_duration, find_preceding_meeting_date
@@ -20,8 +23,18 @@ background_color = CMYKColor(0.2,0,0.1,0.4)
 # Create text style sheet
 styles = getSampleStyleSheet()
 
+# Register fonts
+font_name = 'OpenSans'
+registerFont(TTFont(font_name, "core/static/fonts/OpenSans-Regular.ttf"))
+registerFont(TTFont(font_name + 'Bd', "core/static/fonts/OpenSans-Bold.ttf"))
+registerFont(TTFont(font_name + 'It', "core/static/fonts/OpenSans-Italic.ttf"))
+registerFont(TTFont(font_name + 'BI', "core/static/fonts/OpenSans-BoldItalic.ttf"))
+registerFontFamily(font_name, normal=font_name, bold=font_name + 'Bd', italic=font_name + 'It', boldItalic=font_name + 'BI')
+reportlab.rl_config.warnOnMissingFontGlyphs = 0
+
 # Define 'normal' text style
 normalStyle = styles['Normal']
+normalStyle.fontName = font_name
 normalStyle.alignment = TA_JUSTIFY
 normalStyle.fontSize=10
 normalStyle.leading=14
@@ -29,6 +42,7 @@ normalStyle.leading=14
 # Define 'item' text style
 styles.add(ParagraphStyle(name='Item',
 	parent=styles['Normal'],
+	fontName = font_name + 'Bd',
 	spaceBefore=2,
 	spaceAfter=2,
 	textColor = white))
@@ -42,13 +56,15 @@ rightItemStyle = styles['RightItem']
 
 # Define 'heading1' text style
 heading1Style = styles['Heading1']
+heading1Style.fontName = font_name + 'Bd'
 heading1Style.textColor = heading_color
-heading1Style.fontSize=18
-heading1Style.leading=22
+heading1Style.fontSize=22
+heading1Style.leading=26
 heading1Style.spaceAfter=6
 
 # Define 'heading2' text style
 heading2Style = styles['Heading2']
+heading2Style.fontName = font_name + 'Bd'
 heading2Style.textColor = heading_color
 heading2Style.fontSize=14
 heading2Style.leading=18
@@ -57,6 +73,7 @@ heading2Style.spaceAfter=6
                                   
 # Define 'heading3' text style
 heading3Style = styles['Heading3']
+heading3Style.fontName = font_name + 'Bd'
 heading3Style.textColor = heading_color
 heading3Style.fontSize=11
 heading3Style.leading=13
@@ -67,7 +84,7 @@ heading3Style.spaceAfter=6
 def footer(canvas, doc):
     canvas.saveState()
     canvas.setLineWidth(0.5)
-    canvas.setFont("Helvetica", 10)
+    canvas.setFont(font_name, 10)
     canvas.line(25*mm,13*mm,185*mm,13*mm)
     right_text = "Page %s" % (doc.page)
     left_text = doc.title
@@ -89,7 +106,7 @@ def create_short_item_table(section_heading, item_list, Document, t):
 			t = Table([(heading_t,)],
 				colWidths=[160*mm])
 		t.setStyle(TableStyle(
-			[('GRID', (0,0), (1,-1), 0.5, black),
+			[('GRID', (0,0), (1,-1), 1, background_color),
 			('BACKGROUND', (0, 0), (-1, 0), background_color),
 			('LEFTPADDING', (0, 0), (-1, 0), 0),
 			('TOPPADDING', (0, 0), (-1, 0), 0),
@@ -121,7 +138,7 @@ def create_long_item_table(section_heading, item_list, Document, t):
 			t = Table([(heading_t,)],
 				colWidths=[160*mm])		
 		t.setStyle(TableStyle(
-			[('GRID', (0,0), (1,-1), 0.5, black),
+			[('GRID', (0,0), (1,-1), 1, background_color),
 			('BACKGROUND', (0, 0), (-1, 0), background_color),
 			('LEFTPADDING', (0, 0), (-1, 0), 0),
 			('TOPPADDING', (0, 0), (-1, 0), 0),
@@ -132,14 +149,14 @@ def create_long_item_table(section_heading, item_list, Document, t):
 
 def create_task_table(section_heading, task_list, Document, t):
 	Document.append(Paragraph(section_heading, heading3Style))
-	completed_tasks = [(task.description, task.participant, task.deadline.strftime("%d %b %Y")) for task in task_list]
+	completed_tasks = [(Paragraph(task.description, normalStyle), Paragraph(str(task.participant), normalStyle), Paragraph(task.deadline.strftime("%d %b %Y"), normalStyle)) for task in task_list]
 	headings = (Paragraph('Description', itemStyle), Paragraph('Assigned to', itemStyle), Paragraph('Deadline', itemStyle))
 	if task_list:
 		t = Table([headings] + completed_tasks, colWidths=[90*mm,40*mm,30*mm])
 	else:
 		t = Table([headings] + [('No tasks','','')], colWidths=[90*mm,40*mm,30*mm])
 	t.setStyle(TableStyle(
-		[('GRID', (0,0), (-1,-1), 0.5, black),
+		[('GRID', (0,0), (-1,-1), 1, background_color),
 		('BACKGROUND', (0, 0), (-1, 0), background_color)]))
 	Document.append(t)
 	Document.append(Spacer(0,3*mm))
@@ -171,7 +188,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	doc = BaseDocTemplate(buffer,
 		rightMargin=25*mm,
 		leftMargin=25*mm,
-		topMargin=25*mm,
+		topMargin=20*mm,
 		bottomMargin=25*mm,
 		title = account.group_name + "  |  Meeting of " + meeting.date.strftime("%d %b %Y"),
 		pagesize=A4)
@@ -194,13 +211,13 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	
 	# Add meeting details to document
 	Document.append(Paragraph("Meeting details", heading2Style))
-	t = Table([(Paragraph('Date', itemStyle), meeting.date.strftime("%A %B %d, %Y")),
-		(Paragraph('Time', itemStyle), '*14:00*'),
-		(Paragraph('Duration', itemStyle), str(meeting_duration) + " minutes"),
-		(Paragraph('Location', itemStyle), meeting.location)],
-		colWidths=[30*mm,55*mm],
+	t = Table([(Paragraph('Date', itemStyle), Paragraph(meeting.date.strftime("%A %B %d, %Y"), normalStyle)),
+		(Paragraph('Time', itemStyle), Paragraph('*14:00*', normalStyle)),
+		(Paragraph('Duration', itemStyle), Paragraph(str(meeting_duration) + " minutes", normalStyle)),
+		(Paragraph('Location', itemStyle), Paragraph(meeting.location, normalStyle))],
+		colWidths=[27*mm,55*mm],
 		hAlign='LEFT')
-	t.setStyle(TableStyle([('GRID', (0,0), (-1,-1), 0.5, black),
+	t.setStyle(TableStyle([('GRID', (0,0), (-1,-1), 1, background_color),
 		('VALIGN',(0,0),(-1,-1),'TOP'),
 		('BACKGROUND', (0, 0), (0, -1), background_color),
 		]))
