@@ -99,7 +99,7 @@ def create_long_item_table(section_heading, item_list, Document, t):
 
 def create_task_table(section_heading, task_list, Document, t):
 	Document.append(Paragraph(section_heading, heading3Style))
-	completed_tasks = [(task.description, task.participant, task.deadline) for task in task_list]
+	completed_tasks = [(task.description, task.participant, task.deadline.strftime("%d %b %Y")) for task in task_list]
 	headings = ('Description', 'Assigned to', 'Deadline')
 	if task_list:
 		t = Table([headings] + completed_tasks, colWidths=[280,100,70], hAlign='LEFT')
@@ -149,7 +149,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	
 	# Add meeting details to document
 	Document.append(Paragraph("Meeting details", heading2Style))
-	t = Table([('Date', meeting.date),
+	t = Table([('Date', meeting.date.strftime("%A %B %d, %Y")),
 		('Time', '*14:00*'),
 		('Duration', str(meeting_duration) + " minutes"),
 		('Location', meeting.location)],
