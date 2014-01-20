@@ -26,10 +26,12 @@ background_color = CMYKColor(0.2,0,0.1,0)
 
 def footer(canvas, doc):
     canvas.saveState()
-    P = Paragraph("Page %s " % doc.page,
+    canvas.setLineWidth(0.5)
+    canvas.line(22*mm,14*mm,181*mm,14*mm)
+    footer_text = Paragraph("Page %s" % doc.page,
                   normalStyle)
-    w, h = P.wrap(doc.width, doc.bottomMargin)
-    P.drawOn(canvas, doc.leftMargin, h)
+    footer_text.wrap(doc.width, doc.bottomMargin)
+    footer_text.drawOn(canvas, 170*mm, 9*mm)
     canvas.restoreState()
 
 
