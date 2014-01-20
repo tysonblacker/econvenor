@@ -26,7 +26,7 @@ background_color = CMYKColor(0.2,0,0.1,0)
 
 def footer(canvas, doc):
     canvas.saveState()
-    P = Paragraph("Page %d" % doc.page,
+    P = Paragraph("Page %s " % doc.page,
                   normalStyle)
     w, h = P.wrap(doc.width, doc.bottomMargin)
     P.drawOn(canvas, doc.leftMargin, h)
@@ -180,11 +180,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	create_short_item_table('Final items', final_items, Document, t)
 	
 	# Build the PDF
-	frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height,
-		id='body')
-	template = PageTemplate(id='footer', frames=frame, onPage=footer)
-	doc.addPageTemplates([template])
-	doc.build(Document)
+	doc.build(Document, onFirstPage=footer, onLaterPages=footer)
 	
 	# Get the PDF
 	pdf = buffer.getvalue()
