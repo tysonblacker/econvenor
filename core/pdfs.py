@@ -1,15 +1,17 @@
 from io import BytesIO
+from string import replace
 
 from django.http import HttpResponse
 
-from reportlab.lib.colors import CMYKColor, black, white
+from reportlab.lib.colors import black, CMYKColor, white
 from reportlab.lib.enums import TA_JUSTIFY, TA_RIGHT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.pdfbase.pdfmetrics import registerFont, registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import Paragraph, BaseDocTemplate, Spacer, Table, TableStyle, Frame, PageTemplate
+from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, \
+	Paragraph, Spacer, Table, TableStyle 
 import reportlab.rl_config
 
 from core.models import Account, Meeting, Task
@@ -18,26 +20,34 @@ from core.utils import calculate_meeting_duration, find_preceding_meeting_date
 
 # Define colors
 heading_color = CMYKColor(0.3,0,0.15,0.6)	
-text_color = CMYKColor(0,0,0,0.9)
+body_color = CMYKColor(0,0,0,0.85)
 table_color = CMYKColor(0.3,0,0.15,0.6)
 row_color = CMYKColor(0.1,0,0.05,0.2)
+
+# Define line width
+line_width = 0.75
+
+# Register fonts
+body_font = 'OpenSans'
+heading_font = 'Ubuntu'
+registerFont(TTFont(body_font, "core/static/fonts/OpenSans-Regular.ttf"))
+registerFont(TTFont(body_font + 'Bd', "core/static/fonts/OpenSans-Bold.ttf"))
+registerFont(TTFont(body_font + 'It', "core/static/fonts/OpenSans-Italic.ttf"))
+registerFont(TTFont(body_font + 'BI', \
+	"core/static/fonts/OpenSans-BoldItalic.ttf"))
+registerFont(TTFont(body_font + 'Lt', "core/static/fonts/OpenSans-Light.ttf"))
+registerFont(TTFont(heading_font, "core/static/fonts/Ubuntu-Light.ttf"))
+registerFontFamily(body_font, normal=body_font, bold=body_font + 'Bd',
+	italic=body_font + 'It', boldItalic=body_font + 'BI')
+reportlab.rl_config.warnOnMissingFontGlyphs = 0
 
 # Create text style sheet
 styles = getSampleStyleSheet()
 
-# Register fonts
-font_name = 'OpenSans'
-registerFont(TTFont(font_name, "core/static/fonts/OpenSans-Regular.ttf"))
-registerFont(TTFont(font_name + 'Bd', "core/static/fonts/OpenSans-Bold.ttf"))
-registerFont(TTFont(font_name + 'It', "core/static/fonts/OpenSans-Italic.ttf"))
-registerFont(TTFont(font_name + 'BI', "core/static/fonts/OpenSans-BoldItalic.ttf"))
-registerFontFamily(font_name, normal=font_name, bold=font_name + 'Bd', italic=font_name + 'It', boldItalic=font_name + 'BI')
-reportlab.rl_config.warnOnMissingFontGlyphs = 0
-
 # Define 'normal' text style
 normalStyle = styles['Normal']
-normalStyle.fontName = font_name
-normalStyle.textColor = text_color
+normalStyle.fontName = body_font
+normalStyle.textColor = body_color
 normalStyle.alignment = TA_JUSTIFY
 normalStyle.fontSize=10
 normalStyle.leading=14
@@ -45,7 +55,7 @@ normalStyle.leading=14
 # Define 'item' text style
 styles.add(ParagraphStyle(name='Item',
 	parent=styles['Normal'],
-	fontName = font_name + 'Bd',
+	fontName = body_font,
 	spaceBefore=2,
 	spaceAfter=2,
 	textColor = white))
@@ -65,15 +75,15 @@ darkItemStyle = styles['DarkItem']
 
 # Define 'heading1' text style
 heading1Style = styles['Heading1']
-heading1Style.fontName = font_name + 'Bd'
+heading1Style.fontName = heading_font
 heading1Style.textColor = heading_color
-heading1Style.fontSize=22
-heading1Style.leading=26
+heading1Style.fontSize=24
+heading1Style.leading=29
 heading1Style.spaceAfter=6
 
 # Define 'heading2' text style
 heading2Style = styles['Heading2']
-heading2Style.fontName = font_name + 'Bd'
+heading2Style.fontName = heading_font
 heading2Style.textColor = heading_color
 heading2Style.fontSize=14
 heading2Style.leading=18
@@ -82,119 +92,198 @@ heading2Style.spaceAfter=6
                                   
 # Define 'heading3' text style
 heading3Style = styles['Heading3']
-heading3Style.fontName = font_name + 'Bd'
+heading3Style.fontName = heading_font
 heading3Style.textColor = heading_color
 heading3Style.fontSize=11
 heading3Style.leading=13
 heading3Style.spaceBefore=3
 heading3Style.spaceAfter=6
 
+# Define table styles
+MEETING_TABLE_STYLE = TableStyle([
+	('GRID', (0,0), (1,-1), line_width, table_color),
+	('VALIGN',(0,0),(-1,-1),'TOP'),
+	('ROWBACKGROUNDS', (0,0), (-1,-1), [white, row_color]),
+	])
+
+TASK_TABLE_STYLE = TableStyle([
+	('GRID', (0,0), (2,-1), line_width, table_color),
+	('VALIGN',(0,0),(-1,-1),'TOP'),
+	('BACKGROUND', (0,0), (-1,0), table_color),
+	('ROWBACKGROUNDS', (0,1), (-1,-1), [white, row_color]),
+	])
+
+ITEM_TABLE_STYLE = TableStyle([
+	('GRID', (0,0), (1,-1), line_width, table_color),
+	('VALIGN',(0,0),(-1,-1),'TOP'),
+	('BACKGROUND', (0,0), (-1,0), table_color),
+	('LEFTPADDING', (0,0), (-1,0), 0),
+	('TOPPADDING', (0,0), (-1,0), 0),
+	('BOTTOMPADDING', (0,0), (-1,0), 0),
+	])
+
+ITEM_INNER_TABLE_STYLE = TableStyle([
+	('GRID', (0,0), (1,-1), line_width, table_color),
+	('VALIGN',(0,0),(-1,-1),'TOP'),
+	('BACKGROUND', (0,0), (-1,0), table_color),
+	('LEFTPADDING', (0,0), (-1,-1), 0),
+	('TOPPADDING', (0,0), (-1,0), 0),
+	('TOPPADDING', (0,1), (-1,-1), 6),
+	('BOTTOMPADDING', (0,0), (-1,-1), 0),
+	])
+
+
+def insert_page_breaks(string):
+	replace(string, '\n', '<br/>')
+	return string
+
 
 def footer(canvas, doc):
-    canvas.saveState()
-    canvas.setLineWidth(1)
-    canvas.setFillColor(text_color)
-    canvas.setStrokeColor(table_color)
-    canvas.setFont(font_name, 10)
-    canvas.line(25*mm,13*mm,185*mm,13*mm)
-    right_text = "Page %s" % (doc.page)
-    left_text = doc.title
-    canvas.drawRightString(185*mm, 9*mm, right_text)
-    canvas.drawString(25*mm, 9*mm, left_text)
-    canvas.restoreState()
+	canvas.saveState()
+	canvas.setLineWidth(line_width)
+	canvas.setFillColor(body_color)
+	canvas.setStrokeColor(table_color)
+	canvas.setFont(body_font, normalStyle.fontSize)
+	canvas.line(25*mm,13*mm,185*mm,13*mm)
+	right_text = "Page %s" % (doc.page)
+	canvas.drawRightString(185*mm, 9*mm, right_text)
+	left_text = doc.title
+	canvas.drawString(25*mm, 9*mm, left_text)
+	canvas.restoreState()
 
 
 def create_short_item_table(section_heading, item_list, Document, t):
 	Document.append(Paragraph(section_heading, heading2Style))
 	for item in item_list:
-		heading_t = Table([((Paragraph(item.heading, itemStyle)), Paragraph(str(item.time_limit) + ' minutes', rightItemStyle))],
+		heading_t = Table([((
+			Paragraph(item.heading, itemStyle)),
+			Paragraph(str(item.time_limit) + ' minutes', rightItemStyle
+			))],
 			colWidths=[120*mm,40*mm])
 		if item.background:
-			t = Table([(heading_t,),
-				(Paragraph(item.background, normalStyle),)],
+			background = insert_page_breaks(item.background)
+			t = Table([
+				(heading_t,),
+				(Paragraph(background, normalStyle),)
+				],
 				colWidths=[160*mm])
 		else:
-			t = Table([(heading_t,)],
+			t = Table([
+				(heading_t,)
+				],
 				colWidths=[160*mm])
-		t.setStyle(TableStyle(
-			[('GRID', (0,0), (1,-1), 1, table_color),
-			('BACKGROUND', (0,0), (-1,0), table_color),
-			('LEFTPADDING', (0,0), (-1,0), 0),
-			('TOPPADDING', (0,0), (-1,0), 0),
-			('BOTTOMPADDING', (0,0), (-1,0), 0),
-			]))
+		t.setStyle(ITEM_TABLE_STYLE)
 		Document.append(t)
 		Document.append(Spacer(0,5*mm))
+
 
 def create_long_item_table(section_heading, item_list, Document, t):
 	Document.append(Paragraph(section_heading, heading2Style))
 	for item in item_list:
-		heading_t = Table([((Paragraph(item.heading, itemStyle)), Paragraph(str(item.time_limit) + ' minutes', rightItemStyle))],
+		if item.background:
+			background = insert_page_breaks(item.background)
+		heading_t = Table([((
+			Paragraph(item.heading, itemStyle),
+			Paragraph(str(item.time_limit) + ' minutes', rightItemStyle)
+			))],
 			colWidths=[120*mm,40*mm])
-		heading_t.setStyle(TableStyle(
-			[('ALIGN',(-1,0),(-1,0),'RIGHT')]))
+		heading_t.setStyle(TableStyle([(
+			'ALIGN',(-1,0),(-1,0),'RIGHT'
+			)]))
 		if item.explainer and item.background:
-			t = Table([(heading_t,),
-				(Paragraph('To be introduced by ' + str(item.explainer), normalStyle),),
-				(Paragraph(item.background, normalStyle),)],
+			inner_t = Table([(
+				Paragraph('<i>To be introduced by ' + str(item.explainer) +
+					'</i>', normalStyle),),
+				(Paragraph(background, normalStyle),)
+				],
 				colWidths=[160*mm])
-		if item.explainer and (item.background == ''):
-			t = Table([(heading_t,),
-				(Paragraph('To be introduced by ' + str(item.explainer), normalStyle),)],
-				colWidths=[160*mm])				
-		if (item.explainer == None) and item.background:
-			t = Table([(heading_t,),
-				(Paragraph(item.background, normalStyle),)],
+			inner_t.setStyle(TableStyle([
+				('TOPPADDING', (0,0), (-1,-1), 0)
+				]))
+			t = Table([
+				(heading_t,),
+				(inner_t,)
+				],
 				colWidths=[160*mm])
-		if (item.explainer == None) and (item.background == ''):
-			t = Table([(heading_t,)],
-				colWidths=[160*mm])		
-		t.setStyle(TableStyle(
-			[('GRID', (0,0), (1,-1), 1, table_color),
-			('BACKGROUND', (0, 0), (-1, 0), table_color),
-			('LEFTPADDING', (0, 0), (-1, 0), 0),
-			('TOPPADDING', (0, 0), (-1, 0), 0),
-			('BOTTOMPADDING', (0, 0), (-1, 0), 0)]))
+			t.setStyle(ITEM_INNER_TABLE_STYLE)
+		else:
+			if item.explainer and (item.background == ''):
+				t = Table([
+					(heading_t,),
+					(Paragraph('<i>To be introduced by ' +
+						str(item.explainer)	+ '</i>', normalStyle),)
+					],
+					colWidths=[160*mm])				
+			elif (item.explainer == None) and item.background:
+				t = Table([
+					(heading_t,),
+					(Paragraph(background, normalStyle),)
+					],
+					colWidths=[160*mm])
+			elif (item.explainer == None) and (item.background == ''):
+				t = Table([
+					(heading_t,)
+					],
+					colWidths=[160*mm])		
+			t.setStyle(ITEM_TABLE_STYLE)
 		Document.append(t)
 		Document.append(Spacer(0,3*mm))
 
 
 def create_task_table(section_heading, task_list, Document, t):
 	Document.append(Paragraph(section_heading, heading3Style))
-	completed_tasks = [(Paragraph(task.description, normalStyle), Paragraph(str(task.participant), normalStyle), Paragraph(task.deadline.strftime("%d %b %Y"), normalStyle)) for task in task_list]
-	headings = (Paragraph('Description', itemStyle), Paragraph('Assigned to', itemStyle), Paragraph('Deadline', itemStyle))
+	completed_tasks = [(
+		Paragraph(task.description, normalStyle),
+		Paragraph(str(task.participant), normalStyle),
+		Paragraph(task.deadline.strftime("%d %b %Y"), normalStyle)
+		)
+		for task in task_list]
+	headings = (
+		Paragraph('Description', itemStyle),
+		Paragraph('Assigned to', itemStyle),
+		Paragraph('Deadline', itemStyle)
+		)
 	if task_list:
 		t = Table([headings] + completed_tasks, colWidths=[90*mm,40*mm,30*mm])
 	else:
-		t = Table([headings] + [('No tasks','','')], colWidths=[90*mm,40*mm,30*mm])
-	t.setStyle(TableStyle(
-		[('GRID', (0,0), (-1,-1), 1, table_color),
-		('ROWBACKGROUNDS', (0,1), (-1,-1), [white, row_color]),
-		('BACKGROUND', (0, 0), (-1, 0), table_color)]))
+		t = Table(
+			[headings] + [('No tasks','','')],
+			colWidths=[90*mm,40*mm,30*mm]
+			)
+	t.setStyle(TASK_TABLE_STYLE)
 	Document.append(t)
 	Document.append(Spacer(0,3*mm))
 
 
 def create_pdf_agenda(request, meeting_id, **kwargs):
-
 	# Set up the HttpResponse
 	response = HttpResponse(content_type='application/pdf')
 	response['Content-Disposition'] = 'filename="AgendaForPrinting.pdf"'
-#	response['Content-Disposition'] = 'attachment; filename="AgendaForPrinting.pdf"'
+#	response['Content-Disposition'] = 'attachment;
+#		filename="AgendaForPrinting.pdf"'
     
     # Generate the data which will populate the document
 	account = Account.objects.filter(owner=request.user).last()
 	meeting = Meeting.objects.get(pk=int(meeting_id))
-	preliminary_items = meeting.item_set.filter(owner=request.user, variety__exact='preliminary')
-	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
-	report_items = meeting.item_set.filter(owner=request.user, variety__exact='report')
-	final_items = meeting.item_set.filter(owner=request.user, variety__exact='final')
-	incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
+	preliminary_items = meeting.item_set.filter(owner=request.user,
+		variety__exact='preliminary')
+	main_items = meeting.item_set.filter(owner=request.user,
+		variety__exact='main')
+	report_items = meeting.item_set.filter(owner=request.user,
+		variety__exact='report')
+	final_items = meeting.item_set.filter(owner=request.user,
+		variety__exact='final')
+	incomplete_task_list = Task.objects.filter(owner=request.user,
+		status="Incomplete")
 	completed_task_list = []
-	preceding_meeting_date = find_preceding_meeting_date(request.user, meeting_id)
+	preceding_meeting_date = find_preceding_meeting_date(request.user,
+		meeting_id)
 	if preceding_meeting_date != None:
-		completed_task_list = Task.objects.filter(owner=request.user, status="Complete", deadline__gte=preceding_meeting_date).exclude(deadline__gte=meeting.date)
+		completed_task_list = Task.objects.filter(owner=request.user,
+			status="Complete", deadline__gte=preceding_meeting_date).exclude \
+			(deadline__gte=meeting.date)
 	meeting_duration = calculate_meeting_duration(meeting_id)
+	location = replace(meeting.location, '\n', '<br/>')
 	
 	# Set up the document framework
 	buffer = BytesIO()
@@ -203,7 +292,8 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		leftMargin=25*mm,
 		topMargin=20*mm,
 		bottomMargin=25*mm,
-		title = account.group_name + "  |  Meeting of " + meeting.date.strftime("%d %b %Y"),
+		title = account.group_name + "  |  Meeting of " +
+			meeting.date.strftime("%d %b %Y"),
 		pagesize=A4)
 	body_frame = Frame(doc.leftMargin,
 		doc.bottomMargin,
@@ -224,16 +314,19 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	
 	# Add meeting details to document
 	Document.append(Paragraph("Meeting details", heading2Style))
-	t = Table([(Paragraph('Date', darkItemStyle), Paragraph(meeting.date.strftime("%A %B %d, %Y"), normalStyle)),
-		(Paragraph('Time', darkItemStyle), Paragraph('*14:00*', normalStyle)),
-		(Paragraph('Duration', darkItemStyle), Paragraph(str(meeting_duration) + " minutes", normalStyle)),
-		(Paragraph('Location', darkItemStyle), Paragraph(meeting.location, normalStyle))],
+	t = Table([
+		(Paragraph('Date', darkItemStyle),
+			Paragraph(meeting.date.strftime("%A %B %d, %Y"), normalStyle)),
+		(Paragraph('Time', darkItemStyle),
+			Paragraph('*14:00*', normalStyle)),
+		(Paragraph('Duration', darkItemStyle),
+			Paragraph(str(meeting_duration) + " minutes", normalStyle)),
+		(Paragraph('Location', darkItemStyle),
+			Paragraph(location, normalStyle))
+		],
 		colWidths=[22*mm,55*mm],
 		hAlign='LEFT')
-	t.setStyle(TableStyle([('GRID', (0,0), (-1,-1), 1, table_color),
-		('VALIGN',(0,0),(-1,-1),'TOP'),
-		('ROWBACKGROUNDS', (0,0), (1,-1), [white, row_color]),
-		]))
+	t.setStyle(MEETING_TABLE_STYLE)
 	Document.append(t)
 	Document.append(Spacer(0,3*mm))
 		
@@ -243,7 +336,8 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	# Add task review to document
 	Document.append(Paragraph("Task review", heading2Style))
 	create_task_table("Tasks outstanding", incomplete_task_list, Document, t)
-	create_task_table("Tasks completed since last meeting", completed_task_list, Document, t)
+	create_task_table("Tasks completed since last meeting", completed_task_list,
+		Document, t)
 		
 	# Add reports to document
 	create_long_item_table('Reports', report_items, Document, t)
