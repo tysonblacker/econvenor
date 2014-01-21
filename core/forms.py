@@ -12,6 +12,7 @@ class MeetingForm(forms.ModelForm):
         	'owner': forms.HiddenInput(),
         	'agenda_locked': forms.HiddenInput(),
         	'date': forms.DateInput(attrs={'class': 'datepicker'}),
+        	'notes': forms.Textarea(attrs={'rows': 4}),
         }
 
 
