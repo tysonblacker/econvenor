@@ -134,8 +134,8 @@ ITEM_INNER_TABLE_STYLE = TableStyle([
 
 
 def insert_page_breaks(string):
-	replace(string, '\n', '<br/>')
-	return string
+	formatted_string = string.replace('\n', '<br/>')
+	return formatted_string
 
 
 def footer(canvas, doc):
@@ -227,7 +227,7 @@ def create_long_item_table(section_heading, item_list, Document, t):
 					colWidths=[160*mm])		
 			t.setStyle(ITEM_TABLE_STYLE)
 		Document.append(t)
-		Document.append(Spacer(0,3*mm))
+		Document.append(Spacer(0,5*mm))
 
 
 def create_task_table(section_heading, task_list, Document, t):
@@ -283,7 +283,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 			status="Complete", deadline__gte=preceding_meeting_date).exclude \
 			(deadline__gte=meeting.date)
 	meeting_duration = calculate_meeting_duration(meeting_id)
-	location = replace(meeting.location, '\n', '<br/>')
+	location = insert_page_breaks(meeting.location)
 	
 	# Set up the document framework
 	buffer = BytesIO()
