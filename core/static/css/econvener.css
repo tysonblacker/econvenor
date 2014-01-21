@@ -3,13 +3,13 @@
  *
  * Add padding beneath navbar and adjust background colour.
  */
- 
+
 body {
+  font-family: 'Body font', Helvetica, Arial, sans-serif;
   padding-top: 3em;
 /*  background-color: #eeeeee; */
   background-image: url('/static/images/ticks.png');
 }
-
 
 
 /*
@@ -257,6 +257,30 @@ fieldset[disabled] .btn-danger.active {
   border-bottom-color: #7251A4;
 }
 
+
+/*
+ * Heading text
+ *
+ * Change font.
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: 'Heading font', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  line-height: 1.1;
+  color: inherit;
+}
 
 
 /*
