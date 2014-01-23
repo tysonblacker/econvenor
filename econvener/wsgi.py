@@ -8,7 +8,34 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 """
 
 import os
+import sys
+import site
+import socket
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "econvener.settings")
 
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+if socket.gethostname() == 'web439.webfaction.com':
+	site.addsitedir(
+		'/home/econvenor/.virtualenvs/env/lib/python2.7/site-packages'
+	)
+	activate_this = os.path.expanduser(
+		"~/.virtualenvs/env/bin/activate_this.py"
+	)
+	execfile(activate_this, dict(__file__=activate_this))
+
+	# Calculate the path based on the location of the WSGI script
+	project = '/home/econvenor/webapps/econvener/'
+	workspace = os.path.dirname(project)
+	sys.path.append(workspace)
+
+	sys.path = ['/home/econvenor/webapps/econvener/econvener',
+		'/home/econvenor/webapps/econvener/any_otherPaths?',
+		'/home/econvenor/webapps/econvener'
+	]+ sys.path
+
+	from django.core.handlers.wsgi import WSGIHandler
+	application = WSGIHandler()
+else:
+	from django.core.wsgi import get_wsgi_application
+	application = get_wsgi_application()
+

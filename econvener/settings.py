@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import socket
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
@@ -21,12 +23,16 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 SECRET_KEY = '&2ow6l#7kb*otqk%v0gcdmm@5jelpp$81af6+s^kb0l&8*$1(e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = []
-
+if socket.gethostname() == 'web439.webfaction.com':
+	DEBUG = False
+	TEMPLATE_DEBUG = False
+	ALLOWED_HOSTS =[
+		'.econvenor.org',
+	]
+else:
+	DEBUG = True
+	TEMPLATE_DEBUG = True
+	ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -55,16 +61,24 @@ ROOT_URLCONF = 'econvener.urls'
 
 WSGI_APPLICATION = 'econvener.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+if socket.gethostname() == 'web439.webfaction.com':
+	DATABASES = {
+    	'default': {
+    	    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    	    'NAME': 'econvenor_db',
+		'USER': 'econvenor_admin',
+		'PASSWORD': 'VVYgTyJY)NPro<KaD2XX&<4<i',
+    	}
+	}
+else:
+	DATABASES = {
+	    'default': {
+	        'ENGINE': 'django.db.backends.sqlite3',
+	        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+	    }
+	}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -79,8 +93,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+if socket.gethostname() == 'web439.webfaction.com':
+	STATIC_ROOT = '/home/econvenor/webapps/static_econvener/'
