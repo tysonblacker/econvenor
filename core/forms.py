@@ -88,7 +88,6 @@ class FeatureForm(forms.ModelForm):
 			'shortcoming': forms.Textarea(attrs={'rows': 3}),
 			'suggestion': forms.Textarea(attrs={'rows': 3}),
 			'owner': forms.HiddenInput(),
-			'status': forms.HiddenInput(),
 			'date': forms.HiddenInput(),
         }
 

@@ -46,5 +46,6 @@ urlpatterns = patterns('',
 	url(r'^bugs/(\d{1,4})/edit/$', views.bug_edit, name="bug-edit"),       
 	url(r'^features/$', views.feature_list, name="feature-list"),		
 	url(r'^features/request/$', views.feature_request, name="feature-request"),
-	
+	url(r'^features/(\d{1,4})/edit/$', views.feature_edit, name="feature-edit"),       
+		
 )
