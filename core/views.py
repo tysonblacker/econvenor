@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from core.models import Account, Bug, Decision, Feature, Item, Meeting, Participant, Task
 from core.forms import AccountForm, BugForm, DecisionForm, FeatureForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
-from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date, convert_markdown_to_html
+from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date, convert_markdown_to_html, set_path
 from core.pdfs import create_pdf_agenda
 
 
@@ -474,18 +474,21 @@ def decision_list(request):
 	
 	
 def user_guide(request):
-    page_content = convert_markdown_to_html("core/text/user_guide.mkd")
-    return render_to_response('markdown_template.html', {'page_content': page_content}, RequestContext(request))
+	MARKDOWN_PATH = set_path('core/markdown/', '/home/econvenor/webapps/econvener/econvener/core/markdown/')
+	page_content = convert_markdown_to_html(MARKDOWN_PATH + 'user_guide.mkd')
+	return render_to_response('markdown_template.html', {'page_content': page_content}, RequestContext(request))
 
 
 def faqs(request):
-    page_content = convert_markdown_to_html("core/text/faqs.mkd")
-    return render_to_response('markdown_template.html', {'page_content': page_content}, RequestContext(request))
+	MARKDOWN_PATH = set_path('core/markdown/', '/home/econvenor/webapps/econvener/econvener/core/markdown/')
+	page_content = convert_markdown_to_html(MARKDOWN_PATH + 'faqs.mkd')
+	return render_to_response('markdown_template.html', {'page_content': page_content}, RequestContext(request))
     
 
 def ask_question(request):
-    page_content = convert_markdown_to_html("core/text/ask_question.mkd")
-    return render_to_response('markdown_template.html', {'page_content': page_content}, RequestContext(request))
+	MARKDOWN_PATH = set_path('core/markdown/', '/home/econvenor/webapps/econvener/econvener/core/markdown/')
+	page_content = convert_markdown_to_html(MARKDOWN_PATH + 'ask_question.mkd')
+	return render_to_response('markdown_template.html', {'page_content': page_content}, RequestContext(request))
     
       
 def account_settings(request):

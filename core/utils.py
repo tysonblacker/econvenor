@@ -1,7 +1,7 @@
 from core.models import Item, Meeting
 
 import markdown
-
+import socket
 
 def save_and_add_owner(request, form_object):
 	form = form_object
@@ -39,4 +39,13 @@ def convert_markdown_to_html(mkd_file):
 	html_content = markdown.markdown(mkd_content)
 	f.close()
 	return html_content
+
+
+def set_path(local_path, server_path):
+	if socket.gethostname() == 'web439.webfaction.com':
+		FONT_PATH = server_path
+	else:
+		FONT_PATH = local_path
+	return FONT_PATH
+	
 
