@@ -1,3 +1,5 @@
+import socket
+
 from io import BytesIO
 from string import replace
 
@@ -12,6 +14,7 @@ from reportlab.pdfbase.pdfmetrics import registerFont, registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, \
 	Paragraph, Spacer, Table, TableStyle 
+
 import reportlab.rl_config
 
 from core.models import Account, Meeting, Task
@@ -27,16 +30,22 @@ row_color = CMYKColor(0.1,0,0.05,0.2)
 # Define line width
 line_width = 0.75
 
+# Set path to fonts
+if socket.gethostname() == 'web439.webfaction.com':
+	FONT_PATH = '/home/econvenor/webapps/static_econvener/fonts/'
+else:
+	FONT_PATH = 'core/static/fonts/'
+
 # Register fonts
+
 body_font = 'OpenSans'
 heading_font = 'Ubuntu'
-registerFont(TTFont(body_font, "core/static/fonts/OpenSans-Regular.ttf"))
-registerFont(TTFont(body_font + 'Bd', "core/static/fonts/OpenSans-Bold.ttf"))
-registerFont(TTFont(body_font + 'It', "core/static/fonts/OpenSans-Italic.ttf"))
-registerFont(TTFont(body_font + 'BI', \
-	"core/static/fonts/OpenSans-BoldItalic.ttf"))
-registerFont(TTFont(body_font + 'Lt', "core/static/fonts/OpenSans-Light.ttf"))
-registerFont(TTFont(heading_font, "core/static/fonts/Ubuntu-Light.ttf"))
+registerFont(TTFont(body_font, FONT_PATH + "OpenSans-Regular.ttf"))
+registerFont(TTFont(body_font + 'Bd', FONT_PATH + "OpenSans-Bold.ttf"))
+registerFont(TTFont(body_font + 'It', FONT_PATH + "OpenSans-Italic.ttf"))
+registerFont(TTFont(body_font + 'BI', FONT_PATH + "OpenSans-BoldItalic.ttf"))
+registerFont(TTFont(body_font + 'Lt', FONT_PATH + "OpenSans-Light.ttf"))
+registerFont(TTFont(heading_font, FONT_PATH + "Ubuntu-Light.ttf"))
 registerFontFamily(body_font, normal=body_font, bold=body_font + 'Bd',
 	italic=body_font + 'It', boldItalic=body_font + 'BI')
 reportlab.rl_config.warnOnMissingFontGlyphs = 0
@@ -318,7 +327,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		(Paragraph('Date', darkItemStyle),
 			Paragraph(meeting.date.strftime("%A %B %d, %Y"), normalStyle)),
 		(Paragraph('Time', darkItemStyle),
-			Paragraph('*14:00*', normalStyle)),
+			Paragraph(meeting.start_time.strftime("%H:%M"), normalStyle)),
 		(Paragraph('Duration', darkItemStyle),
 			Paragraph(str(meeting_duration) + " minutes", normalStyle)),
 		(Paragraph('Location', darkItemStyle),
