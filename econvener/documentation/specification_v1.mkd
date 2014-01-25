@@ -1,0 +1,153 @@
+## Functional Specification
+# eConvenor Version 1
+
+---
+
+#### Revision A
+
+25 January 2014
+
+---
+
+## 1. Aim
+
+eConvenor is a free, online tool that does the drudge work of managing agendas, minutes and task-tracking, to make groups more effective.
+
+---
+
+## 2. Goals
+
+### 2.1 Version 1
+
+1. Make it easy for people and groups who don't have much experience to run effective and efficient meetings.
+
+1. Eliminate the drudge work of creating and distributing agendas and minutes.
+
+1. Make it easy for groups to keep their members accountable for the tasks they commit to doing.
+
+1. Make it easy for groups to keep their agendas and minutes well-organised and accessible.
+
+1. Make it easy for groups which need added security to deploy eConvenor on their own server.
+
+### 2.2 Future versions
+
+1. Provide tools to help groups make more strategic and better quality decisions.
+
+1. Provide tools to help groups plan how to effectively and efficiently implement their decisions.
+
+---
+
+## 3. Non-goals
+
+1. Don't try to be [basecamp.com](http://www.basecamp.com)
+
+1. Don't try to be [asana.com](http://www.asana.com) 
+
+1. Don't try to be [loomio.org](http://www.loomio.org)
+
+---
+
+## 4. Typical users
+
+1. A group of 8 people are working on a refugee advocacy campaign. The group is non-heirarchical and doesn't have any formal office-bearer positions. Two people seem to do most of the convening work. The group meets irregularly, every 2 to 4 weeks, at someone's house or at a cafe where there is wifi. The group members have email and Facebook. Meeting documents are created in Google Drive and distributed by email.
+
+1. An NGO spins off a working group of 6 people to focus on a fair trade specific campaign. There is a designated convenor/organiser, but no other positions of responsibility. Meetings are scheduled for the same day and time every 2 weeks. Meetings occur at the organisation's office where there is wifi. The group members all have email and the majority have Facebook. Meeting documents are created in MS Word and distributed by email.
+
+1. A committee of 8 people runs a community organisation that organises sporting activities for children. The committee has formal positions of President, Secretary and Treasurer. The Secretary is responsible for convening the group. The group meets once a month at their clubrooms where there is no wifi. The group members all have personal email and only a few have Facebook. Meeting documents are created in MS Word and distributed by email. Minutes are taken by hand before being transferred into MS Word.
+
+1. A coordinating collective runs a food co-op which has a floating membership of about 50 people, any of whom can participate in the collective. Three key people do the convening work for the group. The group meets irregularly, every 2 to 4 weeks, at the co-op where there is wifi. The group members all have email and the majority have Facebook. Meeting documents are created in Google Drive and distributed by email.
+
+1. A group of 12 people are planning a series of direct actions related to climate change. The group is non-heirarchical and doesn't have any formal office-bearer positions. Secrecy is important to the success of the actions. Three people seem to do most of the convening work. The group meets every week at a different person's house where there is wifi. The group members all have email and Facebook. Meeting documents are created in OpenOffice and distributed by encrypted email.
+
+---
+
+## 5. Implementation
+
+### 5.1 Agendas
+
+1. Agendas can be created from scratch with the minimum practical restrictions on format or layout.
+
+1. Tasks which need follow-up at the meeting are automatically included in the agenda.
+
+1. Agendas can be emailed to participants from within eConvenor in HTML format or as a PDF attachment.
+
+1. A user can create and save a template to use for future agendas.
+
+1. Users can add their logo to their agendas, and customise the agenda color scheme.
+
+1. Participants with or without their own eConvenor accounts can submit agenda items for upcoming meetings.
+
+### 5.2 Minutes
+
+1. A minutes template is created directly from the meeting agenda.
+
+1. Minutes can be entered into eConvenor during a meeting.
+
+1. Tasks assigned in a meeting and decisions made in a meeting are automatically extracted from the minutes for management.
+
+1. Minutes can be emailed to participants from within eConvenor in HTML format or as a PDF attachment.
+
+1. Users can add their logo to their minutes, and customise the minutes color scheme.
+
+### 5.3 Tasks
+
+1. Tasks are automatically extracted from minutes.
+
+1. Tasks automatically appear in the agenda and minutes where necessary.
+
+1. Tasks can be created, modified and deleted outside of agendas and minutes.
+
+1. All tasks assigned to a participant can be viewed in one table.
+
+### 5.4 Participants
+
+1. Only the minimum details required to uniquely specify and communicate with a participant will be required.
+
+### 5.5 Automated notifications
+
+These tasks can be done by eConvenor automatically at specified times:
+
+1. request and collect agenda items
+
+1. distribute agendas
+
+1. remind some or all participants of an upcoming meeting
+
+1. remind each participant of their outstanding tasks and
+
+1. remind a participant of an outstanding task when it becomes overdue.
+
+### 5.6 Accounts
+
+1. Accounts can be created with an email address and password.
+
+1. There will be an option to log in with Facebook or Google accounts.
+
+1. Passwords will be reset by email using a 'forgot my password' function.
+
+1. Each user can own or belong to multiple groups.
+
+1. Multiple users will be able to administer a group.
+
+### 5.7 Overall site settings
+
+1. Users can customise their interface with their logo and by choosing from several predefined color schemes.
+
+### 5.8 Bug reports and feature requests
+
+1. Users will be able to report bugs and request features.
+
+1. Users will be able to view all bug reports and all feature requests made by all users.
+
+### 5.9 Accessibility
+1. The whole application will be useable with text-to-speech software.
+
+### 5.10 Security
+
+1. All connections will be by SSL (i.e. all pages served by 'https://...').
+
+1. eConvenor will be completely open-source.
+
+1. Groups which require additional security will be able to install eConvenor on their own server.
+
+1. The database will be automatically backed up every 24 hours.
