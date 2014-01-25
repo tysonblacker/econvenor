@@ -256,7 +256,7 @@ def create_task_table(section_heading, task_list, Document, t):
 		t = Table([headings] + completed_tasks, colWidths=[90*mm,40*mm,30*mm])
 	else:
 		t = Table(
-			[headings] + [('No tasks','','')],
+			[headings] + [(Paragraph('No tasks', normalStyle),'','')],
 			colWidths=[90*mm,40*mm,30*mm]
 			)
 	t.setStyle(TASK_TABLE_STYLE)
