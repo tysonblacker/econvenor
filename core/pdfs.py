@@ -18,7 +18,8 @@ from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, \
 import reportlab.rl_config
 
 from core.models import Account, Meeting, Task
-from core.utils import calculate_meeting_duration, find_preceding_meeting_date
+from core.utils import calculate_meeting_duration, \
+	calculate_meeting_end_time, find_preceding_meeting_date
 
 
 # Define colors
@@ -292,6 +293,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 			status="Complete", deadline__gte=preceding_meeting_date).exclude \
 			(deadline__gte=meeting.date)
 	meeting_duration = calculate_meeting_duration(meeting_id)
+	meeting_end_time = calculate_meeting_end_time(meeting_id)
 	location = insert_page_breaks(meeting.location)
 	
 	# Set up the document framework
@@ -326,8 +328,10 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	t = Table([
 		(Paragraph('Date', darkItemStyle),
 			Paragraph(meeting.date.strftime("%A %B %d, %Y"), normalStyle)),
-		(Paragraph('Time', darkItemStyle),
+		(Paragraph('Start Time', darkItemStyle),
 			Paragraph(meeting.start_time.strftime("%H:%M"), normalStyle)),
+		(Paragraph('End Time', darkItemStyle),
+			Paragraph(meeting_end_time.strftime("%H:%M"), normalStyle)),
 		(Paragraph('Duration', darkItemStyle),
 			Paragraph(str(meeting_duration) + " minutes", normalStyle)),
 		(Paragraph('Location', darkItemStyle),

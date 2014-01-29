@@ -3,6 +3,8 @@ from core.models import Item, Meeting
 import markdown
 import socket
 
+from datetime import datetime, timedelta
+
 def save_and_add_owner(request, form_object):
 	form = form_object
 	if form.is_valid():
@@ -17,7 +19,18 @@ def calculate_meeting_duration(meeting_id):
 	for item in items:
 		duration += item.time_limit
 	return duration
-	
+
+
+def calculate_meeting_end_time(meeting_id):
+	meeting = Meeting.objects.get(pk=int(meeting_id))
+	duration = calculate_meeting_duration(meeting_id)
+	date = meeting.date
+	start_time = meeting.start_time
+	start_date_and_time = datetime.combine(date, start_time)
+	end_date_and_time = start_date_and_time + timedelta(minutes=duration)
+	end_time = end_date_and_time.time()
+	return end_time	
+
 
 def find_preceding_meeting_date(user, meeting_id):
 	meetings = Meeting.objects.filter(owner=user, description='Ordinary meeting' ).order_by('date').reverse()
