@@ -110,10 +110,24 @@ heading3Style.spaceBefore=3
 heading3Style.spaceAfter=6
 
 # Define table styles
-MEETING_TABLE_STYLE = TableStyle([
-	('GRID', (0,0), (1,-1), line_width, table_color),
+MEETING_LEFT_COLUMN_STYLE = TableStyle([
+	('GRID', (0,0), (-1,-1), line_width, table_color),
 	('VALIGN',(0,0),(-1,-1),'TOP'),
 	('ROWBACKGROUNDS', (0,0), (-1,-1), [white, row_color]),
+	])
+
+MEETING_RIGHT_COLUMN_STYLE = TableStyle([
+	('GRID', (0,0), (-1,-1), line_width, table_color),
+	('VALIGN',(0,0),(-1,-1),'TOP'),
+	])
+	
+MEETING_TABLE_STYLE = TableStyle([
+	('VALIGN',(0,0),(-1,-1),'TOP'),
+	('LEFTPADDING', (0,0), (-1,-1), 0),
+	('RIGHTPADDING', (0,0), (-1,-1), 0),
+	('TOPPADDING', (0,0), (-1,-1), 0),
+	('BOTTOMPADDING', (0,0), (-1,-1), 0),
+	('ROWBACKGROUNDS', (0,1), (-1,-1), [white, row_color]),
 	])
 
 TASK_TABLE_STYLE = TableStyle([
@@ -201,8 +215,8 @@ def create_long_item_table(section_heading, item_list, Document, t):
 			'ALIGN',(-1,0),(-1,0),'RIGHT'
 			)]))
 		if item.explainer and item.background:
-			inner_t = Table([(
-				Paragraph('<i>To be introduced by ' + str(item.explainer) +
+			inner_t = Table([
+				(Paragraph('<i>To be introduced by ' + str(item.explainer) +
 					'</i>', normalStyle),),
 				(Paragraph(background, normalStyle),)
 				],
@@ -295,6 +309,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	meeting_duration = calculate_meeting_duration(meeting_id)
 	meeting_end_time = calculate_meeting_end_time(meeting_id)
 	location = insert_page_breaks(meeting.location)
+	notes = insert_page_breaks(meeting.notes)
 	
 	# Set up the document framework
 	buffer = BytesIO()
@@ -325,7 +340,16 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	
 	# Add meeting details to document
 	Document.append(Paragraph("Meeting details", heading2Style))
-	t = Table([
+	if notes != '':
+		right_column = Table([
+			(Paragraph('Notes', darkItemStyle),),
+			(Paragraph(notes, normalStyle),),
+			],
+			colWidths=[80*mm])
+		right_column.setStyle(MEETING_RIGHT_COLUMN_STYLE)
+	else:
+		right_column = None
+	left_column = Table([
 		(Paragraph('Date', darkItemStyle),
 			Paragraph(meeting.date.strftime("%A %B %d, %Y"), normalStyle)),
 		(Paragraph('Start Time', darkItemStyle),
@@ -337,8 +361,20 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		(Paragraph('Location', darkItemStyle),
 			Paragraph(location, normalStyle))
 		],
-		colWidths=[22*mm,55*mm],
+		colWidths=[22*mm,58*mm],
 		hAlign='LEFT')
+	left_column.setStyle(MEETING_LEFT_COLUMN_STYLE)
+	if right_column:
+		t = Table([((
+				left_column,
+				right_column
+				))],
+				colWidths=[80*mm,80*mm])
+	else:
+		t = Table([((
+				left_column,
+				))],
+				colWidths=[80*mm])
 	t.setStyle(MEETING_TABLE_STYLE)
 	Document.append(t)
 	Document.append(Spacer(0,3*mm))
