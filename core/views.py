@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.forms.models import inlineformset_factory
 from django.forms import HiddenInput, Textarea, DateInput
 from django.contrib.auth import authenticate, login, logout
+from django.core.mail import EmailMessage
 
 from core.models import Account, Bug, Decision, Feature, Item, Meeting, Participant, Task
 from core.forms import AccountForm, BugForm, DecisionForm, FeatureForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
@@ -591,16 +592,28 @@ def feature_list(request):
 	return render_to_response('feature_list.html', {'user': request.user, 'features': features, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
 	
 	
-def print_agenda(request, meeting_id):
+def agenda_print(request, meeting_id):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
 	meeting = Meeting.objects.get(pk=int(meeting_id))
 	if meeting.owner != request.user:
 		return HttpResponseRedirect(reverse('index'))
-	response = create_pdf_agenda(request, meeting_id)
+	response = create_pdf_agenda(request, meeting_id, 'screen')
 	return response
-    
-    
-# email = EmailMessage('Hello', 'Body', 'from@from.com', ['to@to.com'])
-#   email.attach('invoicex.pdf', pdf , 'application/pdf')
-#   email.send()
+
+
+def agenda_send(request, meeting_id):
+	file_name = 'Agenda' + str(meeting_id) + '.pdf'
+	pdf = create_pdf_agenda(request, meeting_id, 'attachment')
+	subject = 'Subject: ' + file_name
+	body = 'Here is ' + file_name
+	sender = 'noreply@econvenor.org'
+	recipients = ['admin@econvenor.org'] 
+	email = EmailMessage(subject, body, sender, recipients)
+	email.attach(file_name, pdf, 'application/pdf')
+	email.send()
+ 	return HttpResponseRedirect(reverse('agenda-sent', args=(meeting_id,)))
+
+
+def agenda_sent(request, meeting_id):
+	return HttpResponse('Email successfully sent')

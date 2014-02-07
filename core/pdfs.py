@@ -279,12 +279,7 @@ def create_task_table(section_heading, task_list, Document, t):
 	Document.append(Spacer(0,3*mm))
 
 
-def create_pdf_agenda(request, meeting_id, **kwargs):
-	# Set up the HttpResponse
-	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'filename="AgendaForPrinting.pdf"'
-#	response['Content-Disposition'] = 'attachment;
-#		filename="AgendaForPrinting.pdf"'
+def create_pdf_agenda(request, meeting_id, output, **kwargs):
     
     # Generate the data which will populate the document
 	account = Account.objects.filter(owner=request.user).last()
@@ -403,7 +398,17 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	# Get the PDF
 	pdf = buffer.getvalue()
 	buffer.close()
-	response.write(pdf)
 	
-	# Return the PDF
-	return response
+	# Create a HttpResponse if required
+	if output == 'screen':
+		response = HttpResponse(content_type='application/pdf')
+		response['Content-Disposition'] = 'filename="AgendaForPrinting.pdf"'
+#		response['Content-Disposition'] = 'attachment;
+#		filename="AgendaForPrinting.pdf"'
+		response.write(pdf)
+	
+	# Return the PDF or HttpResponse
+	if output == 'attachment':
+		return pdf	
+	elif output == 'screen':
+		return response

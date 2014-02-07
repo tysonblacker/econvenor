@@ -28,8 +28,10 @@ urlpatterns = patterns('',
 	url(r'^agenda/add/$', views.agenda_add, name="agenda-add"),       
 	url(r'^agenda/(\d{1,4})/edit/$', views.agenda_edit, name="agenda-edit"),       
 	url(r'^agenda/(\d{1,4})/distribute/$', views.agenda_distribute, name="agenda-distribute"),       
-	url(r'^agenda/(\d{1,4})/print/$', views.print_agenda, name="agenda-print"),
-	
+	url(r'^agenda/(\d{1,4})/print/$', views.agenda_print, name="agenda-print"),
+	url(r'^agenda/(\d{1,4})/send/$', views.agenda_send, name="agenda-send"),
+	url(r'^agenda/(\d{1,4})/sent/$', views.agenda_sent, name="agenda-sent"),
+		
 	url(r'^minutes/$', views.minutes_list, name="minutes-list"),
 	url(r'^minutes/(\d{1,4})/edit/$', views.minutes_edit, name="minutes-edit"),
 
