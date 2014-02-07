@@ -100,3 +100,19 @@ STATIC_URL = '/static/'
 
 if socket.gethostname() == 'web439.webfaction.com':
 	STATIC_ROOT = '/home/econvenor/webapps/static_econvener/'
+	
+# Email
+# https://docs.djangoproject.com/en/1.6/topics/email/
+
+if socket.gethostname() == 'web439.webfaction.com':
+	EMAIL_HOST = 'smtp.webfaction.com'
+	EMAIL_PORT = 587
+	EMAIL_HOST_USER = 'noreply'
+	EMAIL_HOST_PASSWORD = '7De85S#%jd$h@H8#s!n9H0%'
+	DEFAULT_FROM_EMAIL = 'noreply@econvenor.org'
+	SERVER_EMAIL = 'mail@econvenor.org'
+else:
+	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+
