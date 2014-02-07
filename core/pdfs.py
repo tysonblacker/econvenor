@@ -18,7 +18,7 @@ from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, \
 import reportlab.rl_config
 
 from core.models import Account, Meeting, Task
-from core.utils import calculate_meeting_duration, \
+from core.utils import get_formatted_meeting_duration, \
 	calculate_meeting_end_time, find_preceding_meeting_date
 
 
@@ -306,7 +306,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		completed_task_list = Task.objects.filter(owner=request.user,
 			status="Complete", deadline__gte=preceding_meeting_date).exclude \
 			(deadline__gte=meeting.date)
-	meeting_duration = calculate_meeting_duration(meeting_id)
+	meeting_duration = get_formatted_meeting_duration(meeting_id)
 	meeting_end_time = calculate_meeting_end_time(meeting_id)
 	location = insert_page_breaks(meeting.location)
 	notes = insert_page_breaks(meeting.notes)
@@ -357,7 +357,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		(Paragraph('End Time', darkItemStyle),
 			Paragraph(meeting_end_time.strftime("%H:%M"), normalStyle)),
 		(Paragraph('Duration', darkItemStyle),
-			Paragraph(str(meeting_duration) + " minutes", normalStyle)),
+			Paragraph(meeting_duration, normalStyle)),
 		(Paragraph('Location', darkItemStyle),
 			Paragraph(location, normalStyle))
 		],

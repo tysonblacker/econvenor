@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from core.models import Account, Bug, Decision, Feature, Item, Meeting, Participant, Task
 from core.forms import AccountForm, BugForm, DecisionForm, FeatureForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
-from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date, convert_markdown_to_html, set_path, calculate_meeting_end_time
+from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date, convert_markdown_to_html, set_path, calculate_meeting_end_time, get_formatted_meeting_duration
 from core.pdfs import create_pdf_agenda
 
 
@@ -336,7 +336,7 @@ def agenda_edit(request, meeting_id):
 				editable_section = 'is_final_items'
 	
 		
-	meeting_duration = calculate_meeting_duration(meeting_id)
+	meeting_duration = get_formatted_meeting_duration(meeting_id)
 	meeting_end_time = calculate_meeting_end_time(meeting_id)
 	return render_to_response('agenda_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'meeting_duration': meeting_duration, 'meeting_end_time': meeting_end_time, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'preliminary_items': preliminary_items, 'report_items': report_items, 'final_items': final_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'account': account}, RequestContext(request))
 

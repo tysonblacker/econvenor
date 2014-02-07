@@ -19,7 +19,20 @@ def calculate_meeting_duration(meeting_id):
 	for item in items:
 		duration += item.time_limit
 	return duration
-
+	
+	
+def get_formatted_meeting_duration(meeting_id):
+	duration = calculate_meeting_duration(meeting_id)
+	hours = duration / 60
+	minutes = duration % 60
+	if hours == 0:
+		formatted_duration = '%s mins' % minutes
+	elif hours == 1:
+		formatted_duration = '%s hr %s mins' % (hours, minutes)	
+	else:
+		formatted_duration = '%s hrs %s mins' % (hours, minutes)
+	return formatted_duration
+	
 
 def calculate_meeting_end_time(meeting_id):
 	meeting = Meeting.objects.get(pk=int(meeting_id))
