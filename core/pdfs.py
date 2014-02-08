@@ -356,8 +356,7 @@ def create_pdf_agenda(request, meeting_id, output, **kwargs):
 		(Paragraph('Location', darkItemStyle),
 			Paragraph(location, normalStyle))
 		],
-		colWidths=[22*mm,58*mm],
-		hAlign='LEFT')
+		colWidths=[22*mm,58*mm])
 	left_column.setStyle(MEETING_LEFT_COLUMN_STYLE)
 	if right_column:
 		t = Table([((
@@ -370,6 +369,7 @@ def create_pdf_agenda(request, meeting_id, output, **kwargs):
 				left_column,
 				))],
 				colWidths=[80*mm])
+		t.hAlign='LEFT'
 	t.setStyle(MEETING_TABLE_STYLE)
 	Document.append(t)
 	Document.append(Spacer(0,3*mm))
