@@ -107,7 +107,7 @@ if socket.gethostname() == 'web439.webfaction.com':
 if socket.gethostname() == 'web439.webfaction.com':
 	EMAIL_HOST = 'smtp.webfaction.com'
 	EMAIL_PORT = 587
-	EMAIL_HOST_USER = 'noreply'
+	EMAIL_HOST_USER = 'econvenor_noreply'
 	EMAIL_HOST_PASSWORD = '7De85S#%jd$h@H8#s!n9H0%'
 	DEFAULT_FROM_EMAIL = 'noreply@econvenor.org'
 	SERVER_EMAIL = 'mail@econvenor.org'

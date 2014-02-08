@@ -1,9 +1,11 @@
-from core.models import Item, Meeting
+from core.models import Account, Item, Meeting, Participant
 
 import markdown
 import socket
 
 from datetime import datetime, timedelta
+from django.core.mail import EmailMessage
+
 
 def save_and_add_owner(request, form_object):
 	form = form_object
@@ -75,3 +77,52 @@ def set_path(local_path, server_path):
 	return FONT_PATH
 	
 
+def get_group_name(request):
+	account = Account.objects.filter(owner=request.user).last()
+	group_name = account.group_name
+	return group_name
+
+
+def distribute_agenda(request, meeting_id, pdf):
+	
+	recipients = []
+	group_name = get_group_name(request)
+	
+	# build recipients list if "all_participants" box is checked
+	if 'all_participants' in request.POST:
+		participants = Participant.objects.filter(owner=request.user)
+		for participant in participants:
+			participant_email_address = participant.email_address
+			recipients.append(participant_email_address)
+			
+	# build recipients list if "all_participants" box is not checked
+	else:
+		# create recipients list in this format: [participant1, participant4]
+		distribution_list = []
+		for key in request.POST:
+			if request.POST[key] == 'checked':
+				distribution_list.append(key)
+	
+		# create recipients list in this format: [1, 4]
+		id_list = []
+		for participant in distribution_list:
+			participant_id = participant[11:]
+			id_list.append(participant_id)
+	
+		# create recipients list with email addresses
+
+		for item in id_list:
+			participant = Participant.objects.get(pk=int(item))
+			participant_email_address = participant.email_address
+			recipients.append(participant_email_address)
+
+	# set up the email fields
+	file_name = 'Agenda' + str(meeting_id) + '.pdf'
+	subject = group_name + ': ' + file_name + ' is attached'
+	body = 'Here is ' + file_name
+	sender = 'noreply@econvenor.org'
+
+	# email the agenda
+	email = EmailMessage(subject, body, sender, recipients)
+	email.attach(file_name, pdf, 'application/pdf')
+	email.send()

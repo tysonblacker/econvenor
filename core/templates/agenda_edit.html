@@ -398,8 +398,10 @@
 <div class="well">
 	{% ifequal editable_section 'none' %}
 		<a href={% url 'minutes-edit' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Create minutes from this agenda</button></a>
+		<a href={% url 'agenda-print' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Create a PDF of this agenda</button></a>
+		<a href={% url 'agenda-distribute' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Distribute this agenda</button></a>
 	{% endifequal %}
-	<a href={% url 'agenda-print' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Create a PDF of this agenda</button></a>
+	
 </div>
 
 

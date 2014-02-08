@@ -388,19 +388,24 @@
 
 <h1><small>Distribute this agenda by email</small></h1>
 <div class="well">
+	<form action="" method="POST">
+	{% csrf_token %}
+	<div class="checkbox">
+		<label>
+			<input type="checkbox" name="all_participants" value="checked"><strong>All participants</strong>
+		</label>
+	</div>
+	<br>
 	{% for participant in participants %}
 		<div class="checkbox">
    			 <label>
-      			<input type="checkbox"> {{ participant }}
+      			<input type="checkbox" name="participant{{ participant.id }}" value="checked"> {{ participant }}
     		</label>
   		</div>
 	{% endfor %}
+	
 	<br>
-	<form action="" method="POST">
-		{% csrf_token %}
-		<button type="submit" class="btn btn-primary" name="agenda_distribute_button" value="distribute_agenda" data-toggle="button" disabled="disabled">Distribute</button>
-	<p>
-	<p class="text-muted">This button is not yet active.</p>
+		<button type="submit" class="btn btn-primary" name="agenda_distribute_button" value="distribute_agenda" data-toggle="button">Distribute</button>
 	</form>
 </div>
 

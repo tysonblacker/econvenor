@@ -5,11 +5,10 @@ from django.core.urlresolvers import reverse
 from django.forms.models import inlineformset_factory
 from django.forms import HiddenInput, Textarea, DateInput
 from django.contrib.auth import authenticate, login, logout
-from django.core.mail import EmailMessage
 
 from core.models import Account, Bug, Decision, Feature, Item, Meeting, Participant, Task
 from core.forms import AccountForm, BugForm, DecisionForm, FeatureForm, ItemForm, MeetingForm, ParticipantForm, TaskForm, ItemForm
-from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date, convert_markdown_to_html, set_path, calculate_meeting_end_time, get_formatted_meeting_duration
+from core.utils import save_and_add_owner, calculate_meeting_duration, find_preceding_meeting_date, convert_markdown_to_html, set_path, calculate_meeting_end_time, get_formatted_meeting_duration, distribute_agenda
 from core.pdfs import create_pdf_agenda
 
 
@@ -348,17 +347,24 @@ def agenda_distribute(request, meeting_id):
 	meeting = Meeting.objects.get(pk=int(meeting_id))
 	if meeting.owner != request.user:
 		return HttpResponseRedirect(reverse('index'))
-	task_list_headings = ('Description', 'Assigned to', 'Deadline')
-	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
-	preliminary_items = meeting.item_set.filter(owner=request.user, variety__exact='preliminary')
-	report_items = meeting.item_set.filter(owner=request.user, variety__exact='report')
-	final_items = meeting.item_set.filter(owner=request.user, variety__exact='final')	
-	incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
-	completed_task_list = Task.objects.filter(owner=request.user, status="Complete")
-	participants = Participant.objects.filter(owner=request.user).order_by('first_name')
-	meeting_duration = calculate_meeting_duration(meeting_id)
-	account = Account.objects.filter(owner=request.user).last()
-	return render_to_response('agenda_distribute.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'meeting_duration': meeting_duration, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list, 'main_items': main_items, 'preliminary_items': preliminary_items, 'report_items': report_items, 'final_items': final_items, 'participants': participants, 'account': account}, RequestContext(request))
+	if request.method == "POST":
+		if 'agenda_distribute_button' in request.POST:
+			if request.POST['agenda_distribute_button']=='distribute_agenda':
+				pdf = create_pdf_agenda(request, meeting_id, 'attachment')
+				distribute_agenda(request, meeting_id, pdf)
+				return HttpResponseRedirect(reverse('agenda-sent', args=(meeting_id,)))
+	else:
+		task_list_headings = ('Description', 'Assigned to', 'Deadline')
+		main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
+		preliminary_items = meeting.item_set.filter(owner=request.user, variety__exact='preliminary')
+		report_items = meeting.item_set.filter(owner=request.user, variety__exact='report')
+		final_items = meeting.item_set.filter(owner=request.user, variety__exact='final')	
+		incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
+		completed_task_list = Task.objects.filter(owner=request.user, status="Complete")
+		participants = Participant.objects.filter(owner=request.user).order_by('first_name')
+		meeting_duration = calculate_meeting_duration(meeting_id)
+		account = Account.objects.filter(owner=request.user).last()
+		return render_to_response('agenda_distribute.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'meeting_duration': meeting_duration, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list, 'main_items': main_items, 'preliminary_items': preliminary_items, 'report_items': report_items, 'final_items': final_items, 'participants': participants, 'account': account}, RequestContext(request))
 	
 
 def minutes_list(request):
@@ -600,19 +606,6 @@ def agenda_print(request, meeting_id):
 		return HttpResponseRedirect(reverse('index'))
 	response = create_pdf_agenda(request, meeting_id, 'screen')
 	return response
-
-
-def agenda_send(request, meeting_id):
-	file_name = 'Agenda' + str(meeting_id) + '.pdf'
-	pdf = create_pdf_agenda(request, meeting_id, 'attachment')
-	subject = 'Subject: ' + file_name
-	body = 'Here is ' + file_name
-	sender = 'noreply@econvenor.org'
-	recipients = ['admin@econvenor.org'] 
-	email = EmailMessage(subject, body, sender, recipients)
-	email.attach(file_name, pdf, 'application/pdf')
-	email.send()
- 	return HttpResponseRedirect(reverse('agenda-sent', args=(meeting_id,)))
 
 
 def agenda_sent(request, meeting_id):
