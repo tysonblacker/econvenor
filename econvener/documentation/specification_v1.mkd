@@ -3,9 +3,7 @@
 
 ---
 
-#### Revision A
-
-25 January 2014
+#### Revision B / 10 February 2014
 
 ---
 
@@ -29,9 +27,12 @@ eConvenor is a free, online tool that does the drudge work of managing agendas, 
 
 1. Make it easy for groups which need added security to deploy eConvenor on their own server.
 
+1. Provide documentation which teaches groups how to make more strategic and better quality decisions.
+
+
 ### 2.2 Future versions
 
-1. Provide tools to help groups make more strategic and better quality decisions.
+1. Provide automated tools to help groups make more strategic and better quality decisions.
 
 1. Provide tools to help groups plan how to effectively and efficiently implement their decisions.
 
@@ -117,7 +118,11 @@ These tasks can be done by eConvenor automatically at specified times:
 
 1. remind a participant of an outstanding task when it becomes overdue.
 
-### 5.6 Accounts
+### 5.6 Strategy documentation
+
+1. Provide a repository of documentation explaining how to act strategically and make better quality decisions.
+
+### 5.7 Accounts
 
 1. Accounts can be created with an email address and password.
 
@@ -129,20 +134,20 @@ These tasks can be done by eConvenor automatically at specified times:
 
 1. Multiple users will be able to administer a group.
 
-### 5.7 Overall site settings
+### 5.8 Overall site settings
 
 1. Users can customise their interface with their logo and by choosing from several predefined color schemes.
 
-### 5.8 Bug reports and feature requests
+### 5.9 Bug reports and feature requests
 
 1. Users will be able to report bugs and request features.
 
 1. Users will be able to view all bug reports and all feature requests made by all users.
 
-### 5.9 Accessibility
+### 5.10 Accessibility
 1. The whole application will be useable with text-to-speech software.
 
-### 5.10 Security
+### 5.11 Security
 
 1. All connections will be by SSL (i.e. all pages served by 'https://...').
 
@@ -151,3 +156,12 @@ These tasks can be done by eConvenor automatically at specified times:
 1. Groups which require additional security will be able to install eConvenor on their own server.
 
 1. The database will be automatically backed up every 24 hours.
+
+---
+
+### Document history
+
+Revision B / 10 February 2014
+
+Revision A / 25 January 2014
+
