@@ -35,7 +35,7 @@ line_width = 0.75
 if socket.gethostname() == 'web439.webfaction.com':
 	FONT_PATH = '/home/econvenor/webapps/static_econvener/fonts/'
 else:
-	FONT_PATH = 'core/static/fonts/'
+	FONT_PATH = 'static/fonts/'
 
 # Register fonts
 

@@ -98,6 +98,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 if socket.gethostname() == 'web439.webfaction.com':
 	STATIC_ROOT = '/home/econvenor/webapps/static_econvener/'
 	
