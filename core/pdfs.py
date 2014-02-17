@@ -40,13 +40,12 @@ else:
 # Register fonts
 
 body_font = 'OpenSans'
-heading_font = 'Ubuntu'
-registerFont(TTFont(body_font, FONT_PATH + "OpenSans-Regular.ttf"))
-registerFont(TTFont(body_font + 'Bd', FONT_PATH + "OpenSans-Bold.ttf"))
-registerFont(TTFont(body_font + 'It', FONT_PATH + "OpenSans-Italic.ttf"))
-registerFont(TTFont(body_font + 'BI', FONT_PATH + "OpenSans-BoldItalic.ttf"))
-registerFont(TTFont(body_font + 'Lt', FONT_PATH + "OpenSans-Light.ttf"))
-registerFont(TTFont(heading_font, FONT_PATH + "Ubuntu-Light.ttf"))
+heading_font = 'OpenSans'
+registerFont(TTFont(body_font, FONT_PATH + body_font + "-Regular.ttf"))
+registerFont(TTFont(body_font + 'Bd', FONT_PATH + body_font + "-Bold.ttf"))
+registerFont(TTFont(body_font + 'It', FONT_PATH + body_font + "-Italic.ttf"))
+registerFont(TTFont(body_font + 'BI', FONT_PATH + body_font + "-BoldItalic.ttf"))
+registerFont(TTFont(heading_font, FONT_PATH + heading_font + "-Regular.ttf"))
 registerFontFamily(body_font, normal=body_font, bold=body_font + 'Bd',
 	italic=body_font + 'It', boldItalic=body_font + 'BI')
 reportlab.rl_config.warnOnMissingFontGlyphs = 0

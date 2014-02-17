@@ -6,16 +6,12 @@
 
 @font-face {
   font-family: 'Body font';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Ubuntu');
+  src: url(../fonts/SourceSansPro-Regular.woff);
 }
 
 @font-face {
   font-family: 'Heading font';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Ubuntu');
+  src: url(../fonts/SourceSansPro-Regular.woff);
 }
 
 
