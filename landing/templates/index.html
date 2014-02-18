@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <link rel="shortcut icon" href="{% static 'images/econvenor-favicon-v1.ico' %}">
+
+    <title>eConvenor - Your virtual convenor</title>
+
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/landing.css' %}" rel="stylesheet">
+    
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+  </head>
+
+  <body>
+  
+    <!-- NAVBAR 
+    ================================================== -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="{% static 'images/econvenor-logo-v1l.png' %}" width="200"></a>
+        </div><!-- /.navbar-header -->
+        <div class="navbar-collapse collapse">
+          <div class="navbar-right">
+            <p class="navbar-text">Are you an eConvenor tester?</p>
+            <a href={% url 'login' %}><button type="submit" class="btn btn-default navbar-btn">Sign in</button></a>
+          </div>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container -->
+    </div><!-- /.navbar -->
+
+    <!-- HERO
+    ================================================== -->
+    <div class="jumbotron" id="hero">
+      <div class="container">
+        <h1 class="text-center">Make organising your group less work.</h1>
+        <h2 class="text-center">eConvenor is free and will be available from April 2nd.</h2>
+      </div><!-- /.container -->
+    </div> <!-- /.jumbotron -->
+
+    <!-- SECTION 1
+    ================================================== -->
+    <div id="section1">
+      <div class="container thin-columns">
+        <div class="row">
+        
+        <!-- Column 1 -->
+          <div class="col-lg-3">
+            <span class="fa-stack fa-4x">
+              <i class="fa fa-circle fa-stack-2x orange"></i>
+              <i class="fa fa-star fa-stack-1x fa-inverse"></i>
+            </span>
+            <h2>Coordinate your group easily</h2>
+            <p>We've taken years of campaign experience and put it into a computer program. eConvenor gives you templates for agendas, and keeps you on track, so you can run your group even if you're not the organised type.</p>
+          </div><!-- /.col-lg-3 -->
+
+          <!-- Column 2 -->
+          <div class="col-lg-3">
+            <span class="fa-stack fa-4x">
+              <i class="fa fa-circle fa-stack-2x red"></i>
+              <i class="fa fa-clock-o fa-stack-1x fa-inverse"></i>
+            </span>
+            <h2>Save time and effort</h2>
+            <p>Don't waste your time fussing with formatting or reinventing the wheel for agendas. Create minutes templates from agendas automatically, type minutes straight in and email them out with a few clicks.</p>
+          </div><!-- /.col-lg-3 -->
+
+          <!-- Column 3 -->
+          <div class="col-lg-3">
+            <span class="fa-stack fa-4x">
+              <i class="fa fa-circle fa-stack-2x orange"></i>
+              <i class="fa fa-umbrella fa-stack-1x fa-inverse"></i>
+            </span>
+            <h2>Never forget anything</h2>
+            <p>eConvenor will track tasks and send reminders to people about what they said they'd do. Your tasks will automatically flow into the next agenda, so you never lose track of your projects.</p>
+          </div><!-- /.col-lg-3 -->
+
+          <!-- Column 4 -->
+          <div class="col-lg-3">
+            <span class="fa-stack fa-4x">
+              <i class="fa fa-circle fa-stack-2x red"></i>
+              <i class="fa fa-copy fa-stack-1x fa-inverse"></i>
+            </span>
+            <h2>Stay organised and consistent</h2>
+            <p>Our searchable list of decisions and tasks will help you keep organisational memory when members and positions change over, and you can create templates for minutes and agendas so your formats are fuss-free.</p>
+          </div><!-- /.col-lg-3 --> 
+                         
+        </div><!-- /.row --> 
+      </div><!-- /.container -->
+    </div><!-- /#section1 -->
+
+    <!-- DIVIDER 1
+    ================================================== -->
+    <div class="jumbotron" id="divider1">
+      <div class="container">
+      	<h1 class="text-center">Sometimes the best person for the job is a computer.</h1>
+      	<h2 class="text-center">eConvenor does its work on time, has high standards and never forgets anything.</h2>
+      </div><!-- /.container -->
+    </div> <!-- /.jumbotron -->
+
+    <!-- SECTION 2
+    ================================================== -->
+    <div id="section2">
+      <div class="container wide-columns">
+    
+        <h1>What can eConvenor do for you?</h1>
+        <p class="lead">eConvenor is a free online tool for grassroots campaigns and community groups. It does the boring bits of group organising, so you can get on with the real work.<span class="orange">&nbsp It's your virtual secretary, convenor and coordinator.</span></p>      
+        
+        <div class="row">
+          
+          <div class="col-md-6">
+            <ul class="fa-ul">
+            <!-- Left column item 1 -->
+              <li><i class="fa-li fa fa-users fa-3x red"></i>
+                <ul>
+                  <li><p class="lead red">Keep your group in the loop</p></li>
+                  <li><p>Your account will hold contact details for your active members, so that you can send emails to the group, assign tasks, and set email reminders for them.</p></li>
+                </ul>
+              </li>
+              <!-- Left column item 2 -->
+              <li><i class="fa-li fa fa-file-text-o fa-3x orange"></i>
+                <ul>
+                  <li><p class="lead orange">Pull together your meeting agendas</p></li>
+                  <li><p>You can use our agenda templates or create your own. The layout is done for you and you can estimate time for the meeting based on how long you'd like to spend on each item. Each agenda will automatically include any unfinished business or tasks from the previous meeting.</p></li>
+                </ul>
+              </li>
+              <!-- Left column item 3 -->
+              <li><i class="fa-li fa fa-file-text fa-3x red"></i>
+                <ul>
+                  <li><p class="lead red">Make writing and distributing minutes painless</p></li>
+                  <li><p>When you're ready, crete a minutes template from the agenda with one click. You can print it and fill it out, or type the minutes straight in at the meeting. We've made sure there's clear space to record decisions and tasks, so they won't get lost, and you on't forget the point of the meeting.</p></li>
+                </ul>
+              </li>
+            </ul><!-- /.fa-ul -->
+          </div><!-- /.col-md-6 -->
+              
+          <div class="col-md-6">
+            <ul class="fa-ul">
+            <!-- Right column item 1 -->
+              <li><i class="fa-li fa fa-check-square-o fa-3x orange"></i>
+                <ul>
+                  <li><p class="lead orange">Track and follow up tasks</p></li>
+                  <li><p>A task list will be automatically created from your minutes, with the due date and the person who said they'd do it. You'll be able to see the whole list at any time, see any overdue tasks, and set automatic email reminders for those with tasks.</p></li>
+                </ul>
+              </li>
+              <!-- Right column item 2 -->
+              <li><i class="fa-li fa fa-list fa-3x red"></i>
+                <ul>
+                  <li><p class="lead red">Collate and search decisions</p></li>
+                  <li><p>The decisions you make at your meetings ill be recorded in a master-list, so you can search through them later to find out what you decided last time, and look up the minutes from the time.</p></li>
+                </ul> 
+              </li>
+              <!-- Right column item 3 -->
+              <li><i class="fa-li fa fa-archive fa-3x orange"></i>
+                <ul>
+                  <li><p class="lead orange">Organise your meeting records</p></li>
+                  <li><p>*** Some text about keeping your agendas and minutes in one place and well organised rather than in a dropbox or googkle drive account.***</p></li>
+                </ul> 
+              </li>              
+            </ul><!-- /.fa-ul -->
+          </div><!-- /.col-md-6 -->
+          
+        </div><!-- /.row -->
+      </div><!-- /.container -->
+    </div><!-- /#section2 -->
+
+    <!-- SECTION 3
+    ================================================== -->
+    <div id="section3">
+      <div class="container wide-columns">
+        <div class="row">
+          <div class="col-lg-6">
+            <h2>Left column heading</h2>
+            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+          </div><!-- /.col-lg-6 -->
+          <div class="col-lg-6">
+            <h2>Right column heading</h2>
+            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+          </div><!-- /.col-lg-6 -->
+        </div><!-- /.row -->
+      </div><!-- /.container -->
+    </div><!-- /#section3 -->
+      
+    <!-- FOOTER
+    ================================================== -->
+    <div id="footer">
+      <div class="container">
+        
+        <p>This is footer placeholder text</p>
+        
+      </div><!-- /.container -->      
+    </div><!-- /footer>   
+   
+    <!-- JavaScript
+    ================================================== -->
+	<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script> 
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript">
+    var bootstrapButton = $.fn.button.noConflict()
+    $.fn.bootstrapBtn = bootstrapButton 
+    </script>
+
+  </body>
+</html>
+

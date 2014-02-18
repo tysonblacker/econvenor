@@ -1,0 +1,321 @@
+/* GLOBAL STYLES
+-------------------------------------------------- */
+
+body {
+  color: #555555;
+  font-family: 'Body', Helvetica, Arial, sans-serif;
+  padding-top: 84px;
+}
+
+.orange {
+  color: #ff4544;
+}
+
+.red {
+  color: #ff0066;
+}
+
+.white {
+  color: #ffffff;
+}
+
+.light-grey {
+  color: #bbbbbb;
+}
+
+.mid-grey {
+  color: #909090;
+}
+
+.dark-grey {
+  color: #555555;
+}
+
+
+/* FONTS
+-------------------------------------------------- */
+
+@font-face {
+  font-family: 'Body';
+  src: url(../fonts/SourceSansPro-Regular.woff);
+}
+
+@font-face {
+  font-family: 'Jumbotron';
+  src: url(../fonts/SourceSansPro-Regular.woff);
+}
+
+@font-face {
+  font-family: 'Heading';
+  src: url(../fonts/SourceSansPro-Regular.woff);
+}
+
+
+/* NAVBAR
+-------------------------------------------------- */
+
+.navbar {
+  margin-bottom: 0px;
+  border-bottom: 0px solid transparent;
+  background-color: #ffffff;
+}
+
+.navbar-brand {
+  padding: 20px 25px;
+}
+
+.navbar-form {
+  padding: 10px 30px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  -webkit-box-shadow: inset 0 0px 0 rgba(255, 255, 255, .1), 0 0px 0 rgba(255, 255, 255, .1);
+          box-shadow: inset 0 0px 0 rgba(255, 255, 255, .1), 0 0px 0 rgba(255, 255, 255, .1);
+}
+
+.navbar-text {
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+
+/* BUTTONS
+-------------------------------------------------- */
+
+.btn {
+  padding: 9px 18px;
+  font-family: 'Body', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+
+.btn-default {
+  color: #ff0066;
+  background-color: #ffffff;
+  border-color: #ff0066;
+}
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default {
+  color: #ffffff;
+  background-color: #ff0066;
+  border-color: #ff0066;
+}
+
+
+/* JUMBOTRONS
+-------------------------------------------------- */
+
+.jumbotron h1 {
+  font-family: 'Jumbotron', Helvetica, Arial, sans-serif;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  margin-left: 80px;
+  margin-right: 80px;
+}
+
+#hero {
+  background-color: #000000;
+  margin-bottom: 0px;
+  background-image: url(../images/hero.png);
+  background-repeat: no-repeat;
+  position: relative;
+  width: 100%;
+  background-size: auto 100%;   /* cover */
+  background-position: center;
+  height: 350px;
+}
+
+#hero h1 {
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+#hero h2 {
+  color: #999999;
+}
+
+#divider1 {
+  background-color: #ff4544;
+  margin-bottom: 0px;
+}
+
+#divider1 h1 {
+  font-size: 46px;
+  color: #ffffff;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+#divider1 h2 {
+  font-size: 24px;
+  color: #222222;
+  margin-bottom: 10px;
+}
+
+
+/* TEXT
+-------------------------------------------------- */
+
+h1, h2, p {
+  margin: 20px 10px 30px 10px;
+}
+
+h1, h2 {
+  font-family: 'Heading', Helvetica, Arial, sans-serif;
+  color: #333333;
+}
+
+p {
+  font-family: 'Body', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+}
+
+a {
+  color: #ff0066;
+}
+
+a:hover,
+a:focus {
+  color: #ff0066;
+}
+
+.fa-li{
+  margin-bottom: 10px;
+}
+
+li {
+  margin-bottom: 30px
+}
+
+@media screen and (min-width: 768px) {
+  h1 {
+    font-size: 50px;
+  }
+  
+  .feature-heading {
+    font-size: 50px;
+  }
+}
+
+@media (min-width: 992px) {
+  .feature-heading {
+    margin-top: 120px;
+  }
+}
+
+
+/* SECTIONS
+-------------------------------------------------- */
+
+#section1 {
+  background-image: url(../images/texture.png);
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+
+#section2 {
+  background-image: url(../images/texture.png);
+  padding-top: 50px;
+  padding-bottom: 40px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+#section3 {
+  background-color: #fffff0;
+  padding-top: 40px;
+}
+
+#section2 h1 {
+  text-align: center;
+}
+
+#footer {
+  color: #dddddd;
+  background-color: #000000;
+  margin-bottom: 0px;
+}
+
+
+/* 2-COLUMN FORMAT
+-------------------------------------------------- */
+
+.wide-columns {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.wide-columns .col-lg-6 {
+  text-align: center;
+}
+
+.wide-columns .col-lg-6 p {
+  margin-right: 10px;
+  margin-left: 10px;
+  padding-bottom: 30px;
+}
+
+
+/* 4-COLUMN FORMAT
+-------------------------------------------------- */
+
+.thin-columns {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.thin-columns .col-lg-3 {
+  text-align: center;
+}
+
+.thin-columns .col-lg-3 p {
+  margin-right: 10px;
+  margin-left: 10px;
+  padding-bottom: 30px;
+}
+
+
+/* FEATURES
+------------------------- */
+
+.feature-divider {
+  margin: 20px 50px;
+}
+
+.fa-ul {
+  padding-left: 0;
+  padding-top: 30px;
+  margin-left: 10px;
+}
+
+.fa-li {
+  position: absolute;
+  left: 0em;
+  width: 1em;
+  top: 3px;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  padding-left: 10px;
+  margin-bottom: 0px;
+}
+
+li p {
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+li p.lead {
+  padding-top: 10px;
+  margin-bottom: 10px;
+}

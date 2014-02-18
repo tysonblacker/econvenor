@@ -12,7 +12,7 @@ from core.utils import save_and_add_owner, calculate_meeting_duration, find_prec
 from core.pdfs import create_pdf_agenda
 
 
-def index(request):
+def user_login(request):
 	error = ''
 	if request.method == 'POST':
 		username = request.POST['username']
@@ -26,7 +26,8 @@ def index(request):
 				error = 'Your account is not active.'
 		else:
 			error = 'The credentials you entered are not valid. Try again.'
-	return render_to_response('index.html', {'error': error}, RequestContext(request))
+
+	return render_to_response('login.html', {'error': error}, RequestContext(request))
 
 
 def user_logout(request):
