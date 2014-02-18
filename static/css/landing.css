@@ -4,6 +4,7 @@
 body {
   color: #555555;
   font-family: 'Body', Helvetica, Arial, sans-serif;
+  font-size: 18px;
   padding-top: 84px;
 }
 
@@ -31,6 +32,17 @@ body {
   color: #555555;
 }
 
+.orange-background {
+  background-color: #ff4544;
+}
+
+.red-background {
+  background-color: #ff0066;
+}
+
+.black-background {
+  background-color: #000000;
+}
 
 /* FONTS
 -------------------------------------------------- */
@@ -56,6 +68,7 @@ body {
 
 .navbar {
   margin-bottom: 0px;
+  padding-bottom: 9px;
   border-bottom: 0px solid transparent;
   background-color: #ffffff;
 }
@@ -73,8 +86,11 @@ body {
 }
 
 .navbar-text {
-  margin-top: 18px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+}
+
+.navbar-btn {
+  margin-top: 19px;
 }
 
 
@@ -84,7 +100,7 @@ body {
 .btn {
   padding: 9px 18px;
   font-family: 'Body', Helvetica, Arial, sans-serif;
-  font-size: 18px;
+  font-size: 1em;
   border: 2px solid transparent;
   border-radius: 8px;
 }
@@ -111,11 +127,13 @@ body {
 
 .jumbotron h1 {
   font-family: 'Jumbotron', Helvetica, Arial, sans-serif;
-  margin-top: 30px;
-  margin-bottom: 40px;
-  margin-left: 80px;
-  margin-right: 80px;
+  color: #ffffff;
+  margin: 30px 70px 40px 70px;
 }
+
+
+/* HERO
+-------------------------------------------------- */
 
 #hero {
   background-color: #000000;
@@ -124,169 +142,85 @@ body {
   background-repeat: no-repeat;
   position: relative;
   width: 100%;
-  background-size: auto 100%;   /* cover */
+  background-size: auto 100%;
   background-position: center;
   height: 350px;
 }
 
 #hero h1 {
-  color: #ffffff;
   margin-bottom: 30px;
 }
 
 #hero h2 {
-  color: #999999;
+  color: #909090;
 }
 
-#divider1 {
-  background-color: #ff4544;
+
+/* DIVIDERS
+-------------------------------------------------- */
+
+.divider {
   margin-bottom: 0px;
 }
 
-#divider1 h1 {
-  font-size: 46px;
-  color: #ffffff;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 40px;
-  margin-right: 40px;
+.divider h1 {
+  font-size: 2.5em;
+  margin: 0px 40px 0px 40px;
 }
 
-#divider1 h2 {
-  font-size: 24px;
-  color: #222222;
+.divider h2 {
+  font-size: 1.5em;
+  color: #333333;
   margin-bottom: 10px;
 }
 
 
-/* TEXT
+/* HEADING TEXT
 -------------------------------------------------- */
-
-h1, h2, p {
-  margin: 20px 10px 30px 10px;
-}
 
 h1, h2 {
   font-family: 'Heading', Helvetica, Arial, sans-serif;
   color: #333333;
+  margin: 20px 10px 30px 10px;
 }
+
+h1 {
+  text-align: center;
+}
+  
+@media screen and (min-width: 768px) {
+  h1 {
+    font-size: 3em;
+  }
+  h2 {
+    font-size: 1.8em;
+  }
+  
+}
+
+/* PARAGRAPH TEXT
+-------------------------------------------------- */
 
 p {
   font-family: 'Body', Helvetica, Arial, sans-serif;
-  font-size: 18px;
+  margin: 20px 10px 30px 10px;
 }
 
-a {
-  color: #ff0066;
+@media (max-width: 767px) {
+  .lead {
+    font-size: 1.2em;
+  }
 }
 
+a,
 a:hover,
 a:focus {
   color: #ff0066;
 }
 
-.fa-li{
-  margin-bottom: 10px;
-}
 
-li {
-  margin-bottom: 30px
-}
-
-@media screen and (min-width: 768px) {
-  h1 {
-    font-size: 50px;
-  }
-  
-  .feature-heading {
-    font-size: 50px;
-  }
-}
-
-@media (min-width: 992px) {
-  .feature-heading {
-    margin-top: 120px;
-  }
-}
-
-
-/* SECTIONS
+/* FONTAWESOME ALIGNMENT
 -------------------------------------------------- */
-
-#section1 {
-  background-image: url(../images/texture.png);
-  padding-top: 50px;
-  padding-bottom: 40px;
-}
-
-#section2 {
-  background-image: url(../images/texture.png);
-  padding-top: 50px;
-  padding-bottom: 40px;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-#section3 {
-  background-color: #fffff0;
-  padding-top: 40px;
-}
-
-#section2 h1 {
-  text-align: center;
-}
-
-#footer {
-  color: #dddddd;
-  background-color: #000000;
-  margin-bottom: 0px;
-}
-
-
-/* 2-COLUMN FORMAT
--------------------------------------------------- */
-
-.wide-columns {
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-.wide-columns .col-lg-6 {
-  text-align: center;
-}
-
-.wide-columns .col-lg-6 p {
-  margin-right: 10px;
-  margin-left: 10px;
-  padding-bottom: 30px;
-}
-
-
-/* 4-COLUMN FORMAT
--------------------------------------------------- */
-
-.thin-columns {
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-.thin-columns .col-lg-3 {
-  text-align: center;
-}
-
-.thin-columns .col-lg-3 p {
-  margin-right: 10px;
-  margin-left: 10px;
-  padding-bottom: 30px;
-}
-
-
-/* FEATURES
-------------------------- */
-
-.feature-divider {
-  margin: 20px 50px;
-}
 
 .fa-ul {
   padding-left: 0;
@@ -299,6 +233,7 @@ li {
   left: 0em;
   width: 1em;
   top: 3px;
+  margin-bottom: 10px;
 }
 
 ul {
@@ -318,4 +253,73 @@ li p {
 li p.lead {
   padding-top: 10px;
   margin-bottom: 10px;
+}
+
+#section3 .fa-align {
+  padding-left: 50px;
+  padding-bottom: 5px;
+  padding-top: 14px;
+}
+
+#section4 .fa-align {
+  padding-left: 50px;
+  padding-bottom: 5px;
+  padding-top: 14px;
+}
+
+/* SECTIONS
+-------------------------------------------------- */
+
+.section {
+  background-image: url(../images/texture.png);
+  padding-top: 50px;
+  padding-bottom: 70px;
+}
+
+#section3 .fa-ul {
+  padding-top: 0px;
+}
+
+#section4 .fa-ul {
+  padding-top: 0px;
+}
+
+/* COLUMNS
+-------------------------------------------------- */
+
+.columns {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+
+/* 2-COLUMN FORMAT
+-------------------------------------------------- */
+
+.columns .col-lg-6 p {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+
+/* 4-COLUMN FORMAT
+-------------------------------------------------- */
+
+.columns .col-lg-3 {
+  text-align: center;
+}
+
+.columns .col-lg-3 p {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+
+/* FOOTER
+-------------------------------------------------- */
+
+.footer {
+  color: #ffffff;
+  background-color: #000000;
+  margin-bottom: 0px;
 }
