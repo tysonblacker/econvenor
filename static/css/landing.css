@@ -218,8 +218,17 @@ a:focus {
   color: #ff0066;
 }
 
+a.email-link {
+  color: #555555;
+}
 
-/* FONTAWESOME ALIGNMENT
+a:hover.email-link,
+a:focus.email-link {
+  color: #333333;
+  text-decoration: none;
+}
+
+/* FONTAWESOME ICON ALIGNMENT
 -------------------------------------------------- */
 
 .fa-ul {
@@ -232,8 +241,17 @@ a:focus {
   position: absolute;
   left: 0em;
   width: 1em;
-  top: 3px;
+  top: 0px;
   margin-bottom: 10px;
+}
+
+.fa-xl {
+  font-size: 1.5em;
+}
+
+.fa-terminal,
+.fa-bug {
+left: 9px; /* centers terminal icon horizonally on box icon */
 }
 
 ul {
@@ -257,15 +275,18 @@ li p.lead {
 
 #section3 .fa-align {
   padding-left: 50px;
-  padding-bottom: 5px;
-  padding-top: 14px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-#section4 .fa-align {
-  padding-left: 50px;
-  padding-bottom: 5px;
-  padding-top: 14px;
+#section3 .fa-ul {
+  padding-top: 0px;
 }
+
+#section4 .fa-ul {
+  padding-top: 0px;
+}
+
 
 /* SECTIONS
 -------------------------------------------------- */
@@ -276,13 +297,6 @@ li p.lead {
   padding-bottom: 70px;
 }
 
-#section3 .fa-ul {
-  padding-top: 0px;
-}
-
-#section4 .fa-ul {
-  padding-top: 0px;
-}
 
 /* COLUMNS
 -------------------------------------------------- */
@@ -318,8 +332,8 @@ li p.lead {
 /* FOOTER
 -------------------------------------------------- */
 
-.footer {
-  color: #ffffff;
-  background-color: #000000;
-  margin-bottom: 0px;
+#footer {
+padding: 10px 0 0 0;
+
 }
+
