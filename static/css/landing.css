@@ -2,6 +2,9 @@
 -------------------------------------------------- */
 
 body {
+  min-width: 640px;
+  width: auto !important;
+  width: 640px;
   color: #555555;
   font-family: 'Body', Helvetica, Arial, sans-serif;
   font-size: 18px;
@@ -145,10 +148,20 @@ body {
 
 .jumbotron h1 {
   font-family: 'Jumbotron', Helvetica, Arial, sans-serif;
+  font-size: 63px;
   color: #ffffff;
   margin: 30px 70px 40px 70px;
 }
 
+.jumbotron {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+  .container .jumbotron {
+    padding-right: 60px;
+    padding-left: 60px;
+  }
+  
 
 /* HERO
 -------------------------------------------------- */
@@ -173,6 +186,28 @@ body {
   color: #909090;
 }
 
+@media (max-width: 850px) {
+  #hero h1 {
+    padding-top: 10px;
+    font-size: 54px;
+  }
+  #hero h2 {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  #hero h1 {
+    padding-top: 15px;
+    font-size: 46px;
+  }
+  #hero h2 {
+    font-size: 28px;
+  }
+}
+
+
+
 
 /* DIVIDERS
 -------------------------------------------------- */
@@ -192,6 +227,10 @@ body {
   margin-bottom: 10px;
 }
 
+#divider4 h2 {
+  color: #909090;
+}
+
 
 /* HEADING TEXT
 -------------------------------------------------- */
@@ -204,17 +243,13 @@ h1, h2 {
 
 h1 {
   text-align: center;
+  font-size: 3em;
 }
-  
-@media screen and (min-width: 768px) {
-  h1 {
-    font-size: 3em;
-  }
-  h2 {
-    font-size: 1.8em;
-  }
-  
+
+h2 {
+  font-size: 1.8em;
 }
+
 
 /* PARAGRAPH TEXT
 -------------------------------------------------- */
@@ -224,10 +259,8 @@ p {
   margin: 20px 10px 30px 10px;
 }
 
-@media (max-width: 767px) {
-  .lead {
-    font-size: 1.2em;
-  }
+.lead {
+  font-size: 21px;
 }
 
 a,
@@ -316,32 +349,28 @@ li p.lead {
 }
 
 
-/* COLUMNS
+/* WIDE COLUMN FORMAT
 -------------------------------------------------- */
 
-.columns {
+.wide-columns {
   padding-right: 15px;
   padding-left: 15px;
 }
 
-
-/* 2-COLUMN FORMAT
--------------------------------------------------- */
-
-.columns .col-lg-6 p {
+.wide-columns .col-xs-6 p {
   margin-right: 10px;
   margin-left: 10px;
 }
 
 
-/* 4-COLUMN FORMAT
+/* NARROW COLUMN FORMAT
 -------------------------------------------------- */
 
-.columns .col-lg-3 {
+.narrow-columns .col-xs-6 {
   text-align: center;
 }
 
-.columns .col-lg-3 p {
+.narrow-columns .col-xs-6 p {
   margin-right: 10px;
   margin-left: 10px;
 }
@@ -352,6 +381,5 @@ li p.lead {
 
 #footer {
 padding: 10px 0 0 0;
-
 }
 
