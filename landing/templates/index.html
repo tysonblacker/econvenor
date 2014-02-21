@@ -35,7 +35,7 @@
     <div class="navbar navbar-fixed-top">
       <div class="container">
         <span class="navbar-brand">
-          <img src="{% static 'images/econvenor-logo-v1l.png' %}" width="200" alt="eConvenor logo">
+          <img src="{% static 'images/econvenor-logo-v1l.png' %}" width="200" height="45" alt="eConvenor logo">
         </span>
         <div class="pull-right">
           <a href={% url 'login' %}><button type="submit" class="btn btn-default">Sign in</button></a>
@@ -154,7 +154,7 @@
             </ul><!-- /.fa-ul -->
           </div><!-- /.col-xs-12 -->
               
-          <div class="col-xs-12 col-sm-6">
+          <div class="col-xs-12 col-sm-6" id="section2-right">
             <ul class="fa-ul">
             <!-- Right column item 1 -->
               <li><i class="fa-li fa fa-check-square-o fa-3x orange"></i>
@@ -236,19 +236,18 @@
  
           <div class="col-xs-12 col-sm-6">
             <h2>It's not for everyone though</h2>
-            <p class="lead">We built eConvenor to make the world a better place.</p> 
-            <p class="lead">You must not use eConvenor if your group:</p>
+            <p class="lead" >We built eConvenor to make the world a better place.</p> 
             <ul class="fa-ul">
               <li><i class="fa-li fa fa-times-circle fa-3x red"></i>
-                <p class="lead fa-align red">is conservative or oppressive</p></li>
-              <li><i class="fa-li fa fa-times-circle fa-3x red"></i>
-                <p class="lead fa-align red">operates for profit</p></li>
-              <li><i class="fa-li fa fa-times-circle fa-3x red"></i>
-                <p class="lead fa-align red">is a government agency</p></li>
-              <li><i class="fa-li fa fa-times-circle fa-3x red"></i>
-                <p class="lead fa-align red">is a major political party or</p></li>
-              <li><i class="fa-li fa fa-times-circle fa-3x red"></i>
-                <p class="lead fa-align red">aims to spread religion.</p></li>
+                <ul>
+                  <li><p class="lead red">You must not use eConvenor if your group:</p></li>
+                  <li><p><i class="fa fa-times fa-lg fa-align red"></i>&nbsp;&nbsp;is conservative or oppressive</p></li>
+                  <li><p><i class="fa fa-times fa-lg red"></i>&nbsp;&nbsp;operates for profit</p></li>
+                  <li><p><i class="fa fa-times fa-lg red"></i>&nbsp;&nbsp;is a government agency</p></li>
+                  <li><p><i class="fa fa-times fa-lg red"></i>&nbsp;&nbsp;is a major political party or</p></li>
+                  <li><p><i class="fa fa-times fa-lg red"></i>&nbsp;&nbsp;aims to spread religion.</p></li>                  
+                </ul>
+              </li><!-- /.fa.li -->
             </ul><!-- /.fa-ul -->
           </div><!-- /.col-xs-12 -->
           

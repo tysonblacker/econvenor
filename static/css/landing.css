@@ -99,8 +99,13 @@ body {
   min-width: 620px;
 }
 
+.navbar-brand img {
+  margin-left: 8px;
+}
+
 .navbar .btn {
   margin-top: 14px;
+  margin-right: 10px;
 }
 
 .navbar-text {
@@ -189,7 +194,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   #hero h1 {
     padding-top: 15px;
     font-size: 46px;
@@ -198,8 +203,6 @@ body {
     font-size: 28px;
   }
 }
-
-
 
 
 /* DIVIDERS
@@ -272,6 +275,11 @@ a:focus.email-link {
   text-decoration: none;
 }
 
+.section3-right {
+  padding-left: 70px;
+}
+
+
 /* FONTAWESOME ICON ALIGNMENT
 -------------------------------------------------- */
 
@@ -318,9 +326,13 @@ li p.lead {
 }
 
 #section3 .fa-align {
-  padding-left: 50px;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding-top: 15px;
+}
+
+@media (max-width: 767px) {
+  #section2-right .fa-ul {
+    padding-top: 0px;  
+  }
 }
 
 #section3 .fa-ul {
