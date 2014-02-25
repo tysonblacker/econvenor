@@ -1,5 +1,5 @@
 """
-WSGI config for econvener project.
+WSGI config for econvenor project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -12,7 +12,7 @@ import sys
 import site
 import socket
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "econvener.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "econvenor.settings")
 
 if socket.gethostname() == 'web439.webfaction.com':
 	site.addsitedir(
@@ -24,13 +24,13 @@ if socket.gethostname() == 'web439.webfaction.com':
 	execfile(activate_this, dict(__file__=activate_this))
 
 	# Calculate the path based on the location of the WSGI script
-	project = '/home/econvenor/webapps/econvener/'
+	project = '/home/econvenor/webapps/econvenor/'
 	workspace = os.path.dirname(project)
 	sys.path.append(workspace)
 
-	sys.path = ['/home/econvenor/webapps/econvener/econvener',
-		'/home/econvenor/webapps/econvener/any_otherPaths?',
-		'/home/econvenor/webapps/econvener'
+	sys.path = ['/home/econvenor/webapps/econvenor/econvenor',
+		'/home/econvenor/webapps/econvenor/any_otherPaths?',
+		'/home/econvenor/webapps/econvenor'
 	]+ sys.path
 
 	from django.core.handlers.wsgi import WSGIHandler
@@ -38,4 +38,3 @@ if socket.gethostname() == 'web439.webfaction.com':
 else:
 	from django.core.wsgi import get_wsgi_application
 	application = get_wsgi_application()
-

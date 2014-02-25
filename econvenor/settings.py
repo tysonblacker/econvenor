@@ -1,5 +1,5 @@
 """
-Django settings for econvener project.
+Django settings for econvenor project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -43,9 +43,21 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
-    'core.templatetags',
+    
+    'access',
+    'accounts',
+    'bugs',
+    'dashboard',
+    'decisions',
+    'docs',
+    'help',
     'landing',
+    'meetings',
+    'participants',
+    'tasks',
+    'templatetags',
+    'utilities',
+    
     'south',
 )
 
@@ -58,9 +70,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'econvener.urls'
+ROOT_URLCONF = 'econvenor.urls'
 
-WSGI_APPLICATION = 'econvener.wsgi.application'
+WSGI_APPLICATION = 'econvenor.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -104,7 +116,7 @@ STATICFILES_DIRS = (
 )
 
 if socket.gethostname() == 'web439.webfaction.com':
-	STATIC_ROOT = '/home/econvenor/webapps/static_econvener/'
+	STATIC_ROOT = '/home/econvenor/webapps/static_econvenor/'
 	
 # Email
 # https://docs.djangoproject.com/en/1.6/topics/email/
@@ -118,6 +130,3 @@ if socket.gethostname() == 'web439.webfaction.com':
 	SERVER_EMAIL = 'mail@econvenor.org'
 else:
 	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-
-
