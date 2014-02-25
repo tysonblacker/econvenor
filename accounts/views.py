@@ -3,9 +3,10 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
-from core.models import Account
-from core.forms import AccountForm
-    
+from accounts.models import Account
+from accounts.forms import AccountForm
+from utilities.commonutils import save_and_add_owner
+
       
 def account_settings(request):
 	if not request.user.is_authenticated():

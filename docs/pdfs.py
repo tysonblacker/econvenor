@@ -17,8 +17,10 @@ from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, \
 
 import reportlab.rl_config
 
-from core.models import Account, Meeting, Task
-from core.utils import get_formatted_meeting_duration, \
+from accounts.models import Account
+from meetings.models import Meeting
+from tasks.models import Task
+from docs.utils import get_formatted_meeting_duration, \
 	calculate_meeting_end_time, find_preceding_meeting_date
 
 

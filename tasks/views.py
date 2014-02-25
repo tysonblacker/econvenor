@@ -3,9 +3,9 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
-from core.models import Task
-from core.forms import TaskForm
-from core.utils import save_and_add_owner
+from tasks.models import Task
+from tasks.forms import TaskForm
+from utilities.commonutils import save_and_add_owner
 
 
 def task_list(request):

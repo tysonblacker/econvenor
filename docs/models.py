@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+
+from meetings.models import Meeting
+from participants.models import Participant
     	
     	
 class Item(models.Model):

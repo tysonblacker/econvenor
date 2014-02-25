@@ -1,6 +1,6 @@
 import socket
 
-from core.models import Account
+from accounts.models import Account
 
 
 def save_and_add_owner(request, form_object):

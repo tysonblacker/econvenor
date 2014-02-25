@@ -1,6 +1,6 @@
 from django import forms
 
-from core.models import Decision
+from decisions.models import Decision
         
 
 class DecisionForm(forms.ModelForm):

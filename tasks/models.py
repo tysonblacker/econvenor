@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from docs.models import Item
+from meetings.models import Meeting
+from participants.models import Participant
+
 
 class Task(models.Model):
 	owner = models.ForeignKey(User, null=True, blank=True)

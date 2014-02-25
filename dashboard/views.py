@@ -2,7 +2,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from core.models import Account, Meeting, Task
+from accounts.models import Account
+from meetings.models import Meeting
+from tasks.models import Task
 
 
 def dashboard(request):

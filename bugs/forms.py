@@ -1,6 +1,6 @@
 from django import forms
 
-from core.models import Bug, Feature
+from bugs.models import Bug, Feature
 
        
 class BugForm(forms.ModelForm):

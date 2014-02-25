@@ -3,9 +3,10 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
-from core.models import Participant
-from core.forms import ParticipantForm, TaskForm
-from core.utils import save_and_add_owner
+from participants.models import Participant
+from participants.forms import ParticipantForm
+from tasks.forms import TaskForm
+from utilities.commonutils import save_and_add_owner
 
 
 def participant_list(request):

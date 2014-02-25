@@ -1,4 +1,6 @@
-from core.models import Item, Meeting, Participant
+from docs.models import Item
+from meetings.models import Meeting
+from participants.models import Participant
 from datetime import datetime, timedelta
 from django.core.mail import EmailMessage
 

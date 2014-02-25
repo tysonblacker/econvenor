@@ -3,9 +3,9 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
-from core.models import Bug, Feature
-from core.forms import BugForm, FeatureForm
-from core.utils import save_and_add_owner
+from bugs.models import Bug, Feature
+from bugs.forms import BugForm, FeatureForm
+from utilities.commonutils import save_and_add_owner
 
 
 def bug_report(request):

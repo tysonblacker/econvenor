@@ -3,9 +3,9 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
-from core.models import Meeting
-from core.forms import MeetingForm
-from core.utils import save_and_add_owner
+from meetings.models import Meeting
+from meetings.forms import MeetingForm
+from utilities.commonutils import save_and_add_owner
 		
 	
 def agenda_add(request):
