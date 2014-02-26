@@ -1,20 +1,23 @@
+from django.core.urlresolvers import reverse
+from django.forms.models import inlineformset_factory
+from django.forms import DateInput, HiddenInput, Textarea
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.core.urlresolvers import reverse
-from django.forms.models import inlineformset_factory
-from django.forms import HiddenInput, Textarea, DateInput
 
 from accounts.models import Account
 from decisions.models import Decision
 from docs.models import Item
+from docs.pdfs import create_pdf_agenda
+from docs.utils import calculate_meeting_duration, \
+                       calculate_meeting_end_time, distribute_agenda, \
+                       find_preceding_meeting_date, \
+                       get_formatted_meeting_duration
+from meetings.forms import MeetingForm
 from meetings.models import Meeting
 from participants.models import Participant
 from tasks.models import Task
-from meetings.forms import MeetingForm
 from utilities.commonutils import save_and_add_owner
-from docs.utils import calculate_meeting_duration, find_preceding_meeting_date, calculate_meeting_end_time, get_formatted_meeting_duration, distribute_agenda
-from docs.pdfs import create_pdf_agenda
 
 
 def agenda_list(request):
