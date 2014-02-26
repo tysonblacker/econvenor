@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 
 from meetings.models import Meeting
 from meetings.forms import MeetingForm
+from meetings.utils import create_first_item
 from utilities.commonutils import save_and_add_owner
 		
 	
@@ -17,6 +18,7 @@ def agenda_add(request):
 		new_meeting = Meeting.objects.values().order_by('id').reverse()[:1]
  		new_meeting_dictionary = new_meeting[0]
  		meeting_id = str(new_meeting_dictionary['id'])
+ 		create_first_item(request, meeting_id)
  		return HttpResponseRedirect(reverse('agenda-edit', args=(meeting_id,)))
 	else:
 		meeting_form = MeetingForm()

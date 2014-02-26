@@ -16,7 +16,7 @@ class Item(models.Model):
 	item_no = models.IntegerField(blank=True)
 	minute_notes = models.TextField(blank=True)
 	show_tasks = models.BooleanField(default=False)
-	time_limit = models.IntegerField(blank=True)
+	time_limit = models.IntegerField(null=True, blank=True)
 
 	def __unicode__(self):
 		return ') '.join([str(self.item_no), self.heading])
