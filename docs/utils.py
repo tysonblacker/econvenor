@@ -1,3 +1,4 @@
+from docs.forms import AgendaForm, MinutesForm
 from docs.models import Item
 from meetings.models import Meeting
 from participants.models import Participant
@@ -5,11 +6,77 @@ from datetime import datetime, timedelta
 from django.core.mail import EmailMessage
 
 
+def delete_item(request, meeting_id):
+    button_value = request.POST['delete_button']
+    item_number = int(button_value[12:])
+    item = Item.objects.get(meeting=meeting_id, item_no=item_number)
+    item.delete()
+
+
+def move_item(request, meeting_id):
+    if 'up_button' in request.POST:
+        button_value = request.POST['up_button']
+        item_number = int(button_value[8:])
+        swap_item_number = item_number - 1
+        direction = 'up'
+    elif 'down_button' in request.POST:
+        button_value = request.POST['down_button']
+        item_number = int(button_value[10:])
+        swap_item_number = item_number + 1
+        direction = 'down'
+    item = Item.objects.get(meeting=meeting_id, item_no=item_number)
+    swap_item = Item.objects.get(meeting=meeting_id, item_no=swap_item_number)
+    item.item_no = swap_item_number
+    item.save()
+    swap_item.item_no = item_number
+    swap_item.save()
+   
+
+def add_item(request, meeting_number, items):
+    """
+    Requires *items* to be a list of items ordered from first to last
+    """
+    try:
+        last_item = items.reverse()[0]
+        last_item_no = last_item.item_no
+    except:
+        last_item_no = 0
+
+    new_item_no = last_item_no + 1 
+    new_item = Item(item_no=new_item_no,
+                meeting_id=int(meeting_number),
+                owner=request.user
+               )
+    new_item.save()
+
+
+def save_formset(request, meeting, items, doc_type):
+    updated_formset = []
+    count = 1
+    for item in items:
+        if doc_type == 'agenda':
+            updated_item = AgendaForm(request.POST, prefix=count, instance=item)
+        if doc_type == 'minutes':
+            updated_item = MinutesForm(request.POST, prefix=count, instance=item)
+        updated_formset.append(updated_item)
+        count += 1
+    for updated_item in updated_formset:
+        item = updated_item.save(commit=False)
+        item.owner = request.user
+        item.editable = True
+        item.meeting = meeting
+        item.minute_notes = 'Changed by agenda refresh'
+        item.show_tasks = False
+        item.save()
+
+
+
 def calculate_meeting_duration(meeting_id):
 	duration = 0
 	items = Item.objects.filter(meeting=meeting_id)
 	for item in items:
-		duration += item.time_limit
+	    if item.time_limit:
+		    duration += item.time_limit
 	return duration
 	
 	

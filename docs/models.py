@@ -6,17 +6,20 @@ from participants.models import Participant
 
 
 class Item(models.Model):
-	
-	explainer = models.ForeignKey(Participant, null=True, blank=True)
-	owner = models.ForeignKey(User, null=True, blank=True)
-	meeting = models.ForeignKey(Meeting)
 
-	background = models.TextField(blank=True)
-	heading = models.CharField(max_length=100)
-	item_no = models.IntegerField(blank=True)
-	minute_notes = models.TextField(blank=True)
-	show_tasks = models.BooleanField(default=False)
-	time_limit = models.IntegerField(null=True, blank=True)
+    explainer = models.ForeignKey(Participant, null=True, blank=True)
+    owner = models.ForeignKey(User, null=True, blank=True)
+    meeting = models.ForeignKey(Meeting)
 
-	def __unicode__(self):
-		return ') '.join([str(self.item_no), self.heading])
+    background = models.TextField(blank=True)
+    editable = models.BooleanField(default=False)
+    heading = models.CharField(max_length=100)
+    item_no = models.IntegerField(blank=True)
+    minute_notes = models.TextField(blank=True)
+    show_tasks = models.BooleanField(default=False)
+    time_limit = models.IntegerField(null=True, blank=True)
+
+
+    def __unicode__(self):
+        
+        return ') '.join([str(self.item_no), self.heading])
