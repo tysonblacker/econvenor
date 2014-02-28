@@ -12,11 +12,9 @@ class Item(models.Model):
     meeting = models.ForeignKey(Meeting)
 
     background = models.TextField(blank=True)
-    editable = models.BooleanField(default=False)
     heading = models.CharField(max_length=100)
     item_no = models.IntegerField(blank=True)
     minute_notes = models.TextField(blank=True)
-    show_tasks = models.BooleanField(default=False)
     time_limit = models.IntegerField(null=True, blank=True)
 
 

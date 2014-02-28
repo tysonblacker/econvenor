@@ -11,7 +11,7 @@ class AgendaForm(forms.ModelForm):
 		   	'background': forms.Textarea(attrs={'rows': 3}),
 			'item_no': forms.HiddenInput(),
         }
-        exclude = ('editable', 'meeting', 'minute_notes', 'owner', 'show_tasks', )
+        exclude = ('meeting', 'minute_notes', 'owner', )
         
 
 class MinutesForm(forms.ModelForm):
