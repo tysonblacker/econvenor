@@ -110,6 +110,21 @@
                 });
             });
 		</script>
+		
+		<script type="text/javascript">
+            function saveform() {
+                $('form.autosave').each(function() {
+                    $.ajax({
+                        data: 'save_items_button=save_items\&'+jQuery(this).serialize(),
+                        type: "POST",
+                        success: function(data){
+                            if(data && data == 'success') {alert('Success');}else{alert('Autosave may have failed');}
+                        }
+                    });
+                });
+            }
+            setInterval(saveform, 600 * 1000);
+        </script>
 
 	</body>
 </html>
