@@ -49,11 +49,14 @@ def agenda_edit(request, meeting_id):
     new_data_form = {}
     existing_data_forms = []
     existing_data_formset = {}
-    editable_section = 'none'
+    focus = ''
     preceding_meeting_date = find_preceding_meeting_date(request.user, meeting_id)
     
     items = meeting.item_set.filter(owner=request.user).order_by('item_no')
-        
+    
+    AgendaForm.base_fields['explainer'].queryset = Participant.objects.filter(owner=request.user)
+
+    
     incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
     completed_task_list = []
     if preceding_meeting_date != None:
@@ -65,16 +68,15 @@ def agenda_edit(request, meeting_id):
         if 'edit_meeting_details_button' in request.POST:
             if request.POST['edit_meeting_details_button']=='edit_meeting_details':
                 existing_data_forms = MeetingForm(instance=meeting, label_suffix='')
-                editable_section = 'is_meeting_details'
+                focus = 'meeting'
         if 'save_meeting_details_button' in request.POST:
             if request.POST['save_meeting_details_button']=='save_meeting_details':
                 new_data_form = MeetingForm(request.POST, instance=meeting, label_suffix='')
                 if new_data_form.is_valid():
                     new_data_form.save()
-                    editable_section = 'none'
         if 'cancel_meeting_details_button' in request.POST:
             if request.POST['cancel_meeting_details_button']=='cancel_meeting_details':
-                editable_section = 'none'
+                pass
         if 'delete_meeting_button' in request.POST:
             if request.POST['delete_meeting_button']=='delete_meeting':
                 meeting.delete()
@@ -122,7 +124,7 @@ def agenda_edit(request, meeting_id):
                 'task_list_headings': task_list_headings,
                 'completed_task_list': completed_task_list,
                 'incomplete_task_list': incomplete_task_list,
-                'editable_section': editable_section,
+                'focus': focus,
                 'items': items,
                 'item_count': item_count,
                 'existing_data_forms': existing_data_forms,
