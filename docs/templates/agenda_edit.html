@@ -4,11 +4,9 @@
 {% block content %}
 
 
-<div class="container-fluid">
   <div class="row">
-
  
-    <div class="col-md-2 sidebar">
+    <div class="col-sm-3 sidebar">
       <ul class="nav nav-sidebar">
         <li><a href="#meeting_details">Meeting details</a></li>
       </ul>
@@ -22,11 +20,11 @@
                 {% csrf_token %}
                 {% ifnotequal item.item_no 1 %}
                   <button type="submit" class="btn btn-default btn-xs" name="up_button" value="move_up_{{ item.item_no}}">
-                    <span class="glyphicon glyphicon-circle-arrow-up"></button>
+                    <span class="glyphicon glyphicon-chevron-up"></button>
                 {% endifnotequal %}
                 {% ifnotequal item.item_no item_count %}
                   <button type="submit" class="btn btn-default btn-xs" name="down_button" value="move_down_{{ item.item_no}}">
-                  <span class="glyphicon glyphicon-circle-arrow-down"></button>
+                  <span class="glyphicon glyphicon-chevron-down"></button>
                 {% endifnotequal %}
                 <button type="submit" class="btn btn-default btn-xs" name="delete_button" value="delete_item_{{ item.item_no}}">
                   <span class="glyphicon glyphicon-remove"></button>
@@ -36,21 +34,32 @@
           </li>
         {% endfor %}
       </ul>
+      <ul class="nav nav-sidebar">
+        <li><a href="#tasks">Appendix 1 - Tasks</a></li>
+      </ul>
+      <ul class="nav nav-sidebar">
+        <li><button type="button" class="btn btn-primary" onClick="saveform()" name="add_item_button" data-toggle="button">Save all</button></li>
+      </ul>
       <form action="" method="POST">
         {% csrf_token %}
-        <ul class="nav nav-sidebar">
-          <li><button type="submit" class="btn btn-default" name="add_item_button" value="add_item" data-toggle="button">Add item</button></li>
+        <ul class="nav nav-sidebar"> 
+          <li><button type="submit" class="btn btn-primary" name="add_item_button" value="add_item" data-toggle="button">Add item</button></li>
+          <li><a href={% url 'minutes-edit' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Create minutes from this agenda</button></a></li>
+          <li><a href={% url 'agenda-print' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Create a PDF of this agenda</button></a></li>
+          <li><a href={% url 'agenda-distribute' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Distribute this agenda</button></a></li>
         </ul>
       </form>
-    </div><!-- /.col-md-2 -->
+    </div><!-- /.col-sm-3 -->
 
 
-    <div class="col-md-8 col-md-offset-1 main" id="meeting_details">
+    <div class="col-sm-7 col-sm-offset-4 main">
       
       <h1>{{ page_heading }}</h1>
       
+
+      <div class="well" id="meeting_details">
       <h1><small>Meeting details</small></h1>
-      <div class="well">
+      {% ifequal focus 'meeting' %}
       <form action="" method="POST">
         {% csrf_token %}
         {% for hidden in existing_data_forms.hidden_fields %}
@@ -74,10 +83,55 @@
         <button type="submit" class="btn btn-default" name="cancel_meeting_details_button" value="cancel_meeting_details" data-toggle="button">Discard changes</button>
         <button type="submit" class="btn btn-danger" name="delete_meeting_button" value="delete_meeting" data-toggle="button">Delete meeting</button>
       </form>
+      {% else %}
+      
+      <div class="panel panel-primary">
+			
+		<table class="table">
+			<thead>
+				<tr>
+					<th>{{ meeting.description }} of {{ account.group_name }}</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody> 
+				<tr>
+					<td><strong>Date</strong></td>
+					<td>{{ meeting.date }}</td>
+				</tr>
+				<tr>
+					<td><strong>Start time</strong></td>
+					<td>{{ meeting.start_time }}</td>
+				</tr>
+				<tr>
+					<td><strong>End time</strong></td>
+					<td>{{ meeting_end_time }}</td>
+				</tr>
+				<tr>
+					<td><strong>Scheduled duration</strong></td>
+					<td>{{ meeting_duration }}</td>
+				</tr>
+				<tr>
+					<td><strong>Location</strong></td>
+					<td>{{ meeting.location|linebreaks }}</td>
+				</tr>
+				<tr>
+					<td><strong>Notes</strong></td>
+					<td>{{ meeting.notes|linebreaks }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+   	<form action="" method="POST">
+   		{% csrf_token %}
+		<button type="submit" class="btn btn-default" name="edit_meeting_details_button" value="edit_meeting_details" data-toggle="button">Edit meeting details</button>
+	</form>
+      
+      {% endifequal %}
       </div>
 
 
-      <form action="" method="POST">
+      <form class="autosave" action="" method="POST">
         {% csrf_token %}
         {% for item in item_formlist %}
           <div class="panel panel-primary">
@@ -96,66 +150,10 @@
           {% endfor %}
           </div>
         {% endfor %}
-        <button type="submit" class="btn btn-primary" name="save_items_button" value="save_items" data-toggle="button">Save items</button>
       </form>
       
-      
-      <div class="well">
-        {% ifequal editable_section 'none' %}
-          <a href={% url 'minutes-edit' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Create minutes from this agenda</button></a>
-          <a href={% url 'agenda-print' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Create a PDF of this agenda</button></a>
-          <a href={% url 'agenda-distribute' meeting_id %}><button type="button" class="btn btn-primary" data-toggle="button">Distribute this agenda</button></a>
-        {% endifequal %}
-      </div>
-      
-      <div class="spacer">
-      </div>      
-
-	
-	
-    </div><!-- /.col-md-8 -->
-  </div><!-- ./row>
-</div><!-- ./container -->
-
-
-{% endblock %}
-
-{% comment %}
-
-		<div class="well">
-			{% for item in items %}
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<strong>{{ item.heading }}</strong>
-						<p class="pull-right">{{ item.time_limit}} minutes</p>
-					</div>
-					{% ifnotequal item.background '' %}
-						<div class="panel-body">
-							{{ item.background|linebreaks }}
-						</div>
-					{% endifnotequal %}
-				</div>
-			{% endfor %}
-			{% ifequal editable_section 'none' %}
-				<form action="" method="POST">
-					{% csrf_token %}
-					<button type="submit" class="btn btn-default" name="edit_items_button" value="edit_items" data-toggle="button">Edit items</button>
-					<button type="submit" class="btn btn-default" name="add_item_button" value="add_item" data-toggle="button">Add an item</button>
-				</form>
-			{% endifequal %}
-		</div>
-		
-	{% endifequal %}
-
-
-</div>
-      </div>
-    </div>
-
-{# TASKS REVIEW #}
-<h1><small>Task review</small></h1>
-<div class="well">
-	{# List of incomplete tasks #}
+     <div class="well" id="tasks">
+	<h1><small>Appendix 1 - Tasks</small></h1>
 	<h2><small>Tasks outstanding</small></h2>
 	<div class="panel panel-primary">
 		<table class="table">
@@ -208,11 +206,16 @@
 			</tbody>
 		</table>
 	</div>
-	{% ifequal editable_section 'none' %}
-		<a href={% url 'task-list' %}><button type="button" class="btn btn-default" data-toggle="button">Edit tasks</button></a>
-	{% endifequal %}
-</div>
+	</div>
+	
+    <div class="spacer">
+    </div>      
 
-{% endcomment %}
+		
+    </div><!-- /.col-sm-7 -->
+  </div><!-- ./row>
+
+
+{% endblock %}
 
 
