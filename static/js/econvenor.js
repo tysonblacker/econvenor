@@ -50,8 +50,22 @@ function saveform() {
 }
 
 
+/* Update sidebar labels
+-------------------------------------------------- */
+
+$(function() {
+  $('.item-heading').on('keyup change', (function(event){
+    var changed_text = $(this).val();
+    var item = $(this).attr('name');
+    var item_no = item.split('-', 1);
+    var target_id = '#sidebar_heading_' + item_no;
+    var replacement_text = item_no + '. ' + changed_text
+    $(target_id).text(replacement_text);
+  }));
+});
+
+
 /* Run scripts periodically
 -------------------------------------------------- */
 
 setInterval(saveform, 600 * 1000);
-

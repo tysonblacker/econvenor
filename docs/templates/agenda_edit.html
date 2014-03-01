@@ -7,6 +7,7 @@
   <div class="row">
  
     <div class="col-sm-3 sidebar">
+      <h2>Agenda navigation</h2>
       <ul class="nav nav-sidebar">
         <li><a href="#meeting_details">Meeting details</a></li>
       </ul>
@@ -14,7 +15,7 @@
         {% for item in items %}
           <li>
           <div>
-            <a href="#id_{{ item.item_no}}-heading">{{ item.item_no}}. {{ item.heading }}</a>
+            <a href="#id_{{ item.item_no}}-heading" class="sidebar-heading" id="sidebar_heading_{{ item.item_no}}">{{ item.item_no}}. {{ item.heading }}</a>
             <div class="pull-right">
               <form action="" method="POST">
                 {% csrf_token %}
@@ -136,7 +137,7 @@
         {% for item in item_formlist %}
           <div class="panel panel-primary">
             <div class="panel-heading">
-              {{ item.heading|setclass:"form-control" }}
+              {{ item.heading|setclass:"form-control item-heading" }}
             </div>
           <div class="panel-body">
             {{ item.time_limit.label_tag }}{{ item.time_limit|setclass:"form-control" }}		
