@@ -9,7 +9,7 @@
 -------------------------------------------------- */
 
 var bootstrapButton = $.fn.button.noConflict()
-  $.fn.bootstrapBtn = bootstrapButton 
+$.fn.bootstrapBtn = bootstrapButton
 
 
 /* Enable DatePicker
@@ -23,49 +23,67 @@ $(function() {
 /* Automatic vertical scrolling
 -------------------------------------------------- */
 
-$(function() {
-  $('ul li a').bind('click',function(event){
-    var $anchor = $(this);
-    $('html, body').stop().animate({
-      scrollTop: $($anchor.attr('href')).offset().top-80
-    }, 1000);
-    event.preventDefault();
-  });
+$(document).on("click", "ul li a", function(event){ 
+  var $anchor = $(this);
+  $("html").stop().animate({
+    scrollTop: $($anchor.attr('href')).offset().top-80
+  }, 1000);
+  event.preventDefault();
 });
 
 
 /* Save a form
 -------------------------------------------------- */
 
-function saveform() {
-  $('form.autosave').each(function() {
+function updatePage( resp ) {
+  $("#ajax").html( resp );
+};
+
+function printError( req, status, err ) {
+  console.log( 'Something went wrong: ', status, err );
+};
+
+function saveform( button_data ) {
+  $('form.savebyjs').each(function() {
     $.ajax({
-      data: 'save_items_button=save_items\&'+jQuery(this).serialize(),
+      data: button_data + '\&' + jQuery(this).serialize(),
       type: "POST",
-      success: function(data){
-        if(data && data == 'success') {alert('Success');}else{alert('Autosave may have failed');}
-      }
+      dataType: "html",
+      success: updatePage,
+      error: printError
     });
   });
-}
+};
+
+
+/* Agenda button handling
+-------------------------------------------------- */
+
+$(document).on("click", ".jsbutton", function(){ 
+    console.log( 'button press registered!' );
+    var button_id = $(this).attr('id');
+     console.log( 'button id: ' + button_id );
+    var button_data = 'agenda_button=' + button_id;
+    saveform(button_data);
+});
 
 
 /* Update sidebar labels
 -------------------------------------------------- */
 
-$(function() {
-  $('.item-heading').on('keyup change', (function(event){
-    var changed_text = $(this).val();
-    var item = $(this).attr('name');
-    var item_no = item.split('-', 1);
-    var target_id = '#sidebar_heading_' + item_no;
-    var replacement_text = item_no + '. ' + changed_text
-    $(target_id).text(replacement_text);
-  }));
+$(document).on("keyup change", ".item-heading", function(){ 
+  var changed_text = $(this).val();
+  var item = $(this).attr('name');
+  var item_no = item.split('-', 1);
+  var target_id = '#sidebar_heading_' + item_no;
+  var replacement_text = item_no + '. ' + changed_text
+  $(target_id).text(replacement_text);
 });
 
 
 /* Run scripts periodically
 -------------------------------------------------- */
 
-setInterval(saveform, 600 * 1000);
+setInterval(function () {
+                saveform('agenda_button=save_button');
+            }, 120 * 1000);

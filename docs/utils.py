@@ -7,23 +7,20 @@ from django.core.mail import EmailMessage
 
 
 def delete_item(request, meeting_id):
-    button_value = request.POST['delete_button']
-    item_number = int(button_value[12:])
+    button_value = request.POST['agenda_button']
+    item_number = int(button_value[14:])
     item = Item.objects.get(meeting=meeting_id, item_no=item_number)
     item.delete()
 
 
-def move_item(request, meeting_id):
-    if 'up_button' in request.POST:
-        button_value = request.POST['up_button']
-        item_number = int(button_value[8:])
-        swap_item_number = item_number - 1
-        direction = 'up'
-    elif 'down_button' in request.POST:
-        button_value = request.POST['down_button']
+def move_item(request, meeting_id, direction):
+    button_value = request.POST['agenda_button']
+    if direction == 'up':
         item_number = int(button_value[10:])
+        swap_item_number = item_number - 1
+    if direction == 'down':
+        item_number = int(button_value[12:])
         swap_item_number = item_number + 1
-        direction = 'down'
     item = Item.objects.get(meeting=meeting_id, item_no=item_number)
     swap_item = Item.objects.get(meeting=meeting_id, item_no=swap_item_number)
     item.item_no = swap_item_number

@@ -45,7 +45,7 @@ def agenda_edit(request, meeting_id):
 
     page_heading = 'Create agenda'
     task_list_headings = ('Description', 'Assigned to', 'Deadline')
-
+    html_template = 'agenda_edit.html'
     new_data_form = {}
     existing_data_forms = []
     existing_data_formset = {}
@@ -83,22 +83,24 @@ def agenda_edit(request, meeting_id):
                 return HttpResponseRedirect(reverse('agenda-list'))
 
     # Management of agenda items 
-    if request.method == "POST":
+    if request.method == "POST" and 'agenda_button' in request.POST:
 
-        if 'save_items_button' in request.POST:
-            if request.POST['save_items_button']=='save_items':
-                save_formset(request, meeting, items, 'agenda')
-                
-        if 'add_item_button' in request.POST:
-            if request.POST['add_item_button']=='add_item':
-                add_item(request, meeting_id, items)
+        html_template = 'agenda_edit_ajax.html'
         
-        if 'delete_button' in request.POST:
+        save_formset(request, meeting, items, 'agenda')
+                
+        if request.POST['agenda_button'][0:8]=='add_item':
+            add_item(request, meeting_id, items)
+        
+        if request.POST['agenda_button'][0:13] =='delete_button':
             delete_item(request, meeting_id)
         
-        if 'down_button' in request.POST or 'up_button' in request.POST:
-            move_item(request, meeting_id)
-                          
+        if request.POST['agenda_button'][0:9] =='up_button':
+            move_item(request, meeting_id, 'up')
+        
+        if request.POST['agenda_button'][0:11] =='down_button':
+            move_item(request, meeting_id, 'down')
+                              
         items = meeting.item_set.filter(owner=request.user).order_by('item_no')
 
     existing_data_forms = MeetingForm(instance=meeting, label_suffix='')
@@ -114,7 +116,7 @@ def agenda_edit(request, meeting_id):
     meeting_end_time = calculate_meeting_end_time(meeting_id)
         
     return render_to_response(
-            'agenda_edit.html', {
+            html_template, {
                 'user': request.user,
                 'meeting_id': meeting_id,
                 'meeting': meeting,
