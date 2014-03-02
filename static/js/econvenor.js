@@ -8,8 +8,29 @@
 /* Resolve button conflict issue
 -------------------------------------------------- */
 
-var bootstrapButton = $.fn.button.noConflict()
-$.fn.bootstrapBtn = bootstrapButton
+var bootstrapButton = $.fn.button.noConflict();
+$.fn.bootstrapBtn = bootstrapButton;
+
+
+/* Get CSRF token
+-------------------------------------------------- */
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
 
 
 /* Enable DatePicker
@@ -23,7 +44,7 @@ $(function() {
 /* Automatic vertical scrolling
 -------------------------------------------------- */
 
-$(document).on("click", "ul li a", function(event){ 
+$("html").on("click", "ul li a", function(event){ 
   var $anchor = $(this);
   $("html").stop().animate({
     scrollTop: $($anchor.attr('href')).offset().top-80
@@ -36,11 +57,12 @@ $(document).on("click", "ul li a", function(event){
 -------------------------------------------------- */
 
 function updatePage( resp ) {
-  $("#ajax").html( resp );
+  $("#ajax-sidebar").html( resp['ajax_sidebar'] );
+  $("#ajax-items").html( resp['ajax_items'] );
 };
 
 function printError( req, status, err ) {
-  console.log( 'Something went wrong: ', status, err );
+  console.log( 'Save error: ', status, err );
 };
 
 function saveform( button_data ) {
@@ -48,9 +70,12 @@ function saveform( button_data ) {
     $.ajax({
       data: button_data + '\&' + jQuery(this).serialize(),
       type: "POST",
-      dataType: "html",
+      dataType: "json",
       success: updatePage,
-      error: printError
+      error: printError,
+      complete: function() {
+        console.log('saveform complete');
+      },
     });
   });
 };
@@ -81,9 +106,46 @@ $(document).on("keyup change", ".item-heading", function(){
 });
 
 
-/* Run scripts periodically
+/* Autosave
 -------------------------------------------------- */
 
-setInterval(function () {
-                saveform('agenda_button=save_button');
-            }, 120 * 1000);
+function autosave( button_data ) {
+  $('form.savebyjs').each(function() {
+    $.ajax({
+      data: button_data + '\&' + jQuery(this).serialize(),
+      type: "POST",
+      dataType: "json",
+      success: {},
+      error: printError,
+      complete: function() {
+        console.log('autosave complete');
+      },
+    });
+  });
+};
+
+
+$(function() {
+  var interval = setInterval("autosave('agenda_button=save_button')",
+    30 * 1000);
+  console.log('Autosave has been initialised');
+});
+
+
+/* Load AJAX page elements on page refresh
+-------------------------------------------------- */
+
+$(function() {
+  $.ajax({
+    data: 'agenda_button=page_refresh\&csrfmiddlewaretoken=' + csrftoken,
+    type: "POST",
+    dataType: "json",
+    success: updatePage,
+    error: printError,
+    complete: function() {
+      console.log('initial data complete');
+    },
+  });
+});
+
+

@@ -1,3 +1,5 @@
+import json
+
 from django.core.urlresolvers import reverse
 from django.forms.models import inlineformset_factory
 from django.forms import DateInput, HiddenInput, Textarea
@@ -33,7 +35,7 @@ def agenda_list(request):
     page_heading = 'Agendas'
     table_headings = ('Date', 'Description', 'Location',)
     return render_to_response('agenda_list.html', {'user': request.user, 'agendas': agendas, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
-
+    
 
 def agenda_edit(request, meeting_id):
 
@@ -45,7 +47,7 @@ def agenda_edit(request, meeting_id):
 
     page_heading = 'Create agenda'
     task_list_headings = ('Description', 'Assigned to', 'Deadline')
-    html_template = 'agenda_edit.html'
+    request_type = 'refresh'
     new_data_form = {}
     existing_data_forms = []
     existing_data_formset = {}
@@ -85,11 +87,12 @@ def agenda_edit(request, meeting_id):
     # Management of agenda items 
     if request.method == "POST" and 'agenda_button' in request.POST:
 
-        html_template = 'agenda_edit_ajax.html'
+        request_type = 'ajax'
         
-        save_formset(request, meeting, items, 'agenda')
+        if request.POST['agenda_button'] != 'page_refresh':              
+            save_formset(request, meeting, items, 'agenda')
                 
-        if request.POST['agenda_button'][0:8]=='add_item':
+        if request.POST['agenda_button'][0:10]=='add_button':
             add_item(request, meeting_id, items)
         
         if request.POST['agenda_button'][0:13] =='delete_button':
@@ -114,9 +117,19 @@ def agenda_edit(request, meeting_id):
     
     meeting_duration = get_formatted_meeting_duration(meeting_id)
     meeting_end_time = calculate_meeting_end_time(meeting_id)
-        
-    return render_to_response(
-            html_template, {
+    
+    if request_type == 'refresh':
+        templates = ['agenda_edit.html']
+    elif request_type == 'ajax':
+        templates = ['agenda_edit_ajax_sidebar.html',
+                     'agenda_edit_ajax_items.html']
+    
+    count = 0
+    responses = []
+    
+    for template in templates:
+        response = render_to_response(
+            template, {
                 'user': request.user,
                 'meeting_id': meeting_id,
                 'meeting': meeting,
@@ -132,13 +145,24 @@ def agenda_edit(request, meeting_id):
                 'existing_data_forms': existing_data_forms,
                 'item_formlist': item_formlist,
                 'new_data_form': new_data_form,
-                'account': account
+                'account': account,
+                'request_type': request_type,
                 },
             RequestContext(request)
         )
-
-
-
+        responses.append(response)
+        
+    if request_type == 'refresh':
+        page_object = responses[0]
+        return page_object
+    elif request_type == 'ajax':
+        ajax_response = {}
+        ajax_sidebar_content = responses[0].content
+        ajax_items_content = responses[1].content
+        ajax_response['ajax_sidebar'] = ajax_sidebar_content
+        ajax_response['ajax_items'] = ajax_items_content
+        return HttpResponse(json.dumps(ajax_response), content_type="application/json")
+      
 
 def agenda_distribute(request, meeting_id):
     if not request.user.is_authenticated():

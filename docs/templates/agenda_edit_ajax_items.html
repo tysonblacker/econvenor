@@ -1,0 +1,23 @@
+{% load setclass %}
+
+<form class="savebyjs" action="" method="POST">
+        {% csrf_token %}
+        {% for item in item_formlist %}
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              {{ item.item_no }}
+              {{ item.heading|setclass:"form-control item-heading" }}
+            </div>
+          <div class="panel-body">
+            {{ item.time_limit.label_tag }}{{ item.time_limit|setclass:"form-control" }}		
+            {{ item.explainer.label_tag }}{{ item.explainer|setclass:"form-control" }}
+            {{ item.background.label_tag }}{{ item.background|setclass:"form-control" }}    
+          </div>
+          {% for hidden in item.hidden_fields %}
+            <div class="form-group">
+              {{ hidden }}
+            </div>
+          {% endfor %}
+          </div>
+        {% endfor %}
+      </form>

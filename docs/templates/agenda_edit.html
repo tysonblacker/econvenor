@@ -3,43 +3,26 @@
 
 {% block content %}
 
-<div id="ajax">
 
 <div class="row">
+
   <div class="col-sm-3 sidebar">
     <h2>Agenda navigation</h2>
     <ul class="nav nav-sidebar">
       <li><a href="#meeting_details">Meeting details</a></li>
     </ul>
-    <ul class="nav nav-sidebar">
-      {% for item in items %}
-        <li>
-          <div>
-            <a href="#id_{{ item.item_no}}-heading" class="sidebar-heading" id="sidebar_heading_{{ item.item_no}}">{{ item.item_no}}. {{ item.heading }}</a>
-            <div class="pull-right">
-              {% ifnotequal item.item_no 1 %}
-                <button type="button" class="btn btn-default btn-xs jsbutton" id="up_button_{{ item.item_no}}">
-                  <span class="glyphicon glyphicon-chevron-up"></span></button>
-              {% endifnotequal %}
-              {% ifnotequal item.item_no item_count %}
-                <button type="button" class="btn btn-default btn-xs jsbutton" id="down_button_{{ item.item_no}}">
-                  <span class="glyphicon glyphicon-chevron-down"></span></button>
-              {% endifnotequal %}
-              <button type="button" class="btn btn-default btn-xs jsbutton" id="delete_button_{{ item.item_no}}">
-                <span class="glyphicon glyphicon-remove"></span></button>
-            </div><!-- ./pull-right -->
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
+    
+    <div id="ajax-sidebar">
+    </div>
+           
     <ul class="nav nav-sidebar">
       <li><a href="#tasks">Appendix 1 - Tasks</a></li>
     </ul>
     <ul class="nav nav-sidebar">
       <li><button type="button" class="btn btn-primary jsbutton" id="save_button">Save all</button></li>
+      <li><button type="button" class="btn btn-primary jsbutton" id="add_button">Add item</button></li>
     </ul>
     <ul class="nav nav-sidebar"> 
-        <li><button type="button" class="btn btn-primary saveonpress" name="add_item_button" value="add_item" data-toggle="button">Add item</button></li>
         <li><a href={% url 'minutes-edit' meeting_id %}><button type="button" class="btn btn-primary saveonpress" data-toggle="button">Create minutes from this agenda</button></a></li>
         <li><a href={% url 'agenda-print' meeting_id %}><button type="button" class="btn btn-primary saveonpress" data-toggle="button">Create a PDF of this agenda</button></a></li>
         <li><a href={% url 'agenda-distribute' meeting_id %}><button type="button" class="btn btn-primary saveonpress" data-toggle="button">Distribute this agenda</button></a></li>
@@ -47,7 +30,12 @@
   </div><!-- /.col-sm-3 -->
 
   <div class="col-sm-7 col-sm-offset-4 main">
+
+    <div class="top-spacer">
+    </div>
+    
     <h1>{{ page_heading }}</h1>
+
     <div class="well" id="meeting_details">
       <h1><small>Meeting details</small></h1>
       {% ifequal focus 'meeting' %}
@@ -119,27 +107,10 @@
       {% endifequal %}
       </div><!-- ./well -->
 
+    <div id="ajax-items">
+    </div>
+      
 
-      <form class="savebyjs" action="" method="POST">
-        {% csrf_token %}
-        {% for item in item_formlist %}
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              {{ item.heading|setclass:"form-control item-heading" }}
-            </div>
-          <div class="panel-body">
-            {{ item.time_limit.label_tag }}{{ item.time_limit|setclass:"form-control" }}		
-            {{ item.explainer.label_tag }}{{ item.explainer|setclass:"form-control" }}
-            {{ item.background.label_tag }}{{ item.background|setclass:"form-control" }}    
-          </div>
-          {% for hidden in item.hidden_fields %}
-            <div class="form-group">
-              {{ hidden }}
-            </div>
-          {% endfor %}
-          </div>
-        {% endfor %}
-      </form>
 
 
 <div class="well" id="tasks">
@@ -198,14 +169,16 @@
 	</div>
 </div>
 	
-<div class="spacer">
-</div>      
+    <div class="bottom-spacer">
+    </div>  
 
 		
     </div><!-- /.col-sm-7 -->
   </div><!-- ./row>
 
-</div><!-- ./#ajax -->
+
+
+
 
 {% endblock %}
 

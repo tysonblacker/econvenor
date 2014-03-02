@@ -1,0 +1,23 @@
+{% load setclass %}
+
+<ul class="nav nav-sidebar">
+      {% for item in items %}
+        <li>
+          <div>
+            <a href="#id_{{ item.item_no}}-heading" class="sidebar-heading" id="sidebar_heading_{{ item.item_no}}">{{ item.item_no}}. {{ item.heading }}</a>
+            <div class="pull-right">
+              {% ifnotequal item.item_no 1 %}
+                <button type="button" class="btn btn-default btn-xs jsbutton" id="up_button_{{ item.item_no}}">
+                  <span class="glyphicon glyphicon-chevron-up"></span></button>
+              {% endifnotequal %}
+              {% ifnotequal item.item_no item_count %}
+                <button type="button" class="btn btn-default btn-xs jsbutton" id="down_button_{{ item.item_no}}">
+                  <span class="glyphicon glyphicon-chevron-down"></span></button>
+              {% endifnotequal %}
+              <button type="button" class="btn btn-default btn-xs jsbutton" id="delete_button_{{ item.item_no}}">
+                <span class="glyphicon glyphicon-remove"></span></button>
+            </div><!-- ./pull-right -->
+          </div>
+        </li>
+      {% endfor %}
+</ul>

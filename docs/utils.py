@@ -11,6 +11,12 @@ def delete_item(request, meeting_id):
     item_number = int(button_value[14:])
     item = Item.objects.get(meeting=meeting_id, item_no=item_number)
     item.delete()
+    items = Item.objects.filter(meeting=meeting_id)
+    for item in items:
+        if item.item_no > item_number:
+            new_item_number = item.item_no - 1
+            item.item_no = new_item_number
+            item.save()
 
 
 def move_item(request, meeting_id, direction):
@@ -42,7 +48,8 @@ def add_item(request, meeting_number, items):
     new_item_no = last_item_no + 1 
     new_item = Item(item_no=new_item_no,
                 meeting_id=int(meeting_number),
-                owner=request.user
+                owner=request.user,
+                heading='New item'
                )
     new_item.save()
 

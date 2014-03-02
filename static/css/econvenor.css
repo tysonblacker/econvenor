@@ -416,9 +416,13 @@ thead {
 
 
 /*
- * Page end spacer
+ * Spacers
  */
- 
-.spacer {
-  padding-top: 500px;
+
+.top-spacer {
+  height: 150px;
+}
+
+.bottom-spacer {
+  height: 500px;
 }
