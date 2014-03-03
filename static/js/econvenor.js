@@ -70,7 +70,6 @@ function updatePage( resp ) {
   $('.tltip').tooltip({placement: 'bottom', delay: { show: 500, hide: 100 }});
   $( ".spinner" ).spinner();
   $( ".sortable" ).sortable();
-  $( ".sortable" ).disableSelection();
   
 };
 
@@ -101,7 +100,7 @@ $(document).on("click", ".jsbutton", function(){
     console.log( 'button press registered!' );
     var button_id = $(this).attr('id');
      console.log( 'button id: ' + button_id );
-    var button_data = 'agenda_button=' + button_id;
+    var button_data = 'ajax_button=' + button_id;
     saveform(button_data);
 });
 
@@ -139,7 +138,7 @@ function autosave( button_data ) {
 
 
 $(function() {
-  var interval = setInterval("autosave('agenda_button=save_button')",
+  var interval = setInterval("autosave('ajax_button=save_button')",
     3600 * 1000);
   console.log('Autosave has been initialised');
 });
@@ -150,7 +149,7 @@ $(function() {
 
 $(function() {
   $.ajax({
-    data: 'agenda_button=page_refresh\&csrfmiddlewaretoken=' + csrftoken,
+    data: 'ajax_button=page_refresh\&csrfmiddlewaretoken=' + csrftoken,
     type: "POST",
     dataType: "json",
     success: updatePage,
@@ -168,7 +167,21 @@ $(function() {
 $(function() {
   $( ".spinner" ).spinner();
   $( ".sortable" ).sortable();
-  $( ".sortable" ).disableSelection();
 });
+
+
+/* Move agenda or minutes item
+-------------------------------------------------- */
+
+$(document).on( "sortupdate", function( event, ui ) {
+  var sidebar_data = $( ".sortable" ).sortable( "serialize", { key: "sidebar" } );
+  sidebar_data = sidebar_data.replace(/&s/g, 's');  
+  sidebar_data = sidebar_data.replace(/sidebar=/g, ',');
+  sidebar_data = sidebar_data.slice(1);
+  var sidebar_string = 'ajax_button=move_item\&new_sidebar_order=' + sidebar_data;
+  console.log(sidebar_string);
+  saveform(sidebar_string);
+});
+
 
 

@@ -1,3 +1,5 @@
+import string
+
 from docs.forms import AgendaForm, MinutesForm
 from docs.models import Item
 from meetings.models import Meeting
@@ -19,20 +21,53 @@ def delete_item(request, meeting_id):
             item.save()
 
 
-def move_item(request, meeting_id, direction):
-    button_value = request.POST['agenda_button']
-    if direction == 'up':
-        item_number = int(button_value[10:])
-        swap_item_number = item_number - 1
-    if direction == 'down':
-        item_number = int(button_value[12:])
-        swap_item_number = item_number + 1
-    item = Item.objects.get(meeting=meeting_id, item_no=item_number)
-    swap_item = Item.objects.get(meeting=meeting_id, item_no=swap_item_number)
-    item.item_no = swap_item_number
-    item.save()
-    swap_item.item_no = item_number
-    swap_item.save()
+def move_item(request, meeting_id):
+    
+    ajax_data = request.POST['new_sidebar_order']
+    ajax_data_list = string.split(ajax_data, ',')
+
+    last_item = 0
+    count = 0
+    moved_item = None
+    
+    for item in ajax_data_list:
+        item = int(item)
+        difference = item - last_item
+        if difference == 2:
+            moved_item = (item+last_item)/2
+            break
+        last_item = item
+        count += 1
+    
+    if moved_item == None:
+        moved_item = count
+    
+    old_position = moved_item
+
+    position = 1
+    for item in ajax_data_list:
+        item = int(item)
+        if item == moved_item:
+            new_position = position
+            break
+        position += 1
+          
+    items = Item.objects.filter(meeting=meeting_id)
+    
+    for item in items:
+        if item.item_no == moved_item:
+            item.item_no = new_position
+            item.save()
+        elif old_position < new_position: # the item has moved down the list
+            if item.item_no <= new_position and item.item_no > old_position:
+                new_item_number = item.item_no - 1
+                item.item_no = new_item_number
+                item.save()
+        elif old_position > new_position: # the item has moved up the list
+            if item.item_no >= new_position and item.item_no < old_position:
+                new_item_number = item.item_no + 1
+                item.item_no = new_item_number
+                item.save()
    
 
 def add_item(request, meeting_number, items):

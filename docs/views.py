@@ -85,24 +85,21 @@ def agenda_edit(request, meeting_id):
                 return HttpResponseRedirect(reverse('agenda-list'))
 
     # Management of agenda items 
-    if request.method == "POST" and 'agenda_button' in request.POST:
+    if request.method == "POST" and 'ajax_button' in request.POST:
 
         request_type = 'ajax'
         
-        if request.POST['agenda_button'] != 'page_refresh':              
+        if request.POST['ajax_button'] != 'page_refresh':              
             save_formset(request, meeting, items, 'agenda')
                 
-        if request.POST['agenda_button'][0:10]=='add_button':
+        if request.POST['ajax_button'][0:10]=='add_button':
             add_item(request, meeting_id, items)
         
-        if request.POST['agenda_button'][0:13] =='delete_button':
+        if request.POST['ajax_button'][0:13] =='delete_button':
             delete_item(request, meeting_id)
         
-        if request.POST['agenda_button'][0:9] =='up_button':
-            move_item(request, meeting_id, 'up')
-        
-        if request.POST['agenda_button'][0:11] =='down_button':
-            move_item(request, meeting_id, 'down')
+        if request.POST['ajax_button'] == 'move_item':
+            move_item(request, meeting_id)
                               
         items = meeting.item_set.filter(owner=request.user).order_by('item_no')
 
@@ -161,7 +158,8 @@ def agenda_edit(request, meeting_id):
         ajax_items_content = responses[1].content
         ajax_response['ajax_sidebar'] = ajax_sidebar_content
         ajax_response['ajax_items'] = ajax_items_content
-        return HttpResponse(json.dumps(ajax_response), content_type="application/json")
+        return HttpResponse(json.dumps(ajax_response), \
+                            content_type="application/json")
       
 
 def agenda_distribute(request, meeting_id):

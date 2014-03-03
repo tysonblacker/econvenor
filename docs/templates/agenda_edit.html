@@ -51,7 +51,7 @@
             {{ field.label_tag }}
             {% ifequal field.label "Date" %}
               <br>
-              {{ field }}
+              {{ field|setclass:"form-control datepicker" }}
             {% else %}
               {{ field|setclass:"form-control" }}
             {% endifequal %}
