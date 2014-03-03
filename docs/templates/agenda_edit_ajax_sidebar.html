@@ -1,8 +1,8 @@
 {% load setclass %}
 
-<ul class="nav nav-sidebar">
+<ul class="nav nav-sidebar sortable">
       {% for item in items %}
-        <li>
+        <li class="ui-state-default" id="sidebar_{{ item.item_no}}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
           <div>
             <a href="#id_{{ item.item_no}}-heading" class="sidebar-heading tltip" id="sidebar_heading_{{ item.item_no}}" data-toggle="tooltip" title="Scroll to this item">{{ item.item_no}}. {{ item.heading }}</a>
             <div class="pull-right">
