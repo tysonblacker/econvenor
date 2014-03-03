@@ -41,6 +41,13 @@ $(function() {
 });
 
 
+/* Enable tooltips
+-------------------------------------------------- */
+$(function() {
+  $('.tltip').tooltip({placement: 'bottom', delay: { show: 500, hide: 100 }});
+});
+
+
 /* Automatic vertical scrolling
 -------------------------------------------------- */
 
@@ -59,6 +66,7 @@ $("html").on("click", "ul li a", function(event){
 function updatePage( resp ) {
   $("#ajax-sidebar").html( resp['ajax_sidebar'] );
   $("#ajax-items").html( resp['ajax_items'] );
+  $('.tltip').tooltip({placement: 'bottom', delay: { show: 500, hide: 100 }});
 };
 
 function printError( req, status, err ) {
@@ -147,5 +155,3 @@ $(function() {
     },
   });
 });
-
-

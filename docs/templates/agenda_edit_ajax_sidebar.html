@@ -4,17 +4,17 @@
       {% for item in items %}
         <li>
           <div>
-            <a href="#id_{{ item.item_no}}-heading" class="sidebar-heading" id="sidebar_heading_{{ item.item_no}}">{{ item.item_no}}. {{ item.heading }}</a>
+            <a href="#id_{{ item.item_no}}-heading" class="sidebar-heading tltip" id="sidebar_heading_{{ item.item_no}}" data-toggle="tooltip" title="Scroll to this item">{{ item.item_no}}. {{ item.heading }}</a>
             <div class="pull-right">
               {% ifnotequal item.item_no 1 %}
-                <button type="button" class="btn btn-default btn-xs jsbutton" id="up_button_{{ item.item_no}}">
+                <button type="button" class="btn btn-default btn-xs jsbutton tltip" id="up_button_{{ item.item_no}}" data-toggle="tooltip" title="Move up">
                   <span class="glyphicon glyphicon-chevron-up"></span></button>
               {% endifnotequal %}
               {% ifnotequal item.item_no item_count %}
-                <button type="button" class="btn btn-default btn-xs jsbutton" id="down_button_{{ item.item_no}}">
+                <button type="button" class="btn btn-default btn-xs jsbutton tltip" id="down_button_{{ item.item_no}}" data-toggle="tooltip" title="Move down">
                   <span class="glyphicon glyphicon-chevron-down"></span></button>
               {% endifnotequal %}
-              <button type="button" class="btn btn-default btn-xs jsbutton" id="delete_button_{{ item.item_no}}">
+              <button type="button" class="btn btn-default btn-xs jsbutton tltip" id="delete_button_{{ item.item_no}}" data-toggle="tooltip" title="Delete">
                 <span class="glyphicon glyphicon-remove"></span></button>
             </div><!-- ./pull-right -->
           </div>
