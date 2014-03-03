@@ -9,7 +9,7 @@ from django.core.mail import EmailMessage
 
 
 def delete_item(request, meeting_id):
-    button_value = request.POST['agenda_button']
+    button_value = request.POST['ajax_button']
     item_number = int(button_value[14:])
     item = Item.objects.get(meeting=meeting_id, item_no=item_number)
     item.delete()
