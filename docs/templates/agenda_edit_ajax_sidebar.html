@@ -2,14 +2,14 @@
 
 <ul class="nav nav-sidebar sortable">
       {% for item in items %}
-        <li class="ui-state-default" id="sidebar_{{ item.item_no}}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+        <li id="sidebar_{{ item.item_no}}"><a href="#id_{{ item.item_no}}-heading" class="sidebar-heading tltip" id="sidebar_heading_{{ item.item_no}}" data-toggle="tooltip" title="Scroll to this item">
           <div>
-            <a href="#id_{{ item.item_no}}-heading" class="sidebar-heading tltip" id="sidebar_heading_{{ item.item_no}}" data-toggle="tooltip" title="Scroll to this item">{{ item.item_no}}. {{ item.heading }}</a>
+            {{ item.item_no}}. {{ item.heading }}
             <div class="pull-right">
               <button type="button" class="btn btn-default btn-xs jsbutton tltip" id="delete_button_{{ item.item_no}}" data-toggle="tooltip" title="Delete item">
                 <span class="glyphicon glyphicon-remove"></span></button>
             </div><!-- ./pull-right -->
           </div>
-        </li>
+        </li></a>
       {% endfor %}
 </ul>
