@@ -8,8 +8,9 @@
 /* Resolve button conflict issue
 -------------------------------------------------- */
 
-var bootstrapButton = $.fn.button.noConflict();
-$.fn.bootstrapBtn = bootstrapButton;
+$(function() {
+  $.widget.bridge('uibutton', $.ui.button);
+});
 
 
 /* Get CSRF token
@@ -67,6 +68,10 @@ function updatePage( resp ) {
   $("#ajax-sidebar").html( resp['ajax_sidebar'] );
   $("#ajax-items").html( resp['ajax_items'] );
   $('.tltip').tooltip({placement: 'bottom', delay: { show: 500, hide: 100 }});
+  $( ".spinner" ).spinner();
+  $( ".sortable" ).sortable();
+  $( ".sortable" ).disableSelection();
+  
 };
 
 function printError( req, status, err ) {
@@ -135,7 +140,7 @@ function autosave( button_data ) {
 
 $(function() {
   var interval = setInterval("autosave('agenda_button=save_button')",
-    30 * 1000);
+    3600 * 1000);
   console.log('Autosave has been initialised');
 });
 
@@ -155,3 +160,15 @@ $(function() {
     },
   });
 });
+
+
+/* Enable spinners and sortable lists
+-------------------------------------------------- */
+
+$(function() {
+  $( ".spinner" ).spinner();
+  $( ".sortable" ).sortable();
+  $( ".sortable" ).disableSelection();
+});
+
+
