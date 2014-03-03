@@ -69,7 +69,7 @@ function updatePage( resp ) {
   $("#ajax-items").html( resp['ajax_items'] );
   $('.tltip').tooltip({placement: 'bottom', delay: { show: 500, hide: 100 }});
   $( ".spinner" ).spinner();
-  $( ".sortable" ).sortable();
+  $( ".sortable" ).sortable({ axis: "y", containment: "parent", tolerance: "pointer", });
   
 };
 
@@ -166,7 +166,7 @@ $(function() {
 
 $(function() {
   $( ".spinner" ).spinner();
-  $( ".sortable" ).sortable();
+  $( ".sortable" ).sortable({ axis: "y", containment: "parent", tolerance: "pointer", });
 });
 
 
