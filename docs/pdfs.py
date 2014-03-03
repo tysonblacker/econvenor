@@ -285,14 +285,7 @@ def create_pdf_agenda(request, meeting_id, output, **kwargs):
     # Generate the data which will populate the document
 	account = Account.objects.filter(owner=request.user).last()
 	meeting = Meeting.objects.get(pk=int(meeting_id))
-	preliminary_items = meeting.item_set.filter(owner=request.user,
-		variety__exact='preliminary')
-	main_items = meeting.item_set.filter(owner=request.user,
-		variety__exact='main')
-	report_items = meeting.item_set.filter(owner=request.user,
-		variety__exact='report')
-	final_items = meeting.item_set.filter(owner=request.user,
-		variety__exact='final')
+	items = meeting.item_set.filter(owner=request.user)
 	incomplete_task_list = Task.objects.filter(owner=request.user,
 		status="Incomplete")
 	completed_task_list = []
@@ -376,7 +369,7 @@ def create_pdf_agenda(request, meeting_id, output, **kwargs):
 	Document.append(Spacer(0,3*mm))
 		
 	# Add preliminary items to document
-	create_short_item_table('Preliminary items', preliminary_items, Document, t)
+	create_long_item_table('Preliminary items', items, Document, t)
 	
 	# Add task review to document
 	Document.append(Paragraph("Task review", heading2Style))
@@ -384,15 +377,6 @@ def create_pdf_agenda(request, meeting_id, output, **kwargs):
 	create_task_table("Tasks completed since last meeting", completed_task_list,
 		Document, t)
 		
-	# Add reports to document
-	create_long_item_table('Reports', report_items, Document, t)
-	
-	# Add main items to document
-	create_long_item_table('Main items', main_items, Document, t)
-	
-	# Add final items to document
-	create_short_item_table('Final items', final_items, Document, t)
-	
 	# Build the PDF
 	doc.build(Document)
 	
