@@ -3,7 +3,7 @@
 
 ---
 
-#### Revision C / 25 February 2014
+#### Revision D / 04 March 2014
 
 ---
 
@@ -37,6 +37,8 @@ eConvenor is a free, online tool that does the drudge work of managing agendas, 
 1. Provide tools to help groups plan how to effectively and efficiently implement their decisions.
 
 1. Provide a tool which helps groups schedule meetings at times which are the most convenient for the most participants.
+
+1. Provide a tool to help groups create important governance, procedure and policy documents.
 
 ---
 
@@ -163,6 +165,8 @@ These tasks can be done by eConvenor automatically at specified times:
 ---
 
 ### Document history
+
+Revision D / 04 March 2014
 
 Revision C / 25 February 2014
 
