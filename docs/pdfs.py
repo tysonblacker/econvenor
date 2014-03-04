@@ -1,8 +1,12 @@
 import socket
+import os
 
 from io import BytesIO
 from string import replace
+from subprocess import call
 
+from django.conf import settings
+from django.core.files.base import ContentFile
 from django.http import HttpResponse
 
 from reportlab.lib.colors import black, CMYKColor, white
@@ -22,7 +26,7 @@ from meetings.models import Meeting
 from tasks.models import Task
 from docs.utils import get_formatted_meeting_duration, \
 	calculate_meeting_end_time, find_preceding_meeting_date
-
+from utilities.commonutils import set_path
 
 # Define colors
 heading_color = CMYKColor(0.3,0,0.15,0.6)	
@@ -34,10 +38,7 @@ row_color = CMYKColor(0.1,0,0.05,0.2)
 line_width = 0.75
 
 # Set path to fonts
-if socket.gethostname() == 'web439.webfaction.com':
-	FONT_PATH = '/home/econvenor/webapps/static_econvener/fonts/'
-else:
-	FONT_PATH = 'static/fonts/'
+FONT_PATH = os.path.join(settings.BASE_DIR, 'commonstatic/fonts/')
 
 # Register fonts
 
@@ -384,16 +385,28 @@ def create_pdf_agenda(request, meeting_id, output, **kwargs):
 	pdf = buffer.getvalue()
 	buffer.close()
 	
-	# Create a HttpResponse if required
+	# Return a HttpResponse if required
 	if output == 'screen':
 		response = HttpResponse(content_type='application/pdf')
 		response['Content-Disposition'] = 'filename="AgendaForPrinting.pdf"'
 #		response['Content-Disposition'] = 'attachment;
-#		filename="AgendaForPrinting.pdf"'
+#		'filename="AgendaForPrinting.pdf"'
 		response.write(pdf)
-	
-	# Return the PDF or HttpResponse
-	if output == 'attachment':
-		return pdf	
-	elif output == 'screen':
 		return response
+		
+	# Save the file and create previews if required
+	if output == 'file':
+		pdf_file = ContentFile(pdf)
+		save_as_name = 'Agenda_' + meeting_id + '.pdf'
+		meeting.agenda_pdf.save(save_as_name, pdf_file, save=True)
+	
+    	PREVIEW_PATH = os.path.join(settings.BASE_DIR, 'media/tmp/')
+    
+    	output_path = PREVIEW_PATH + 'agenda_' + meeting_id + '_page%d.png' 
+    	pdf_file_name = meeting.agenda_pdf.url
+    	pdf_file_name = pdf_file_name[1:]
+    	pdf_path = os.path.join(settings.BASE_DIR, pdf_file_name)
+    	ghostscript_command = "gs -q -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r135 -dTextAlphaBits=4 -sPAPERSIZE=a4 -sOutputFile=" + output_path + ' ' + pdf_path
+    
+    	call(ghostscript_command, shell=True)
+    

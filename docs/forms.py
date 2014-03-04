@@ -14,7 +14,7 @@ class AgendaForm(forms.ModelForm):
 		   	'item_no': forms.TextInput(attrs={'readonly': True, 'width': '50%'}),
         }
         
-        exclude = ('meeting', 'minute_notes', 'owner', )
+        exclude = ('agenda_pdf', 'meeting', 'minutes_pdf', 'minute_notes', 'owner', )
         
         def clean_item_no(self):
             return self.instance.item_no
@@ -24,4 +24,4 @@ class MinutesForm(forms.ModelForm):
     
     class Meta:
         model = Item
-        exclude = ('editable', 'meeting', 'owner', 'show_tasks', )
+        exclude = ('agenda_pdf', 'editable', 'meeting', 'minutes_pdf', 'owner', 'show_tasks', )

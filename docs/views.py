@@ -15,6 +15,7 @@ from docs.pdfs import create_pdf_agenda
 from docs.utils import add_item, \
                        calculate_meeting_duration, \
                        calculate_meeting_end_time, \
+                       convert_pdf_to_images, \
                        delete_item, \
                        distribute_agenda, \
                        find_preceding_meeting_date, \
@@ -168,24 +169,10 @@ def agenda_distribute(request, meeting_id):
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.owner != request.user:
         return HttpResponseRedirect(reverse('index'))
-    if request.method == "POST":
-        if 'agenda_distribute_button' in request.POST:
-            if request.POST['agenda_distribute_button']=='distribute_agenda':
-                pdf = create_pdf_agenda(request, meeting_id, 'attachment')
-                distribute_agenda(request, meeting_id, pdf)
-                return HttpResponseRedirect(reverse('agenda-sent', args=(meeting_id,)))
-    else:
-        task_list_headings = ('Description', 'Assigned to', 'Deadline')
-        main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
-        preliminary_items = meeting.item_set.filter(owner=request.user, variety__exact='preliminary')
-        report_items = meeting.item_set.filter(owner=request.user, variety__exact='report')
-        final_items = meeting.item_set.filter(owner=request.user, variety__exact='final')	
-        incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
-        completed_task_list = Task.objects.filter(owner=request.user, status="Complete")
-        participants = Participant.objects.filter(owner=request.user).order_by('first_name')
-        meeting_duration = calculate_meeting_duration(meeting_id)
-        account = Account.objects.filter(owner=request.user).last()
-        return render_to_response('agenda_distribute.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'meeting_duration': meeting_duration, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list, 'main_items': main_items, 'preliminary_items': preliminary_items, 'report_items': report_items, 'final_items': final_items, 'participants': participants, 'account': account}, RequestContext(request))
+    
+    create_pdf_agenda(request, meeting_id, 'file')
+        
+    return render_to_response('agenda_distribute.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting}, RequestContext(request))
 
 
 def agenda_print(request, meeting_id):
@@ -195,6 +182,7 @@ def agenda_print(request, meeting_id):
     if meeting.owner != request.user:
         return HttpResponseRedirect(reverse('index'))
     response = create_pdf_agenda(request, meeting_id, 'screen')
+    
     return response
 
 

@@ -4,6 +4,8 @@ from docs.forms import AgendaForm, MinutesForm
 from docs.models import Item
 from meetings.models import Meeting
 from participants.models import Participant
+from utilities.commonutils import set_path
+
 from datetime import datetime, timedelta
 from django.core.mail import EmailMessage
 
@@ -109,7 +111,6 @@ def save_formset(request, meeting, items, doc_type):
         item.save()
 
 
-
 def calculate_meeting_duration(meeting_id):
 	duration = 0
 	items = Item.objects.filter(meeting=meeting_id)
@@ -155,6 +156,23 @@ def find_preceding_meeting_date(user, meeting_id):
 			preceding_meeting_date = meeting.date
 			break
 	return preceding_meeting_date
+
+
+def convert_pdf_to_images(user, meeting_id, pdf_file_name):
+    """
+    Accepts a multipage PDF document.
+    Saves one png image per page.
+    """
+    path = set_path('media/tmp/', '/home/econvenor/webapps/media_econvener/tmp/')
+    
+    output_path = path + 'agenda_' + meeting_id + '_page%d.png' 
+    pdf_file_name = pdf_file_name[1:]
+    
+    ghostscript_command = "gs -q -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r135 -dTextAlphaBits=4 -sPAPERSIZE=a4 -sOutputFile=" + output_path + ' ' + pdf_file_name
+    
+    call(ghostscript_command, shell=True)
+    
+    return (ghostscript_command)
 
 
 def distribute_agenda(request, meeting_id, pdf):

@@ -117,6 +117,16 @@ STATICFILES_DIRS = (
 
 if socket.gethostname() == 'web439.webfaction.com':
 	STATIC_ROOT = '/home/econvenor/webapps/static_econvenor/'
+
+# Media files
+# https://docs.djangoproject.com/en/dev/howto/static-files/
+
+MEDIA_URL = '/media/'
+
+if socket.gethostname() == 'web439.webfaction.com':
+	MEDIA_ROOT = '/home/econvenor/webapps/media_econvenor/'
+else:
+	MEDIA_ROOT = 'media'
 	
 # Email
 # https://docs.djangoproject.com/en/1.6/topics/email/
