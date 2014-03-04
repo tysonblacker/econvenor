@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import socket
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -112,21 +112,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'commonstatic'),
 )
 
-if socket.gethostname() == 'web439.webfaction.com':
-	STATIC_ROOT = '/home/econvenor/webapps/static_econvenor/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Media files
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 MEDIA_URL = '/media/'
 
-if socket.gethostname() == 'web439.webfaction.com':
-	MEDIA_ROOT = '/home/econvenor/webapps/media_econvenor/'
-else:
-	MEDIA_ROOT = 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 	
 # Email
 # https://docs.djangoproject.com/en/1.6/topics/email/
