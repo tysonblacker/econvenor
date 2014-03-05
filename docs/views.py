@@ -156,9 +156,9 @@ def agenda_edit(request, meeting_id):
     elif request_type == 'ajax':
         ajax_response = {}
         ajax_sidebar_content = responses[0].content
-        ajax_items_content = responses[1].content
+        ajax_main_content = responses[1].content
         ajax_response['ajax_sidebar'] = ajax_sidebar_content
-        ajax_response['ajax_items'] = ajax_items_content
+        ajax_response['ajax_main'] = ajax_main_content
         return HttpResponse(json.dumps(ajax_response), \
                             content_type="application/json")
       
