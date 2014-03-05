@@ -26,10 +26,16 @@ $(function loadAJAXonRefresh() {
 /* Ajax button handling
 -------------------------------------------------- */
 
-$(document).on("click", ".jsbutton", function(){ 
+$(document).on("click", ".ajax-button", function(){ 
   var button_id = $(this).attr('id');
   var button_data = 'ajax_button=' + button_id;
   saveForm(button_data);
+});
+
+$(document).on("click", ".navigate-button", function(){ 
+  saveWithoutRefresh('ajax_button=save_button');
+  var new_page = $(this).attr('goto');
+  document.location.href = new_page;
 });
 
 
@@ -100,10 +106,10 @@ $(document).on( "sortupdate", function( event, ui ) {
 });
 
 
-/* Autosave without page refresh
+/* Save without page refresh
 -------------------------------------------------- */
 
-function autoSave( button_data ) {
+function saveWithoutRefresh( button_data ) {
   $('form.savebyjs').each(function() {
     $.ajax({
       data: button_data + '\&' + jQuery(this).serialize(),
@@ -116,7 +122,11 @@ function autoSave( button_data ) {
   });
 };
 
+
+/* Activate autosave
+-------------------------------------------------- */
+
 $(function() {
-  var interval = setInterval("autoSave('ajax_button=save_button')",
+  var interval = setInterval("saveWithoutRefresh('ajax_button=save_button')",
     30 * 1000);
 });
