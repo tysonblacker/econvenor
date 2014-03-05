@@ -79,15 +79,20 @@
 			</div>
 		</div>
         <div class="container-fluid">
+        
             {% block content %}
             {% endblock content %}
+        
         </div><!-- ./container -->
 		
 		<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script> 
 		<script src="{% static 'js/bootstrap.min.js' %}"></script>
 		<script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
 		<script src="{% static 'js/econvenor.js' %}"></script>
-						
+		
+		{% block extrajs %}
+		{% endblock extrajs %}
+					
     </body>
 </html>
 
