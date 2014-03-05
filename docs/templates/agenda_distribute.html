@@ -37,7 +37,13 @@
     <div class="top-spacer">
     </div>
     
-    <img src="{{ MEDIA_URL }}tmp/agenda_1_page1.png" width=100%>
+    {% for page in pages %}
+    
+    <img src="{{ MEDIA_URL }}{{ page }}" width=100%>
+    <br/><br/>
+    
+    {% endfor %}
+    
     
     <div class="bottom-spacer">
     </div>  

@@ -15,7 +15,6 @@ from docs.pdfs import create_pdf_agenda
 from docs.utils import add_item, \
                        calculate_meeting_duration, \
                        calculate_meeting_end_time, \
-                       convert_pdf_to_images, \
                        delete_item, \
                        distribute_agenda, \
                        find_preceding_meeting_date, \
@@ -170,9 +169,17 @@ def agenda_distribute(request, meeting_id):
     if meeting.owner != request.user:
         return HttpResponseRedirect(reverse('index'))
     
-    create_pdf_agenda(request, meeting_id, 'file')
-        
-    return render_to_response('agenda_distribute.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting}, RequestContext(request))
+    pages = create_pdf_agenda(request, meeting_id)
+     
+#    return HttpResponse(str(pages))   
+    return render_to_response(
+        'agenda_distribute.html', {
+            'user': request.user,
+            'meeting_id': meeting_id,
+            'meeting': meeting,
+            'pages': pages,
+            },
+        RequestContext(request))
 
 
 def agenda_print(request, meeting_id):
@@ -181,7 +188,8 @@ def agenda_print(request, meeting_id):
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.owner != request.user:
         return HttpResponseRedirect(reverse('index'))
-    response = create_pdf_agenda(request, meeting_id, 'screen')
+    # return the existing agenda pdf in a new tab/window
+    pass
     
     return response
 

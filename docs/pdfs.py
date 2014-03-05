@@ -159,7 +159,7 @@ ITEM_INNER_TABLE_STYLE = TableStyle([
 	])
 
 
-def insert_page_breaks(string):
+def insert_line_breaks(string):
 	formatted_string = string.replace('\n', '<br/>')
 	return formatted_string
 
@@ -187,7 +187,7 @@ def create_short_item_table(section_heading, item_list, Document, t):
 			))],
 			colWidths=[120*mm,40*mm])
 		if item.background:
-			background = insert_page_breaks(item.background)
+			background = insert_line_breaks(item.background)
 			t = Table([
 				(heading_t,),
 				(Paragraph(background, normalStyle),)
@@ -207,7 +207,7 @@ def create_long_item_table(section_heading, item_list, Document, t):
 	Document.append(Paragraph(section_heading, heading2Style))
 	for item in item_list:
 		if item.background:
-			background = insert_page_breaks(item.background)
+			background = insert_line_breaks(item.background)
 		heading_t = Table([((
 			Paragraph(item.heading, itemStyle),
 			Paragraph(str(item.time_limit) + ' minutes', rightItemStyle)
@@ -281,7 +281,7 @@ def create_task_table(section_heading, task_list, Document, t):
 	Document.append(Spacer(0,3*mm))
 
 
-def create_pdf_agenda(request, meeting_id, output, **kwargs):
+def create_pdf_agenda(request, meeting_id, **kwargs):
     
     # Generate the data which will populate the document
 	account = Account.objects.filter(owner=request.user).last()
@@ -298,8 +298,8 @@ def create_pdf_agenda(request, meeting_id, output, **kwargs):
 			(deadline__gte=meeting.date)
 	meeting_duration = get_formatted_meeting_duration(meeting_id)
 	meeting_end_time = calculate_meeting_end_time(meeting_id)
-	location = insert_page_breaks(meeting.location)
-	notes = insert_page_breaks(meeting.notes)
+	location = insert_line_breaks(meeting.location)
+	notes = insert_line_breaks(meeting.notes)
 	
 	# Set up the document framework
 	buffer = BytesIO()
@@ -369,7 +369,7 @@ def create_pdf_agenda(request, meeting_id, output, **kwargs):
 	Document.append(t)
 	Document.append(Spacer(0,3*mm))
 		
-	# Add preliminary items to document
+	# Add items to document
 	create_long_item_table('Preliminary items', items, Document, t)
 	
 	# Add task review to document
@@ -385,28 +385,42 @@ def create_pdf_agenda(request, meeting_id, output, **kwargs):
 	pdf = buffer.getvalue()
 	buffer.close()
 	
-	# Return a HttpResponse if required
-	if output == 'screen':
-		response = HttpResponse(content_type='application/pdf')
-		response['Content-Disposition'] = 'filename="AgendaForPrinting.pdf"'
-#		response['Content-Disposition'] = 'attachment;
-#		'filename="AgendaForPrinting.pdf"'
-		response.write(pdf)
-		return response
-		
-	# Save the file and create previews if required
-	if output == 'file':
-		pdf_file = ContentFile(pdf)
-		save_as_name = 'Agenda_' + meeting_id + '.pdf'
-		meeting.agenda_pdf.save(save_as_name, pdf_file, save=True)
+	# Define locations to save files to
+	pdf_path = os.path.join(settings.BASE_DIR, 'media/meetingdocs/')	
+	preview_path = os.path.join(settings.BASE_DIR, 'media/tmp/')
+
+	# Define name of PDF file
+	pdf_name = str(request.user) + '_agenda_meeting' + meeting_id + '.pdf'
+				
+	# Delete any old versions
+	path_to_old_pdf = pdf_path + pdf_name
+	path_to_old_previews = preview_path + str(request.user) + '*'	
 	
-    	PREVIEW_PATH = os.path.join(settings.BASE_DIR, 'media/tmp/')
-    
-    	output_path = PREVIEW_PATH + 'agenda_' + meeting_id + '_page%d.png' 
-    	pdf_file_name = meeting.agenda_pdf.url
-    	pdf_file_name = pdf_file_name[1:]
-    	pdf_path = os.path.join(settings.BASE_DIR, pdf_file_name)
-    	ghostscript_command = "gs -q -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r135 -dTextAlphaBits=4 -sPAPERSIZE=a4 -sOutputFile=" + output_path + ' ' + pdf_path
-    
-    	call(ghostscript_command, shell=True)
-    
+	call('rm ' + path_to_old_pdf , shell=True)
+	call('rm ' + path_to_old_previews , shell=True)	
+			
+	# Save the PDF
+	pdf_file = ContentFile(pdf)
+	meeting.agenda_pdf.save(pdf_name, pdf_file, save=True)
+
+	# Create and save the images
+	output_path = preview_path + str(request.user) + '_agenda_meeting' + meeting_id + '_page%d.png' 
+	pdf_location = pdf_path + pdf_name
+	ghostscript_command = "gs -q -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r135 -dTextAlphaBits=4 -sPAPERSIZE=a4 -sOutputFile=" + output_path + ' ' + pdf_location
+
+	call(ghostscript_command, shell=True)
+
+	# Calculate the number of preview pages plus 1
+	image_exists = True
+	count = 0
+	while image_exists:
+		count += 1
+		filename_to_test = preview_path + str(request.user) + '_agenda_meeting' + meeting_id + '_page' + str(count) + '.png' 
+		image_exists = os.path.isfile(filename_to_test)
+
+	# Make a list of the names of all the preview files
+	pages = []
+	for i in range(1, count):
+		pages.append('tmp/' + str(request.user) + '_agenda_meeting' + meeting_id + '_page' + str(i) + '.png')
+		
+	return pages
