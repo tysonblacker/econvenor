@@ -10,26 +10,52 @@
 <div class="row">
 
   <div class="col-sm-3 sidebar">
-    <h2>Agenda navigation</h2>
+    <h2>Agenda distribution</h2>
     <ul class="nav nav-sidebar">
-      <li><a href="#meeting_details" class="tltip" data-toggle="tooltip" data-placement="top" title="Scroll to meeting details">Meeting details</a></li>
-    </ul>
-    
-    <div id="ajax-sidebar">
-    </div>
-           
+      {% for page in pages %}
+        <li id="sidebar_{{page.o}}"><a href="#page{{page.0}}" class="sidebar-heading tltip" data-toggle="tooltip" title="Scroll to this page">
+            Page {{ page.0 }}
+        </li></a>
+      {% endfor %}
+    </ul> 
+             
     <ul class="nav nav-sidebar">
-      <li><a href="#tasks" class="tltip" data-toggle="tooltip" data-placement="top" title="Scroll to tasks">Appendix 1 - Tasks</a></li>
-    </ul>
-    <ul class="nav nav-sidebar">
-      <li><button type="button" class="btn btn-primary jsbutton" id="save_button">Save all</button></li>
-      <li><button type="button" class="btn btn-primary jsbutton" id="add_button">Add item</button></li>
+      <li>
+      <div>
+        <button type="button" class="btn btn-default zoom-button" id="zoom_in"><span class="glyphicon glyphicon-zoom-in"></span>
+</button>
+        <button type="button" class="btn btn-default zoom-button" id="zoom_out"><span class="glyphicon glyphicon-zoom-out"></span>
+</button>
+      </div>
     </ul>
     <ul class="nav nav-sidebar"> 
-        <li><a href={% url 'minutes-edit' meeting_id %}><button type="button" class="btn btn-primary saveonpress" data-toggle="button">Create minutes from this agenda</button></a></li>
-        <li><a href={% url 'agenda-print' meeting_id %}><button type="button" class="btn btn-primary saveonpress" data-toggle="button">Create a PDF of this agenda</button></a></li>
-        <li><a href={% url 'agenda-distribute' meeting_id %}><button type="button" class="btn btn-primary saveonpress" data-toggle="button">Distribute this agenda</button></a></li>
-      </ul>
+      <li><a href={% url 'agenda-edit' meeting_id %}><button type="button" class="btn btn-primary">Make changes</button></a></li>
+      <li><a href={% url 'dashboard' %}><button type="button" class="btn btn-primary">Send later</button></a></li>
+    </ul>
+      
+      
+<h2><small>Distribute this agenda by email</small></h2>
+  <form action="" method="POST">
+    {% csrf_token %}
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="all_participants" value="checked"><strong>All participants</strong>
+      </label>
+    </div>
+    {% for participant in participants %}
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="participant{{ participant.id }}" value="checked"> {{ participant }}
+        </label>
+      </div>
+    {% endfor %}
+    <br>
+    <button type="submit" class="btn btn-primary" name="distribute_button" value="distribute_agenda" data-toggle="button">Distribute</button>
+  </form>
+</div>
+
+
+
   </div><!-- /.col-sm-3 -->
 
   <div class="col-sm-7 col-sm-offset-4 main">
@@ -38,9 +64,8 @@
     </div>
     
     {% for page in pages %}
-    
-    <img src="{{ MEDIA_URL }}{{ page }}" width=100%>
-    <br/><br/>
+      <img src="{{ MEDIA_URL }}{{ page.1 }}" class="zoomable" id="page{{page.0}}" width=100%>
+      <br/><br/>
     
     {% endfor %}
     

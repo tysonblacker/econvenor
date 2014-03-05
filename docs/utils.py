@@ -1,13 +1,17 @@
+import os
 import string
+
+from datetime import datetime, timedelta
+from django.core.mail import EmailMessage
+
+from django.conf import settings
 
 from docs.forms import AgendaForm, MinutesForm
 from docs.models import Item
 from meetings.models import Meeting
 from participants.models import Participant
-from utilities.commonutils import set_path
-
-from datetime import datetime, timedelta
-from django.core.mail import EmailMessage
+from utilities.commonutils import get_group_name, \
+                                  set_path
 
 
 def delete_item(request, meeting_id):
@@ -158,11 +162,11 @@ def find_preceding_meeting_date(user, meeting_id):
 	return preceding_meeting_date
 
 
-def distribute_agenda(request, meeting_id, pdf):
+def distribute_agenda(request, meeting_id):
 	
 	recipients = []
 	group_name = get_group_name(request)
-	
+	    
 	# build recipients list if "all_participants" box is checked
 	if 'all_participants' in request.POST:
 		participants = Participant.objects.filter(owner=request.user)
@@ -192,12 +196,13 @@ def distribute_agenda(request, meeting_id, pdf):
 			recipients.append(participant_email_address)
 
 	# set up the email fields
-	file_name = 'Agenda' + str(meeting_id) + '.pdf'
-	subject = group_name + ': ' + file_name + ' is attached'
-	body = 'Here is ' + file_name
+	meeting = Meeting.objects.get(pk=int(meeting_id))
+	pdf_path = os.path.join(settings.BASE_DIR, meeting.agenda_pdf.url[1:])	
+	subject = group_name + ': You agenda is attached'
+	body = 'Here is your agenda'
 	sender = 'noreply@econvenor.org'
 
 	# email the agenda
 	email = EmailMessage(subject, body, sender, recipients)
-	email.attach(file_name, pdf, 'application/pdf')
+	email.attach_file(pdf_path)
 	email.send()

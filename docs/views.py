@@ -168,16 +168,22 @@ def agenda_distribute(request, meeting_id):
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.owner != request.user:
         return HttpResponseRedirect(reverse('index'))
-    
+    participants = Participant.objects.filter(owner=request.user)
     pages = create_pdf_agenda(request, meeting_id)
-     
-#    return HttpResponse(str(pages))   
+    
+    if request.method == "POST":
+        if 'distribute_button' in request.POST:
+            if request.POST['distribute_button']=='distribute_agenda':
+            	distribute_agenda(request, meeting_id)
+                return HttpResponseRedirect(reverse('agenda-sent', args=(meeting_id)))
+            	
     return render_to_response(
         'agenda_distribute.html', {
             'user': request.user,
             'meeting_id': meeting_id,
             'meeting': meeting,
             'pages': pages,
+            'participants': participants,
             },
         RequestContext(request))
 

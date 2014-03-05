@@ -60,3 +60,22 @@ $("html").on("click", ".sidebar-heading", function(event){
   }, 1000);
   event.preventDefault();
 });
+
+
+/* Enable zooming of images
+-------------------------------------------------- */
+
+$(document).on("click", ".zoom-button", function(){ 
+  var current_zoom = $('.zoomable').attr('width');
+  current_zoom = current_zoom.slice(0, -1);
+  current_zoom = parseInt(current_zoom, 10)
+  var zoom_direction = $(this).attr('id');
+  if (zoom_direction == 'zoom_out') {
+    new_zoom = current_zoom - 10;
+    } else {
+    new_zoom = current_zoom + 10;
+    }
+  var zoom = new_zoom + '%'
+  $('.zoomable').attr('width', zoom);
+});
+

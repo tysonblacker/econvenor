@@ -421,6 +421,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	# Make a list of the names of all the preview files
 	pages = []
 	for i in range(1, count):
-		pages.append('tmp/' + str(request.user) + '_agenda_meeting' + meeting_id + '_page' + str(i) + '.png')
+		file_name = 'tmp/' + str(request.user) + '_agenda_meeting' + meeting_id + '_page' + str(i) + '.png'
+		pages.append((i, file_name))
 		
 	return pages
