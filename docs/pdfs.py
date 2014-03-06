@@ -387,8 +387,13 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	
 	# Define locations to save files to
 	pdf_path = os.path.join(settings.BASE_DIR, 'media/meetingdocs/')	
+	if not os.path.exists(pdf_path):
+		os.makedirs(pdf_path)
+	
 	preview_path = os.path.join(settings.BASE_DIR, 'media/tmp/')
-
+	if not os.path.exists(preview_path):
+		os.makedirs(preview_path)
+    	
 	# Define name of PDF file
 	pdf_name = str(request.user) + '_agenda_meeting' + meeting_id + '.pdf'
 				
