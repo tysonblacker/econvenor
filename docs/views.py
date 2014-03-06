@@ -248,19 +248,20 @@ def minutes_edit(request, meeting_id):
     page_heading = 'Create minutes'
     task_list_headings = ('Description', 'Assigned to', 'Deadline')
         
-    AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=True, widgets={'item_no': HiddenInput(), 'background': Textarea(attrs={'rows': 3}), 'minute_notes': Textarea(attrs={'rows': 4}),})
-    AgendaItemFormSet.form.base_fields['explainer'].queryset = Participant.objects.filter(owner=request.user)
+    
     DecisionFormSet = inlineformset_factory(Meeting, Decision, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'description': Textarea(attrs={'rows': 2}), 'owner': HiddenInput(),})
     TaskFormSet = inlineformset_factory(Meeting, Task, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'status': HiddenInput(), 'owner': HiddenInput(), 'deadline': DateInput(attrs={'class': 'datepicker'}),})
     TaskFormSet.form.base_fields['participant'].queryset = Participant.objects.filter(owner=request.user)
-    
-    agenda_items = meeting.item_set.filter(owner=request.user)
+
+    items = meeting.item_set.filter(owner=request.user).order_by('item_no')
+
     decision_items = meeting.decision_set.filter(owner=request.user)
     task_items = meeting.task_set.filter(owner=request.user)
     
     new_data_form = {}
     existing_data_forms = []
-    existing_data_formset = AgendaItemFormSet(instance=meeting)
+    request_type = 'refresh'
+    
     decision_data_formset = DecisionFormSet(instance=meeting)				
     task_data_formset = TaskFormSet(instance=meeting)
     editable_section = 'is_main_items'
@@ -270,7 +271,7 @@ def minutes_edit(request, meeting_id):
     account = Account.objects.filter(owner=request.user).last()
 	
     def save_minutes_data(request, meeting):
-        existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
+
         if existing_data_formset.is_valid():
             for form in existing_data_formset:
                 save_and_add_owner(request, form)
@@ -289,7 +290,7 @@ def minutes_edit(request, meeting_id):
         # Management of items 
         if 'edit_main_items_agenda_button' in request.POST:
             if request.POST['edit_main_items_agenda_button']=='edit_main_items':
-                existing_data_formset = AgendaItemFormSet(instance=meeting)
+
                 decision_data_formset = DecisionFormSet(instance=meeting)
                 task_data_formset = TaskFormSet(instance=meeting)
                 editable_section = 'is_main_items'
@@ -304,7 +305,7 @@ def minutes_edit(request, meeting_id):
                 item_number = item_number[18:]
                 new_decision = Decision(item_id=int(item_number), meeting_id=meeting_id, owner=request.user)
                 new_decision.save()
-                existing_data_formset = AgendaItemFormSet(instance=meeting)
+
                 decision_data_formset = DecisionFormSet(instance=meeting)				
                 task_data_formset = TaskFormSet(instance=meeting)				
                 editable_section = 'is_main_items'
@@ -315,29 +316,89 @@ def minutes_edit(request, meeting_id):
                 item_number = item_number[14:]
                 new_task = Task(item_id=int(item_number), meeting_id=meeting_id, owner=request.user, status = 'Incomplete')
                 new_task.save()
-                existing_data_formset = AgendaItemFormSet(instance=meeting)
+
                 decision_data_formset = DecisionFormSet(instance=meeting)				
                 task_data_formset = TaskFormSet(instance=meeting)				
                 editable_section = 'is_main_items'	
-						
-    return render_to_response(
-        'minutes_edit.html', {
-            'user': request.user,
-            'meeting_id': meeting_id,
-            'meeting': meeting,
-            'page_heading': page_heading,
-            'task_list_headings': task_list_headings,
-            'completed_task_list': completed_task_list,
-            'incomplete_task_list': incomplete_task_list,
-            'editable_section': editable_section,
-            'agenda_items': agenda_items,
-            'decision_items': decision_items,
-            'task_items': task_items,
-            'existing_data_forms': existing_data_forms,
-            'existing_data_formset': existing_data_formset,
-            'new_data_form': new_data_form,
-            'decision_data_formset': decision_data_formset,
-            'task_data_formset': task_data_formset,
-            'account': account
-            },
-        RequestContext(request))
+	
+
+    # Management of agenda items 
+    if request.method == "POST" and 'ajax_button' in request.POST:
+
+        request_type = 'ajax'
+        
+        if request.POST['ajax_button'] != 'page_refresh':              
+            save_formset(request, meeting, items, 'minutes')
+                
+        if request.POST['ajax_button'][0:10]=='add_button':
+            add_item(request, meeting_id, items)
+        
+        if request.POST['ajax_button'][0:13] =='delete_button':
+            delete_item(request, meeting_id)
+        
+        if request.POST['ajax_button'] == 'move_item':
+            move_item(request, meeting_id)
+                              
+        items = meeting.item_set.filter(owner=request.user).order_by('item_no')
+
+    existing_data_forms = MeetingForm(instance=meeting, label_suffix='')
+   
+    item_formlist = []
+    item_count = 0
+    for item in items:
+        item_count += 1
+        item = MinutesForm(instance=item, prefix=item_count, label_suffix='')
+        item_formlist.append(item)
+    
+    meeting_duration = get_formatted_meeting_duration(meeting_id)
+    meeting_end_time = calculate_meeting_end_time(meeting_id)
+    
+    if request_type == 'refresh':
+        templates = ['minutes_edit.html']
+    elif request_type == 'ajax':
+        templates = ['minutes_edit_ajax_sidebar.html',
+                     'minutes_edit_ajax_items.html']
+    
+    count = 0
+    responses = []
+    
+    for template in templates:
+        response = render_to_response(
+            template, {
+                'user': request.user,
+                'meeting_id': meeting_id,
+                'meeting': meeting,
+                'meeting_duration': meeting_duration,
+                'meeting_end_time': meeting_end_time,
+                'page_heading': page_heading,
+                'task_list_headings': task_list_headings,
+                'completed_task_list': completed_task_list,
+                'incomplete_task_list': incomplete_task_list,
+                'items': items,
+                'item_count': item_count,
+                'existing_data_forms': existing_data_forms,
+                'item_formlist': item_formlist,
+                'new_data_form': new_data_form,
+                'account': account,
+                'request_type': request_type,
+                'decision_items': decision_items,
+                'task_items': task_items,
+                'decision_data_formset': decision_data_formset,
+                'task_data_formset': task_data_formset,
+                },
+            RequestContext(request)
+        )
+        responses.append(response)
+        
+    if request_type == 'refresh':
+        page_object = responses[0]
+        return page_object
+    elif request_type == 'ajax':
+        ajax_response = {}
+        ajax_sidebar_content = responses[0].content
+        ajax_main_content = responses[1].content
+        ajax_response['ajax_sidebar'] = ajax_sidebar_content
+        ajax_response['ajax_main'] = ajax_main_content
+        return HttpResponse(json.dumps(ajax_response), \
+                            content_type="application/json")
+

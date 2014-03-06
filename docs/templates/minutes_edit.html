@@ -1,190 +1,98 @@
 {% extends "app_base.html" %}
-
 {% load setclass %}
+
+{% load staticfiles %}
 
 {% block content %}
 
 
-<div class="page-header">
-	<h1>{{ page_heading }}</h1>
-</div>
-
-
-
-{# MEETING DETAILS #}
- 
-<h1><small>Meeting details</small></h1>
-
-
 <div class="row">
-  <div class="col-md-7">
 
-  	  <div class="panel panel-primary">
-			
-		<table class="table">
-		  <thead>
-		    <tr>
-		      <th>{{ meeting.description }} of {{ account.group_name }}</th>
-		      <th></th>
-			</tr>
-		  </thead>
-		  <tbody> 
-			<tr>
-			  <td><strong>Date</strong></td>
-			  <td>{{ meeting.date }}</td>
-		    </tr>
-			<tr>
-			  <td><strong>Time</strong></td>
-			  <td>{{ meeting.start_time }}</td>
-			</tr>
-			<tr>
-			  <td><strong>Location</strong></td>
-			  <td>{{ meeting.location|linebreaks }}</td>
-			</tr>
-		  </tbody>
-		</table>
-	  </div>
+  <div class="col-sm-3 sidebar">
+    <h1>Minutes navigation</h1>
+    <ul class="nav nav-sidebar">
+      <li><a href="#meeting_details" class="tltip" data-toggle="tooltip" data-placement="top" title="Scroll to meeting details">Meeting details</a></li>
+    </ul>
+    
+    <div id="ajax-sidebar">
+    </div>
+           
+    <ul class="nav nav-sidebar">
+      <li><button type="button" class="btn btn-primary ajax-button" id="save_button">Save all</button></li>
+      <li><button type="button" class="btn btn-primary ajax-button" id="add_button">Add item</button></li>
+      <li><button type="button" class="btn btn-primary navigate-button" goto="{% url 'agenda-distribute' meeting_id %}" id="distribute_button">Distribute this agenda</button></li>
+      </ul>
+  </div><!-- /.col-sm-3 -->
 
+  <div class="col-sm-7 col-sm-offset-4 main">
 
+    <div class="top-spacer">
+    </div>
+    
+    <h1>{{ page_heading }}</h1>
 
-{% comment %}
+    <div class="well" id="meeting_details">
+      <h1><small>Meeting details</small></h1>
+      
+        <div class="panel panel-primary">
+	  	  <table class="table">
+	        <thead>
+			  <tr>
+			    <th>{{ meeting.description }} of {{ account.group_name }}</th>
+			    <th></th>
+			  </tr>
+		    </thead>
+		    <tbody> 
+			  <tr>
+			    <td><strong>Date</strong></td>
+			    <td>{{ meeting.date }}</td>
+			  </tr>
+			  <tr>
+			    <td><strong>Start time</strong></td>
+			    <td>{{ meeting.start_time }}</td>
+			  </tr>
+			  <tr>
+			    <td><strong>End time</strong></td>
+			    <td>{{ meeting_end_time }}</td>
+			  </tr>
+			  <tr>
+			    <td><strong>Scheduled duration</strong></td>
+			    <td>{{ meeting_duration }}</td>
+			  </tr>
+			  <tr>
+			    <td><strong>Location</strong></td>
+			    <td>{{ meeting.location|linebreaks }}</td>
+			  </tr>
+			  <tr>
+			    <td><strong>Notes</strong></td>
+			    <td>{{ meeting.notes|linebreaks }}</td>
+			  </tr>
+		    </tbody>
+		  </table>
+	    </div><!-- ./panel -->
+ 
+      </div><!-- ./well -->
 
-{# TASKS REVIEW #}
-<h1><small>Task review</small></h1>
-<div class="well">
-	{# List of incomplete tasks #}
-	<h2><small>Tasks outstanding</small></h2>
-	<div class="panel panel-primary">
-		<table class="table">
-			<thead>
-				<tr>
-					{% for heading in task_list_headings %}
-						<th>{{ heading }}</th>
-					{% endfor%}
-				</tr>
-			</thead>
-			<tbody> 
-				{% for task in incomplete_task_list %}
-					<tr>
-						<td>{{ task.description }}</td>
-						<td>{{ task.participant }}</td>
-						<td>{{ task.deadline }}</td>
-					</tr>
-				{% endfor%}
-			</tbody>
-		</table>
-	</div>
-	{# List of tasks completed since last meeting #}
-	<h2><small>Tasks completed since last meeting</small></h2>
-	<div class="panel panel-primary">
-		<table class="table">
-			<thead>
-				<tr>
-					{% for heading in task_list_headings %}
-						<th>{{ heading }}</th>
-					{% endfor%}
-				</tr>
-			</thead>
-			<tbody> 
-				{% for task in completed_task_list %}
-					<tr>
-						<td>{{ task.description }}</td>
-						<td>{{ task.participant }}</td>
-						<td>{{ task.deadline }}</td>
-					</tr>
-				{% endfor%}
-			</tbody>
-		</table>
-	</div>
-	<a href={% url 'task-list' %}><button type="button" class="btn btn-primary" data-toggle="button">Edit tasks</button></a>
-</div>
+    <div id="ajax-main">
+    </div>
 
 
-{% endcomment %}
+    <div class="bottom-spacer">
+    </div>  
+
+		
+    </div><!-- /.col-sm-7 -->
+  </div><!-- ./row>
+
+
+{% endblock content%}
+
+
+{% block extrajs %}
+
+<script src="{% static 'js/econvenor-ajax.js' %}"></script>
+
+{% endblock extrajs %}
 
 
 
-
-{# AGENDA ITEMS #}
-
-<h1><small>Agenda items</small></h1>
-
-
-			<form action="" method="POST">
-				{% csrf_token %}
-				{{ existing_data_formset.management_form }}
-				{{ decision_data_formset.management_form }}
-				{{ task_data_formset.management_form }}
-				{% for item in existing_data_formset %}
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<strong>Item&nbsp;{{ item.item_no.value }}.&nbsp;{{ item.heading.value }}</strong>
-						  <div class="pull-right">
-						  	{{ item.time_limit.value }}&nbsp;minutes		
-						  </div>
-						
-						</div>
-						<div class="panel-body">
-								
-							<div class="form-group">
-								{{ item.background.label_tag }}
-						      <div class="well">
-								{{ item.background.value }}
-							  </div>
-							</div>
-							<div class="form-group">
-								{{ item.minute_notes.label_tag }}{{ item.minute_notes|setclass:"form-control" }}
-							</div>
-														
-								{{ item.id|setclass:"form-control" }}
-						    	{{ item.item_no|setclass:"form-control" }}
-						
-							<p><strong>Decisions:</strong></p>
-							<div class="well">
-								{% for decision in decision_data_formset %}
-									{% ifequal decision.item.value item.id.value %}
-										<div class="form-group">
-											{{ decision.description|setclass:"form-control" }}
-											{{ decision.id|setclass:"form-control" }}
-											{{ decision.meeting|setclass:"form-control" }}
-											{{ decision.item|setclass:"form-control" }}
-											{{ decision.owner|setclass:"form-control" }}
-											{{ decision.DELETE.label_tag }}{{ decision.DELETE|setclass:"form-control"}}
-										</div>
-									{% endifequal %}
-								{% endfor %}
-								<button type="submit" class="btn btn-default" name="add_decision_minutes_button" value="add_decision_item_{{ item.id.value }}" data-toggle="button">Add a decision to this item</button>
-							</div>
-							
-							<p><strong>Tasks:</strong></p>
-							<div class="well">
-								{% for task in task_data_formset %}
-									{% ifequal task.item.value item.id.value %}
-										<div class="form-inline" role="form">
-											<div class="form-group">
-									   				{{ task.description|setclass:"form-control" }}
-									   				{{ task.participant|setclass:"form-control" }}
-									   				{{ task.deadline|setclass:"form-control" }}
-													{{ task.DELETE.label_tag }}{{ task.DELETE|setclass:"form-control"}}
-												{{ task.status|setclass:"form-control" }}
-												{{ task.id|setclass:"form-control" }}
-												{{ task.meeting|setclass:"form-control" }}
-												{{ task.owner|setclass:"form-control" }}
-												{{ task.item|setclass:"form-control" }}
-										    </div>
-										</div>
-									{% endifequal %}
-								{% endfor %}
-								<button type="submit" class="btn btn-default" name="add_task_minutes_button" value="add_task_item_{{ item.id.value }}" data-toggle="button">Add a task to this item</button>
-							</div>						
-						</div>	
-					</div>
-				{% endfor %}
-				<button type="submit" class="btn btn-primary" name="save_main_items_agenda_button" value="save_main_items" data-toggle="button">Save main items</button>
-			</form>
-
-
-  </div>
-</div>
-
-{% endblock %}

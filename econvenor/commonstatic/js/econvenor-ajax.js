@@ -59,7 +59,7 @@ function updatePage( resp ) {
 };
 
 function printError( req, status, err ) {
-  console.log( 'There was an AJAX error: ', status, err );
+  console.log( 'There was an AJAX error: ', status + ' / ', err );
 };
 
 function saveForm( button_data ) {
