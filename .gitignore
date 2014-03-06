@@ -6,3 +6,6 @@ env/
 
 # Ignore database file
 db.sqlite3
+
+# Ignore media folder
+econvenor/media/
