@@ -11,7 +11,8 @@ from accounts.models import Account
 from decisions.models import Decision
 from docs.forms import AgendaForm, MinutesForm
 from docs.models import Item
-from docs.pdfs import create_pdf_agenda
+from docs.pdfs import create_pdf_agenda, \
+                      get_pdf_contents
 from docs.utils import add_item, \
                        calculate_meeting_duration, \
                        calculate_meeting_end_time, \
@@ -194,8 +195,11 @@ def agenda_print(request, meeting_id):
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.owner != request.user:
         return HttpResponseRedirect(reverse('index'))
-    # return the existing agenda pdf in a new tab/window
-    pass
+    
+    pdf_contents = get_pdf_contents(request, meeting_id)
+        
+    response = HttpResponse(pdf_contents, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=test-agenda.pdf'
     
     return response
 

@@ -386,7 +386,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	buffer.close()
 	
 	# Define locations to save files to
-	pdf_path = os.path.join(settings.BASE_DIR, 'media/meetingdocs/')	
+	pdf_path = get_pdf_path()	
 	if not os.path.exists(pdf_path):
 		os.makedirs(pdf_path)
 	
@@ -395,7 +395,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		os.makedirs(preview_path)
     	
 	# Define name of PDF file
-	pdf_name = str(request.user) + '_agenda_meeting' + meeting_id + '.pdf'
+	pdf_name = get_pdf_name(request, meeting_id)
 				
 	# Delete any old versions
 	path_to_old_pdf = pdf_path + pdf_name
@@ -430,3 +430,26 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		pages.append((i, file_name))
 		
 	return pages
+
+	
+def get_pdf_name(request, meeting_id):
+	pdf_name = str(request.user) + '_agenda_meeting' + meeting_id + '.pdf'
+	return pdf_name
+
+	
+def get_pdf_path():
+	pdf_path = os.path.join(settings.BASE_DIR, 'media/meetingdocs/')
+	return pdf_path
+	
+def get_pdf_contents(request, meeting_id):
+	
+	pdf_name = get_pdf_name(request, meeting_id)
+	pdf_path = get_pdf_path()
+	pdf_location = pdf_path + pdf_name
+	
+	f = open(pdf_location, 'r')
+	pdf_contents = f.read()
+	f.close()
+	
+	return pdf_contents
+
