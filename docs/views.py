@@ -195,18 +195,29 @@ def agenda_print(request, meeting_id):
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.owner != request.user:
         return HttpResponseRedirect(reverse('index'))
-    
+
     pdf_contents = get_pdf_contents(request, meeting_id)
-        
+
     response = HttpResponse(pdf_contents, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=test-agenda.pdf'
-    
+
     return response
 
 
 def agenda_sent(request, meeting_id):
-    return HttpResponse('Email successfully sent')
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('index'))
+    meeting = Meeting.objects.get(pk=int(meeting_id))
+    if meeting.owner != request.user:
+        return HttpResponseRedirect(reverse('index'))
 
+    page_heading = 'Agenda for meeting ' + meeting_id + ' sent.'
+    return render_to_response(
+        'agenda_sent.html', {
+            'page_heading': page_heading,
+            },
+        RequestContext(request))
+    
 
 def minutes_list(request):
 	if not request.user.is_authenticated():
