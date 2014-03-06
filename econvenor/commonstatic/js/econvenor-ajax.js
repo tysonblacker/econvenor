@@ -54,7 +54,7 @@ function updatePage( resp ) {
     containment: 'parent',
     tolerance: 'pointer',
   });
-  $( '.spinner' ).spinner();
+  $( '.spinner' ).spinner({ min: 0, max: 600, });
   $('body').css( 'cursor', 'default' );
 };
 

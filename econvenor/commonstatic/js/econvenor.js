@@ -36,7 +36,7 @@ $(function enableJQueryUIFeatures() {
     containment: 'parent',
     tolerance: 'pointer',
   });
-  $( '.spinner' ).spinner();
+  $( '.spinner' ).spinner({ min: 0, max: 600, });
 });
 
 
