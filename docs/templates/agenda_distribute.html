@@ -31,6 +31,7 @@
     <ul class="nav nav-sidebar"> 
       <li><a href={% url 'agenda-edit' meeting_id %}><button type="button" class="btn btn-primary">Make changes</button></a></li>
       <li><a href={% url 'dashboard' %}><button type="button" class="btn btn-primary">Send later</button></a></li>
+      <li><a href={% url 'agenda-print' meeting_id %}><button type="button" class="btn btn-primary">Download PDF</button></a></li>
     </ul>
       
       
@@ -64,7 +65,7 @@
     </div>
     
     {% for page in pages %}
-      <img src="{{ MEDIA_URL }}{{ page.1 }}" class="zoomable" id="page{{page.0}}" width=100%>
+      <img src="{{ MEDIA_URL }}{{ page.1 }}" class="zoomable" id="page{{page.0}}" width=100% alt="A series of images showing the completed agenda. Accesibility note: Choose the PDF button on the sidebar to view the agenda in PDF format.">
       <br/><br/>
     
     {% endfor %}
