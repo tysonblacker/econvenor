@@ -353,9 +353,9 @@ h6 .small,
 
 /*
  * Table
- *
- * Adjust colours.
-*/
+ */
+
+/* Adjust colours */
 
 th {
   color: #eeeeee
@@ -365,6 +365,11 @@ thead {
   background-color: #7251A4;
 }
 
+/* Set cursor to pointer */
+
+tbody tr:hover {
+  cursor: pointer;
+}
 
 
 /*
