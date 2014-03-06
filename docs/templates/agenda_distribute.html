@@ -40,13 +40,13 @@
     {% csrf_token %}
     <div class="checkbox">
       <label>
-        <input type="checkbox" name="all_participants" value="checked"><strong>All participants</strong>
+        <input type="checkbox" name="all_participants" id="all_participants" value="checked"><strong>All participants</strong>
       </label>
     </div>
     {% for participant in participants %}
       <div class="checkbox">
         <label>
-          <input type="checkbox" name="participant{{ participant.id }}" value="checked"> {{ participant }}
+          <input type="checkbox" class="individual-checkbox" id="participant{{ participant.id }}" name="participant{{ participant.id }}" value="checked"> {{ participant }}
         </label>
       </div>
     {% endfor %}

@@ -79,3 +79,21 @@ $(document).on("click", ".zoom-button", function(){
   $('.zoomable').attr('width', zoom);
 });
 
+
+/* Clear distribution list checkboxes when required
+-------------------------------------------------- */
+
+$(document).on("click", ".checkbox #all_participants", function(){ 
+  var checkbox_status = $(this).prop('checked');
+  if (checkbox_status == true) {
+    $(".individual-checkbox").prop('checked', false);
+  };
+});
+
+$(document).on("click", ".individual-checkbox", function(){ 
+  var checkbox_status = $(this).prop('checked');
+  if (checkbox_status == true) {
+    $(".checkbox #all_participants").prop('checked', false);
+  };
+});
+
