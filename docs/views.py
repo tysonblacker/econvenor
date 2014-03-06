@@ -217,108 +217,127 @@ def agenda_sent(request, meeting_id):
             'page_heading': page_heading,
             },
         RequestContext(request))
-    
+
 
 def minutes_list(request):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect(reverse('index'))
-	minutes = Meeting.objects.filter(owner=request.user, agenda_locked=True)
-	page_heading = 'Minutes'
-	table_headings = ('Meeting number', 'Date', 'Location',)
-	return render_to_response('minutes_list.html', {'user': request.user, 'minutes': minutes, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('index'))
+    minutes = Meeting.objects.filter(owner=request.user, agenda_locked=True)
+    page_heading = 'Minutes'
+    table_headings = ('Meeting number', 'Date', 'Location',)
+    return render_to_response(
+        'minutes_list.html', {
+            'user': request.user,
+            'minutes': minutes,
+            'page_heading': page_heading,
+            'table_headings': table_headings
+            },
+        RequestContext(request))
 
 
 def minutes_edit(request, meeting_id):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect(reverse('index'))
-	page_heading = 'Create minutes'
-	task_list_headings = ('Description', 'Assigned to', 'Deadline')
-	meeting = Meeting.objects.get(pk=int(meeting_id))
-	if meeting.owner != request.user:
-		return HttpResponseRedirect(reverse('index'))
-	meeting.agenda_locked = True
-	meeting.save()
-	AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=True, widgets={'variety': HiddenInput(), 'background': Textarea(attrs={'rows': 3}), 'minute_notes': Textarea(attrs={'rows': 4}),})
-	AgendaItemFormSet.form.base_fields['explainer'].queryset = Participant.objects.filter(owner=request.user)
-	DecisionFormSet = inlineformset_factory(Meeting, Decision, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'description': Textarea(attrs={'rows': 2}), 'owner': HiddenInput(),})
-	TaskFormSet = inlineformset_factory(Meeting, Task, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'status': HiddenInput(), 'owner': HiddenInput(), 'deadline': DateInput(attrs={'class': 'datepicker'}),})
-	TaskFormSet.form.base_fields['participant'].queryset = Participant.objects.filter(owner=request.user)
-	main_items = meeting.item_set.filter(owner=request.user, variety__exact='main')
-	decision_items = meeting.decision_set.filter(owner=request.user)
-	task_items = meeting.task_set.filter(owner=request.user)
-	new_data_form = {}
-	existing_data_forms = []
-	existing_data_formset = {}
-	decision_data_formset = {}
-	task_data_formset = {}
-	editable_section = 'none'
-	incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
-	completed_task_list = Task.objects.filter(owner=request.user, status="Complete")
-	account = Account.objects.filter(owner=request.user).last()
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('index'))
+    meeting = Meeting.objects.get(pk=int(meeting_id))
+    if meeting.owner != request.user:
+        return HttpResponseRedirect(reverse('index'))
+    
+    meeting.agenda_locked = True
+    meeting.save()
+
+    page_heading = 'Create minutes'
+    task_list_headings = ('Description', 'Assigned to', 'Deadline')
+        
+    AgendaItemFormSet = inlineformset_factory(Meeting, Item, extra=0, can_delete=True, widgets={'item_no': HiddenInput(), 'background': Textarea(attrs={'rows': 3}), 'minute_notes': Textarea(attrs={'rows': 4}),})
+    AgendaItemFormSet.form.base_fields['explainer'].queryset = Participant.objects.filter(owner=request.user)
+    DecisionFormSet = inlineformset_factory(Meeting, Decision, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'description': Textarea(attrs={'rows': 2}), 'owner': HiddenInput(),})
+    TaskFormSet = inlineformset_factory(Meeting, Task, extra=0, can_delete=True, widgets={'item': HiddenInput(), 'status': HiddenInput(), 'owner': HiddenInput(), 'deadline': DateInput(attrs={'class': 'datepicker'}),})
+    TaskFormSet.form.base_fields['participant'].queryset = Participant.objects.filter(owner=request.user)
+    
+    agenda_items = meeting.item_set.filter(owner=request.user)
+    decision_items = meeting.decision_set.filter(owner=request.user)
+    task_items = meeting.task_set.filter(owner=request.user)
+    
+    new_data_form = {}
+    existing_data_forms = []
+    existing_data_formset = AgendaItemFormSet(instance=meeting)
+    decision_data_formset = DecisionFormSet(instance=meeting)				
+    task_data_formset = TaskFormSet(instance=meeting)
+    editable_section = 'is_main_items'
+    
+    incomplete_task_list = Task.objects.filter(owner=request.user, status="Incomplete")
+    completed_task_list = Task.objects.filter(owner=request.user, status="Complete")
+    account = Account.objects.filter(owner=request.user).last()
 	
-	def save_minutes_data(request, meeting):
-		existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
-		if existing_data_formset.is_valid():
-			for form in existing_data_formset:
-				save_and_add_owner(request, form)
-		decision_data_formset = DecisionFormSet(request.POST, instance=meeting)
-		if decision_data_formset.is_valid():
-			for form in decision_data_formset:
-				save_and_add_owner(request, form)
-		task_data_formset = TaskFormSet(request.POST, instance=meeting)
-		if task_data_formset.is_valid():
-			for form in task_data_formset:
-				save_and_add_owner(request, form)
-		
-	if request.method == "POST":
-	
-		# Management of meeting details
-		if 'edit_meeting_details_minutes_button' in request.POST:
-			if request.POST['edit_meeting_details_minutes_button']=='edit_meeting_details':
-				existing_data_forms = MeetingForm(instance=meeting)
-				editable_section = 'is_meeting_details'
-		if 'save_meeting_details_minutes_button' in request.POST:
-			if request.POST['save_meeting_details_minutes_button']=='save_meeting_details':
-				new_data_form = MeetingForm(request.POST, instance=meeting)
-				if new_data_form.is_valid():
-					new_data_form.save()
-					editable_section = 'none'
-		if 'cancel_meeting_details_minutes_button' in request.POST:
-			if request.POST['cancel_meeting_details_minutes_button']=='cancel_meeting_details':
-				editable_section = 'none'
-				
-		# Management of main items 
-		if 'edit_main_items_agenda_button' in request.POST:
-			if request.POST['edit_main_items_agenda_button']=='edit_main_items':
-				existing_data_formset = AgendaItemFormSet(instance=meeting, queryset=main_items)
-				decision_data_formset = DecisionFormSet(instance=meeting)
-				task_data_formset = TaskFormSet(instance=meeting)
-				editable_section = 'is_main_items'
-		if 'save_main_items_agenda_button' in request.POST:
-			if request.POST['save_main_items_agenda_button']=='save_main_items':
-				save_minutes_data(request, meeting)
-				editable_section = 'none'
-		if 'add_decision_minutes_button' in request.POST:
-			if 'add_decision_item_' in request.POST['add_decision_minutes_button']:
-				save_minutes_data(request, meeting)
-				item_number = str(request.POST['add_decision_minutes_button'])
-				item_number = item_number[18:]
-				new_decision = Decision(item_id=int(item_number), meeting_id=meeting_id, owner=request.user)
-				new_decision.save()
-				existing_data_formset = AgendaItemFormSet(instance=meeting, queryset=main_items)
-				decision_data_formset = DecisionFormSet(instance=meeting)				
-				task_data_formset = TaskFormSet(instance=meeting)				
-				editable_section = 'is_main_items'
-		if 'add_task_minutes_button' in request.POST:
-			if 'add_task_item_' in request.POST['add_task_minutes_button']:
-				save_minutes_data(request, meeting)
-				item_number = str(request.POST['add_task_minutes_button'])
-				item_number = item_number[14:]
-				new_task = Task(item_id=int(item_number), meeting_id=meeting_id, owner=request.user, status = 'Incomplete')
-				new_task.save()
-				existing_data_formset = AgendaItemFormSet(instance=meeting, queryset=main_items)
-				decision_data_formset = DecisionFormSet(instance=meeting)				
-				task_data_formset = TaskFormSet(instance=meeting)				
-				editable_section = 'is_main_items'	
+    def save_minutes_data(request, meeting):
+        existing_data_formset = AgendaItemFormSet(request.POST, instance=meeting)
+        if existing_data_formset.is_valid():
+            for form in existing_data_formset:
+                save_and_add_owner(request, form)
+        decision_data_formset = DecisionFormSet(request.POST, instance=meeting)
+        if decision_data_formset.is_valid():
+            for form in decision_data_formset:
+                save_and_add_owner(request, form)
+        task_data_formset = TaskFormSet(request.POST, instance=meeting)
+        if task_data_formset.is_valid():
+            for form in task_data_formset:
+                save_and_add_owner(request, form)
+
+    if request.method == "POST":
+
+       
+        # Management of items 
+        if 'edit_main_items_agenda_button' in request.POST:
+            if request.POST['edit_main_items_agenda_button']=='edit_main_items':
+                existing_data_formset = AgendaItemFormSet(instance=meeting)
+                decision_data_formset = DecisionFormSet(instance=meeting)
+                task_data_formset = TaskFormSet(instance=meeting)
+                editable_section = 'is_main_items'
+        if 'save_main_items_agenda_button' in request.POST:
+            if request.POST['save_main_items_agenda_button']=='save_main_items':
+                save_minutes_data(request, meeting)
+                editable_section = 'none'
+        if 'add_decision_minutes_button' in request.POST:
+            if 'add_decision_item_' in request.POST['add_decision_minutes_button']:
+                save_minutes_data(request, meeting)
+                item_number = str(request.POST['add_decision_minutes_button'])
+                item_number = item_number[18:]
+                new_decision = Decision(item_id=int(item_number), meeting_id=meeting_id, owner=request.user)
+                new_decision.save()
+                existing_data_formset = AgendaItemFormSet(instance=meeting)
+                decision_data_formset = DecisionFormSet(instance=meeting)				
+                task_data_formset = TaskFormSet(instance=meeting)				
+                editable_section = 'is_main_items'
+        if 'add_task_minutes_button' in request.POST:
+            if 'add_task_item_' in request.POST['add_task_minutes_button']:
+                save_minutes_data(request, meeting)
+                item_number = str(request.POST['add_task_minutes_button'])
+                item_number = item_number[14:]
+                new_task = Task(item_id=int(item_number), meeting_id=meeting_id, owner=request.user, status = 'Incomplete')
+                new_task.save()
+                existing_data_formset = AgendaItemFormSet(instance=meeting)
+                decision_data_formset = DecisionFormSet(instance=meeting)				
+                task_data_formset = TaskFormSet(instance=meeting)				
+                editable_section = 'is_main_items'	
 						
-	return render_to_response('minutes_edit.html', {'user': request.user, 'meeting_id': meeting_id, 'meeting': meeting, 'page_heading': page_heading, 'task_list_headings': task_list_headings, 'completed_task_list': completed_task_list, 'incomplete_task_list': incomplete_task_list,'editable_section': editable_section, 'main_items': main_items, 'decision_items': decision_items, 'task_items': task_items, 'existing_data_forms': existing_data_forms, 'existing_data_formset': existing_data_formset, 'new_data_form': new_data_form, 'decision_data_formset': decision_data_formset, 'task_data_formset': task_data_formset, 'account': account}, RequestContext(request))
+    return render_to_response(
+        'minutes_edit.html', {
+            'user': request.user,
+            'meeting_id': meeting_id,
+            'meeting': meeting,
+            'page_heading': page_heading,
+            'task_list_headings': task_list_headings,
+            'completed_task_list': completed_task_list,
+            'incomplete_task_list': incomplete_task_list,
+            'editable_section': editable_section,
+            'agenda_items': agenda_items,
+            'decision_items': decision_items,
+            'task_items': task_items,
+            'existing_data_forms': existing_data_forms,
+            'existing_data_formset': existing_data_formset,
+            'new_data_form': new_data_form,
+            'decision_data_formset': decision_data_formset,
+            'task_data_formset': task_data_formset,
+            'account': account
+            },
+        RequestContext(request))

@@ -147,7 +147,7 @@
 
 {# MAIN ITEMS #}
 
-<h1><small>Main items</small></h1>
+<h1><small>Agenda items</small></h1>
 
 	{% ifequal editable_section 'is_main_items' %}
 
@@ -160,7 +160,7 @@
 				{% for item in existing_data_formset %}
 					<div class="panel panel-primary">
 						<div class="panel-heading">
-							{{ item.heading|setclass:"form-control" }}
+							Item&nbsp;{{ item.item_no.value }}.&nbsp;{{ item.heading.value }}
 						</div>
 						<div class="panel-body">
 							<div class="form-group">
@@ -173,7 +173,7 @@
 								{{ item.time_limit.label_tag }}{{ item.time_limit|setclass:"form-control" }}		
 							</div>								
 								{{ item.id|setclass:"form-control" }}
-						    	{{ item.variety|setclass:"form-control" }}
+						    	{{ item.item_no|setclass:"form-control" }}
 						
 							<p><strong>Decisions:</strong></p>
 							<div class="well">
@@ -205,7 +205,7 @@
 											   		{{ task.participant|setclass:"form-control" }}
 									   			</div>
 									   			<div class="col-sm-4">
-									   				{{ task.deadline }}
+									   				{{ task.deadline|setclass:"form-control" }}
 												</div>
 												<div>
 													{{ task.DELETE.label_tag }}{{ task.DELETE|setclass:"form-control"}}
