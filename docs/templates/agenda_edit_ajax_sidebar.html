@@ -5,10 +5,6 @@
         <li id="sidebar_{{ item.item_no}}"><a href="#id_{{ item.item_no}}-heading" class="sidebar-heading tltip" data-toggle="tooltip" title="Scroll to this item">
           <div>
             <span id="sidebar_heading_{{ item.item_no}}">{{ item.item_no}}. {{ item.heading }}</span>
-            <div class="pull-right">
-              <button type="button" class="btn btn-default btn-xs ajax-button tltip" id="delete_button_{{ item.item_no}}" data-toggle="tooltip" title="Delete item">
-                <span class="glyphicon glyphicon-remove"></span></button>
-            </div><!-- ./pull-right -->
           </div>
         </li></a>
       {% endfor %}

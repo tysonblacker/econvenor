@@ -11,7 +11,7 @@ class AgendaForm(forms.ModelForm):
         
         widgets = {
 		   	'background': forms.Textarea(attrs={'rows': 3}),
-		   	'item_no': forms.TextInput(attrs={'readonly': True, 'width': '50%'}),
+		   	'item_no': forms.HiddenInput(),
         }
         
         exclude = ('agenda_pdf', 'meeting', 'minutes_pdf', 'minute_notes', 'owner', )
