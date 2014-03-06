@@ -9,7 +9,6 @@
 -------------------------------------------------- */
 
 $(function loadAJAXonRefresh() {
-  console.log('loadAJAXonRefresh called');
   $.ajax({
     data: 'ajax_button=page_refresh\&csrfmiddlewaretoken=' + csrftoken,
     type: "POST",
@@ -17,7 +16,6 @@ $(function loadAJAXonRefresh() {
     success: updatePage,
     error: printError,
     complete: function() {
-      console.log('loadAJAXonRefresh complete');
     },
   });
 });
@@ -27,6 +25,7 @@ $(function loadAJAXonRefresh() {
 -------------------------------------------------- */
 
 $(document).on("click", ".ajax-button", function(){ 
+  $('body').css( 'cursor', 'wait' );
   var button_id = $(this).attr('id');
   var button_data = 'ajax_button=' + button_id;
   saveForm(button_data);
@@ -56,6 +55,7 @@ function updatePage( resp ) {
     tolerance: 'pointer',
   });
   $( '.spinner' ).spinner();
+  $('body').css( 'cursor', 'default' );
 };
 
 function printError( req, status, err ) {
@@ -94,6 +94,7 @@ $(document).on("keyup change", ".item-heading", function(){
 -------------------------------------------------- */
 
 $(document).on( "sortupdate", function( event, ui ) {
+  $('body').css( 'cursor', 'wait' );
   var sidebar_data = $( ".sortable" ).sortable( "serialize",{
     key: "sidebar"
   });
