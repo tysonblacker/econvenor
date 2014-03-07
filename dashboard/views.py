@@ -1,8 +1,8 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
+from django.core.urlresolvers import reverse
 
-from accounts.models import Account
+from accounts.models import Account, Group
 from meetings.models import Meeting
 from tasks.models import Task
 
@@ -10,11 +10,21 @@ from tasks.models import Task
 def dashboard(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('index'))
-	tasks = Task.objects.filter(owner=request.user, status='Incomplete').order_by('deadline')
-	task_headings = ('Description', 'Assigned to', 'Deadline',)
-	meetings = Meeting.objects.filter(owner=request.user).order_by('date')
+	
+	account = Account.objects.get(user=request.user)
+	
+	group = Group.objects.filter(account=account)
+	
+
+	tasks = Task.objects.filter(group=group)
+
+
+	meetings = Meeting.objects.filter(group=group).order_by('created')
+	
 	next_meeting = meetings.last()
 	last_meeting = meetings.first()
-	account = Account.objects.filter(owner=request.user).last()
-	return render_to_response('dashboard.html', {'user': request.user, 'last_meeting': last_meeting, 'next_meeting': next_meeting, 'tasks': tasks, 'task_headings': task_headings, 'account': account}, RequestContext(request))
+
+	task_headings = ('Description', 'Assigned to', 'Deadline',)
+	
+	return render(request, 'dashboard.html', {'user': request.user, 'tasks': tasks, 'task_headings': task_headings, 'account': account, 'meetings': meetings})
 	

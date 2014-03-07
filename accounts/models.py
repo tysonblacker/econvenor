@@ -14,7 +14,7 @@ class Account(TimeStampedModel):
     username = models.CharField(max_length=30, null=False, blank=True)
             
     def __unicode__(self):
-        return self.user
+        return self.username
 
 
 class Group(TimeStampedModel):
@@ -25,6 +25,7 @@ class Group(TimeStampedModel):
     logo = models.FileField(upload_to='logos')
     name = models.CharField(max_length=100, null=False, blank=True)
     status = models.CharField(max_length=20, null=False, blank=True)
+    is_default = models.BooleanField(default=False)
     
     def __unicode__(self):
         return self.name
