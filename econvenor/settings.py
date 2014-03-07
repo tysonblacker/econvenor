@@ -44,9 +44,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'south',
+
     'access',
     'accounts',
     'bugs',
+    'common',
     'dashboard',
     'decisions',
     'docs',
@@ -57,8 +60,6 @@ INSTALLED_APPS = (
     'tasks',
     'templatetags',
     'utilities',
-    
-    'south',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -1,15 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
+from utilities.models import TimeStampedModel
 
+from accounts.models import Group
 from docs.models import Item
 from meetings.models import Meeting
 
 
-class Decision(models.Model):
-	owner = models.ForeignKey(User, null=True, blank=True)
-	meeting = models.ForeignKey(Meeting)
-	item = models.ForeignKey(Item)
-	description = models.TextField()
-	
-	def __unicode__(self):
-		return self.description
+class Decision(TimeStampedModel):
+
+    group = models.ForeignKey(Group)
+
+    item = models.ForeignKey(Item)
+    meeting = models.ForeignKey(Meeting)
+    
+    description = models.TextField(null=False, blank=False)
+    
+    def __unicode__(self):
+        return self.description
