@@ -10,7 +10,8 @@ urlpatterns = patterns('',
 	url(r'^$', 'landing.views.index', name="index"),
 	url(r'^login/$', 'access.views.user_login', name="login"),
 	url(r'^logout/$', 'access.views.user_logout', name="logout"),
-	    
+	url(r'^register/$', 'access.views.user_register', name="register"),
+		    
 	url(r'^admin/', include(admin.site.urls)),
 		
 	url(r'^dashboard/$', 'dashboard.views.dashboard', name="dashboard"),
@@ -49,8 +50,10 @@ urlpatterns = patterns('',
 	url(r'^faqs/$', 'help.views.faqs', name="faqs"),
 	url(r'^ask-question/$', 'help.views.ask_question', name="ask-question"),
 			
-	url(r'^account-settings/$', 'accounts.views.account_settings',
-		name="account-settings"),
+	url(r'^account/$', 'accounts.views.account',
+		name="account"),
+	url(r'^account-setup/$', 'accounts.views.account_setup',
+		name="account-setup"),
 
 	url(r'^bugs/$', 'bugs.views.bug_list', name="bug-list"),	
 	url(r'^bugs/report/$', 'bugs.views.bug_report', name="bug-report"),

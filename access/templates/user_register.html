@@ -1,0 +1,15 @@
+{% extends "access_base.html" %}
+
+{% block content %}
+
+  <h1>Create an account</h1>
+  <div class="text-left">
+    <form class="authentication-form" role="form" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Create the account">
+    </form>
+  </div>
+  <p>Return to the <a href="{% url 'index' %}">eConvenor main page</a></p>
+       
+{% endblock %}

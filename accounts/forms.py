@@ -12,4 +12,9 @@ class AccountForm(forms.ModelForm):
         	'date_altered': forms.HiddenInput(),
         }
         
- 
+
+class AccountSetupForm(forms.ModelForm):
+    
+    class Meta:
+        model = Account
+        fields = ('first_name', 'last_name')

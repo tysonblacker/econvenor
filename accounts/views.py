@@ -1,23 +1,36 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 from django.core.urlresolvers import reverse
 
 from accounts.models import Account
-from accounts.forms import AccountForm
+from accounts.forms import AccountForm, AccountSetupForm
 from utilities.commonutils import save_and_add_owner
 
-      
-def account_settings(request):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect(reverse('index'))
-	page_heading = 'Account settings'
-	if request.method == "POST":
-		save_and_add_owner(request, AccountForm(request.POST))
-		return HttpResponseRedirect(reverse('dashboard'))
-	else:
-		account = Account.objects.filter(owner=request.user).last()
-		account_form = AccountForm(instance=account)
-	return render_to_response('account_settings.html', {'user': request.user, 'account_form': account_form, 'page_heading': page_heading}, RequestContext(request))
+
+def account(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('index'))
+    page_heading = 'Account settings'
+    
+    if request.method == "POST":
+        save_and_add_owner(request, AccountForm(request.POST))
+        return HttpResponseRedirect(reverse('dashboard'))
+
+	account = Account.objects.all()
+	acctform = 'fdjkslfjdkl'
+	
+    return render(request, 'account.html', {'user': request.user, 'account_form': acctnbform, 'page_heading': page_heading})
 	
 
+def account_setup(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('index'))
+    
+    page_heading = 'Account setup'
+    
+    if request.method == "POST":
+        pass
+    
+    form = AccountSetupForm()   
+    
+    return render(request, 'account_setup.html', {'user': request.user, 'form': form, 'page_heading': page_heading})
