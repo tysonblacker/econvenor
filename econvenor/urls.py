@@ -8,9 +8,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
 	url(r'^$', 'landing.views.index', name="index"),
-	url(r'^login/$', 'access.views.user_login', name="login"),
-	url(r'^logout/$', 'access.views.user_logout', name="logout"),
-	url(r'^register/$', 'access.views.user_register', name="register"),
+	url(r'^login/$', 'authentication.views.user_login', name="login"),
+	url(r'^logout/$', 'authentication.views.user_logout', name="logout"),
+	url(r'^register/$', 'authentication.views.user_register', name="register"),
 		    
 	url(r'^admin/', include(admin.site.urls)),
 		

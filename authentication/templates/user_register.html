@@ -1,0 +1,35 @@
+{% extends "authentication_base.html" %}
+{% load setclass %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <h1>Create your account</h1>
+  <div class="text-left">
+    <form class="authentication-form" role="form" method="POST">
+      {% csrf_token %}
+
+        {{form.username|setclass:"form-control" }}
+
+      <div class="form-group">      
+        {{ form.email.label_tag }}      
+        {{form.email|setclass:"form-control" }}
+        {{ form.email.errors }}
+      </div>
+      <div class="form-group">      
+        {{ form.password1.label_tag }}      
+        {{ form.password1|setclass:"form-control" }}
+      </div>
+      <div class="form-group">      
+        {{ form.password2.label_tag }}      
+        {{ form.password2|setclass:"form-control" }}
+        {{ form.password1.errors }}
+        {{ form.password2.errors }}
+      </div>
+                  
+      <button type="submit" class="btn btn-default">Create my account</button>
+    </form>
+  </div>
+  <p>Return to the <a href="{% url 'index' %}">eConvenor main page</a></p>
+       
+{% endblock %}

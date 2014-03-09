@@ -46,8 +46,8 @@ INSTALLED_APPS = (
     
     'south',
 
-    'access',
     'accounts',
+    'authentication',
     'bugs',
     'common',
     'dashboard',
@@ -69,6 +69,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'authentication.backends.EmailModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 ROOT_URLCONF = 'econvenor.urls'

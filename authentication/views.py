@@ -10,9 +10,9 @@ from utils import process_account_request
 def user_login(request):
     error = ''
     if request.method == 'POST':
-        username = request.POST['username']
+        email = request.POST['email']
         password = request.POST['password']
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
