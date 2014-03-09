@@ -52,7 +52,7 @@ urlpatterns = patterns('',
 			
 	url(r'^account/$', 'accounts.views.account',
 		name="account"),
-	url(r'^account-setup/$', 'accounts.views.account_setup',
+	url(r'^setup/$', 'accounts.views.account_setup',
 		name="account-setup"),
 
 	url(r'^bugs/$', 'bugs.views.bug_list', name="bug-list"),	

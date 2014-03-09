@@ -3,7 +3,7 @@ from utilities.models import TimeStampedModel
 
 from django.contrib.auth.models import User
 
-from accounts.models import Account, Group
+from accounts.models import Group
 from participants.models import Participant
 from tasks.models import Task
 
@@ -32,8 +32,6 @@ class AccountUpdate(TimeStampedModel):
     """
     
     user = models.ForeignKey(User)
-
-    account = models.ForeignKey(Account)
 
     field = models.CharField(max_length=100, null=False, blank=True)
     old_value = models.TextField(null=False, blank=True)

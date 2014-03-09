@@ -4,28 +4,24 @@ from utilities.models import TimeStampedModel
 from django.contrib.auth.models import User
 
 
-class Account(TimeStampedModel):
-
-    user = models.ForeignKey(User, null=True, blank=True)
-
-    email = models.EmailField()
-    first_name = models.CharField(max_length=50, null=False, blank=True)
-    last_name = models.CharField(max_length=50, null=False, blank=True)
-    username = models.CharField(max_length=30, null=False, blank=True)
-            
-    def __unicode__(self):
-        return self.username
-
-
 class Group(TimeStampedModel):
 
-    account = models.ForeignKey(Account)
+    users = models.ManyToManyField(User)
     
     description = models.CharField(max_length=200, null=False, blank=True)
     logo = models.FileField(upload_to='logos')
     name = models.CharField(max_length=100, null=False, blank=True)
     status = models.CharField(max_length=20, null=False, blank=True)
-    is_default = models.BooleanField(default=False)
     
     def __unicode__(self):
         return self.name
+        
+
+class UserSettings(TimeStampedModel):
+
+    user = models.OneToOneField(User, primary_key=True)
+    current_group = models.ForeignKey(Group)
+
+    def __unicode__(self):
+        return self.current_group.value
+

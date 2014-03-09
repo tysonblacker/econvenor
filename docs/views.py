@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from accounts.models import Account
+from accounts.models import Group
 from decisions.models import Decision
 from docs.forms import AgendaForm, MinutesForm
 from docs.models import Item

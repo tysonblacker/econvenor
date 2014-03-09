@@ -45,4 +45,3 @@ def user_register(request):
     return render(request, "user_register.html", {
         'form': form,
     })
-

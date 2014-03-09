@@ -10,8 +10,7 @@ from docs.forms import AgendaForm, MinutesForm
 from docs.models import Item
 from meetings.models import Meeting
 from participants.models import Participant
-from utilities.commonutils import get_group_name, \
-                                  set_path
+from utilities.commonutils import set_path
 
 
 def delete_item(request, meeting_id):

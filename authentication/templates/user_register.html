@@ -1,12 +1,12 @@
-{% extends "authentication_base.html" %}
+{% extends "setup_base.html" %}
 {% load setclass %}
 {% load staticfiles %}
 
 {% block content %}
 
   <h1>Create your account</h1>
-  <div class="text-left">
-    <form class="authentication-form" role="form" method="POST">
+  <div class="col-xs-4 col-xs-offset-4 text-left">
+    <form class="setup-form" role="form" method="POST">
       {% csrf_token %}
 
         {{form.username|setclass:"form-control" }}
@@ -27,9 +27,10 @@
         {{ form.password2.errors }}
       </div>
                   
-      <button type="submit" class="btn btn-default">Create my account</button>
+      <button type="submit" class="btn btn-primary btn-block">Create my account</button>
     </form>
-  </div>
   <p>Return to the <a href="{% url 'index' %}">eConvenor main page</a></p>
+  </div>
+
        
 {% endblock %}

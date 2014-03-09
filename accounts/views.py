@@ -2,35 +2,39 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 
-from accounts.models import Account
-from accounts.forms import AccountForm, AccountSetupForm
-from utilities.commonutils import save_and_add_owner
-
+from accounts.forms import GroupSetupForm, UserSetupForm
+from accounts.models import UserSettings
 
 def account(request):
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('index'))
-    page_heading = 'Account settings'
-    
-    if request.method == "POST":
-        save_and_add_owner(request, AccountForm(request.POST))
-        return HttpResponseRedirect(reverse('dashboard'))
+    pass
 
-	account = Account.objects.all()
-	acctform = 'fdjkslfjdkl'
-	
-    return render(request, 'account.html', {'user': request.user, 'account_form': acctnbform, 'page_heading': page_heading})
-	
 
 def account_setup(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('index'))
     
-    page_heading = 'Account setup'
-    
     if request.method == "POST":
-        pass
+        user_setup_form = UserSetupForm(request.POST, instance=request.user)
+        group_setup_form = GroupSetupForm(request.POST)
     
-    form = AccountSetupForm()   
+        if user_setup_form.is_valid() and group_setup_form.is_valid():
+            # save each form
+            user_setup_form.save()
+            g = group_setup_form.save()
+            # associate the user with the group
+            u = request.user
+            g.users.add(u)
+            # set the group as the user's current_group
+            settings = UserSettings(user=u, current_group=g)
+            settings.save()
+           
+            return HttpResponseRedirect(reverse('dashboard'))
+    else:
+        user_setup_form = UserSetupForm()   
+        group_setup_form = GroupSetupForm()   
     
-    return render(request, 'account_setup.html', {'user': request.user, 'form': form, 'page_heading': page_heading})
+    return render(request, 'account_setup.html', {
+        'user_form': user_setup_form,
+        'group_form': group_setup_form})
+    
+   

@@ -21,7 +21,7 @@ from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, \
 
 import reportlab.rl_config
 
-from accounts.models import Account
+from accounts.models import Group
 from meetings.models import Meeting
 from tasks.models import Task
 from docs.utils import get_formatted_meeting_duration, \
