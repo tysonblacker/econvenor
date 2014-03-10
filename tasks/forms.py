@@ -4,20 +4,48 @@ from participants.models import Participant
 from tasks.models import Task
 
 
-class TaskForm(forms.ModelForm):
+class AddTaskForm(forms.ModelForm):
     
-    def __init__(self, user, *args, **kwargs):
-        super(TaskForm, self).__init__(*args, **kwargs)
-        self.fields['participant'].queryset = Participant.objects.filter(owner=user)
+    def __init__(self, group, *args, **kwargs):
+        super(AddTaskForm, self).__init__(*args, **kwargs)
+        self.fields['participant'].queryset = \
+            Participant.objects.filter(group=group)
         
     class Meta:
         model = Task
-        widgets = {
-        	'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'}),
-        	'deadline': forms.DateInput(attrs={'class': 'datepicker'}),
-        	'status': forms.Select(attrs={'class': 'form-control'}),
-        	'owner': forms.HiddenInput(),
-        	'meeting': forms.HiddenInput(),
-        	'item': forms.HiddenInput(),
-        }
-
+        fields = ['description',
+                  'participant',
+                  'deadline',
+                  'notes',
+                  ]
+                  
+    def save(self, group, commit=True):
+        task = super(AddTaskForm, self).save(commit=False)
+        task.group = group
+        if commit:
+            task.save()
+        return task
+        
+        
+class EditTaskForm(forms.ModelForm):
+    
+    def __init__(self, group, *args, **kwargs):
+        super(EditTaskForm, self).__init__(*args, **kwargs)
+        self.fields['participant'].queryset = \
+            Participant.objects.filter(group=group)
+        
+    class Meta:
+        model = Task
+        fields = ['description',
+                  'participant',
+                  'deadline',
+                  'status',
+                  'notes',
+                  ]
+                  
+    def save(self, group, commit=True):
+        task = super(EditTaskForm, self).save(commit=False)
+        task.group = group
+        if commit:
+            task.save()
+        return task

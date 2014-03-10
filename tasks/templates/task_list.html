@@ -4,8 +4,24 @@
 
 
 <div class="page-header">
-	<h1>{{ page_heading }}</h1>
+  <h1>{{ page_heading }}</h1>
 </div>
+
+<form role="form" action="" method="POST">
+  {% csrf_token %}
+  <ul class="nav nav-pills">
+    <li class="active"><button type="submit" class="btn btn-primary"
+      value="all" name="button">All</button></li>
+    <li><button type="submit" class="btn btn-primary" value="incomplete"
+      name="button">Incomplete</button></li>
+    <li class="active"><button type="submit" class="btn btn-primary"
+      value="complete" name="button">Complete</button></li>
+    <li class="active"><button type="submit" class="btn btn-primary"
+      value="overdue" name="button">Overdue</button></li>
+  </ul>
+</form>
+
+<br/>
 
 <div class="panel panel-primary">
 	<table class="table table-hover">
@@ -33,7 +49,9 @@
 	</table>
 </div>
 
-<a href={% url 'task-add' %}><button type="button" class="btn btn-primary" data-toggle="button">Add task</button></a>
+<a href={% url 'task-add' %}>
+  <button type="button" class="btn btn-primary">Add task</button>
+</a>
 	
 	
 {% endblock %}

@@ -12,24 +12,17 @@
 <div class="well"> 
       
 	<form role="form" action="" method="POST">
-		<div class="form-group">
-			{% csrf_token %}
-    	</div>
+        {% csrf_token %}
     	
-    	{% for hidden in task_form.hidden_fields %}
-   			<div class="form-group">
-   				{{ hidden }}
-   			</div>
-		{% endfor %}
-    	
-    	{% for field in task_form.visible_fields %}
+    	{% for field in form %}
 			<div class="form-group">
       			{{ field.label_tag }}
       			{% ifequal field.label "Deadline" %}
       				<br>
-      				{{ field }}
+      				{{ field|setclass:"form-control datepicker" }}
       			{% else %}
 	      			{{ field|setclass:"form-control" }}
+	      	    {{ field.errors }}
 	      		{% endifequal %}
 			</div>
 		{% endfor %}

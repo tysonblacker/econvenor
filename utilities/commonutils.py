@@ -1,6 +1,5 @@
 import socket
 
-from accounts.models import Group
 
 def save_and_add_owner(request, form_object):
 	form = form_object

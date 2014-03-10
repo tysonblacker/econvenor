@@ -6,6 +6,20 @@
 <div class="page-header">
 	<h1>{{ page_heading }}</h1>
 </div>
+
+<form role="form" action="" method="POST">
+  {% csrf_token %}
+  <ul class="nav nav-pills">
+    <li class="active"><button type="submit" class="btn btn-primary"
+      value="first_name" name="button">Sort by first name</button></li>
+    <li><button type="submit" class="btn btn-primary" value="last_name"
+      name="button">Sort by last name</button></li>
+    <li class="active"><button type="submit" class="btn btn-primary"
+      value="newest_first" name="button">Sort by newest first</button></li>
+  </ul>
+</form>
+
+<br/>
             
 <div class="panel panel-primary">
 	<table class="table table-hover">
@@ -21,8 +35,8 @@
 				<tr id={{ participant.id }} onclick="document.location='{% url 'participant-view' participant.id %}';">
 					<td>{{ participant.first_name }}</td>
 					<td>{{ participant.last_name }}</td>
-					<td>{{ participant.email_address }}</td>
-					<td>{{ participant.phone_number }}</td>
+					<td>{{ participant.email }}</td>
+					<td>{{ participant.phone }}</td>
 				</tr>
 			{% empty %}
 				<tr>

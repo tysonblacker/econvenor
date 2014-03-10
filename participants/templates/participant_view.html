@@ -9,18 +9,14 @@
 </div>
 
 
-{# PARTICIPANT'S CONTACT DETAILS #}
-
 <h1><small>{{ participant.first_name }}'s details</small></h1>
 
 <div class="well">
-	<p><strong>Email:</strong> &nbsp &nbsp &nbsp {{ participant.email_address }}</p>
-	<p><strong>Phone:</strong> &nbsp &nbsp {{ participant.phone_number }}</p>
-	<a href={% url 'participant-edit' participant.id %}><button type="button" class="btn btn-primary" data-toggle="button">Edit {{ participant.first_name }}'s details</button></a>
+	<p><strong>Email:</strong> &nbsp &nbsp &nbsp {{ participant.email }}</p>
+	<p><strong>Phone:</strong> &nbsp &nbsp {{ participant.phone }}</p>
+	<a href={% url 'participant-edit' participant.id %}><button type="button" class="btn btn-primary">Edit {{ participant.first_name }}'s details</button></a>
 </div>
 
-
-{# PARTICIPANT'S TASKS #}
 
 <h1><small>{{ participant.first_name }}'s tasks</small></h1>
 
@@ -44,43 +40,5 @@
 		</tbody>
 	</table>
 </div>
-		
-{% if not new_task_form %}
-	<form action="" method="POST">
-		{% csrf_token %}
-		<button type="submit" class="btn btn-primary" name="add_task_button" value="add_task" data-toggle="button">Add another task for {{ participant.first_name }}</button>
-	</form>
-{% endif %}
-
-
-{# NEW TASK FORM #}
-
-{% if new_task_form %}
-
-<div>
-	<form class="form-inline" role="form" action="" method="POST">
-		<div class="form-group">
-			{% csrf_token %}
-			{{ new_task_form.owner }}
-			<input type='hidden' id="id_participant" name='participant' value= '{{ participant.id }}' />
-    		<div class="well">
-   				<div class="col-sm-4">
-   					{{ new_task_form.description }}
-   				</div>
-   				<div class="col-sm-4">
-   					{{ new_task_form.deadline }}
-   	  			</div>
-   	  			<div class="col-sm-4">
-   	  				{{ new_task_form.status }}
-   	  			</div>
-    		 	<button type="submit" class="btn btn-primary" name="new_task_button" value="new_task_save" data-toggle="button">Save new task</button>
-   				<button type="submit" class="btn btn-default" name="new_task_button" value="new_task_cancel" data-toggle="button">Cancel</button>
-   			</div>
-   		</div>
-	</form>
-	{% endif %}
-</div>
-
-
 
 {% endblock %}
