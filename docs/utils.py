@@ -10,6 +10,7 @@ from docs.forms import AgendaForm, MinutesForm
 from docs.models import Item
 from meetings.models import Meeting
 from participants.models import Participant
+from tasks.models import Task
 from utilities.commonutils import set_path
 
 
@@ -121,9 +122,9 @@ def save_formlist(request, group, meeting, items, doc_type):
         count += 1
     
     
-def calculate_meeting_duration(meeting_id):
+def calculate_meeting_duration(meeting):
 	duration = 0
-	items = Item.objects.filter(meeting=meeting_id)
+	items = Item.objects.filter(meeting=meeting)
 	for item in items:
 	    if item.time_limit:
 		    duration += item.time_limit
@@ -143,39 +144,44 @@ def get_formatted_meeting_duration(meeting_id):
 	return formatted_duration
 	
 
-def calculate_meeting_end_time(meeting_id):
-	meeting = Meeting.objects.get(pk=int(meeting_id))
-	duration = calculate_meeting_duration(meeting_id)
-	date = meeting.date
-	start_time = meeting.start_time
+def calculate_meeting_end_time(meeting):
+	duration = calculate_meeting_duration(meeting)
+	date = meeting.date_scheduled
+	start_time = meeting.start_time_scheduled
 	start_date_and_time = datetime.combine(date, start_time)
 	end_date_and_time = start_date_and_time + timedelta(minutes=duration)
 	end_time = end_date_and_time.time()
 	return end_time
 	
 
-def find_preceding_meeting_date(group):
-	meetings = Meeting.objects.filter(group=group, meeting_status='Complete',
-	                                  meeting_type='Ordinary Meeting')
-	if meetings:
-	    preceding_meeting = meetings.order_by('date_actual').last()
-	    preceding_meeting_date = preceding_meeting.date_actual
-	else:
-	    preceding_meeting_date = None
-	return preceding_meeting_date
+def get_completed_tasks_list(group):
+    meetings = Meeting.objects.filter(group=group, meeting_status='Complete',
+                                      meeting_type='Ordinary Meeting')
+    if meetings:
+        preceding_meeting = meetings.order_by('date_actual').last()
+        preceding_meeting_date = preceding_meeting.date_actual
+    else:
+        preceding_meeting_date = None
+
+    completed_task_list = []
+    if preceding_meeting_date != None:
+        completed_task_list = Task.lists.complete_tasks.filter(group=group,
+            deadline__gte=preceding_meeting_date)
+
+    return completed_task_list
 
 
-def distribute_agenda(request, meeting_id):
+def distribute_agenda(request, group, meeting):
 	
 	recipients = []
-	group_name = get_group_name(request)
+	group_name = group.name
 	    
 	# build recipients list if "all_participants" box is checked
 	if 'all_participants' in request.POST:
-		participants = Participant.objects.filter(owner=request.user)
+		participants = Participant.objects.filter(group=group)
 		for participant in participants:
-			participant_email_address = participant.email_address
-			recipients.append(participant_email_address)
+			email = participant.email
+			recipients.append(email)
 			
 	# build recipients list if "all_participants" box is not checked
 	else:
@@ -194,12 +200,11 @@ def distribute_agenda(request, meeting_id):
 		# create recipients list with email addresses
 
 		for item in id_list:
-			participant = Participant.objects.get(pk=int(item))
-			participant_email_address = participant.email_address
-			recipients.append(participant_email_address)
+			participant = Participant.objects.get(pk=int(item), group=group)
+			participant_email = participant.email
+			recipients.append(participant_email)
 
 	# set up the email fields
-	meeting = Meeting.objects.get(pk=int(meeting_id))
 	pdf_path = os.path.join(settings.BASE_DIR, meeting.agenda_pdf.url[1:])	
 	subject = group_name + ': You agenda is attached'
 	body = 'Here is your agenda'

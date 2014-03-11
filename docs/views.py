@@ -17,7 +17,7 @@ from docs.utils import add_item, \
                        calculate_meeting_end_time, \
                        delete_item, \
                        distribute_agenda, \
-                       find_preceding_meeting_date, \
+                       get_completed_tasks_list, \
                        get_formatted_meeting_duration, \
                        move_item, \
                        save_formlist
@@ -62,13 +62,9 @@ def agenda_edit(request, meeting_id):
     AgendaForm.base_fields['explainer'].queryset =\
         Participant.objects.filter(group=group)
     
-    preceding_meeting_date = find_preceding_meeting_date(group)
-    incomplete_task_list = Task.lists.incomplete_tasks().filter(group=group)
-    completed_task_list = []
-    if preceding_meeting_date != None:
-        completed_task_list = Task.lists.complete_tasks.filter(
-                group=group,
-                deadline__gte=preceding_meeting_date)
+
+    incomplete_tasks_list = Task.lists.incomplete_tasks().filter(group=group)
+    completed_tasks_list = get_completed_tasks_list(group)
 
     if request.method == "POST" and 'ajax_button' in request.POST:
         request_type = 'ajax'
@@ -109,8 +105,8 @@ def agenda_edit(request, meeting_id):
 #                          'meeting_end_time': meeting_end_time,
                           'page_heading': page_heading,
                           'task_list_headings': task_list_headings,
-                          'completed_task_list': completed_task_list,
-                          'incomplete_task_list': incomplete_task_list,
+                          'completed_tasks_list': completed_tasks_list,
+                          'incomplete_tasks_list': incomplete_tasks_list,
                           'items': items,
                           'item_count': item_count,
                           'item_formlist': item_formlist,
@@ -138,25 +134,25 @@ def agenda_distribute(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
         
     meeting = Meeting.objects.get(pk=int(meeting_id))
-    if meeting.owner != request.user:
+    if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
-    participants = Participant.objects.filter(owner=request.user)
-    pages = create_pdf_agenda(request, meeting_id)
+    
+    participants = Participant.objects.filter(group=group)
+    pages = create_pdf_agenda(request, group, meeting)
     
     if request.method == "POST":
         if 'distribute_button' in request.POST:
             if request.POST['distribute_button']=='distribute_agenda':
-            	distribute_agenda(request, meeting_id)
-                return HttpResponseRedirect(reverse('agenda-sent', args=(meeting_id)))
+            	distribute_agenda(request, group, meeting)
+                return HttpResponseRedirect(reverse('agenda-sent',
+                                                    args=(meeting_id)))
             	
-    return render_to_response(
-        'agenda_distribute.html', {
-            'meeting_id': meeting_id,
-            'meeting': meeting,
-            'pages': pages,
-            'participants': participants,
-            },
-        RequestContext(request))
+    return render(request, 'agenda_distribute.html', {
+                  'meeting_id': meeting_id,
+                  'meeting': meeting,
+                  'pages': pages,
+                  'participants': participants,
+                  })
 
 
 def agenda_print(request, meeting_id):
@@ -165,10 +161,10 @@ def agenda_print(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
         
     meeting = Meeting.objects.get(pk=int(meeting_id))
-    if meeting.owner != request.user:
+    if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
 
-    pdf_contents = get_pdf_contents(request, meeting_id)
+    pdf_contents = get_pdf_contents(request, group, meeting)
 
     response = HttpResponse(pdf_contents, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=test-agenda.pdf'
@@ -182,15 +178,14 @@ def agenda_sent(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
         
     meeting = Meeting.objects.get(pk=int(meeting_id))
-    if meeting.owner != request.user:
+    if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
 
     page_heading = 'Agenda for meeting ' + meeting_id + ' sent.'
-    return render_to_response(
-        'agenda_sent.html', {
-            'page_heading': page_heading,
-            },
-        RequestContext(request))
+    
+    return render(request, 'agenda_sent.html', {
+                  'page_heading': page_heading,
+                  })
 
 
 def minutes_list(request):
@@ -198,17 +193,15 @@ def minutes_list(request):
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
         
-    minutes = Meeting.objects.filter(owner=request.user, agenda_locked=True)
+    minutes = Meeting.objects.filter(group=group)
     page_heading = 'Minutes'
     table_headings = ('Meeting number', 'Date', 'Location',)
-    return render_to_response(
-        'minutes_list.html', {
-            'user': request.user,
-            'minutes': minutes,
-            'page_heading': page_heading,
-            'table_headings': table_headings
-            },
-        RequestContext(request))
+    
+    return render(request, 'minutes_list.html', {
+                  'minutes': minutes,
+                  'page_heading': page_heading,
+                  'table_headings': table_headings
+                  })
 
 
 def minutes_edit(request, meeting_id):
@@ -217,12 +210,9 @@ def minutes_edit(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
         
     meeting = Meeting.objects.get(pk=int(meeting_id))
-    if meeting.owner != request.user:
+    if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
     
-    meeting.agenda_locked = True
-    meeting.save()
-
     page_heading = 'Create minutes'
     task_list_headings = ('Description', 'Assigned to', 'Deadline')
         
@@ -340,31 +330,28 @@ def minutes_edit(request, meeting_id):
     responses = []
     
     for template in templates:
-        response = render_to_response(
-            template, {
-                'user': request.user,
-                'meeting_id': meeting_id,
-                'meeting': meeting,
-                'meeting_duration': meeting_duration,
-                'meeting_end_time': meeting_end_time,
-                'page_heading': page_heading,
-                'task_list_headings': task_list_headings,
-                'completed_task_list': completed_task_list,
-                'incomplete_task_list': incomplete_task_list,
-                'items': items,
-                'item_count': item_count,
-                'existing_data_forms': existing_data_forms,
-                'item_formlist': item_formlist,
-                'new_data_form': new_data_form,
-                'account': account,
-                'request_type': request_type,
-                'decision_items': decision_items,
-                'task_items': task_items,
-                'decision_data_formset': decision_data_formset,
-                'task_data_formset': task_data_formset,
-                },
-            RequestContext(request)
-        )
+        response = render(request, template, {
+                          'meeting_id': meeting_id,
+                          'meeting': meeting,
+                          'meeting_duration': meeting_duration,
+                          'meeting_end_time': meeting_end_time,
+                          'page_heading': page_heading,
+                          'task_list_headings': task_list_headings,
+                          'completed_task_list': completed_task_list,
+                          'incomplete_task_list': incomplete_task_list,
+                          'items': items,
+                          'item_count': item_count,
+                          'existing_data_forms': existing_data_forms,
+                          'item_formlist': item_formlist,
+                          'new_data_form': new_data_form,
+                          'account': account,
+                          'request_type': request_type,
+                          'decision_items': decision_items,
+                          'task_items': task_items,
+                          'decision_data_formset': decision_data_formset,
+                          'task_data_formset': task_data_formset,
+                          })
+
         responses.append(response)
         
     if request_type == 'refresh':

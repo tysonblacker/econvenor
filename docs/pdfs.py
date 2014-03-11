@@ -25,7 +25,7 @@ from accounts.models import Group
 from meetings.models import Meeting
 from tasks.models import Task
 from docs.utils import get_formatted_meeting_duration, \
-	calculate_meeting_end_time, find_preceding_meeting_date
+	calculate_meeting_end_time, get_completed_tasks_list
 from utilities.commonutils import set_path
 
 # Define colors
@@ -209,7 +209,7 @@ def create_long_item_table(section_heading, item_list, Document, t):
 		if item.background:
 			background = insert_line_breaks(item.background)
 		heading_t = Table([((
-			Paragraph(item.heading, itemStyle),
+			Paragraph(item.title, itemStyle),
 			Paragraph(str(item.time_limit) + ' minutes', rightItemStyle)
 			))],
 			colWidths=[120*mm,40*mm])
@@ -281,25 +281,17 @@ def create_task_table(section_heading, task_list, Document, t):
 	Document.append(Spacer(0,3*mm))
 
 
-def create_pdf_agenda(request, meeting_id, **kwargs):
+def create_pdf_agenda(request, group, meeting, **kwargs):
     
     # Generate the data which will populate the document
-	account = Account.objects.filter(owner=request.user).last()
-	meeting = Meeting.objects.get(pk=int(meeting_id))
-	items = meeting.item_set.filter(owner=request.user)
-	incomplete_task_list = Task.objects.filter(owner=request.user,
-		status="Incomplete")
-	completed_task_list = []
-	preceding_meeting_date = find_preceding_meeting_date(request.user,
-		meeting_id)
-	if preceding_meeting_date != None:
-		completed_task_list = Task.objects.filter(owner=request.user,
-			status="Complete", deadline__gte=preceding_meeting_date).exclude \
-			(deadline__gte=meeting.date)
-	meeting_duration = get_formatted_meeting_duration(meeting_id)
-	meeting_end_time = calculate_meeting_end_time(meeting_id)
-	location = insert_line_breaks(meeting.location)
-	notes = insert_line_breaks(meeting.notes)
+	group_name = group.name
+	items = meeting.item_set.filter(group=group)
+	incomplete_tasks_list = Task.lists.incomplete_tasks().filter(group=group)
+	completed_tasks_list = get_completed_tasks_list(group)
+	meeting_duration = get_formatted_meeting_duration(meeting)
+	meeting_end_time = calculate_meeting_end_time(meeting)
+	location = insert_line_breaks(meeting.location_scheduled)
+	notes = insert_line_breaks(meeting.instructions_scheduled)
 	
 	# Set up the document framework
 	buffer = BytesIO()
@@ -308,8 +300,8 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		leftMargin=25*mm,
 		topMargin=20*mm,
 		bottomMargin=25*mm,
-		title = account.group_name + "  |  Meeting of " +
-			meeting.date.strftime("%d %b %Y"),
+		title = group_name + "  |  Meeting of " +
+			meeting.date_scheduled.strftime("%d %b %Y"),
 		pagesize=A4)
 	body_frame = Frame(doc.leftMargin,
 		doc.bottomMargin,
@@ -324,7 +316,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	Document = []
 	
 	# Add main heading to document
-	Document.append(Paragraph(account.group_name, heading2Style))
+	Document.append(Paragraph(group_name, heading2Style))
 	Document.append(Paragraph("Meeting Agenda", heading1Style))
 	Document.append(Spacer(0,3*mm))
 	
@@ -341,15 +333,15 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		right_column = None
 	left_column = Table([
 		(Paragraph('Date', darkItemStyle),
-			Paragraph(meeting.date.strftime("%A %B %d, %Y"), normalStyle)),
+			Paragraph(meeting.date_scheduled.strftime("%A %B %d, %Y"), normalStyle)),
 		(Paragraph('Start Time', darkItemStyle),
-			Paragraph(meeting.start_time.strftime("%H:%M"), normalStyle)),
+			Paragraph(meeting.start_time_scheduled.strftime("%H:%M"), normalStyle)),
 		(Paragraph('End Time', darkItemStyle),
 			Paragraph(meeting_end_time.strftime("%H:%M"), normalStyle)),
 		(Paragraph('Duration', darkItemStyle),
 			Paragraph(meeting_duration, normalStyle)),
 		(Paragraph('Location', darkItemStyle),
-			Paragraph(location, normalStyle))
+			Paragraph(meeting.location_scheduled, normalStyle))
 		],
 		colWidths=[22*mm,58*mm])
 	left_column.setStyle(MEETING_LEFT_COLUMN_STYLE)
@@ -374,8 +366,8 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	
 	# Add task review to document
 	Document.append(Paragraph("Task review", heading2Style))
-	create_task_table("Tasks outstanding", incomplete_task_list, Document, t)
-	create_task_table("Tasks completed since last meeting", completed_task_list,
+	create_task_table("Tasks outstanding", incomplete_tasks_list, Document, t)
+	create_task_table("Tasks completed since last meeting", completed_tasks_list,
 		Document, t)
 		
 	# Build the PDF
@@ -395,11 +387,12 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 		os.makedirs(preview_path)
     	
 	# Define name of PDF file
-	pdf_name = get_pdf_name(request, meeting_id)
+	base_file_name = get_base_file_name(request, group, meeting) 
+	pdf_name = base_file_name + '.pdf'
 				
 	# Delete any old versions
 	path_to_old_pdf = pdf_path + pdf_name
-	path_to_old_previews = preview_path + str(request.user) + '*'	
+	path_to_old_previews = preview_path + str(group.id) + '*'	
 	
 	call('rm ' + path_to_old_pdf , shell=True)
 	call('rm ' + path_to_old_previews , shell=True)	
@@ -409,7 +402,7 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	meeting.agenda_pdf.save(pdf_name, pdf_file, save=True)
 
 	# Create and save the images
-	output_path = preview_path + str(request.user) + '_agenda_meeting' + meeting_id + '_page%d.png' 
+	output_path = preview_path + base_file_name + '_page%d.png' 
 	pdf_location = pdf_path + pdf_name
 	ghostscript_command = "gs -q -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r135 -dTextAlphaBits=4 -sPAPERSIZE=a4 -sOutputFile=" + output_path + ' ' + pdf_location
 
@@ -420,30 +413,31 @@ def create_pdf_agenda(request, meeting_id, **kwargs):
 	count = 0
 	while image_exists:
 		count += 1
-		filename_to_test = preview_path + str(request.user) + '_agenda_meeting' + meeting_id + '_page' + str(count) + '.png' 
+		filename_to_test = preview_path + base_file_name + '_page' + str(count) + '.png' 
 		image_exists = os.path.isfile(filename_to_test)
 
 	# Make a list of the names of all the preview files
 	pages = []
 	for i in range(1, count):
-		file_name = 'tmp/' + str(request.user) + '_agenda_meeting' + meeting_id + '_page' + str(i) + '.png'
+		file_name = 'tmp/' + base_file_name + '_page' + str(i) + '.png'
 		pages.append((i, file_name))
 		
 	return pages
 
 	
-def get_pdf_name(request, meeting_id):
-	pdf_name = str(request.user) + '_agenda_meeting' + meeting_id + '.pdf'
-	return pdf_name
+def get_base_file_name(request, group, meeting):
+	base_file_name = str(group.id) + '_agenda_meeting' + meeting.meeting_no
+	return base_file_name
 
 	
 def get_pdf_path():
 	pdf_path = os.path.join(settings.BASE_DIR, 'media/meetingdocs/')
 	return pdf_path
 	
-def get_pdf_contents(request, meeting_id):
 	
-	pdf_name = get_pdf_name(request, meeting_id)
+def get_pdf_contents(request, group, meeting):
+	
+	pdf_name = get_base_file_name(request, group, meeting) + '.pdf'
 	pdf_path = get_pdf_path()
 	pdf_location = pdf_path + pdf_name
 	
