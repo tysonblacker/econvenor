@@ -1,0 +1,44 @@
+{% extends "app_base.html" %}
+
+{% block content %}
+
+  <div class="page-header">
+    <h1>{{ page_heading }}</h1>
+  </div>
+
+  <div class="panel panel-primary">
+    <table class="table table-hover">
+      
+      <thead>
+        <tr>
+          {% for table_heading in table_headings %}
+            <th>{{ table_heading }}</th>
+          {% endfor%}
+        </tr>
+      </thead>
+      
+      <tbody> 
+        {% for item in item_list %}
+          <tr id={{ item.id }} onclick="document.location='{% url 'participant-view' item.id %}';">
+          {% for field in fields %} 
+            <td>{% item.field %}</td>
+          {% endfor%}
+            
+          </tr>
+        {% empty %}
+          <tr>
+            <td>There are no {{ item_type }}s yet.</td>
+          </tr>
+        {% endfor%}
+      </tbody>
+
+    </table>
+  </div><!-- ./panel -->
+
+  <a href={% url item_add %}>
+    <button type="button" class="btn btn-primary" data-toggle="button">
+      Add {{ item_type }}
+    </button>
+  </a>
+
+{% endblock %}

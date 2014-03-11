@@ -11,7 +11,7 @@ class Item(TimeStampedModel):
     group = models.ForeignKey(Group)
 
     explainer = models.ForeignKey(Participant, null=True, blank=True)
-    meeting = models.ForeignKey(Meeting)
+    meeting = models.ForeignKey(Meeting, null=True, blank=True)
 
     background = models.TextField(null=False, blank=True)
     carry_over = models.BooleanField(default=False)
@@ -22,6 +22,10 @@ class Item(TimeStampedModel):
 
     def __unicode__(self):
         return str(self.item_no) + ': ' + self.title
+
+#    def save(self, group, *args, **kwargs):
+#        self.group = group
+#        super(Item, self).save(*args, **kwargs)
 
 
 class Template(TimeStampedModel):

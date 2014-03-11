@@ -29,7 +29,7 @@ urlpatterns = patterns('',
 	url(r'^task/(\d{1,4})/edit/$', 'tasks.views.task_edit', name="task-edit"),
    	
 	url(r'^agendas/$', 'docs.views.agenda_list', name="agenda-list"),
-	url(r'^agenda/add/$', 'meetings.views.agenda_add', name="agenda-add"),       
+	url(r'^agenda/add/$', 'meetings.views.meeting_add', name="meeting-add"),       
 	url(r'^agenda/(\d{1,4})/edit/$', 'docs.views.agenda_edit',
 		name="agenda-edit"),       
 	url(r'^agenda/(\d{1,4})/distribute/$', 'docs.views.agenda_distribute',

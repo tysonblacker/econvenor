@@ -18,7 +18,7 @@ class AddParticipantForm(forms.ModelForm):
                   ]
 
     def save(self, group, commit=True):
-        participant = super(ParticipantForm, self).save(commit=False)
+        participant = super(AddParticipantForm, self).save(commit=False)
         participant.group = group
         if commit:
             participant.save()
@@ -42,7 +42,7 @@ class EditParticipantForm(forms.ModelForm):
                   ]
 
     def save(self, group, commit=True):
-        participant = super(ParticipantForm, self).save(commit=False)
+        participant = super(EditParticipantForm, self).save(commit=False)
         participant.group = group
         if commit:
             participant.save()

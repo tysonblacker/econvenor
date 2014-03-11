@@ -1,27 +1,36 @@
 {% load setclass %}
 
 <form class="savebyjs" action="" method="POST">
-        {% csrf_token %}
-        {% for item in item_formlist %}
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              {{ item.item_no.value }}
-              {{ item.heading|setclass:"form-control item-heading" }}
-            </div>
-          <div class="panel-body">
-            {{ item.time_limit.label_tag }}{{ item.time_limit|setclass:"spinner" }}		
-            {{ item.explainer.label_tag }}{{ item.explainer|setclass:"form-control" }}
-            {{ item.background.label_tag }}{{ item.background|setclass:"form-control" }}
-            
-            <button type="button" title="Delete item" class="btn btn-default btn-xs ajax-button tltip" id="delete_button_{{ item.item_no.value}}" data-toggle="tooltip" >
-                <span class="glyphicon glyphicon-remove">Delete</span></button>
-                
-          </div>
-          {% for hidden in item.hidden_fields %}
-            <div class="form-group">
-              {{ hidden }}
-            </div>
-          {% endfor %}
-          </div>
-        {% endfor %}
-      </form>
+{% csrf_token %}
+
+{% for item in item_formlist %}
+
+  <div class="panel panel-primary">
+    
+    <div class="panel-heading">
+      {{ item.item_no.value }}
+      {{ item.title|setclass:"form-control item-heading" }}
+        {{ item.title.errors }}
+    </div>
+
+    <div class="panel-body">
+      {{ item.time_limit.label_tag }}
+      {{ item.time_limit|setclass:"spinner" }}		
+        {{ item.time_limit.errors }}
+      {{ item.explainer.label_tag }}
+      {{ item.explainer|setclass:"form-control" }}
+        {{ item.explainer.errors }}
+      {{ item.background.label_tag }}
+      {{ item.background|setclass:"form-control" }}
+        {{ item.background.errors }}
+      <button type="button" title="Delete item" 
+        class="btn btn-default btn-xs ajax-button tltip"
+        id="delete_button_{{ item.item_no.value}}" data-toggle="tooltip" >
+        <span class="glyphicon glyphicon-remove">Delete</span>
+      </button>
+    </div>
+    
+  </div>
+
+{% endfor %}
+</form>

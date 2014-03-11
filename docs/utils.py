@@ -13,12 +13,16 @@ from participants.models import Participant
 from utilities.commonutils import set_path
 
 
-def delete_item(request, meeting_id):
+def delete_item(request, group, meeting):
+    """
+    Deletes an agenda item.
+    """    
     button_value = request.POST['ajax_button']
     item_number = int(button_value[14:])
-    item = Item.objects.get(meeting=meeting_id, item_no=item_number)
+    item = Item.objects.get(meeting=meeting, item_no=item_number, group=group)
     item.delete()
-    items = Item.objects.filter(meeting=meeting_id)
+    items = Item.objects.filter(meeting=meeting, group=group)
+    
     for item in items:
         if item.item_no > item_number:
             new_item_number = item.item_no - 1
@@ -26,8 +30,10 @@ def delete_item(request, meeting_id):
             item.save()
 
 
-def move_item(request, meeting_id):
-    
+def move_item(request, group, meeting):
+    """
+    Moves an agenda item relative to other agenda items.
+    """   
     ajax_data = request.POST['new_sidebar_order']
     ajax_data_list = string.split(ajax_data, ',')
 
@@ -57,7 +63,7 @@ def move_item(request, meeting_id):
             break
         position += 1
           
-    items = Item.objects.filter(meeting=meeting_id)
+    items = Item.objects.filter(meeting=meeting, group=group)
     
     for item in items:
         if item.item_no == moved_item:
@@ -75,9 +81,10 @@ def move_item(request, meeting_id):
                 item.save()
    
 
-def add_item(request, meeting_number, items):
+def add_item(request, group, meeting, items):
     """
-    Requires *items* to be a list of items ordered from first to last
+    Adds an agenda item. Requires *items* to be a list of items ordered
+    from first to last.
     """
     try:
         last_item = items.reverse()[0]
@@ -87,33 +94,33 @@ def add_item(request, meeting_number, items):
 
     new_item_no = last_item_no + 1 
     new_item = Item(item_no=new_item_no,
-                meeting_id=int(meeting_number),
-                owner=request.user,
-                heading='New item'
+                meeting=meeting,
+                group=group,
+                title='New item'
                )
     new_item.save()
 
 
-def save_formset(request, meeting, items, doc_type):
-    updated_formset = []
+def save_formlist(request, group, meeting, items, doc_type):
+    """
+    Saves the agenda items for the agenda currently being edited.
+    """
+
+    updated_formlist = []
     count = 1
     for item in items:
         if doc_type == 'agenda':
-            updated_item = AgendaForm(request.POST, prefix=count, instance=item)
+            updated_item = AgendaForm(group, request.POST,
+                                      prefix=count, instance=item)
         if doc_type == 'minutes':
-            updated_item = MinutesForm(request.POST, prefix=count, instance=item)
-        updated_formset.append(updated_item)
+            updated_item = MinutesForm(group, request.POST,
+                                       prefix=count, instance=item)
+        if updated_item.is_valid():
+            updated_item.save(group)
+        updated_formlist.append(updated_item)
         count += 1
-    for updated_item in updated_formset:
-        item = updated_item.save(commit=False)
-        item.owner = request.user
-        item.editable = True
-        item.meeting = meeting
-        item.minute_notes = 'Changed by agenda refresh'
-        item.show_tasks = False
-        item.save()
-
-
+    
+    
 def calculate_meeting_duration(meeting_id):
 	duration = 0
 	items = Item.objects.filter(meeting=meeting_id)
@@ -147,8 +154,8 @@ def calculate_meeting_end_time(meeting_id):
 	return end_time
 	
 
-def find_preceding_meeting_date(user, meeting_id):
-	meetings = Meeting.objects.filter(owner=user, description='Ordinary meeting' ).order_by('date').reverse()
+def find_preceding_meeting_date(group, meeting_id):
+	meetings = Meeting.objects.filter(group=group, description='Ordinary meeting' ).order_by('date').reverse()
 	current_meeting = Meeting.objects.get(pk=int(meeting_id))
 	current_meeting_date = current_meeting.date
 	preceding_meeting_date = None

@@ -129,5 +129,5 @@ function saveWithoutRefresh( button_data ) {
 
 $(function() {
   var interval = setInterval("saveWithoutRefresh('ajax_button=save_button')",
-    30 * 1000);
+    3600 * 1000);
 });
