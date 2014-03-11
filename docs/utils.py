@@ -154,17 +154,14 @@ def calculate_meeting_end_time(meeting_id):
 	return end_time
 	
 
-def find_preceding_meeting_date(group, meeting_id):
-	meetings = Meeting.objects.filter(group=group, description='Ordinary meeting' ).order_by('date').reverse()
-	current_meeting = Meeting.objects.get(pk=int(meeting_id))
-	current_meeting_date = current_meeting.date
-	preceding_meeting_date = None
-	for meeting in meetings:
-		if current_meeting_date <= meeting.date:
-			pass
-		else:
-			preceding_meeting_date = meeting.date
-			break
+def find_preceding_meeting_date(group):
+	meetings = Meeting.objects.filter(group=group, meeting_status='Complete',
+	                                  meeting_type='Ordinary Meeting')
+	if meetings:
+	    preceding_meeting = meetings.order_by('date_actual').last()
+	    preceding_meeting_date = preceding_meeting.date_actual
+	else:
+	    preceding_meeting_date = None
 	return preceding_meeting_date
 
 

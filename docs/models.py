@@ -6,6 +6,12 @@ from meetings.models import Meeting
 from participants.models import Participant
 
 
+class ItemManager(models.Manager):
+
+    def all_items(self):
+        return self.get_queryset().all().order_by('item_no')
+
+
 class Item(TimeStampedModel):
 
     group = models.ForeignKey(Group)
@@ -19,6 +25,9 @@ class Item(TimeStampedModel):
     minute_notes = models.TextField(null=False, blank=True)
     time_limit = models.IntegerField(null=True, blank=True)
     title = models.CharField(max_length=100, null=False, blank=True)
+
+    objects = models.Manager()
+    lists = ItemManager()
 
     def __unicode__(self):
         return str(self.item_no) + ': ' + self.title

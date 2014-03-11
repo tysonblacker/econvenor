@@ -21,11 +21,10 @@ from docs.utils import add_item, \
                        get_formatted_meeting_duration, \
                        move_item, \
                        save_formlist
-#from meetings.forms import MeetingForm
 from meetings.models import Meeting
 from participants.models import Participant
 from tasks.models import Task
-from utilities.commonutils import get_current_group, save_and_add_owner
+from utilities.commonutils import get_current_group
 
 
 def agenda_list(request):
@@ -33,9 +32,9 @@ def agenda_list(request):
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
         
-    agendas = Meeting.lists.all_meetings().filter(group=group)
+    agendas = Meeting.objects.filter(group=group)
     page_heading = 'Agendas'
-    table_headings = ('Date', 'Description', 'Location',)
+    table_headings = ('Date', 'Meeting Number', 'Meeting Type',)
 
     return render(request, 'agenda_list.html', {
                   'agendas': agendas,
@@ -63,23 +62,20 @@ def agenda_edit(request, meeting_id):
     AgendaForm.base_fields['explainer'].queryset =\
         Participant.objects.filter(group=group)
     
+    preceding_meeting_date = find_preceding_meeting_date(group)
     incomplete_task_list = Task.lists.incomplete_tasks().filter(group=group)
     completed_task_list = []
-#    preceding_meeting_date = find_preceding_meeting_date(group,
-#                                                         meeting_id)
-#    if preceding_meeting_date != None:
-#        completed_task_list = Task.lists.complete_tasks.filter(
-#                group=group,
-#                deadline__gte=preceding_meeting_date)\
-#            .exclude(deadline__gte=meeting.date)
-
+    if preceding_meeting_date != None:
+        completed_task_list = Task.lists.complete_tasks.filter(
+                group=group,
+                deadline__gte=preceding_meeting_date)
 
     if request.method == "POST" and 'ajax_button' in request.POST:
         request_type = 'ajax'
         if request.POST['ajax_button'] != 'page_refresh':              
             save_formlist(request, group, meeting, items, 'agenda')
         if request.POST['ajax_button'][0:10]=='add_button':
-            add_item(request, group, meeting_id, items)
+            add_item(request, group, meeting, items)
         if request.POST['ajax_button'][0:13] =='delete_button':
             delete_item(request, group, meeting)
         if request.POST['ajax_button'] == 'move_item':

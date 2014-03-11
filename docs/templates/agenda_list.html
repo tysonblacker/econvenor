@@ -19,9 +19,9 @@
 		<tbody> 
 			{% for agenda in agendas %}
 				<tr id={{ agenda.id }} onclick="document.location='{% url 'agenda-edit' agenda.id %}';">
-					<td>{{ agenda.date }}</td>
-					<td>{{ agenda.description }}</td>
-					<td>{{ agenda.location }}</td>
+					<td>{{ agenda.date_scheduled }}</td>
+					<td>{{ agenda.meeting_no }}</td>
+					<td>{{ agenda.meeting_type }}</td>
 				</tr>
 			{% empty %}
 				<tr>
