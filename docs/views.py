@@ -8,6 +8,7 @@ from django.shortcuts import render
 
 from accounts.models import Group
 from decisions.models import Decision
+from decisions.forms import MinutesDecisionForm
 from docs.forms import AgendaItemForm, MinutesItemForm
 from docs.models import Item
 from docs.pdfs import create_pdf_agenda, \
@@ -237,12 +238,13 @@ def minutes_edit(request, meeting_id):
             add_item(request, group, meeting, items)
         if request.POST['ajax_button'][:15]=='add_task_button':
             item_number = request.POST['ajax_button'][16:]
-            new_task = Task(item_id=int(item_number), meeting=meeting,
-                            status = 'Incomplete')
+            new_task = Task(item_id=int(item_number), group=group,              
+                            meeting=meeting, status = 'Incomplete')
             new_task.save(group)
         if request.POST['ajax_button'][:19]=='add_decision_button':
             item_number = request.POST['ajax_button'][20:]
-            new_decision = Decision(item_id=int(item_number), meeting=meeting)
+            new_decision = Decision(item_id=int(item_number), group=group,
+                                    meeting=meeting)
             new_decision.save(group)
         
         items = meeting.item_set.filter(group=group).order_by('item_no')
@@ -252,7 +254,7 @@ def minutes_edit(request, meeting_id):
     item_formlist = build_formlist(group, items, 'items', 'minutes')
     task_formlist = build_formlist(group, tasks, 'tasks', 'minutes')
     decision_formlist = build_formlist(group, decisions, 'decisions',
-                                       'minutes')    
+                                       'minutes')
     
     item_count = items.count()
     meeting_form = MinutesMeetingForm(group, instance=meeting, label_suffix='') 

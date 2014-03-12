@@ -5,6 +5,8 @@ from docs.models import Item
 
 class AgendaItemForm(forms.ModelForm):
     
+    def __init__(self, group, *args, **kwargs):
+        super(AgendaItemForm, self).__init__(*args, **kwargs)
 
     class Meta:
         
@@ -14,8 +16,7 @@ class AgendaItemForm(forms.ModelForm):
 		   	'background': forms.Textarea(attrs={'rows': 3}),
         }
         
-        fields = ['id',
-                  'item_no',
+        fields = ['item_no',
                   'title',
                   'time_limit',
                   'explainer',
@@ -40,8 +41,7 @@ class MinutesItemForm(forms.ModelForm):
             
     class Meta:
         model = Item
-        fields = ['id',
-                  'item_no',
+        fields = ['item_no',
                   'title',
                   'time_limit',
                   'explainer',

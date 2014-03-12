@@ -1,13 +1,13 @@
 {% load setclass %}
 
 <ul class="nav nav-sidebar">
-  {% for item in items %}
-    <li id="sidebar_{{ item.item_no}}">
-      <a href="#id_{{ item.item_no}}-title" class="sidebar-heading tltip"
+  {% for item in item_formlist %}
+    <li id="sidebar_{{ item.item_no.value}}">
+      <a href="#id_{{ item.item_no.value}}-title" class="sidebar-heading tltip"
          data-toggle="tooltip" title="Scroll to this item">
         <div>
-          <span id="sidebar_heading_{{ item.item_no}}">{{ item.item_no}}.
-                &nbsp;{{ item.title }}
+          <span id="sidebar_heading_{{ item.item_no.value}}">{{ item.item_no.value}}.
+                &nbsp;{{ item.title.value }}
           </span>
         </div>
       </a>
