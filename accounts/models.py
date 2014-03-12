@@ -11,6 +11,7 @@ class Group(TimeStampedModel):
     description = models.CharField(max_length=200, null=False, blank=True)
     logo = models.FileField(upload_to='logos')
     name = models.CharField(max_length=100, null=False, blank=True)
+    slug = models.SlugField(null=False, blank=True)
     status = models.CharField(max_length=20, null=False, blank=True)
     
     def __unicode__(self):

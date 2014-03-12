@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
+from django.utils.text import slugify
 
 from accounts.forms import GroupSetupForm, UserSetupForm
 from accounts.models import UserSettings
@@ -27,7 +28,10 @@ def account_setup(request):
             # set the group as the user's current_group
             settings = UserSettings(user=u, current_group=g)
             settings.save()
-           
+            # generate a slug from the group name
+            slug = slugify(g.name)[:20]
+            g.slug = slug
+            g.save()
             return HttpResponseRedirect(reverse('dashboard'))
     else:
         user_setup_form = UserSetupForm()   

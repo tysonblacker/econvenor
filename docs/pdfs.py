@@ -426,7 +426,7 @@ def create_pdf_agenda(request, group, meeting, **kwargs):
 
 	
 def get_base_file_name(request, group, meeting):
-	base_file_name = str(group.id) + '_agenda_meeting' + meeting.meeting_no
+	base_file_name = str(group.id) + '_' + group.slug + '_Agenda_Meeting_' + meeting.meeting_no
 	return base_file_name
 
 	
