@@ -20,7 +20,6 @@
 			{% for decision in decisions %}
 				<tr id={{ decision.id }} onclick="document.location='{% url 'minutes-edit' decision.meeting_id %}';">
 					<td>{{ decision.description }}</td>
-					<td>{{ decision.meeting }}</td>
 					<td>{{ decision.item }}</td>
 				</tr>
 			{% empty %}
