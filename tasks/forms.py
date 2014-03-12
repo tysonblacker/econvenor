@@ -49,3 +49,25 @@ class EditTaskForm(forms.ModelForm):
         if commit:
             task.save()
         return task
+        
+        
+class MinutesTaskForm(forms.ModelForm):
+    
+    def __init__(self, group, *args, **kwargs):
+        super(MinutesTaskForm, self).__init__(*args, **kwargs)
+        self.fields['participant'].queryset = \
+            Participant.objects.filter(group=group)
+        
+    class Meta:
+        model = Task
+        fields = ['description',
+                  'participant',
+                  'deadline',
+                 ]
+                  
+    def save(self, group, commit=True):
+        task = super(MinutesTaskForm, self).save(commit=False)
+        task.group = group
+        if commit:
+            task.save()
+        return task

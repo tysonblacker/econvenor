@@ -6,11 +6,12 @@
   {% for item in item_formlist %}
 
     
-    <div class="panel panel-primary" id="id_{{ item.item_no.value}}-heading">
+    <div class="panel panel-primary" id="id_{{ item.item_no.value}}-title">
       
       <div class="panel-heading">
         <strong>Item&nbsp;{{ item.item_no.value }}.&nbsp;
-                {{ item.heading.value }}
+                {{ item.title.value }}
+                {{ item.item.no }}
         </strong>
         <div class="pull-right">
           {{ item.time_limit.value }}&nbsp;minutes		
@@ -20,8 +21,12 @@
       <div class="panel-body">
       
         <div class="form-group">
-          <div class="well">
+          <div class="well well-sm">
             To be explained by&nbsp;{{ item.explainer.value }}
+            <br/>
+            <h1> Print: {{ item.id.value }} </h1>
+            <h1> {{ item.id }} </h1>
+            <h1> {{ item.id.label_tag }} </h1>
           </div>
         </div>
         
@@ -46,8 +51,8 @@
 
         <p><strong>Decisions:</strong></p>
         
-        <div class="well">
-          {% for decision in decision_data_formset %}
+        <div class="panel panel-default">
+          {% for decision in decisions %}
             {% ifequal decision.item.value item.id.value %}
               <div class="form-group">
                 {{ decision.description|setclass:"form-control" }}
@@ -57,13 +62,14 @@
                 {{ decision.meeting|setclass:"form-control" }}
                 {{ decision.item|setclass:"form-control" }}
                 {{ decision.owner|setclass:"form-control" }}
+                
               </div>
             {% endifequal %}
           {% endfor %}
 
           <button type="submit" class="btn btn-default" 
-                  name="add_decision_minutes_button" 
-                  value="add_decision_item_{{ item.id.value }}" 
+                  name="add_decision_button" 
+                  value="add_decision_button_{{ item.id.value }}" 
                   data-toggle="button">
             Add a decision to this item
           </button>
@@ -73,8 +79,8 @@
 
         <p><strong>Tasks:</strong></p>
         
-        <div class="well">
-          {% for task in task_data_formset %}
+        <div class="panel panel-default">
+          {% for task in tasks %}
             {% ifequal task.item.value item.id.value %}
               <div class="form-inline" role="form">
                 <div class="form-group">
@@ -94,8 +100,8 @@
           {% endfor %}
 
           <button type="submit" class="btn btn-default"
-                  name="add_task_minutes_button" 
-                  value="add_task_item_{{ item.id.value }}"
+                  name="add_task_button" 
+                  value="add_task_button_{{ task.id.value }}"
                   data-toggle="button">
             Add a task to this item
           </button>

@@ -20,8 +20,8 @@
 			{% for minute in minutes %}
 				<tr id={{ minute.id }} onclick="document.location='{% url 'minutes-edit' minute.id %}';">
 					<td>{{ minute.id }}</td>
-					<td>{{ minute.date }}</td>
-					<td>{{ minute.location }}</td>
+					<td>{{ minute.meeting_no }}</td>
+					<td>{{ minute.date_actual }}</td>
 				</tr>
 			{% empty %}
 				<tr>

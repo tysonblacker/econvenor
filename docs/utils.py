@@ -6,10 +6,12 @@ from django.core.mail import EmailMessage
 
 from django.conf import settings
 
-from docs.forms import AgendaForm, MinutesForm
+from decisions.forms import MinutesDecisionForm
+from docs.forms import AgendaItemForm, MinutesItemForm
 from docs.models import Item
 from meetings.models import Meeting
 from participants.models import Participant
+from tasks.forms import MinutesTaskForm
 from tasks.models import Task
 from utilities.commonutils import set_path
 
@@ -102,26 +104,74 @@ def add_item(request, group, meeting, items):
     new_item.save()
 
 
-def save_formlist(request, group, meeting, items, doc_type):
+def build_formlist(group, items, item_type, doc_type):
     """
-    Saves the agenda items for the agenda currently being edited.
+    Builds and returns a populated formlist.
     """
-
-    updated_formlist = []
-    count = 1
+    formlist = []
+    count = 0
     for item in items:
+        count += 1
+        if item_type == 'items':
+            prefix = 'i' + str(count)
+        elif item_type == 'tasks':
+            prefix = 't' + str(count)
+        elif item_type == 'decisions':
+            prefix = 'd' + str(count)           
         if doc_type == 'agenda':
-            updated_item = AgendaForm(group, request.POST,
-                                      prefix=count, instance=item)
-        if doc_type == 'minutes':
-            updated_item = MinutesForm(group, request.POST,
-                                       prefix=count, instance=item)
+            formlist_item = AgendaItemForm(group, prefix=prefix, instance=item, 
+                                          label_suffix='')
+        elif doc_type == 'minutes':
+            if item_type == 'items':
+                formlist_item = MinutesItemForm(group, prefix=prefix,
+                                               instance=item, label_suffix='')
+            if item_type == 'tasks':
+                formlist_item = MinutesTaskForm(group, prefix=prefix,
+                                               instance=item, label_suffix='')
+            if item_type == 'decisions':
+                formlist_item = MinutesDecisionForm(group, prefix=prefix, 
+                                                   instance=item, 
+                                                   label_suffix='')
+        formlist.append(formlist_item)
+
+    return formlist
+
+
+def save_formlist(request, group, items, item_type, doc_type):
+    """
+    Saves all forms in a formlist.
+    """
+    count = 0
+    for item in items:
+        count += 1
+        if item_type == 'items':
+            prefix = 'i' + str(count)
+        elif item_type == 'tasks':
+            prefix = 't' + str(count)
+        elif item_type == 'decisions':
+            prefix = 'd' + str(count)           
+
+        if doc_type == 'agenda':
+            updated_item = AgendaItemForm(group, request.POST,
+                                          prefix=prefix, instance=item,
+                                          label_suffix='')
+        elif doc_type == 'minutes':
+            if item_type == 'items':
+                updated_item = MinutesItemForm(group, request.POST,
+                                              prefix=prefix, instance=item,
+                                              label_suffix='')
+            if item_type == 'tasks':
+                updated_item = MinutesTaskForm(group, request.POST,
+                                               prefix=prefix, instance=item,
+                                               label_suffix='')
+            if item_type == 'decisions':
+                updated_item = MinutesDecisionForm(group, request.POST,
+                                                   prefix=prefix,instance=item,
+                                                   label_suffix='')
         if updated_item.is_valid():
             updated_item.save(group)
-        updated_formlist.append(updated_item)
-        count += 1
-    
-    
+        
+
 def calculate_meeting_duration(meeting):
 	duration = 0
 	items = Item.objects.filter(meeting=meeting)

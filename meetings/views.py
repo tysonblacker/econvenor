@@ -5,7 +5,6 @@ from django.shortcuts import render
 from docs.models import Item
 from meetings.models import Meeting
 from meetings.forms import AddMeetingForm
-from meetings.utils import create_first_item
 from utilities.commonutils import get_current_group
 
 
