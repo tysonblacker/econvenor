@@ -121,7 +121,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'commonstatic'),
 )
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+if socket.gethostname() == 'web439.webfaction.com':
+    STATIC_ROOT = '/home/econvenor/webapps/econvenor_static/'
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Media files
 # https://docs.djangoproject.com/en/dev/howto/static-files/

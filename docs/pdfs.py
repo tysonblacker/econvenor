@@ -367,8 +367,8 @@ def create_pdf_agenda(request, group, meeting, **kwargs):
 	# Add task review to document
 	Document.append(Paragraph("Task review", heading2Style))
 	create_task_table("Tasks outstanding", incomplete_tasks_list, Document, t)
-	create_task_table("Tasks completed since last meeting", completed_tasks_list,
-		Document, t)
+	create_task_table("Tasks completed since last meeting",
+	                  completed_tasks_list, Document, t)
 		
 	# Build the PDF
 	doc.build(Document)
@@ -413,7 +413,8 @@ def create_pdf_agenda(request, group, meeting, **kwargs):
 	count = 0
 	while image_exists:
 		count += 1
-		filename_to_test = preview_path + base_file_name + '_page' + str(count) + '.png' 
+		filename_to_test = preview_path + base_file_name + '_page' + \
+		                   str(count) + '.png' 
 		image_exists = os.path.isfile(filename_to_test)
 
 	# Make a list of the names of all the preview files
@@ -426,7 +427,8 @@ def create_pdf_agenda(request, group, meeting, **kwargs):
 
 	
 def get_base_file_name(request, group, meeting):
-	base_file_name = str(group.id) + '_' + group.slug + '_Agenda_Meeting_' + meeting.meeting_no
+	base_file_name = str(group.id) + '_' + group.slug + '_Agenda_Meeting_' + \
+	                 meeting.meeting_no
 	return base_file_name
 
 	
