@@ -21,7 +21,8 @@ from docs.utils import add_decision, \
                        move_item, \
                        save_formlist
 from meetings.models import Meeting
-from meetings.forms import MinutesMeetingForm
+from meetings.forms import AgendaMeetingForm, \
+                           MinutesMeetingForm
 from participants.models import Participant
 from tasks.models import Task
 from utilities.commonutils import get_current_group
@@ -75,6 +76,7 @@ def agenda_edit(request, meeting_id):
 
     item_formlist = build_formlist(group, items, 'items', 'agenda')
     
+    meeting_form = AgendaMeetingForm(group=group, instance=meeting)
     meeting_duration = get_formatted_meeting_duration(meeting_id)
     meeting_end_time = calculate_meeting_end_time(meeting)
     
@@ -90,6 +92,7 @@ def agenda_edit(request, meeting_id):
                           'meeting': meeting,
                           'meeting_duration': meeting_duration,
                           'meeting_end_time': meeting_end_time,
+                          'meeting_form': meeting_form,
                           'meeting_id': meeting_id,                          
                           'page_heading': page_heading,
                           'task_list_headings': task_list_headings,

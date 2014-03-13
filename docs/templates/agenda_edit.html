@@ -1,180 +1,160 @@
 {% extends "app_base.html" %}
 {% load setclass %}
-
 {% load staticfiles %}
 
 {% block content %}
 
+  <div class="row">
 
-<div class="row">
 
-  <div class="col-sm-3 sidebar">
-    <h2>Agenda navigation</h2>
-    <ul class="nav nav-sidebar">
-      <li><a href="#meeting_details" class="tltip" data-toggle="tooltip" data-placement="top" title="Scroll to meeting details">Meeting details</a></li>
-    </ul>
-    
-    <div id="ajax-sidebar">
-    </div>
-           
-    <ul class="nav nav-sidebar">
-      <li><a href="#tasks" class="tltip" data-toggle="tooltip" data-placement="top" title="Scroll to tasks">Appendix 1. Tasks</a></li>
-    </ul>
-    <ul class="nav nav-sidebar">
-      <li><button type="button" class="btn btn-primary ajax-button" id="save_button">Save all</button></li>
-      <li><button type="button" class="btn btn-primary ajax-button" id="add_item">Add item</button></li>
-      <li><button type="button" class="btn btn-primary navigate-button" goto="{% url 'minutes-edit' meeting_id %}" id="minutes_button">Create minutes</button></li>
-      <li><button type="button" class="btn btn-primary navigate-button" goto="{% url 'agenda-distribute' meeting_id %}" id="distribute_button">Distribute this agenda</button></li>
-      </ul>
-  </div><!-- /.col-sm-3 -->
+    <!-- SIDEBAR
+    ================================================== -->
 
-  <div class="col-sm-7 col-sm-offset-4 main">
-
-    <div class="top-spacer">
-    </div>
-    
-    <h1>{{ page_heading }}</h1>
-
-    <div class="well" id="meeting_details">
-      <h1><small>Meeting details</small></h1>
-      {% ifequal focus 'meeting' %}
-      <form action="" method="POST">
-        {% csrf_token %}
-        {% for hidden in existing_data_forms.hidden_fields %}
-          <div class="form-group">
-            {{ hidden }}
-          </div>
-        {% endfor %}	
-        {% for field in existing_data_forms.visible_fields %}
-          <div>
-            {{ field.label_tag }}
-            {% ifequal field.label "Date" %}
-              <br>
-              {{ field|setclass:"form-control datepicker" }}
-            {% else %}
-              {{ field|setclass:"form-control" }}
-            {% endifequal %}
-          </div>
-          <br>
-        {% endfor %}
-        <button type="submit" class="btn btn-primary" name="save_meeting_details_button" value="save_meeting_details" data-toggle="button">Save meeting details</button>
-        <button type="submit" class="btn btn-default" name="cancel_meeting_details_button" value="cancel_meeting_details" data-toggle="button">Discard changes</button>
-        <button type="submit" class="btn btn-danger" name="delete_meeting_button" value="delete_meeting" data-toggle="button">Delete meeting</button>
-      </form>
-      {% else %}
+    <div class="col-sm-3 sidebar">
+      <h1>Agenda</h1>
       
-        <div class="panel panel-primary">
-	  	  <table class="table">
-	        <thead>
+      <ul class="nav nav-sidebar">
+        <li>
+          <a href="#meeting_details" class="tltip" data-toggle="tooltip"
+            data-placement="top" title="Scroll to meeting details">
+              Meeting details
+          </a>
+        </li>
+      </ul>
+      
+      <div id="ajax-sidebar">
+      </div>
+             
+      <ul class="nav nav-sidebar">
+        <li>
+          <a href="#tasks" class="tltip" data-toggle="tooltip" 
+            data-placement="top" title="Scroll to tasks">
+              Attachment 1. Tasks
+          </a>
+        </li>
+      </ul>
+      
+      <ul class="nav nav-sidebar">
+        <li>
+          <button type="button" class="btn btn-primary ajax-button" 
+            id="save_button">
+              Save all
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-primary ajax-button" 
+            id="add_item">
+              Add item
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-primary navigate-button"
+            goto="{% url 'minutes-edit' meeting_id %}" id="minutes_button">
+              Create minutes
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-primary navigate-button"
+            goto="{% url 'agenda-distribute' meeting_id %}" 
+            id="distribute_button">
+              Distribute this agenda
+          </button>
+        </li>
+      </ul>
+       
+    </div><!-- /.col-sm-3 -->
+
+    <!-- MEETING DETAILS FORM
+    ================================================== -->
+
+    <div class="col-sm-7 col-sm-offset-4 main">
+
+      <div class="top-spacer">
+      </div>
+  
+      <div class="well" id="meeting_details">
+        <h1><small>Meeting details</small></h1>
+          <form action="" method="POST">
+          {% csrf_token %}
+          {{ meeting_form.as_p }}
+          <button type="submit" class="btn btn-danger"                      
+            name="delete_meeting_button" value="delete_meeting"
+            data-toggle="button">
+              Delete meeting
+          </button>
+        </form>
+      </div><!-- ./well -->
+
+    <!-- AJAX FORMS
+    ================================================== -->
+    
+      <div id="ajax-main">
+      </div>
+      
+    <!-- TASKS TABLE
+    ================================================== -->
+
+      <div class="well" id="tasks">
+        <h1><small>Appendix 1 - Tasks</small></h1>
+        <h2><small>Tasks outstanding</small></h2>
+	    
+	    <div class="panel panel-primary">
+		  <table class="table">
+		    <thead>
 			  <tr>
-			    <th>{{ meeting.meeting_type }} of {{ group_name }}</th>
-			    <th></th>
+			    {% for heading in task_list_headings %}
+				  <th>{{ heading }}</th>
+                {% endfor%}
 			  </tr>
 		    </thead>
 		    <tbody> 
-			  <tr>
-			    <td><strong>Date</strong></td>
-			    <td>{{ meeting.date }}</td>
-			  </tr>
-			  <tr>
-			    <td><strong>Start time</strong></td>
-			    <td>{{ meeting.start_time }}</td>
-			  </tr>
-			  <tr>
-			    <td><strong>End time</strong></td>
-			    <td>{{ meeting_end_time }}</td>
-			  </tr>
-			  <tr>
-			    <td><strong>Scheduled duration</strong></td>
-			    <td>{{ meeting_duration }}</td>
-			  </tr>
-			  <tr>
-			    <td><strong>Location</strong></td>
-			    <td>{{ meeting.location|linebreaks }}</td>
-			  </tr>
-			  <tr>
-			    <td><strong>Notes</strong></td>
-			    <td>{{ meeting.notes|linebreaks }}</td>
-			  </tr>
+			  {% for task in incomplete_task_list %}
+			    <tr>
+				  <td>{{ task.description }}</td>
+                  <td>{{ task.participant }}</td>
+				  <td>{{ task.deadline }}</td>
+			    </tr>
+			  {% empty %}
+			    <tr>
+			      <td>None</td>
+			    </tr>
+			  {% endfor%}
 		    </tbody>
 		  </table>
-	    </div><!-- ./panel -->
-   	    <form action="" method="POST">
-   	      {% csrf_token %}
-	      <button type="submit" class="btn btn-default" name="edit_meeting_details_button" value="edit_meeting_details">Edit meeting details</button>
-	    </form>
-      {% endifequal %}
-      </div><!-- ./well -->
+	    </div><!-- /.panel -->
 
-    <div id="ajax-main">
-    </div>
-      
-
-
-
-<div class="well" id="tasks">
-  <h1><small>Appendix 1 - Tasks</small></h1>
-    <h2><small>Tasks outstanding</small></h2>
-	  <div class="panel panel-primary">
-		<table class="table">
-		  <thead>
-			<tr>
-			  {% for heading in task_list_headings %}
-				<th>{{ heading }}</th>
-			  {% endfor%}
-			</tr>
-		  </thead>
-		  <tbody> 
-			{% for task in incomplete_task_list %}
-			  <tr>
-				<td>{{ task.description }}</td>
-				<td>{{ task.participant }}</td>
-				<td>{{ task.deadline }}</td>
-			  </tr>
-			{% empty %}
-			  <tr>
-			    <td>None</td>
-			  </tr>
-			{% endfor%}
-		  </tbody>
-		</table>
-	</div>
-	{# List of tasks completed since last meeting #}
-	<h2><small>Tasks completed since last meeting</small></h2>
-	<div class="panel panel-primary">
-		<table class="table">
+	    <h2><small>Tasks completed since last meeting</small></h2>
+	    <div class="panel panel-primary">
+		  <table class="table">
 			<thead>
-				<tr>
-					{% for heading in task_list_headings %}
-						<th>{{ heading }}</th>
-					{% endfor%}
-				</tr>
+			  <tr>
+				{% for heading in task_list_headings %}
+				  <th>{{ heading }}</th>
+				{% endfor%}
+			  </tr>
 			</thead>
 			<tbody> 
-				{% for task in completed_task_list %}
-					<tr>
-						<td>{{ task.description }}</td>
-						<td>{{ task.participant }}</td>
-						<td>{{ task.deadline }}</td>
-					</tr>
-				{% empty %}
+			  {% for task in completed_task_list %}
 				<tr>
-					<td>None</td>
+				  <td>{{ task.description }}</td>
+				  <td>{{ task.participant }}</td>
+			      <td>{{ task.deadline }}</td>
 				</tr>
-				
-				{% endfor%}
+			  {% empty %}
+			    <tr>
+				  <td>None</td>
+				</tr>
+			  {% endfor%}
 			</tbody>
-		</table>
-	</div>
-</div>
-	
-    <div class="bottom-spacer">
-    </div>  
-
-		
+		  </table>
+  	    </div><!-- /.panel -->
+	  </div><!-- /.well -->
+      
+      <div class="bottom-spacer">
+      </div>
+          
     </div><!-- /.col-sm-7 -->
   </div><!-- ./row>
-
 
 {% endblock content%}
 
