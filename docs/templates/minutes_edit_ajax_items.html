@@ -54,6 +54,12 @@
               <div class="form-group">
                 {{ decision.label_tag }}
                 {{ decision.description|setclass:"form-control" }}
+                <button type="button" title="Delete decision" 
+                  class="btn btn-default btn-xs ajax-button tltip"
+                  id="delete_decision_button_{{ decision.instance.id}}"
+                  data-toggle="tooltip" >
+                  <span class="glyphicon glyphicon-remove">Delete</span>
+                </button>
               </div>
             {% endifequal %}
           {% endfor %}

@@ -1,12 +1,15 @@
+import json
 import os
 import string
 
+from django.http import HttpResponse, HttpResponseRedirect
 from datetime import datetime, timedelta
 from django.core.mail import EmailMessage
 
 from django.conf import settings
 
 from decisions.forms import MinutesDecisionForm
+from decisions.models import Decision
 from docs.forms import AgendaItemForm, MinutesItemForm
 from docs.models import Item
 from meetings.models import Meeting
@@ -16,12 +19,43 @@ from tasks.models import Task
 from utilities.commonutils import set_path
 
 
+def add_item(group, meeting, items):
+    """
+    Adds an agenda item. Requires *items* to be a list of items ordered
+    from first to last.
+    """
+    try:
+        last_item = items.reverse()[0]
+        last_item_no = last_item.item_no
+    except:
+        last_item_no = 0
+
+    new_item_no = last_item_no + 1 
+    new_item = Item(item_no=new_item_no,
+               meeting=meeting,
+               group=group,
+               title='New item'
+               )
+    new_item.save()
+
+
+def add_decision(request, group, meeting):
+    item_number = request.POST['ajax_button'][20:]
+    new_decision = Decision(item_id=int(item_number), group=group,
+                            meeting=meeting)
+    new_decision.save(group)
+
+
+def add_task(request, group, meeting):
+    pass
+
+
 def delete_item(request, group, meeting):
     """
     Deletes an agenda item.
     """    
     button_value = request.POST['ajax_button']
-    item_number = int(button_value[14:])
+    item_number = int(button_value[12:])
     item = Item.objects.get(meeting=meeting, item_no=item_number, group=group)
     item.delete()
     items = Item.objects.filter(meeting=meeting, group=group)
@@ -33,6 +67,28 @@ def delete_item(request, group, meeting):
             item.save()
 
 
+def delete_decision(request, group, meeting):
+    """
+    Deletes a decision.
+    """    
+    button_value = request.POST['ajax_button']
+    decision_number = int(button_value[23:])
+    decision = Decision.objects.get(meeting=meeting, group=group,
+                                    id=decision_number)
+    decision.delete()
+
+
+def delete_task(request, group, meeting):
+    """
+    Deletes a task.
+    """    
+    button_value = request.POST['ajax_button']
+    task_number = int(button_value[19:])
+    task = Task.objects.get(meeting=meeting, group=group,
+                                    task_no=task_number)
+    task.delete()
+    
+    
 def move_item(request, group, meeting):
     """
     Moves an agenda item relative to other agenda items.
@@ -83,26 +139,6 @@ def move_item(request, group, meeting):
                 item.item_no = new_item_number
                 item.save()
    
-
-def add_item(request, group, meeting, items):
-    """
-    Adds an agenda item. Requires *items* to be a list of items ordered
-    from first to last.
-    """
-    try:
-        last_item = items.reverse()[0]
-        last_item_no = last_item.item_no
-    except:
-        last_item_no = 0
-
-    new_item_no = last_item_no + 1 
-    new_item = Item(item_no=new_item_no,
-                meeting=meeting,
-                group=group,
-                title='New item'
-               )
-    new_item.save()
-
 
 def build_formlist(group, items, item_type, doc_type):
     """
@@ -219,6 +255,30 @@ def get_completed_tasks_list(group):
             deadline__gte=preceding_meeting_date)
 
     return completed_task_list
+
+
+def get_templates(request_type):
+    
+    if request_type == 'refresh':
+        templates = ['agenda_edit.html']
+    elif request_type == 'ajax':
+        templates = ['agenda_edit_ajax_sidebar.html',
+                     'agenda_edit_ajax_items.html']
+    return templates
+
+def get_response(responses, request_type):
+    
+    if request_type == 'refresh':
+        page_object = responses[0]
+        return page_object
+    elif request_type == 'ajax':
+        ajax_response = {}
+        ajax_sidebar_content = responses[0].content
+        ajax_main_content = responses[1].content
+        ajax_response['ajax_sidebar'] = ajax_sidebar_content
+        ajax_response['ajax_main'] = ajax_main_content
+        return HttpResponse(json.dumps(ajax_response), \
+                            content_type="application/json")
 
 
 def distribute_agenda(request, group, meeting):
