@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from docs.models import Item
 from meetings.models import Meeting
-from meetings.forms import AddMeetingForm
+from meetings.forms import AgendaMeetingForm
 from utilities.commonutils import get_current_group
 
 
@@ -16,7 +16,7 @@ def meeting_add(request):
     page_heading = 'Create agenda'
 
     if request.method == "POST":
-        meeting_form = AddMeetingForm(group, request.POST)
+        meeting_form = AgendaMeetingForm(group, request.POST)
         if meeting_form.is_valid() :
             # save the data
             meeting = meeting_form.save(group)
@@ -28,7 +28,7 @@ def meeting_add(request):
             return HttpResponseRedirect(reverse('agenda-edit',
                                                 args=(meeting_id,)))
     else:
-        meeting_form = AddMeetingForm(group)
+        meeting_form = AgendaMeetingForm(group)
             
     return render(request, 'meeting_add.html', {
                   'meeting_form': meeting_form,

@@ -14,8 +14,7 @@
   <div class="span10"> 
     <form action="" method="POST">
     {% csrf_token %}
-      {{ meeting_form }}
-      {{ meeting_details_form }}      
+      {{ meeting_form.as_p }}
       <button type="submit" class="btn btn-primary">
         Save meeting details
       </button>

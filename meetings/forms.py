@@ -4,10 +4,10 @@ from meetings.models import Meeting
 from meetings.customwidgets import TimeSelectorWidget
 
 
-class AddMeetingForm(forms.ModelForm):
+class AgendaMeetingForm(forms.ModelForm):
 
     def __init__(self, group, *args, **kwargs):
-        super(AddMeetingForm, self).__init__(*args, **kwargs)
+        super(AgendaMeetingForm, self).__init__(*args, **kwargs)
                     
     class Meta:
         model = Meeting
@@ -16,7 +16,10 @@ class AddMeetingForm(forms.ModelForm):
                   'date_scheduled',
                   'start_time_scheduled',
                   'location_scheduled',
+                  'meeting_status',
                   'instructions_scheduled',
+                  'facilitator_scheduled',
+                  'minute_taker_scheduled',
                   ]
         widgets = {
             'location_scheduled': forms.Textarea(attrs={'rows': 3}),
@@ -26,9 +29,8 @@ class AddMeetingForm(forms.ModelForm):
         }
 
     def save(self, group, commit=True):
-        meeting = super(AddMeetingForm, self).save(commit=False)
+        meeting = super(AgendaMeetingForm, self).save(commit=False)
         meeting.group = group
-        meeting.status = 'Scheduled'
         if commit:
             meeting.save()
         return meeting
@@ -56,7 +58,7 @@ class MinutesMeetingForm(forms.ModelForm):
         }
 
     def save(self, group, commit=True):
-        meeting = super(AddMeetingForm, self).save(commit=False)
+        meeting = super(MinutesMeetingForm, self).save(commit=False)
         meeting.group = group
         meeting.status = 'Complete'
         if commit:
