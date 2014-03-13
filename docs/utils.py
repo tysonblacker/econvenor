@@ -4,7 +4,6 @@ import string
 from datetime import datetime, timedelta
 
 from django.conf import settings
-from django.core.mail import EmailMessage
 from django.http import HttpResponse, HttpResponseRedirect
 
 from decisions.forms import MinutesDecisionForm
@@ -315,49 +314,3 @@ def get_response(responses, request_type):
         return HttpResponse(json.dumps(ajax_response), \
                             content_type="application/json")
 
-
-def distribute_agenda(request, group, meeting):
-    """
-    Emails out the agenda.
-    """  	
-    recipients = []
-    group_name = group.name
-        
-    # build recipients list if "all_participants" box is checked
-    if 'all_participants' in request.POST:
-	    participants = Participant.objects.filter(group=group)
-	    for participant in participants:
-		    email = participant.email
-		    recipients.append(email)
-		
-    # build recipients list if "all_participants" box is not checked
-    else:
-	    # create recipients list in this format: [participant1, participant4]
-	    distribution_list = []
-	    for key in request.POST:
-		    if request.POST[key] == 'checked':
-			    distribution_list.append(key)
-
-	    # create recipients list in this format: [1, 4]
-	    id_list = []
-	    for participant in distribution_list:
-		    participant_id = participant[11:]
-		    id_list.append(participant_id)
-
-	    # create recipients list with email addresses
-
-	    for item in id_list:
-		    participant = Participant.objects.get(pk=int(item), group=group)
-		    participant_email = participant.email
-		    recipients.append(participant_email)
-
-    # set up the email fields
-    pdf_path = os.path.join(settings.BASE_DIR, meeting.agenda_pdf.url[1:])	
-    subject = group_name + ': You agenda is attached'
-    body = 'Here is your agenda'
-    sender = 'noreply@econvenor.org'
-
-    # email the agenda
-    email = EmailMessage(subject, body, sender, recipients)
-    email.attach_file(pdf_path)
-    email.send()

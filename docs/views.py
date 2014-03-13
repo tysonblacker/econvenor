@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 from docs.pdfs import create_pdf_agenda, \
+                      distribute_agenda, \
                       get_pdf_contents
 from docs.utils import add_decision, \
                        add_item, \
@@ -13,7 +14,6 @@ from docs.utils import add_decision, \
                        delete_decision, \
                        delete_item, \
                        delete_task, \
-                       distribute_agenda, \
                        get_completed_tasks_list, \
                        get_formatted_meeting_duration, \
                        get_response, \

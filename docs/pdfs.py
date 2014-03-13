@@ -7,6 +7,7 @@ from subprocess import call
 
 from django.conf import settings
 from django.core.files.base import ContentFile
+from django.core.mail import EmailMessage
 from django.http import HttpResponse
 
 from reportlab.lib.colors import black, CMYKColor, white
@@ -22,10 +23,12 @@ from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, \
 import reportlab.rl_config
 
 from accounts.models import Group
-from meetings.models import Meeting
-from tasks.models import Task
 from docs.utils import get_formatted_meeting_duration, \
-	calculate_meeting_end_time, get_completed_tasks_list
+	                   calculate_meeting_end_time, \
+	                   get_completed_tasks_list
+from meetings.models import Meeting
+from participants.models import Participant
+from tasks.models import Task
 from utilities.commonutils import set_path
 
 # Define colors
@@ -445,4 +448,56 @@ def get_pdf_contents(request, group, meeting):
 	f.close()
 	
 	return pdf_contents
+
+
+def distribute_agenda(request, group, meeting):
+    """
+    Emails out the agenda.
+    """  	
+    recipients = []
+    group_name = group.name
+        
+    # build recipients list if "all_participants" box is checked
+    if 'all_participants' in request.POST:
+	    participants = Participant.objects.filter(group=group)
+	    for participant in participants:
+		    email = participant.email
+		    recipients.append(email)
+		
+    # build recipients list if "all_participants" box is not checked
+    else:
+	    # create recipients list in this format: [participant1, participant4]
+	    distribution_list = []
+	    for key in request.POST:
+		    if request.POST[key] == 'checked':
+			    distribution_list.append(key)
+
+	    # create recipients list in this format: [1, 4]
+	    id_list = []
+	    for participant in distribution_list:
+		    participant_id = participant[11:]
+		    id_list.append(participant_id)
+
+	    # create recipients list with email addresses
+
+	    for item in id_list:
+		    participant = Participant.objects.get(pk=int(item), group=group)
+		    participant_email = participant.email
+		    recipients.append(participant_email)
+
+    # set up the email fields
+    
+    
+    base_file_name = get_base_file_name(request, group, meeting)
+    base_pdf_path = get_pdf_path()
+    pdf_path = base_pdf_path + base_file_name + '.pdf'	
+    subject = group_name + ': You agenda is attached'
+    body = 'Here is your agenda'
+    sender = 'noreply@econvenor.org'
+
+    # email the agenda
+    email = EmailMessage(subject, body, sender, recipients)
+    email.attach_file(pdf_path)
+    email.send()
+
 
