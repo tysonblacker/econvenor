@@ -19,6 +19,7 @@ class Item(TimeStampedModel):
     explainer = models.ForeignKey(Participant, null=True, blank=True)
     meeting = models.ForeignKey(Meeting, null=True, blank=True)
 
+    added_in_meeting = models.BooleanField(default=False)
     background = models.TextField(null=False, blank=True)
     carry_over = models.BooleanField(default=False)
     item_no = models.IntegerField(null=True, blank=True)

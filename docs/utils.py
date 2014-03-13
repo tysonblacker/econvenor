@@ -19,10 +19,10 @@ from tasks.models import Task
 from utilities.commonutils import set_path
 
 
-def add_item(group, meeting, items):
+def add_item(group, meeting, items, doc_type):
     """
-    Adds an agenda item. Requires *items* to be a list of items ordered
-    from first to last.
+    Adds an agenda or minutes item. Requires *items* to be a list of items
+    ordered from first to last.
     """
     try:
         last_item = items.reverse()[0]
@@ -36,18 +36,29 @@ def add_item(group, meeting, items):
                group=group,
                title='New item'
                )
-    new_item.save()
+    if doc_type == 'minutes':
+        new_item.added_in_meeting = True
+    new_item.save(group)
 
 
 def add_decision(request, group, meeting):
-    item_number = request.POST['ajax_button'][20:]
+    """
+    Adds a decision to a minutes item.
+    """
+    item_number = request.POST['ajax_button'][13:]
     new_decision = Decision(item_id=int(item_number), group=group,
                             meeting=meeting)
     new_decision.save(group)
 
 
 def add_task(request, group, meeting):
-    pass
+    """
+    Adds a task to a minutes item.
+    """
+    item_number = request.POST['ajax_button'][9:]
+    new_task = Task(item_id=int(item_number), group=group,              
+                    meeting=meeting, status = 'Incomplete')
+    new_task.save(group)
 
 
 def delete_item(request, group, meeting):
@@ -69,10 +80,10 @@ def delete_item(request, group, meeting):
 
 def delete_decision(request, group, meeting):
     """
-    Deletes a decision.
+    Deletes a decision from a minutes item.
     """    
     button_value = request.POST['ajax_button']
-    decision_number = int(button_value[23:])
+    decision_number = int(button_value[16:])
     decision = Decision.objects.get(meeting=meeting, group=group,
                                     id=decision_number)
     decision.delete()
@@ -80,12 +91,12 @@ def delete_decision(request, group, meeting):
 
 def delete_task(request, group, meeting):
     """
-    Deletes a task.
+    Deletes a task from a minutes item.
     """    
     button_value = request.POST['ajax_button']
-    task_number = int(button_value[19:])
+    task_number = int(button_value[12:])
     task = Task.objects.get(meeting=meeting, group=group,
-                                    task_no=task_number)
+                                    id=task_number)
     task.delete()
     
     
@@ -217,8 +228,8 @@ def calculate_meeting_duration(meeting):
 	return duration
 	
 	
-def get_formatted_meeting_duration(meeting_id):
-	duration = calculate_meeting_duration(meeting_id)
+def get_formatted_meeting_duration(meeting):
+	duration = calculate_meeting_duration(meeting)
 	hours = duration / 60
 	minutes = duration % 60
 	if hours == 0:
@@ -257,14 +268,22 @@ def get_completed_tasks_list(group):
     return completed_task_list
 
 
-def get_templates(request_type):
+def get_templates(request_type, doc_type):
     
     if request_type == 'refresh':
-        templates = ['agenda_edit.html']
+        if doc_type == 'agenda':
+            templates = ['agenda_edit.html']
+        elif doc_type == 'minutes':
+            templates = ['minutes_edit.html']
     elif request_type == 'ajax':
-        templates = ['agenda_edit_ajax_sidebar.html',
-                     'agenda_edit_ajax_items.html']
+        if doc_type == 'agenda':
+            templates = ['agenda_edit_ajax_sidebar.html',
+                         'agenda_edit_ajax_items.html']
+        elif doc_type == 'minutes':
+            templates = ['minutes_edit_ajax_sidebar.html',
+                         'minutes_edit_ajax_items.html']
     return templates
+
 
 def get_response(responses, request_type):
     

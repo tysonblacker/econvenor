@@ -41,7 +41,8 @@ class MinutesItemForm(forms.ModelForm):
             
     class Meta:
         model = Item
-        fields = ['item_no',
+        fields = ['added_in_meeting',
+                  'item_no',
                   'title',
                   'time_limit',
                   'explainer',
@@ -51,6 +52,9 @@ class MinutesItemForm(forms.ModelForm):
         widgets = {
             'item_no': forms.HiddenInput(),
         }    
+
+    def clean_added_in_meeting(self):
+        return self.instance.added_in_meeting
 
     def clean_id(self):
         return self.instance.id

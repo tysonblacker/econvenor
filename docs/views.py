@@ -66,7 +66,7 @@ def agenda_edit(request, meeting_id):
         if request.POST['ajax_button'] != 'page_refresh':              
             save_formlist(request, group, items, 'items', 'agenda')
         if request.POST['ajax_button']=='add_item':
-            add_item(group, meeting, items)
+            add_item(group, meeting, items, 'agenda')
         if request.POST['ajax_button'][0:11] =='delete_item':
             delete_item(request, group, meeting)
         if request.POST['ajax_button'] == 'move_item':
@@ -78,8 +78,7 @@ def agenda_edit(request, meeting_id):
     meeting_duration = get_formatted_meeting_duration(meeting_id)
     meeting_end_time = calculate_meeting_end_time(meeting)
     
-    templates = get_templates(request_type)
- 
+    templates = get_templates(request_type, 'agenda')
     responses = []
     for template in templates:
         part_response = render(request, template, {
@@ -168,7 +167,7 @@ def minutes_list(request):
         
     minutes = Meeting.objects.filter(group=group)
     page_heading = 'Minutes'
-    table_headings = ('Meeting ID', 'Meeting number', 'Date of meeting',)
+    table_headings = ('Meeting number', 'Date of meeting', 'Type of meeting')
     
     return render(request, 'minutes_list.html', {
                   'minutes': minutes,
@@ -188,55 +187,53 @@ def minutes_edit(request, meeting_id):
     
     request_type = 'refresh'
     page_heading = 'Minutes'
-    task_list_headings = ('Description', 'Assigned to', 'Deadline')
-    
+  
+    decisions = meeting.decision_set.filter(group=group)  
     items = meeting.item_set.filter(group=group).order_by('item_no')
-    decisions = meeting.decision_set.filter(group=group)
     tasks = meeting.task_set.filter(group=group)
     
-    incomplete_tasks_list = Task.lists.incomplete_tasks().filter(group=group)
     completed_tasks_list = get_completed_tasks_list(group=group)
+    incomplete_tasks_list = Task.lists.incomplete_tasks().filter(group=group)
     new_tasks = Task.lists.incomplete_tasks().filter(group=group,
                                                      meeting=meeting)	
 
     if request.method == "POST" and 'ajax_button' in request.POST:
         request_type = 'ajax'
+        # before changing any data, save everything
         if request.POST['ajax_button'] != 'page_refresh':              
+            save_formlist(request, group, decisions, 'decisions', 'minutes')
             save_formlist(request, group, items, 'items', 'minutes')
             save_formlist(request, group, tasks, 'tasks', 'minutes')            
-            save_formlist(request, group, decisions, 'decisions',
-                          'minutes')            
-        if request.POST['ajax_button']=='add_item_button':
-            add_item(request, group, meeting, items)
-        if request.POST['ajax_button'][:15]=='add_task_button':
-            item_number = request.POST['ajax_button'][16:]
-            new_task = Task(item_id=int(item_number), group=group,              
-                            meeting=meeting, status = 'Incomplete')
-            new_task.save(group)
-        if request.POST['ajax_button'][:19]=='add_decision_button':
+        # now change what needs to be changed
+        if request.POST['ajax_button'][:12]=='add_decision':
             add_decision(request, group, meeting)
-        if request.POST['ajax_button'][:22]=='delete_decision_button':
+        if request.POST['ajax_button']=='add_item_button':
+            add_item(group, meeting, items, 'minutes')
+        if request.POST['ajax_button'][:8]=='add_task':
+            add_task(request, group, meeting)
+        if request.POST['ajax_button'][:15]=='delete_decision':
             delete_decision(request, group, meeting)
-       
+        if request.POST['ajax_button'][:11]=='delete_item':
+            delete_item(request, group, meeting)            
+        if request.POST['ajax_button'][:11]=='delete_task':
+            delete_task(request, group, meeting)
+
+        decisions = meeting.decision_set.filter(group=group)
         items = meeting.item_set.filter(group=group).order_by('item_no')
         tasks = meeting.task_set.filter(group=group)
-        decisions = meeting.decision_set.filter(group=group)
    
-    item_formlist = build_formlist(group, items, 'items', 'minutes')
-    task_formlist = build_formlist(group, tasks, 'tasks', 'minutes')
     decision_formlist = build_formlist(group, decisions, 'decisions',
                                        'minutes')
-    
+    item_formlist = build_formlist(group, items, 'items', 'minutes')
+    task_formlist = build_formlist(group, tasks, 'tasks', 'minutes')
+        
     item_count = items.count()
-    meeting_form = MinutesMeetingForm(group, instance=meeting, label_suffix='') 
-    meeting_duration = get_formatted_meeting_duration(meeting_id)
+    meeting_duration = get_formatted_meeting_duration(meeting)
     meeting_end_time = calculate_meeting_end_time(meeting)
+    meeting_form = MinutesMeetingForm(group, instance=meeting, label_suffix='') 
     
-    templates = get_templates(request_type)
-    
-    count = 0
+    templates = get_templates(request_type, 'minutes')
     responses = []
-    
     for template in templates:
         response = render(request, template, {
                           'meeting_id': meeting_id,
@@ -244,30 +241,16 @@ def minutes_edit(request, meeting_id):
                           'meeting_duration': meeting_duration,
                           'meeting_end_time': meeting_end_time,
                           'page_heading': page_heading,
-                          'task_list_headings': task_list_headings,
                           'completed_tasks_list': completed_tasks_list,
                           'incomplete_tasks_list': incomplete_tasks_list,
-                          'item_count': item_count,
                           'meeting_form': meeting_form,
                           'item_formlist': item_formlist,
                           'task_formlist': task_formlist,
                           'decision_formlist': decision_formlist,
-                          'request_type': request_type,
                           'decisions': decisions,
                           'tasks': tasks,
                           })
-
         responses.append(response)
-        
-    if request_type == 'refresh':
-        page_object = responses[0]
-        return page_object
-    elif request_type == 'ajax':
-        ajax_response = {}
-        ajax_sidebar_content = responses[0].content
-        ajax_main_content = responses[1].content
-        ajax_response['ajax_sidebar'] = ajax_sidebar_content
-        ajax_response['ajax_main'] = ajax_main_content
-        return HttpResponse(json.dumps(ajax_response), \
-                            content_type="application/json")
-
+    response = get_response(responses, request_type)
+    
+    return response

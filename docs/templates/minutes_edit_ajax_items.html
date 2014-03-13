@@ -46,8 +46,16 @@
         {% endfor %}
 
 
+        {% ifequal item.added_in_meeting.value True %}
+        <button type="button" title="Delete item" 
+          class="btn btn-default btn-xs ajax-button tltip"
+          id="delete_item_{{ item.item_no.value}}" data-toggle="tooltip" >
+            <span class="glyphicon glyphicon-remove">Delete</span>
+        </button>
+        {% endifequal %}
+
+
         <p><strong>Decisions:</strong></p>
-        
         <div class="panel panel-default">
           {% for decision in decision_formlist %}
             {% ifequal decision.instance.item.id item.instance.id %}
@@ -56,7 +64,7 @@
                 {{ decision.description|setclass:"form-control" }}
                 <button type="button" title="Delete decision" 
                   class="btn btn-default btn-xs ajax-button tltip"
-                  id="delete_decision_button_{{ decision.instance.id}}"
+                  id="delete_decision_{{ decision.instance.id}}"
                   data-toggle="tooltip" >
                   <span class="glyphicon glyphicon-remove">Delete</span>
                 </button>
@@ -64,7 +72,7 @@
             {% endifequal %}
           {% endfor %}
 
-          <button id="add_decision_button_{{ item.instance.id }}"
+          <button id="add_decision_{{ item.instance.id }}"
             class="btn btn-default ajax-button" type="button">
               Add a decision to this item
           </button>
@@ -82,12 +90,18 @@
                   {{ task.description|setclass:"form-control" }}
                   {{ task.participant|setclass:"form-control" }}
                   {{ task.deadline|setclass:"form-control" }}
+                  <button type="button" title="Delete task" 
+                  class="btn btn-default btn-xs ajax-button tltip"
+                  id="delete_task_{{ task.instance.id}}"
+                  data-toggle="tooltip" >
+                  <span class="glyphicon glyphicon-remove">Delete</span>
+                </button>
                 </div>
               </div>
             {% endifequal %}
           {% endfor %}
 
-          <button id="add_task_button_{{ item.instance.id }}"
+          <button id="add_task_{{ item.instance.id }}"
             class="btn btn-default ajax-button" type="button">
             Add a task to this item
           </button>
