@@ -131,7 +131,10 @@ else:
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+if socket.gethostname() == 'web439.webfaction.com':
+    MEDIA_ROOT = '/home/econvenor/webapps/econvenor_media/'
+else:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 	
 # Email
 # https://docs.djangoproject.com/en/1.6/topics/email/

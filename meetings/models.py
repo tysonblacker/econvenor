@@ -27,7 +27,7 @@ class Meeting(TimeStampedModel):
             
     group = models.ForeignKey(Group)
 
-    agenda_pdf = models.FileField(upload_to='meetingdocs')
+    agenda_pdf = models.FileField(upload_to='meeting_docs')
     apologies = models.TextField(null=False, blank=True)
     attendance = models.TextField(null=False, blank=True)            
     meeting_no = models.CharField(max_length=30, null=False, blank=True)
@@ -40,7 +40,7 @@ class Meeting(TimeStampedModel):
                                       choices=MEETING_STATUS_CHOICES,
                                       default='Scheduled',
                                       null=False, blank=True)
-    minutes_pdf = models.FileField(upload_to='meetingdocs')    
+    minutes_pdf = models.FileField(upload_to='meeting_docs')    
     reminder_sent = models.DateTimeField(null=True, blank=True)
     date_scheduled = models.DateField(null=True, blank=True)
     date_actual = models.DateField(null=True, blank=True)
