@@ -53,7 +53,7 @@ $(function enableBootstrapFeatures() {
 /* Enable automatic vertical scrolling to a target
 -------------------------------------------------- */
 
-$("html").on("click", ".sidebar-heading", function(event){ 
+$("html").on("click", "a", function(event){ 
   var $anchor = $(this);
   $("html").stop().animate({
     scrollTop: $($anchor.attr('href')).offset().top-80

@@ -42,7 +42,13 @@ urlpatterns = patterns('',
 	url(r'^minutes/$', 'docs.views.minutes_list', name="minutes-list"),
 	url(r'^minutes/(\d{1,4})/edit/$', 'docs.views.minutes_edit',
 		name="minutes-edit"),
-
+	url(r'^minutes/(\d{1,4})/distribute/$', 'docs.views.minutes_distribute',
+		name="minutes-distribute"),     
+	url(r'^minutes/(\d{1,4})/print/$', 'docs.views.minutes_print',
+		name="minutes-print"),
+	url(r'^minutes/(\d{1,4})/sent/$', 'docs.views.minutes_sent',
+		name="minutes-sent"),
+		
 	url(r'^decisions/$', 'decisions.views.decision_list',
 		name="decision-list"),
 	

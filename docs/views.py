@@ -139,7 +139,7 @@ def agenda_print(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
 
     pdf_contents = get_pdf_contents(request, group, meeting)
-    file_name = group.slug + '_agenda_' + meeting_no + '.pdf'
+    file_name = group.slug + '_agenda_' + meeting.meeting_no + '.pdf'
     
     response = HttpResponse(pdf_contents, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=' + file_name
@@ -257,3 +257,12 @@ def minutes_edit(request, meeting_id):
     response = get_response(responses, request_type)
     
     return response
+
+def minutes_distribute(request, meeting_id):
+    pass
+    
+def minutes_print(request, meeting_id):
+    pass
+    
+def minutes_sent(request, meeting_id):
+    pass

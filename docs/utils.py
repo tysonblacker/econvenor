@@ -1,12 +1,11 @@
 import json
 import os
 import string
-
-from django.http import HttpResponse, HttpResponseRedirect
 from datetime import datetime, timedelta
-from django.core.mail import EmailMessage
 
 from django.conf import settings
+from django.core.mail import EmailMessage
+from django.http import HttpResponse, HttpResponseRedirect
 
 from decisions.forms import MinutesDecisionForm
 from decisions.models import Decision
@@ -220,38 +219,50 @@ def save_formlist(request, group, items, item_type, doc_type):
         
 
 def calculate_meeting_duration(meeting):
-	duration = 0
-	items = Item.objects.filter(meeting=meeting)
-	for item in items:
-	    if item.time_limit:
-		    duration += item.time_limit
-	return duration
+    """
+    Returns the duration of a meeting.
+    """
+    duration = 0
+    items = Item.objects.filter(meeting=meeting)
+    for item in items:
+        if item.time_limit:
+            duration += item.time_limit
+    return duration
 	
 	
 def get_formatted_meeting_duration(meeting):
-	duration = calculate_meeting_duration(meeting)
-	hours = duration / 60
-	minutes = duration % 60
-	if hours == 0:
-		formatted_duration = '%s mins' % minutes
-	elif hours == 1:
-		formatted_duration = '%s hr %s mins' % (hours, minutes)	
-	else:
-		formatted_duration = '%s hrs %s mins' % (hours, minutes)
-	return formatted_duration
+    """
+    Returns the duration of the meeting in hr:min format.
+    """
+    duration = calculate_meeting_duration(meeting)
+    hours = duration / 60
+    minutes = duration % 60
+    if hours == 0:
+	    formatted_duration = '%s mins' % minutes
+    elif hours == 1:
+	    formatted_duration = '%s hr %s mins' % (hours, minutes)	
+    else:
+	    formatted_duration = '%s hrs %s mins' % (hours, minutes)
+    return formatted_duration
 	
 
 def calculate_meeting_end_time(meeting):
-	duration = calculate_meeting_duration(meeting)
-	date = meeting.date_scheduled
-	start_time = meeting.start_time_scheduled
-	start_date_and_time = datetime.combine(date, start_time)
-	end_date_and_time = start_date_and_time + timedelta(minutes=duration)
-	end_time = end_date_and_time.time()
-	return end_time
+    """
+    Returns the end time of a meeting.
+    """
+    duration = calculate_meeting_duration(meeting)
+    date = meeting.date_scheduled
+    start_time = meeting.start_time_scheduled
+    start_date_and_time = datetime.combine(date, start_time)
+    end_date_and_time = start_date_and_time + timedelta(minutes=duration)
+    end_time = end_date_and_time.time()
+    return end_time
 	
 
 def get_completed_tasks_list(group):
+    """
+    Returns a list of tasks completed since the last meeting.
+    """
     meetings = Meeting.objects.filter(group=group, meeting_status='Complete',
                                       meeting_type='Ordinary Meeting')
     if meetings:
@@ -269,7 +280,10 @@ def get_completed_tasks_list(group):
 
 
 def get_templates(request_type, doc_type):
-    
+    """
+    Returns the templates required to render the response
+    for an agenda or minutes.
+    """    
     if request_type == 'refresh':
         if doc_type == 'agenda':
             templates = ['agenda_edit.html']
@@ -286,7 +300,9 @@ def get_templates(request_type, doc_type):
 
 
 def get_response(responses, request_type):
-    
+    """
+    Returns the response for an agenda or minutes.
+    """      
     if request_type == 'refresh':
         page_object = responses[0]
         return page_object
@@ -301,45 +317,47 @@ def get_response(responses, request_type):
 
 
 def distribute_agenda(request, group, meeting):
-	
-	recipients = []
-	group_name = group.name
-	    
-	# build recipients list if "all_participants" box is checked
-	if 'all_participants' in request.POST:
-		participants = Participant.objects.filter(group=group)
-		for participant in participants:
-			email = participant.email
-			recipients.append(email)
-			
-	# build recipients list if "all_participants" box is not checked
-	else:
-		# create recipients list in this format: [participant1, participant4]
-		distribution_list = []
-		for key in request.POST:
-			if request.POST[key] == 'checked':
-				distribution_list.append(key)
-	
-		# create recipients list in this format: [1, 4]
-		id_list = []
-		for participant in distribution_list:
-			participant_id = participant[11:]
-			id_list.append(participant_id)
-	
-		# create recipients list with email addresses
+    """
+    Emails out the agenda.
+    """  	
+    recipients = []
+    group_name = group.name
+        
+    # build recipients list if "all_participants" box is checked
+    if 'all_participants' in request.POST:
+	    participants = Participant.objects.filter(group=group)
+	    for participant in participants:
+		    email = participant.email
+		    recipients.append(email)
+		
+    # build recipients list if "all_participants" box is not checked
+    else:
+	    # create recipients list in this format: [participant1, participant4]
+	    distribution_list = []
+	    for key in request.POST:
+		    if request.POST[key] == 'checked':
+			    distribution_list.append(key)
 
-		for item in id_list:
-			participant = Participant.objects.get(pk=int(item), group=group)
-			participant_email = participant.email
-			recipients.append(participant_email)
+	    # create recipients list in this format: [1, 4]
+	    id_list = []
+	    for participant in distribution_list:
+		    participant_id = participant[11:]
+		    id_list.append(participant_id)
 
-	# set up the email fields
-	pdf_path = os.path.join(settings.BASE_DIR, meeting.agenda_pdf.url[1:])	
-	subject = group_name + ': You agenda is attached'
-	body = 'Here is your agenda'
-	sender = 'noreply@econvenor.org'
+	    # create recipients list with email addresses
 
-	# email the agenda
-	email = EmailMessage(subject, body, sender, recipients)
-	email.attach_file(pdf_path)
-	email.send()
+	    for item in id_list:
+		    participant = Participant.objects.get(pk=int(item), group=group)
+		    participant_email = participant.email
+		    recipients.append(participant_email)
+
+    # set up the email fields
+    pdf_path = os.path.join(settings.BASE_DIR, meeting.agenda_pdf.url[1:])	
+    subject = group_name + ': You agenda is attached'
+    body = 'Here is your agenda'
+    sender = 'noreply@econvenor.org'
+
+    # email the agenda
+    email = EmailMessage(subject, body, sender, recipients)
+    email.attach_file(pdf_path)
+    email.send()

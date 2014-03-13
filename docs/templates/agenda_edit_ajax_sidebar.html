@@ -3,11 +3,11 @@
 <ul class="nav nav-sidebar sortable">
   {% for item in items %}
     <li id="sidebar_{{ item.item_no}}">
-      <a href="#id_{{ item.item_no}}-title" class="sidebar-heading tltip"
+      <a href="#id_i{{ item.item_no}}-title" class="sidebar-heading tltip"
          data-toggle="tooltip" title="Scroll to this item">
         <div>
-          <span id="sidebar_heading_{{ item.item_no}}">{{ item.item_no}}.
-                &nbsp;{{ item.title }}
+          <span id="sidebar_heading_{{ item.item_no}}">
+            Item&nbsp;{{ item.item_no}}.&nbsp;&nbsp;{{ item.title }}
           </span>
         </div>
       </a>
