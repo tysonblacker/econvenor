@@ -219,30 +219,17 @@ def save_formlist(request, group, items, item_type, doc_type):
 
 def calculate_meeting_duration(meeting):
     """
-    Returns the duration of a meeting.
+    Returns the duration of a meeting. If any item durations are zero,
+    return a meeting duration of zero.
     """
     duration = 0
     items = Item.objects.filter(meeting=meeting)
     for item in items:
-        if item.time_limit:
-            duration += item.time_limit
+        if item.time_limit == 0:
+            duration = 0
+            break
+        duration += item.time_limit
     return duration
-	
-	
-def get_formatted_meeting_duration(meeting):
-    """
-    Returns the duration of the meeting in hr:min format.
-    """
-    duration = calculate_meeting_duration(meeting)
-    hours = duration / 60
-    minutes = duration % 60
-    if hours == 0:
-	    formatted_duration = '%s mins' % minutes
-    elif hours == 1:
-	    formatted_duration = '%s hr %s mins' % (hours, minutes)	
-    else:
-	    formatted_duration = '%s hrs %s mins' % (hours, minutes)
-    return formatted_duration
 	
 
 def calculate_meeting_end_time(meeting):
@@ -256,6 +243,22 @@ def calculate_meeting_end_time(meeting):
     end_date_and_time = start_date_and_time + timedelta(minutes=duration)
     end_time = end_date_and_time.time()
     return end_time
+	
+	
+def get_formatted_meeting_duration(meeting):
+    """
+    Returns the duration of the meeting in hr:min format.
+    """
+    duration = calculate_meeting_duration(meeting)
+    hours = duration / 60
+    minutes = duration % 60
+    if hours == 0:
+	    formatted_duration = '%s mins (approx.)' % minutes
+    elif hours == 1:
+	    formatted_duration = '%s hr %s mins (approx.)' % (hours, minutes)	
+    else:
+	    formatted_duration = '%s hrs %s mins (approx.)' % (hours, minutes)
+    return formatted_duration
 	
 
 def get_completed_tasks_list(group):

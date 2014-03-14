@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
-from docs.pdfs import create_pdf_agenda, \
+from docs.pdfs import create_pdf, \
                       distribute_agenda, \
                       get_pdf_contents
 from docs.utils import add_decision, \
@@ -113,7 +113,7 @@ def agenda_distribute(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
     
     participants = Participant.objects.filter(group=group)
-    pages = create_pdf_agenda(request, group, meeting)
+    pages = create_pdf(request, group, meeting, 'agenda')
     
     if request.method == "POST":
         if 'distribute_button' in request.POST:
