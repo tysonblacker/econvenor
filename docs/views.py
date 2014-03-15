@@ -19,7 +19,8 @@ from docs.utils import add_decision, \
                        get_response, \
                        get_templates, \
                        move_item, \
-                       save_formlist
+                       save_formlist, \
+                       save_meeting_form
 from meetings.models import Meeting
 from meetings.forms import AgendaMeetingForm, \
                            MinutesMeetingForm
@@ -53,6 +54,7 @@ def agenda_edit(request, meeting_id):
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
 
+    doc_type = 'agenda'
     request_type = 'refresh'
     page_heading = 'Create agenda'
     task_list_headings = ('Description',
@@ -65,22 +67,23 @@ def agenda_edit(request, meeting_id):
     if request.method == "POST" and 'ajax_button' in request.POST:
         request_type = 'ajax'
         if request.POST['ajax_button'] != 'page_refresh':              
-            save_formlist(request, group, items, 'items', 'agenda')
+            save_formlist(request, group, items, 'items', doc_type)
+            save_meeting_form(request, group, meeting, doc_type)            
         if request.POST['ajax_button']=='add_item':
-            add_item(group, meeting, items, 'agenda')
+            add_item(group, meeting, items, doc_type)
         if request.POST['ajax_button'][0:11] =='delete_item':
             delete_item(request, group, meeting)
         if request.POST['ajax_button'] == 'move_item':
             move_item(request, group, meeting)                          
         items = meeting.item_set.filter(group=group).order_by('item_no')
 
-    item_formlist = build_formlist(group, items, 'items', 'agenda')
+    item_formlist = build_formlist(group, items, 'items', doc_type)
     
     meeting_form = AgendaMeetingForm(group=group, instance=meeting)
     meeting_duration = get_formatted_meeting_duration(meeting_id)
     meeting_end_time = calculate_meeting_end_time(meeting)
     
-    templates = get_templates(request_type, 'agenda')
+    templates = get_templates(request_type, doc_type)
     responses = []
     for template in templates:
         part_response = render(request, template, {
@@ -188,6 +191,7 @@ def minutes_edit(request, meeting_id):
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
     
+    doc_type = 'minutes'
     request_type = 'refresh'
     page_heading = 'Minutes'
   
@@ -204,9 +208,10 @@ def minutes_edit(request, meeting_id):
         request_type = 'ajax'
         # before changing any data, save everything
         if request.POST['ajax_button'] != 'page_refresh':              
-            save_formlist(request, group, decisions, 'decisions', 'minutes')
-            save_formlist(request, group, items, 'items', 'minutes')
-            save_formlist(request, group, tasks, 'tasks', 'minutes')            
+            save_formlist(request, group, decisions, 'decisions', doc_type)
+            save_formlist(request, group, items, 'items', doc_type)
+            save_formlist(request, group, tasks, 'tasks', doc_type)
+            save_meeting_form(request, group, meeting, doc_type)            
         # now change what needs to be changed
         if request.POST['ajax_button'][:12]=='add_decision':
             add_decision(request, group, meeting)
@@ -258,8 +263,32 @@ def minutes_edit(request, meeting_id):
     
     return response
 
+
 def minutes_distribute(request, meeting_id):
-    pass
+    group = get_current_group(request)
+    if group == None:	
+        return HttpResponseRedirect(reverse('index'))
+        
+    meeting = Meeting.objects.get(pk=int(meeting_id))
+    if meeting.group != group:
+        return HttpResponseRedirect(reverse('index'))
+    
+    participants = Participant.objects.filter(group=group)
+    pages = create_pdf(request, group, meeting, 'minutes')
+    
+    if request.method == "POST":
+        if 'distribute_button' in request.POST:
+            if request.POST['distribute_button']=='distribute_minutes':
+            	distribute_agenda(request, group, meeting)
+                return HttpResponseRedirect(reverse('minutes-sent',
+                                                    args=(meeting_id)))
+            	
+    return render(request, 'minutes_distribute.html', {
+                  'meeting_id': meeting_id,
+                  'pages': pages,
+                  'participants': participants,
+                  })
+
     
 def minutes_print(request, meeting_id):
     pass

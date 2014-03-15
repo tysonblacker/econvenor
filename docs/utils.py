@@ -10,6 +10,7 @@ from decisions.forms import MinutesDecisionForm
 from decisions.models import Decision
 from docs.forms import AgendaItemForm, MinutesItemForm
 from docs.models import Item
+from meetings.forms import AgendaMeetingForm, MinutesMeetingForm
 from meetings.models import Meeting
 from participants.models import Participant
 from tasks.forms import MinutesTaskForm
@@ -217,6 +218,18 @@ def save_formlist(request, group, items, item_type, doc_type):
             updated_item.save(group)
         
 
+def save_meeting_form(request, group, meeting, doc_type):            
+    """
+    Saves the meeting form.
+    """
+    if doc_type == 'agenda':
+        meeting_form = AgendaMeetingForm(group, request.POST, instance=meeting)
+    elif doc_type == 'minutes':
+        meeting_form = MinutesMeetingForm(group, request.POST, instance=meeting)        
+    if meeting_form.is_valid() :
+        meeting_form.save(group)
+              
+            
 def calculate_meeting_duration(meeting):
     """
     Returns the duration of a meeting. If any item durations are zero,

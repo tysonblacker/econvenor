@@ -64,27 +64,12 @@
        
     </div><!-- /.col-sm-3 -->
 
-    <!-- MEETING DETAILS FORM
-    ================================================== -->
-
     <div class="col-sm-7 col-sm-offset-4 main">
 
       <div class="top-spacer">
       </div>
   
-      <div class="well" id="meeting_details">
-        <h1><small>Meeting details</small></h1>
-          <form action="" method="POST">
-          {% csrf_token %}
-          {{ meeting_form.as_p }}
-          <button type="submit" class="btn btn-danger"                      
-            name="delete_meeting_button" value="delete_meeting"
-            data-toggle="button">
-              Delete meeting
-          </button>
-        </form>
-      </div><!-- ./well -->
-
+      
     <!-- AJAX FORMS
     ================================================== -->
     

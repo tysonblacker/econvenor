@@ -23,6 +23,7 @@ from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, \
 import reportlab.rl_config
 
 from accounts.models import Group
+from decisions.models import Decision
 from docs.utils import calculate_meeting_duration, \
                        calculate_meeting_end_time, \
                        get_completed_tasks_list
@@ -128,9 +129,6 @@ MEETING_COLUMN_STYLE = TableStyle([
     ('BACKGROUND', (0,0), (-0,-1), shading_color),
     ])
 
-MEETING_DUMMY_COLUMN_STYLE = TableStyle([
-    ])
-
 MEETING_TABLE_STYLE = TableStyle([
     ('VALIGN',(0,0),(-1,-1),'TOP'),
     ('LEFTPADDING', (0,0), (-1,-1), 0),
@@ -182,7 +180,22 @@ ITEM_EXPLAINER_AND_BACKGROUND_TABLE_STYLE = TableStyle([
     ('BOTTOMPADDING', (0,0), (-1,-1), 0),
     ])
 
+MINUTES_ITEMS_TABLE_STYLE = TableStyle([
+    ('GRID', (0,0), (1,-1), line_width, table_color),
+    ('VALIGN',(0,0),(-1,-1),'TOP'),
+    ('BACKGROUND', (0,0), (-1,0), table_color),
+    ('LEFTPADDING', (0,0), (-1,-1), 0),
+    ('TOPPADDING', (0,0), (-1,0), 0),
+    ('TOPPADDING', (0,1), (-1,-1), 0),
+    ('BOTTOMPADDING', (0,0), (-1,-1), 0),
+    ])
 
+MINUTES_ITEMS_SUBTABLE_STYLE = TableStyle([
+    ('GRID', (0,0), (-1,-1), line_width, table_color),
+    ('VALIGN',(0,0),(-1,-1),'TOP'),
+    ('BACKGROUND', (0,0), (-1,0), shading_color),
+    ])    
+    
 def insert_line_breaks(string_data):
     """
     Replaces line break characters in strings with <br> tags.
@@ -239,22 +252,19 @@ def create_details_table(meeting, doc_type, Document):
         location = insert_line_breaks(meeting.location_actual)
         notes = insert_line_breaks(meeting.instructions_actual)
     # Set up the right hand column
-    if notes != '':
-        right_column_contents = [
+    right_column_contents = [
             (Paragraph('Location', shadedItemStyle),
-                Paragraph(location, normalStyle)),
-            (Paragraph('Notes', shadedItemStyle),
-                Paragraph(notes, normalStyle)),                
-            ]   
-        right_column = Table(right_column_contents, colWidths=[22*mm,55.5*mm])
-        right_column.setStyle(MEETING_COLUMN_STYLE)
-        dummy_column = Table([
-                ('',), ('',), ('',),
-                ],
-            colWidths=[5*mm])
-        dummy_column.setStyle(MEETING_DUMMY_COLUMN_STYLE)
-    else:
-        right_column = None
+                Paragraph(location, normalStyle))]
+    if notes != '':
+        right_column_contents.append((Paragraph('Notes', shadedItemStyle),
+                                     Paragraph(notes, normalStyle)))   
+    right_column = Table(right_column_contents, colWidths=[22*mm,55.5*mm])
+    right_column.setStyle(MEETING_COLUMN_STYLE)
+    # Set up the middle column to seperate the left and right columns
+    middle_column = Table([
+            ('',), ('',),
+            ],
+        colWidths=[5*mm])
     # Set up the left hand column
     left_column_contents = [
         (Paragraph('Meeting', shadedItemStyle),
@@ -263,26 +273,22 @@ def create_details_table(meeting, doc_type, Document):
             Paragraph(date.strftime("%A %B %d, %Y"), normalStyle)),
         (Paragraph('Start time', shadedItemStyle),
             Paragraph(start_time.strftime("%H:%M"), normalStyle)),]     
-    if duration != 0:
+    if doc_type == 'agenda':
+        if duration != 0:
+            left_column_contents.append(        
+            (Paragraph('End time', shadedItemStyle),
+                Paragraph(end_time.strftime("%H:%M"), normalStyle)))
+    if doc_type == 'minutes':
         left_column_contents.append(        
         (Paragraph('End time', shadedItemStyle),
-            Paragraph(end_time.strftime("%H:%M"),
-                normalStyle)))
+         Paragraph(end_time.strftime("%H:%M"), normalStyle)))    
     left_column = Table(left_column_contents, colWidths=[22*mm,55.5*mm])
     left_column.setStyle(MEETING_COLUMN_STYLE)
-    if right_column:
-        t = Table([((
-                left_column,
-                dummy_column,
-                right_column
-                ))],
-                colWidths=[77.5*mm,5*mm,77.5*mm])
-    else:
-        t = Table([((
-                left_column,
-                ))],
-                colWidths=[80*mm])
-        t.hAlign='LEFT'
+    t = Table([((
+           left_column,
+           middle_column,
+           right_column
+           ))],)
     t.setStyle(MEETING_TABLE_STYLE)
     Document.append(t)
     Document.append(Spacer(0,10*mm))
@@ -313,16 +319,16 @@ def create_agenda_item_table(items, Document):
                 )])
             )
         if item.explainer and item.background:
-            inner_t = Table([
+            body_t = Table([
                     (Paragraph('To be introduced by ' + \
                           str(item.explainer), shadedItemStyle),),
                     (Paragraph(background, normalStyle),)
                     ],
                 colWidths=[160*mm])
-            inner_t.setStyle(ITEM_INNER_TABLE_STYLE)
+            body_t.setStyle(ITEM_INNER_TABLE_STYLE)
             t = Table([
                     (heading_t,),
-                    (inner_t,)
+                    (body_t,)
                     ],
                 colWidths=[160*mm])
             t.setStyle(ITEM_EXPLAINER_AND_BACKGROUND_TABLE_STYLE)
@@ -350,8 +356,68 @@ def create_agenda_item_table(items, Document):
         Document.append(Spacer(0,5*mm))
 
 
-def create_task_table(section_heading, task_list, task_type,
-                      Document):
+def create_minutes_item_table(items, group, Document):
+    """
+    Creates the minutes items tables.
+    """
+    for item in items:
+        minute_notes = insert_line_breaks(item.minute_notes)
+        # Set up the heading row as a sub-table   
+        heading_t = Table([((
+                Paragraph('Item ' + str(item.item_no) + ':&nbsp;&nbsp;' + \
+                          item.title, itemStyle),
+                ))],
+            colWidths=[160*mm]
+            )
+        # Set up the minute notes as a sub-table
+        notes_t = Table([
+                    (Paragraph(item.minute_notes, normalStyle),),
+                    ],
+                colWidths=[160*mm])
+        # Set up decisions as a sub-table
+        decisions_list = Decision.objects.filter(group=group, item=item)
+        if decisions_list:
+            decisions_heading = (
+                Paragraph('Decisions', shadedItemStyle),
+                )
+            decisions = [(
+                Paragraph(decision.description, normalStyle),
+                )
+                for decision in decisions_list]
+            decisions_t = Table([decisions_heading] + decisions,
+                            colWidths=[160*mm])
+            decisions_t.setStyle(MINUTES_ITEMS_SUBTABLE_STYLE)
+        # Set up tasks as a sub-table
+        tasks_list = Task.objects.filter(group=group, item=item)
+        if tasks_list:
+            column_headings = (
+                Paragraph('Task', shadedItemStyle),
+                Paragraph('Assigned to', shadedItemStyle),
+                Paragraph('Deadline', shadedItemStyle)
+                )
+            tasks = [(
+                Paragraph(task.description, normalStyle),
+                Paragraph(str(task.participant), normalStyle),
+                Paragraph(task.deadline.strftime("%d %b %Y"), normalStyle)
+                )
+                for task in tasks_list]
+            tasks_t = Table([column_headings] + tasks,
+                            colWidths=[90*mm,40*mm,30*mm])
+            tasks_t.setStyle(MINUTES_ITEMS_SUBTABLE_STYLE) 
+        # Generate the complete table
+        table_contents = [[(heading_t,)], [(notes_t,)]]
+        if tasks_list:
+            table_contents.append([(tasks_t,)])
+        if decisions_list:
+            table_contents.append([(decisions_t,)])
+        t = Table(table_contents, colWidths=[160*mm])
+        t.setStyle(MINUTES_ITEMS_TABLE_STYLE)
+        # Add this table to the document and put some space after it
+        Document.append(t)
+        Document.append(Spacer(0,5*mm))
+
+
+def create_task_table(section_heading, task_list, task_type, Document):
     """
     Creates the tasks tables.
     """
@@ -364,7 +430,10 @@ def create_task_table(section_heading, task_list, task_type,
     elif task_type == 'completed':
         empty_message = 'No tasks have been completed since last meeting.'
         time_column_heading = 'Completed'    
-    
+    if task_type == 'new':
+        empty_message = 'No tasks were assigned in this meeting.'
+        time_column_heading = 'Deadline'
+            
     table_heading = (Paragraph(section_heading, itemStyle), '', '')
     column_headings = (
         Paragraph('Description', shadedItemStyle),
@@ -382,8 +451,6 @@ def create_task_table(section_heading, task_list, task_type,
         t = Table([table_heading] + [column_headings] + tasks,
                   colWidths=[90*mm,40*mm,30*mm])
     else:
-        
-        
         t = Table([table_heading] + [column_headings] + \
                   [(Paragraph(empty_message, 
                     normalStyle),'','')],
@@ -395,6 +462,9 @@ def create_task_table(section_heading, task_list, task_type,
 
 
 def create_pdf(request, group, meeting, doc_type):
+    """
+    Constructs the PDF document.
+    """
     # Set up the document framework
     group_name = group.name
     buffer = BytesIO()
@@ -427,20 +497,36 @@ def create_pdf(request, group, meeting, doc_type):
 
     # Add items to document
     items = meeting.item_set.filter(group=group).order_by('item_no')
-    create_agenda_item_table(items, Document)
+    if doc_type == 'agenda':
+        create_agenda_item_table(items, Document)
+    if doc_type == 'minutes':
+        create_minutes_item_table(items, group, Document)
     Document.append(Spacer(0,5*mm))
     
-    # Add task review to document
-    overdue_tasks_list = Task.lists.overdue_tasks().filter(group=group)
-    incomplete_tasks_list = Task.lists.incomplete_tasks().filter(group=group)
-    completed_tasks_list = get_completed_tasks_list(group)
-    create_task_table('Attachment 1:  Overdue tasks',
-                      overdue_tasks_list, 'overdue', Document)
-    create_task_table('Attachment 2:  Tasks to be completed',
-                      incomplete_tasks_list, 'incomplete', Document)
-    create_task_table('Attachment 3:  Tasks completed since last meeting',
-                      completed_tasks_list, 'completed', Document)
+    # Add task review to agenda
+    if doc_type == 'agenda':
+        overdue_tasks_list = Task.lists.overdue_tasks().filter(group=group)
+        incomplete_tasks_list = Task.lists.incomplete_tasks().\
+                                filter(group=group)
+        completed_tasks_list = get_completed_tasks_list(group)
+        create_task_table(
+            'Attachment 1:  Overdue tasks',
+            overdue_tasks_list, 'overdue', Document)
+        create_task_table(
+            'Attachment 2:  Tasks to be completed',
+            incomplete_tasks_list, 'incomplete', Document)
+        create_task_table(
+            'Attachment 3:  Tasks completed since last meeting',
+            completed_tasks_list, 'completed', Document)
 
+    # Add new task summary to minutes
+    if doc_type == 'minutes':
+        new_tasks_list = Task.lists.by_participant().filter(group=group,
+                                                            meeting=meeting)
+        create_task_table(
+            'Summary of tasks assigned in this meeting',
+            new_tasks_list, 'new', Document)
+       
     # Build the PDF
     doc.build(Document)
 
@@ -472,7 +558,9 @@ def create_pdf(request, group, meeting, doc_type):
     # Create and save the images
     output_path = preview_path + base_file_name + '_page%d.png' 
     pdf_location = pdf_path + pdf_name
-    ghostscript_command = "gs -q -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r135 -dTextAlphaBits=4 -sPAPERSIZE=a4 -sOutputFile=" + output_path + ' ' + pdf_location
+    ghostscript_command = "gs -q -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m \
+                          -r135 -dTextAlphaBits=4 -sPAPERSIZE=a4 \
+                          -sOutputFile=" + output_path + ' ' + pdf_location
 
     call(ghostscript_command, shell=True)
 
@@ -495,17 +583,26 @@ def create_pdf(request, group, meeting, doc_type):
 
 
 def get_base_file_name(request, group, meeting):
+    """
+    Returns the base file name with no suffix.
+    """
     base_file_name = str(group.id) + '_' + group.slug + '_agenda_' + \
                      meeting.meeting_no
     return base_file_name
 
 
 def get_pdf_path():
+    """
+    Returns the location that the document will be saved to.
+    """
     pdf_path = os.path.join(settings.MEDIA_ROOT, 'meeting_docs/')
     return pdf_path
 
 
 def get_pdf_contents(request, group, meeting):
+    """
+    Returns the contents of the PDF document.
+    """
     pdf_name = get_base_file_name(request, group, meeting) + '.pdf'
     pdf_path = get_pdf_path()
     pdf_location = pdf_path + pdf_name
