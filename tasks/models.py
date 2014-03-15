@@ -27,7 +27,10 @@ class TaskManager(models.Manager):
                 status='Incomplete',
                 deadline__lte=datetime.date.today())\
             .order_by('deadline')
-            
+
+    def by_participant(self):
+        return self.get_queryset().all().order_by('participant')
+                    
 
 class Task(TimeStampedModel):
 

@@ -3,6 +3,13 @@
 <form class="savebyjs" action="" method="POST">
 {% csrf_token %}
 
+
+<div class="well" id="meeting_details">
+  <h1><small>Meeting details</small></h1>
+  {{ meeting_form.as_p }}
+</div><!-- ./well -->
+
+
 {% for item in item_formlist %}
 
   <div class="panel panel-primary">
