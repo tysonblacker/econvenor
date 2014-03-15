@@ -32,6 +32,7 @@ $(document).on("click", ".ajax-button", function(){
 });
 
 $(document).on("click", ".navigate-button", function(){ 
+  $('body').css( 'cursor', 'wait' );
   var next_page = $(this).attr('goto');
   saveWithoutRefresh('ajax_button=save_agenda', next_page);
 });
