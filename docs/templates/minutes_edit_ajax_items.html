@@ -20,13 +20,23 @@
     <div class="panel panel-primary" id="id_{{ item.item_no.value}}-title">
       
       <div class="panel-heading">
-        <strong>Item&nbsp;{{ item.item_no.value }}.&nbsp;
-                {{ item.title.value }}
-                {{ item.item.no }}
-        </strong>
-        <div class="pull-right">
-          {{ item.time_limit.value }}&nbsp;minutes		
-        </div>
+        {% ifequal item.added_in_meeting.value True %}
+          <strong>Item&nbsp;{{ item.item_no.value }}.&nbsp;
+                  {{ item.title|setclass:"form-control" }}</strong>
+          <div class="pull-right">
+            <button type="button" title="Delete item" 
+              class="btn btn-default btn-xs ajax-button tltip"
+              id="delete_item_{{ item.item_no.value}}" data-toggle="tooltip" >
+                <span class="glyphicon glyphicon-remove">Delete</span>
+            </button>
+          </div>
+        {% else %}
+          <strong>Item&nbsp;{{ item.item_no.value }}.&nbsp;
+                  {{ item.title.value }}</strong>                
+          <div class="pull-right">
+            {{ item.time_limit.value }}&nbsp;minutes		
+          </div>
+        {% endifequal %}
       </div>
       
       <div class="panel-body">
@@ -55,15 +65,6 @@
             {{ hidden }}
           </div>
         {% endfor %}
-
-
-        {% ifequal item.added_in_meeting.value True %}
-        <button type="button" title="Delete item" 
-          class="btn btn-default btn-xs ajax-button tltip"
-          id="delete_item_{{ item.item_no.value}}" data-toggle="tooltip" >
-            <span class="glyphicon glyphicon-remove">Delete</span>
-        </button>
-        {% endifequal %}
 
 
         <p><strong>Decisions:</strong></p>

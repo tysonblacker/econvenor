@@ -63,7 +63,10 @@ class MinutesItemForm(forms.ModelForm):
         return self.instance.item_no
         
     def clean_title(self):
-        return self.instance.title
+        if self.cleaned_data["title"] != '':
+            return self.cleaned_data["title"]
+        else:
+            return self.instance.title
     
     def clean_time_limit(self):
         return self.instance.time_limit
