@@ -32,9 +32,8 @@ $(document).on("click", ".ajax-button", function(){
 });
 
 $(document).on("click", ".navigate-button", function(){ 
-  saveWithoutRefresh('ajax_button=save_button');
-  var new_page = $(this).attr('goto');
-  document.location.href = new_page;
+  var next_page = $(this).attr('goto');
+  saveWithoutRefresh('ajax_button=save_agenda', next_page);
 });
 
 
@@ -110,12 +109,16 @@ $(document).on( "sortupdate", function( event, ui ) {
 /* Save without page refresh
 -------------------------------------------------- */
 
-function saveWithoutRefresh( button_data ) {
+function saveWithoutRefresh( button_data, next_page ) {
   $('form.savebyjs').each(function() {
     $.ajax({
       data: button_data + '\&' + jQuery(this).serialize(),
       type: "POST",
       dataType: "json",
+      success: function() {
+        if ( next_page )
+          document.location.href = next_page
+      },
       error: printError,
       complete: function() {
       },
@@ -128,6 +131,6 @@ function saveWithoutRefresh( button_data ) {
 -------------------------------------------------- */
 
 $(function() {
-  var interval = setInterval("saveWithoutRefresh('ajax_button=save_button')",
+  var interval = setInterval("saveWithoutRefresh('ajax_button=save_agenda')",
     3600 * 1000);
 });
