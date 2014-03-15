@@ -20,7 +20,8 @@ from docs.utils import add_decision, \
                        get_templates, \
                        move_item, \
                        save_formlist, \
-                       save_meeting_form
+                       save_meeting_form, \
+                       save_next_meeting_form
 from meetings.models import Meeting
 from meetings.forms import AgendaMeetingForm, \
                            MinutesMeetingForm, \
@@ -212,7 +213,8 @@ def minutes_edit(request, meeting_id):
             save_formlist(request, group, decisions, 'decisions', doc_type)
             save_formlist(request, group, items, 'items', doc_type)
             save_formlist(request, group, tasks, 'tasks', doc_type)
-            save_meeting_form(request, group, meeting, doc_type)            
+            save_meeting_form(request, group, meeting, doc_type)
+            save_next_meeting_form(request, group, meeting)
         # now change what needs to be changed
         if request.POST['ajax_button'][:12]=='add_decision':
             add_decision(request, group, meeting)

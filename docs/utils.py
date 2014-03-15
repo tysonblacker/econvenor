@@ -10,7 +10,9 @@ from decisions.forms import MinutesDecisionForm
 from decisions.models import Decision
 from docs.forms import AgendaItemForm, MinutesItemForm
 from docs.models import Item
-from meetings.forms import AgendaMeetingForm, MinutesMeetingForm
+from meetings.forms import AgendaMeetingForm, \
+                           MinutesMeetingForm, \
+                           NextMeetingForm
 from meetings.models import Meeting
 from participants.models import Participant
 from tasks.forms import MinutesTaskForm
@@ -226,9 +228,19 @@ def save_meeting_form(request, group, meeting, doc_type):
         meeting_form = AgendaMeetingForm(group, request.POST, instance=meeting)
     elif doc_type == 'minutes':
         meeting_form = MinutesMeetingForm(group, request.POST, instance=meeting)        
-    if meeting_form.is_valid() :
+    if meeting_form.is_valid():
         meeting_form.save(group)
-              
+
+
+def save_next_meeting_form(request, group, meeting):            
+    """
+    Saves the meeting form.
+    """
+    next_meeting_form = NextMeetingForm(group, request.POST, 
+                                        instance=meeting)        
+    if next_meeting_form.is_valid():
+        next_meeting_form.save(group)
+                      
             
 def calculate_meeting_duration(meeting):
     """

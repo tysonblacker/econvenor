@@ -90,7 +90,6 @@ class NextMeetingForm(forms.ModelForm):
     def save(self, group, commit=True):
         meeting = super(NextMeetingForm, self).save(commit=False)
         meeting.group = group
-        meeting.status = 'Complete'
         if commit:
             meeting.save()
         return meeting
