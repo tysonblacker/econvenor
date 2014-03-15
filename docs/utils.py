@@ -238,7 +238,7 @@ def calculate_meeting_duration(meeting):
     duration = 0
     items = Item.objects.filter(meeting=meeting)
     for item in items:
-        if item.time_limit == 0:
+        if item.time_limit == None or item.time_limit == 0:
             duration = 0
             break
         duration += item.time_limit
