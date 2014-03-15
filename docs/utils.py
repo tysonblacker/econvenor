@@ -234,7 +234,7 @@ def save_meeting_form(request, group, meeting, doc_type):
 
 def save_next_meeting_form(request, group, meeting):            
     """
-    Saves the meeting form.
+    Saves the next meeting form.
     """
     next_meeting_form = NextMeetingForm(group, request.POST, 
                                         instance=meeting)        

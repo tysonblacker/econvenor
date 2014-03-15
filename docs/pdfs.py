@@ -194,7 +194,16 @@ MINUTES_ITEMS_SUBTABLE_STYLE = TableStyle([
     ('GRID', (0,0), (-1,-1), line_width, table_color),
     ('VALIGN',(0,0),(-1,-1),'TOP'),
     ('BACKGROUND', (0,0), (-1,0), shading_color),
-    ])    
+    ])
+    
+NEXT_MEETING_TABLE_STYLE = TableStyle([
+    ('GRID', (0,0), (-1,-1), line_width, table_color),
+    ('VALIGN',(0,0),(-1,-1),'TOP'),
+    ('BACKGROUND', (0,0), (-1,0), table_color),
+    ('LEFTPADDING', (0,0), (-1,-1), 0),
+    ('RIGHTPADDING', (0,0), (-1,-1), 0),
+    ('TOPPADDING', (0,0), (-1,-1), 0),
+    ('BOTTOMPADDING', (0,0), (-1,-1), 0),])    
     
 def insert_line_breaks(string_data):
     """
@@ -406,10 +415,10 @@ def create_minutes_item_table(items, group, Document):
             tasks_t.setStyle(MINUTES_ITEMS_SUBTABLE_STYLE) 
         # Generate the complete table
         table_contents = [[(heading_t,)], [(notes_t,)]]
+        if decisions_list:
+            table_contents.append([(decisions_t,)])        
         if tasks_list:
             table_contents.append([(tasks_t,)])
-        if decisions_list:
-            table_contents.append([(decisions_t,)])
         t = Table(table_contents, colWidths=[160*mm])
         t.setStyle(MINUTES_ITEMS_TABLE_STYLE)
         # Add this table to the document and put some space after it
@@ -461,6 +470,58 @@ def create_task_table(section_heading, task_list, task_type, Document):
     Document.append(Spacer(0,5*mm))
 
 
+def create_next_meeting_table(meeting, Document):
+    """
+    Creates a table in minutes for details of the next meeting.
+    """
+    date = meeting.next_meeting_date
+    start_time = meeting.next_meeting_start_time
+    location = insert_line_breaks(meeting.next_meeting_location)
+    facilitator = str(meeting.next_meeting_facilitator)
+    minute_taker = str(meeting.next_meeting_minute_taker)
+    notes = insert_line_breaks(meeting.next_meeting_instructions)
+    # Set up the heading row as a sub-table   
+    heading_t = Table([((
+                Paragraph('Details of next meeting', itemStyle),
+                ))],
+            colWidths=[160*mm]
+            )    
+    # Set up the contents rows
+    contents = []
+    if date:
+        contents.append(
+            (Paragraph('Date', shadedItemStyle),
+                Paragraph(date.strftime("%A %B %d, %Y"), normalStyle)))
+    if start_time:
+        contents.append(
+            (Paragraph('Start time', shadedItemStyle),
+             Paragraph(start_time.strftime("%H:%M"), normalStyle)))  
+    if location:
+        contents.append(
+            (Paragraph('Location', shadedItemStyle),
+             Paragraph(location, normalStyle)))
+    if facilitator:
+       contents.append(
+            (Paragraph('Facilitator', shadedItemStyle),
+             Paragraph(facilitator, normalStyle)))
+    if minute_taker:
+        contents.append(
+            (Paragraph('Minute taker', shadedItemStyle),
+             Paragraph(minute_taker, normalStyle)))
+    if notes:
+        contents.append(
+            (Paragraph('Notes', shadedItemStyle),
+                Paragraph(notes, normalStyle)))
+    # Set up the body sub-table                                  
+    body_t = Table(contents, colWidths=[28*mm,132*mm])
+    body_t.setStyle(MEETING_COLUMN_STYLE)
+    # Set up the whole table
+    table_contents = [[(heading_t,)], [(body_t,)]]
+    t = Table(table_contents, colWidths=[160*mm])
+    t.setStyle(NEXT_MEETING_TABLE_STYLE)
+    Document.append(t)
+
+
 def create_pdf(request, group, meeting, doc_type):
     """
     Constructs the PDF document.
@@ -501,7 +562,6 @@ def create_pdf(request, group, meeting, doc_type):
         create_agenda_item_table(items, Document)
     if doc_type == 'minutes':
         create_minutes_item_table(items, group, Document)
-    Document.append(Spacer(0,5*mm))
     
     # Add task review to agenda
     if doc_type == 'agenda':
@@ -519,8 +579,13 @@ def create_pdf(request, group, meeting, doc_type):
             'Attachment 3:  Tasks completed since last meeting',
             completed_tasks_list, 'completed', Document)
 
+    # Add next meeting table to minutes
+    if doc_type == 'minutes':
+        create_next_meeting_table(meeting, Document)
+
     # Add new task summary to minutes
     if doc_type == 'minutes':
+        Document.append(PageBreak())
         new_tasks_list = Task.lists.by_participant().filter(group=group,
                                                             meeting=meeting)
         create_task_table(
