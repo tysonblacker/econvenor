@@ -64,3 +64,34 @@ class MinutesMeetingForm(forms.ModelForm):
         if commit:
             meeting.save()
         return meeting
+
+
+class NextMeetingForm(forms.ModelForm):
+
+    def __init__(self, group, *args, **kwargs):
+        super(NextMeetingForm, self).__init__(*args, **kwargs)
+                      
+    class Meta:
+        model = Meeting
+        fields = ['next_meeting_date',
+                  'next_meeting_start_time',
+                  'next_meeting_location',
+                  'next_meeting_facilitator',
+                  'next_meeting_minute_taker',
+                  'next_meeting_instructions',
+                  ]
+        widgets = {
+            'next_meeting_location': forms.Textarea(attrs={'rows': 3}),
+            'next_meeting_date': forms.DateInput(attrs={'class': 'datepicker'}),
+            'next_meeting_instructions': forms.Textarea(attrs={'rows': 4}),
+            'next_meeting_start_time': TimeSelectorWidget(),
+        }
+
+    def save(self, group, commit=True):
+        meeting = super(NextMeetingForm, self).save(commit=False)
+        meeting.group = group
+        meeting.status = 'Complete'
+        if commit:
+            meeting.save()
+        return meeting
+

@@ -23,7 +23,8 @@ from docs.utils import add_decision, \
                        save_meeting_form
 from meetings.models import Meeting
 from meetings.forms import AgendaMeetingForm, \
-                           MinutesMeetingForm
+                           MinutesMeetingForm, \
+                           NextMeetingForm
 from participants.models import Participant
 from tasks.models import Task
 from utilities.commonutils import get_current_group
@@ -239,7 +240,8 @@ def minutes_edit(request, meeting_id):
     meeting_duration = get_formatted_meeting_duration(meeting)
     meeting_end_time = calculate_meeting_end_time(meeting)
     meeting_form = MinutesMeetingForm(group, instance=meeting, label_suffix='') 
-    
+    next_meeting_form = NextMeetingForm(group, instance=meeting,
+                                        label_suffix='')
     templates = get_templates(request_type, 'minutes')
     responses = []
     for template in templates:
@@ -252,6 +254,7 @@ def minutes_edit(request, meeting_id):
                           'completed_tasks_list': completed_tasks_list,
                           'incomplete_tasks_list': incomplete_tasks_list,
                           'meeting_form': meeting_form,
+                          'next_meeting_form': next_meeting_form,
                           'item_formlist': item_formlist,
                           'task_formlist': task_formlist,
                           'decision_formlist': decision_formlist,

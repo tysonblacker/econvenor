@@ -2,20 +2,19 @@
 
 <form class="savebyjs" action="" method="POST">
   {% csrf_token %}
-  
-  
-  <div class="well" id="meeting_details">
-      <h1><small>Meeting details</small></h1>
-      
-        <div class="panel panel-primary">
-	  	  {{ meeting_form}}
-	    </div><!-- ./panel -->
- 
-      </div><!-- ./well -->
-  
+
+
+  <div class="panel panel-primary" id="meeting_details">
+    <div class="panel-heading">
+      <strong>Meeting details</strong>                
+    </div>
+    <div class="panel-body">
+      {{ meeting_form}}
+    </div>
+  </div>
+   
  
   {% for item in item_formlist %}
-
     
     <div class="panel panel-primary" id="id_{{ item.item_no.value}}-title">
       
@@ -122,4 +121,16 @@
       </div>
     </div>
   {% endfor %}
+  
+  
+    <div class="panel panel-primary" id="next_meeting_details">
+    <div class="panel-heading">
+      <strong>Details of next meeting</strong>                
+    </div>
+    <div class="panel-body">
+      {{ next_meeting_form}}
+    </div>
+  </div>
+   
+   
 </form>

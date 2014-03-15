@@ -11,13 +11,24 @@
   <div class="col-sm-3 sidebar">
     <h1>Minutes navigation</h1>
     <ul class="nav nav-sidebar">
-      <li><a href="#meeting_details" class="tltip" data-toggle="tooltip" data-placement="top" title="Scroll to meeting details">Meeting details</a></li>
+      <li>
+        <a href="#meeting_details" class="tltip" data-toggle="tooltip" 
+          data-placement="top" title="Scroll to meeting details">
+            Meeting details
+        </a>
+      </li>
     </ul>
     
     <div id="ajax-sidebar">
     </div>
            
     <ul class="nav nav-sidebar">
+      <li>
+        <a href="#next_meeting_details" class="tltip" data-toggle="tooltip"
+          data-placement="top" title="Scroll to next meeting details">
+            Next meeting details
+        </a>
+      </li>
       <li><button type="button" class="btn btn-primary ajax-button" id="save_all_button">Save all</button></li>
       <li><button type="button" class="btn btn-primary ajax-button" id="add_item_button">Add item</button></li>
       <li><button type="button" class="btn btn-primary navigate-button" goto="{% url 'minutes-distribute' meeting_id %}" id="distribute_button">Distribute thse minutes</button></li>
