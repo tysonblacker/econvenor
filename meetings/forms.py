@@ -48,6 +48,10 @@ class MinutesMeetingForm(forms.ModelForm):
                   'end_time_actual',
                   'location_actual',
                   'instructions_actual',
+                  'facilitator_scheduled',
+                  'minute_taker_scheduled',
+                  'attendance',
+                  'apologies',
                   ]
         widgets = {
             'location_actual': forms.Textarea(attrs={'rows': 3}),
