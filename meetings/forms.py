@@ -48,8 +48,8 @@ class MinutesMeetingForm(forms.ModelForm):
                   'end_time_actual',
                   'location_actual',
                   'instructions_actual',
-                  'facilitator_scheduled',
-                  'minute_taker_scheduled',
+                  'facilitator_actual',
+                  'minute_taker_actual',
                   'attendance',
                   'apologies',
                   ]

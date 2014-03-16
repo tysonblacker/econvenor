@@ -78,7 +78,7 @@ class Meeting(TimeStampedModel):
     lists = MeetingManager()
    
     def __unicode__(self):
-        return ' on '.join([self.description, str(self.date)])
+        return ' on '.join([self.meeting_type, str(self.date_scheduled)])
 
 
 class DistributionRecord(TimeStampedModel):
@@ -90,3 +90,6 @@ class DistributionRecord(TimeStampedModel):
     covering_message = models.TextField(null=False, blank=True)
     date_and_time = models.DateTimeField()
     distribution_list = models.TextField(null=False, blank=True)
+    
+    def __unicode__(self):
+        return 'Distibuted on ' + date_and_time

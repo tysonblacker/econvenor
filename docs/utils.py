@@ -62,40 +62,54 @@ def add_task(request, group, meeting):
     new_task.save(group)
 
 
-def delete_item(request, group, meeting):
+def delete_item(request, group, meeting, **kwargs):
     """
     Deletes an agenda item.
     """    
-    button_value = request.POST['ajax_button']
-    item_number = int(button_value[12:])
+    if kwargs:
+        item_number = kwargs['item_no']
+        item_number = int(item_number)
+    else:
+        button_value = request.POST['ajax_button']
+        item_number = int(button_value[12:])
     item = Item.objects.get(meeting=meeting, item_no=item_number, group=group)
     item.delete()
-    items = Item.objects.filter(meeting=meeting, group=group)
-    
-    for item in items:
-        if item.item_no > item_number:
-            new_item_number = item.item_no - 1
-            item.item_no = new_item_number
-            item.save()
+    if not kwargs:
+        items = Item.objects.filter(meeting=meeting, group=group)
+        for item in items:
+            if item.item_no > item_number:
+                new_item_number = item.item_no - 1
+                item.item_no = new_item_number
+                item.save()
 
 
-def delete_decision(request, group, meeting):
+def delete_decision(request, group, meeting, **kwargs):
     """
-    Deletes a decision from a minutes item.
+    Deletes a decision from a minutes item. If a decision number is passed via
+    *kwargs then it is used, otherwise the decision number is found from the
+    request.POST data
     """    
-    button_value = request.POST['ajax_button']
-    decision_number = int(button_value[16:])
+    if kwargs:
+        decision_number = kwargs['decision_number']
+    else:
+        button_value = request.POST['ajax_button']
+        decision_number = int(button_value[16:])
     decision = Decision.objects.get(meeting=meeting, group=group,
                                     id=decision_number)
     decision.delete()
 
 
-def delete_task(request, group, meeting):
+def delete_task(request, group, meeting, **kwargs):
     """
-    Deletes a task from a minutes item.
+    Deletes a task from a minutes item. If a task number is passed via
+    *kwargs then it is used, otherwise the task number is found from the
+    request.POST data
     """    
-    button_value = request.POST['ajax_button']
-    task_number = int(button_value[12:])
+    if kwargs:
+        task_number = kwargs['task_number']
+    else:
+        button_value = request.POST['ajax_button']
+        task_number = int(button_value[12:])
     task = Task.objects.get(meeting=meeting, group=group,
                                     id=task_number)
     task.delete()
@@ -240,7 +254,44 @@ def save_next_meeting_form(request, group, meeting):
                                         instance=meeting)        
     if next_meeting_form.is_valid():
         next_meeting_form.save(group)
-                      
+
+
+def clear_minutes(request, group, meeting, decisions, items, tasks):
+    """
+    Deletes a set of minutes.
+    """
+    for decision in decisions:
+        decision_number = decision.id
+        delete_decision(request, group, meeting,
+                        decision_number=decision_number)
+    for task in tasks:
+        task_number = task.id
+        delete_task(request, group, meeting, task_number=task_number)    
+    for item in items:
+        if item.minute_notes:
+            item.minute_notes = ''
+            item.save()
+        if item.added_in_meeting == True:
+            item_no = item.item_no
+            delete_item(request, group, meeting, item_no=item_no)
+    meeting.status = 'Scheduled'
+    meeting.apologies = ''
+    meeting.attendance = ''
+    meeting.date_actual = None
+    meeting.start_time_actual = None
+    meeting.end_time_actual = None
+    meeting.facilitator_actual = None
+    meeting.minute_taker_actual = None
+    meeting.location_actual = ''
+    meeting.instructions_actual = ''
+    meeting.next_meeting_date = None
+    meeting.next_meeting_facilitator = None
+    meeting.next_meeting_instructions = ''
+    meeting.next_meeting_location = ''
+    meeting.next_meeting_minute_taker = None
+    meeting.next_meeting_start_time = None
+    meeting.save()
+
             
 def calculate_meeting_duration(meeting):
     """

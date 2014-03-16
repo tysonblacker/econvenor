@@ -11,6 +11,7 @@ from docs.utils import add_decision, \
                        build_formlist, \
                        calculate_meeting_duration, \
                        calculate_meeting_end_time, \
+                       clear_minutes, \
                        delete_decision, \
                        delete_item, \
                        delete_task, \
@@ -216,6 +217,8 @@ def minutes_edit(request, meeting_id):
             save_meeting_form(request, group, meeting, doc_type)
             save_next_meeting_form(request, group, meeting)
         # now change what needs to be changed
+        if request.POST['ajax_button']=='clear_minutes':
+            clear_minutes(request, group, meeting, decisions, items, tasks)
         if request.POST['ajax_button'][:12]=='add_decision':
             add_decision(request, group, meeting)
         if request.POST['ajax_button']=='add_item_button':
