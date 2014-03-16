@@ -18,10 +18,21 @@
 		</thead>
 		<tbody> 
 			{% for agenda in agendas %}
-				<tr id={{ agenda.id }} onclick="document.location='{% url 'agenda-edit' agenda.id %}';">
-					<td>{{ agenda.date_scheduled }}</td>
+				<tr>
+
+					<td id={{ agenda.id }} onclick="document.location=
+					  '{% url 'agenda-edit' agenda.id %}';">{{ agenda.date_scheduled }}</td>
 					<td>{{ agenda.meeting_no }}</td>
 					<td>{{ agenda.meeting_type }}</td>
+					<td>
+					  <form action="" method="POST">
+					  {% csrf_token %} 
+					    <button type="submit" class="btn btn-primary"
+					      name="button" value="delete_{{agenda.id}}">
+					        Delete meeting
+					    </button>
+					  </form>
+					</td>
 				</tr>
 			{% empty %}
 				<tr>

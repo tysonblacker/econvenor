@@ -14,6 +14,7 @@ from docs.utils import add_decision, \
                        clear_minutes, \
                        delete_decision, \
                        delete_item, \
+                       delete_meeting, \
                        delete_task, \
                        get_completed_tasks_list, \
                        get_formatted_meeting_duration, \
@@ -39,8 +40,12 @@ def agenda_list(request):
         
     agendas = Meeting.objects.filter(group=group)
     page_heading = 'Agendas'
-    table_headings = ('Date', 'Meeting Number', 'Meeting Type',)
+    table_headings = ('Date', 'Meeting Number', 'Meeting Type', '')
 
+    if request.method == "POST":
+        if request.POST['button'][:6] == 'delete':           
+            delete_meeting(request, group)
+    
     return render(request, 'agenda_list.html', {
                   'agendas': agendas,
                   'page_heading': page_heading,
@@ -90,19 +95,19 @@ def agenda_edit(request, meeting_id):
     responses = []
     for template in templates:
         part_response = render(request, template, {
-                          'completed_tasks_list': completed_tasks_list,
-                          'group': group,
-                          'incomplete_tasks_list': incomplete_tasks_list,
-                          'item_formlist': item_formlist,
-                          'items': items,
-                          'meeting': meeting,
-                          'meeting_duration': meeting_duration,
-                          'meeting_end_time': meeting_end_time,
-                          'meeting_form': meeting_form,
-                          'meeting_id': meeting_id,                          
-                          'page_heading': page_heading,
-                          'task_list_headings': task_list_headings,
-                          })
+                               'completed_tasks_list': completed_tasks_list,
+                               'group': group,
+                               'incomplete_tasks_list': incomplete_tasks_list,
+                               'item_formlist': item_formlist,
+                               'items': items,
+                               'meeting': meeting,
+                               'meeting_duration': meeting_duration,
+                               'meeting_end_time': meeting_end_time,
+                               'meeting_form': meeting_form,
+                               'meeting_id': meeting_id,                      
+                               'page_heading': page_heading,
+                               'task_list_headings': task_list_headings,
+                               })
         responses.append(part_response)
     response = get_response(responses, request_type)
     
