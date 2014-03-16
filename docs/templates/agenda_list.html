@@ -52,30 +52,5 @@
 
 <a href={% url 'meeting-add' %}><button type="button" class="btn btn-primary">Create a new meeting</button></a>
 	
-
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="DeleteConfirmation" aria-hidden="true" aria-describedby="A pop-up to confirm deletion">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Confirm deletion</h4>
-      </div><!-- /.modal-header -->
-      <div class="modal-body">
-      </div><!-- /.modal-body -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">
-          Cancel
-        </button>
-        <form action="" method="POST">
-        {% csrf_token %} 
-          <button type="submit" class="btn btn-primary modal-button"
-            name="button">
-              Delete
-          </button>
-        </form>
-      </div><!-- /.modal-footer -->
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
 	
 {% endblock %}
