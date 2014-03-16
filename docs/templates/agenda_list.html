@@ -4,46 +4,78 @@
 
 
 <div class="page-header">
-	<h1>{{ page_heading }}</h1>
+  <h1>{{ page_heading }}</h1>
 </div>
-            
+
 <div class="panel panel-primary">
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				{% for table_heading in table_headings %}
-					<th>{{ table_heading }}</th>
-				{% endfor%}
-			</tr>
-		</thead>
-		<tbody> 
-			{% for agenda in agendas %}
-				<tr>
-
-					<td id={{ agenda.id }} onclick="document.location=
-					  '{% url 'agenda-edit' agenda.id %}';">{{ agenda.date_scheduled }}</td>
-					<td>{{ agenda.meeting_no }}</td>
-					<td>{{ agenda.meeting_type }}</td>
-					<td>
-					  <form action="" method="POST">
-					  {% csrf_token %} 
-					    <button type="submit" class="btn btn-primary"
-					      name="button" value="delete_{{agenda.id}}">
-					        Delete meeting
-					    </button>
-					  </form>
-					</td>
-				</tr>
-			{% empty %}
-				<tr>
-					<td>There are no agendas yet.</td>
-				</tr>
-			{% endfor%}
-		</tbody>
-	</table>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        {% for table_heading in table_headings %}
+          <th>
+            {{ table_heading }}
+          </th>
+        {% endfor%}
+      </tr>
+    </thead>
+    <tbody> 
+      {% for meeting in meetings %}
+        <tr>
+          <td id={{ meeting.id }} onclick="document.location=
+            '{% url 'agenda-edit' meeting.id %}';">
+              {{ meeting.date_scheduled }}
+          </td>
+          <td>
+            {{ meeting.meeting_no }}
+          </td>
+          <td>
+            {{ meeting.meeting_type }}
+          </td>
+          <td>
+            <button class="btn btn-primary delete-button" data-toggle="modal" 
+              data-target=".modal"
+              name="Meeting {{ meeting.meeting_no }}"
+              id="delete_{{ meeting.id }}">
+                Delete meeting
+            </button>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td>There are no agendas yet.</td>
+        </tr>
+      {% endfor%}
+    </tbody>
+  </table>
 </div>
 
-<a href={% url 'meeting-add' %}><button type="button" class="btn btn-primary" data-toggle="button">Add agenda</button></a>
+
+<a href={% url 'meeting-add' %}><button type="button" class="btn btn-primary">Create a new meeting</button></a>
 	
-		
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="DeleteConfirmation" aria-hidden="true" aria-describedby="A pop-up to confirm deletion">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Confirm deletion</h4>
+      </div><!-- /.modal-header -->
+      <div class="modal-body">
+      </div><!-- /.modal-body -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Cancel
+        </button>
+        <form action="" method="POST">
+        {% csrf_token %} 
+          <button type="submit" class="btn btn-primary modal-button"
+            name="button">
+              Delete
+          </button>
+        </form>
+      </div><!-- /.modal-footer -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+	
 {% endblock %}

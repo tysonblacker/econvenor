@@ -97,3 +97,19 @@ $(document).on("click", ".individual-checkbox", function(){
   };
 });
 
+
+/* Populate deletion confirmation modal
+-------------------------------------------------- */
+
+$(document).on("click", ".delete-button", function(){ 
+  console.log("Delete button pressed");
+  var instruction = $(this).attr('id');
+  var description = $(this).attr('name');
+  console.log("Instruction:" + instruction);
+  console.log("Description:" + description);
+  $('.modal-button').attr('value', instruction);
+  var confirmation_message = '<p>Are you sure you want to delete <strong>' +
+    description + '</strong>?</p>'
+  $(".modal-body").html( confirmation_message );
+});
+

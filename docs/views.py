@@ -38,7 +38,7 @@ def agenda_list(request):
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
         
-    agendas = Meeting.objects.filter(group=group)
+    meetings = Meeting.objects.filter(group=group)
     page_heading = 'Agendas'
     table_headings = ('Date', 'Meeting Number', 'Meeting Type', '')
 
@@ -47,7 +47,7 @@ def agenda_list(request):
             delete_meeting(request, group)
     
     return render(request, 'agenda_list.html', {
-                  'agendas': agendas,
+                  'meetings': meetings,
                   'page_heading': page_heading,
                   'table_headings': table_headings
                   })
