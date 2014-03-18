@@ -3,30 +3,84 @@
 
 {% block content %}
 
-
 <div class="page-header">
-	<h1>{{ page_heading }}</h1>
+  <h1>{{ page_heading }}</h1>
 </div>
 
- 
 <div class="well"> 
-      
-	<form action="" method="POST">
-		{% csrf_token %}
-    
-    	{% for field in form %}
-			<div>
-				{{ field.label_tag }} {{ field|setclass:"form-control" }}
-				{{ field.errors }}
-			</div>
-			<br>
-		{% endfor %}
-		
-	<button type="submit" class="btn btn-primary" name="button" value="save">Save changes</button>
-    <a href={% url 'participant-view' participant_id %}><button type="button" class="btn btn-default">Cancel</button></a>
-    <button type="submit" class="btn btn-danger" name="button" value="delete">Delete participant</button>
-	</form>
-
+  <form id="editparticipantform" action="" method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+      <div>
+        {{ field.label_tag }}
+        {{ field|setclass:"form-control" }}
+        {{ field.errors }}
+      </div>
+      <br>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary" name="button"
+      value="save">
+        Save changes
+    </button>
+    <a href={% url 'participant-view' participant_id %} type="button"
+      class="btn btn-default">
+        Cancel
+    </a>
+    <button type="submit" class="btn btn-danger" name="button"
+      value="delete">
+        Delete participant
+    </button>
+  </form>
 </div>
-	
-{% endblock %}
+
+{% endblock content %}
+
+
+{% block extrajs %}
+
+<script>
+  $(document).ready(function() {
+    $("#editparticipantform").validate({
+      rules: {
+        first_name: {
+          required: true,
+          maxlength: 100,
+        },
+        last_name: {
+          maxlength: 100,
+        },
+        email: {
+          email: true,
+        },
+        phone: {
+          maxlength: 20,
+        },
+        notes: {
+          maxlength: 1000,
+        },
+        status: "required",
+      },
+      messages: {
+        first_name: {
+          required: "Please enter this participant's first name",
+          maxlength: "The maximum length of this field is 100 characters",
+        },
+        last_name: {
+          maxlength: "The maximum length of this field is 100 characters",
+        },
+        email: {
+          email: "Please enter a valid email address",
+        },
+        phone: {
+          maxlength: "The maximum length of this field is 20 characters",
+        },
+        notes: {
+          maxlength: "The maximum length of this field is 1000 characters",
+        },
+        status: "Each participant must be assigned a status",
+      },
+    });
+  })
+</script>
+
+{% endblock extrajs %}
