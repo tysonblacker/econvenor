@@ -30,7 +30,12 @@ var csrftoken = getCookie('csrftoken');
 -------------------------------------------------- */
 
 $(function enableJQueryUIFeatures() {
-  $('.datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
+  $('.datepicker').datepicker({
+    dateFormat: 'yy-mm-dd',
+    onClose: function() {
+      $(this).valid();
+    },  
+  });
   $( '.sortable' ).sortable({
     axis: 'y',
     containment: 'parent',
