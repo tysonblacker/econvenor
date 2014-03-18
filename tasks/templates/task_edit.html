@@ -1,41 +1,106 @@
 {% extends "app_base.html" %}
 {% load setclass %}
 
+
 {% block content %}
 
-
 <div class="page-header">
-	<h1>{{ page_heading }}</h1>
+  <h1>{{ page_heading }}</h1>
 </div>
-
  
 <div class="well"> 
-      
-	<form role="form" action="" method="POST">
-        {% csrf_token %}
-    	
-    	{% for field in form %}
-			<div class="form-group">
-      			{{ field.label_tag }}
-      			{% if field.label == "Deadline" or "Completion date"%}
-      				<br>
-      				{{ field|setclass:"form-control datepicker" }}
-      			{% else %}
-	      			{{ field|setclass:"form-control" }}
-	      	    {{ field.errors }}
-	      		{% endif %}
-			</div>
-		{% endfor %}
-			
-  	 	<button type="submit" class="btn btn-primary" name="button" value="submit" data-toggle="button">Save changes</button>
-   	 	<a href={% url 'task-list' %}><button type="button" class="btn btn-default" data-toggle="button">Cancel</button></a>
-
-{# comment #}
-     	 <button type="submit" class="btn btn-danger" name="button" value="delete-task" data-toggle="button">Delete task</button>
-{# endcomment #}     	 	
-
-	</form>
-
+  <form id="edittaskform" role="form" action="" method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-group">
+        {% if field.label == "Deadline" %}
+          {{ field.label_tag }}
+          {{ field|setclass:"form-control datepicker" }}
+          {{ field.errors }}
+       {% elif field.label == "Completion date" %}
+          <div id="completion_date">
+            {{ field.label_tag }}
+            {{ field|setclass:"form-control datepicker" }}        
+            {{ field.errors }}
+          </div>
+        {% else %}
+          {{ field.label_tag }}
+          {{ field|setclass:"form-control" }}
+          {{ field.errors }}
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary" name="button" value="submit"
+      data-toggle="button">
+        Save changes
+    </button>
+    <a href={% url 'task-list' %}type="button" class="btn btn-default">
+      Cancel
+    </a>
+    <button type="submit" class="btn btn-danger" name="button"
+      value="delete-task" data-toggle="button">
+        Delete task
+    </button>
+  </form>
 </div>
-	
+
 {% endblock %}
+
+{% block extrajs %}
+
+<script>
+
+  $(function () {
+    $("#id_status").change(function () {
+      if ($("#id_status").val() == "Complete") {
+        $("#completion_date").show();
+        $("#id_completion_date").datepicker("setDate", new Date());
+      } else {
+        $("#completion_date").hide();
+        $("#id_completion_date").datepicker("setDate", null);
+      };  
+    }).trigger('change');
+  })
+  
+  $(function() {
+    $("#edittaskform").validate({
+      rules: {
+        description: {
+          required: true,
+          maxlength: 200,
+        },
+        participant: "required",
+        status: "required",
+        deadline: {
+          required: true,
+          date: true,
+        },
+        completion_date: {
+          required: function(element) {
+            return $("#id_status").val() == "Complete";
+          },
+          date: true,
+        },
+      },
+      messages: {
+        description: {
+          required: "Please enter a description of the task",
+        },
+        participant: "Please select the person responsible for the task",
+        status: "Please select a status for the task",
+        deadline: {
+          required: "Please enter a deadline for the task",
+          date: "Please select a valid date from the calendar",
+        },
+        completion_date: {
+          required: "A completion date is required for for a complete task",
+          date: "Please select a valid date from the calendar",
+        },
+      },
+    });
+  })
+
+</script>
+
+
+{% endblock extrajs %}
