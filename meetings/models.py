@@ -51,10 +51,13 @@ class Meeting(TimeStampedModel):
     facilitator_actual = models.ForeignKey(Participant,
                                            related_name='facilitator_act',
                                            null=True, blank=True)
-    instructions_scheduled = models.TextField(null=False, blank=True)
-    instructions_actual = models.TextField(null=False, blank=True)
-    location_scheduled = models.TextField(null=False, blank=True)
-    location_actual = models.TextField(null=False, blank=True)
+    instructions_scheduled = models.TextField(max_length=200, null=False,
+                                              blank=True)
+    instructions_actual = models.TextField(max_length=200, null=False,
+                                           blank=True)
+    location_scheduled = models.TextField(max_length=200, null=False,
+                                          blank=True)
+    location_actual = models.TextField(max_length=200, null=False, blank=True)
     minute_taker_scheduled = models.ForeignKey(Participant,
                                                related_name='minutetaker_sch',
                                                null=True, blank=True)
@@ -67,8 +70,10 @@ class Meeting(TimeStampedModel):
     next_meeting_facilitator = models.ForeignKey(Participant,
                                               related_name='facilitator_next',
                                               null=True, blank=True)
-    next_meeting_instructions = models.TextField(null=False, blank=True)
-    next_meeting_location = models.TextField(null=False, blank=True)
+    next_meeting_instructions = models.TextField(max_length=200, null=False,
+                                                 blank=True)
+    next_meeting_location = models.TextField(max_length=200, null=False,
+                                             blank=True)
     next_meeting_minute_taker = models.ForeignKey(Participant, null=True,
                                                related_name='minutetaker_next',
                                                blank=True)

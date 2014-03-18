@@ -1,5 +1,7 @@
 from django import forms
 
+from django.utils.translation import ugettext, ugettext_lazy as _
+
 from meetings.models import Meeting
 from meetings.customwidgets import TimeSelectorWidget
 
@@ -8,6 +10,10 @@ class AgendaMeetingForm(forms.ModelForm):
 
     def __init__(self, group, *args, **kwargs):
         super(AgendaMeetingForm, self).__init__(*args, **kwargs)
+    
+    error_messages = {
+        'duplicate_meeting_no': _("That meeting number has already been used. please choose a different one."),
+    }
                     
     class Meta:
         model = Meeting
@@ -27,6 +33,17 @@ class AgendaMeetingForm(forms.ModelForm):
             'instructions_scheduled': forms.Textarea(attrs={'rows': 4}),
             'start_time_scheduled': TimeSelectorWidget(),
         }
+
+    def clean_meeting_no(self):
+        meeting_no = self.cleaned_data["meeting_no"]
+        try:
+            Meeting._default_manager.get(meeting_no=meeting_no)
+        except Meeting.DoesNotExist:
+            return meeting_no
+        raise forms.ValidationError(
+            self.error_messages['duplicate_meeting_no'],
+            code='duplicate_meeting_no',
+        )
 
     def save(self, group, commit=True):
         meeting = super(AgendaMeetingForm, self).save(commit=False)

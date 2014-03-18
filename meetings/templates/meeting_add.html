@@ -3,7 +3,6 @@
 
 {% block content %}
 
-
 <div class="page-header">
   <h1>{{ page_heading }}</h1>
 </div>
@@ -12,7 +11,7 @@
 
 <div class="well">
   <div class="span10"> 
-    <form action="" method="POST">
+    <form id="addmeetingform" action="" method="POST">
     {% csrf_token %}
       {{ meeting_form.as_p }}
       <button type="submit" class="btn btn-primary">
@@ -26,4 +25,39 @@
     </form>
   </div>
 </div>
-{% endblock %}
+
+{% endblock content %}
+
+{% block extrajs %}
+
+<script>
+
+  $(function() {
+    $("#addmeetingform").validate({
+      rules: {
+        meeting_no: "required",
+        meeting_type: "required",
+        date_scheduled: {
+          required: true,
+          date: true,
+        },
+        start_time_scheduled: "required",
+        meeting_status: "required",
+      },
+      messages: {
+        meeting_no: "Please enter a number or code for this meeting",
+        meeting_type: "Please select the type of meeting that this is",
+        date_scheduled: {
+          required: "Please select a date for the meeting",
+          date: "Please select a valid date from the calendar",
+        },
+        start_time_scheduled: "Please select the meeting's start time",
+        meeting_status: "Please select the current status of the meeting",
+      },
+    });
+  })
+
+</script>
+
+
+{% endblock extrajs %}
