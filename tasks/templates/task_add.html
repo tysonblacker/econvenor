@@ -11,7 +11,7 @@
 <div class="col-lg-6">
 <div class="well"> 
       
-	<form role="form" action="" method="POST">
+	<form role="form" id="addtaskform" action="" method="POST">
         {% csrf_token %}
     	
     	{% for field in form %}
@@ -27,11 +27,39 @@
 			</div>
 		{% endfor %}
 
-     	<button type="submit" class="btn btn-primary" data-toggle="button">Add task</button>
+     	<button type="submit" class="btn btn-primary">Add task</button>
      	<a href={% url 'task-list' %}><button type="button" class="btn btn-default" data-toggle="button">Cancel</button></a>
 	
 	</form>
 
 </div>
 </div>
-{% endblock %}
+{% endblock content %}
+
+
+{% block extrajs %}
+
+<script>
+  $(document).ready(function() {
+    $("#addtaskform").validate({
+      rules: {
+        description: "required",
+        participant: "required",
+        deadline: {
+          required: true,
+          date: true,
+        },
+      },
+      messages: {
+        description: "Please enter a description of the task",
+        participant: "Please select the person responsible for the task",
+        deadline: {
+          required: "Please enter a deadline for the task",
+          date: "Please select a valid date from the calendar",
+        },
+      },
+    });
+  })
+</script>
+
+{% endblock extrajs %}
