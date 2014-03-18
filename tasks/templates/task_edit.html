@@ -17,13 +17,13 @@
     	{% for field in form %}
 			<div class="form-group">
       			{{ field.label_tag }}
-      			{% ifequal field.label "Deadline" %}
+      			{% if field.label == "Deadline" or "Completion date"%}
       				<br>
       				{{ field|setclass:"form-control datepicker" }}
       			{% else %}
 	      			{{ field|setclass:"form-control" }}
 	      	    {{ field.errors }}
-	      		{% endifequal %}
+	      		{% endif %}
 			</div>
 		{% endfor %}
 			

@@ -46,6 +46,7 @@ class Task(TimeStampedModel):
     meeting = models.ForeignKey(Meeting, null=True, blank=True)
     participant = models.ForeignKey(Participant, null=True, blank=False)
 
+    completion_date = models.DateField(null=True, blank=True)
     deadline = models.DateField(null=True, blank=True)
     description = models.CharField(max_length=200, null=False, blank=True)
     notes = models.TextField(null=False, blank=True)

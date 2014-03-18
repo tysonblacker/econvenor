@@ -40,6 +40,7 @@ class EditTaskForm(forms.ModelForm):
                   'participant',
                   'deadline',
                   'status',
+                  'completion_date',
                   'notes',
                   ]
                   
