@@ -49,6 +49,11 @@ function updatePage( resp ) {
     tolerance: 'pointer',
   });
   $( '.spinner' ).spinner({ min: 0, max: 600, });
+  $('.timepicker').timepicker({
+    timeFormat: 'H:i',
+    step: 15,
+    noneOption: 'Decide later',
+  });
   $('body').css( 'cursor', 'default' );
 };
 

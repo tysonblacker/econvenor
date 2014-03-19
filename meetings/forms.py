@@ -3,12 +3,12 @@ from django import forms
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 from meetings.models import Meeting
-from meetings.customwidgets import TimeSelectorWidget
 
 
 class AgendaMeetingForm(forms.ModelForm):
 
     def __init__(self, group, *args, **kwargs):
+        self.group = group
         super(AgendaMeetingForm, self).__init__(*args, **kwargs)
     
     error_messages = {
@@ -30,20 +30,29 @@ class AgendaMeetingForm(forms.ModelForm):
         widgets = {
             'location_scheduled': forms.Textarea(attrs={'rows': 3}),
             'date_scheduled': forms.DateInput(attrs={'class': 'datepicker'}),
+            'start_time_scheduled': forms.TimeInput(attrs=
+                {'class': 'timepicker'}
+            ),
             'instructions_scheduled': forms.Textarea(attrs={'rows': 4}),
-            'start_time_scheduled': TimeSelectorWidget(),
         }
-
+    
     def clean_meeting_no(self):
         meeting_no = self.cleaned_data["meeting_no"]
+        this_meeting = self.instance.meeting_no
         try:
-            Meeting._default_manager.get(meeting_no=meeting_no)
+            Meeting._default_manager.get(meeting_no=meeting_no, group=self.group)
+            other_meetings = Meeting._default_manager.\
+            filter(meeting_no=meeting_no, group=self.group).\
+            exclude(meeting_no=this_meeting)
         except Meeting.DoesNotExist:
             return meeting_no
-        raise forms.ValidationError(
-            self.error_messages['duplicate_meeting_no'],
-            code='duplicate_meeting_no',
-        )
+        if other_meetings.count() == 0:
+            return meeting_no
+        else:
+            raise forms.ValidationError(
+                self.error_messages['duplicate_meeting_no'],
+                code='duplicate_meeting_no',
+                )
 
     def save(self, group, commit=True):
         meeting = super(AgendaMeetingForm, self).save(commit=False)
@@ -74,8 +83,12 @@ class MinutesMeetingForm(forms.ModelForm):
             'location_actual': forms.Textarea(attrs={'rows': 3}),
             'date_actual': forms.DateInput(attrs={'class': 'datepicker'}),
             'instructions_actual': forms.Textarea(attrs={'rows': 4}),
-            'start_time_actual': TimeSelectorWidget(),
-            'end_time_actual': TimeSelectorWidget(),            
+           'start_time_actual': forms.TimeInput(attrs=
+                {'class': 'timepicker'}
+            ),
+           'end_time_actual': forms.TimeInput(attrs=
+                {'class': 'timepicker'}
+            ),
         }
 
     def save(self, group, commit=True):
@@ -105,7 +118,9 @@ class NextMeetingForm(forms.ModelForm):
             'next_meeting_location': forms.Textarea(attrs={'rows': 3}),
             'next_meeting_date': forms.DateInput(attrs={'class': 'datepicker'}),
             'next_meeting_instructions': forms.Textarea(attrs={'rows': 4}),
-            'next_meeting_start_time': TimeSelectorWidget(),
+            'next_meeting_start_time': forms.TimeInput(attrs=
+                {'class': 'timepicker'}
+            ),
         }
 
     def save(self, group, commit=True):

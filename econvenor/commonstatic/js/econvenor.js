@@ -55,6 +55,17 @@ $(function enableBootstrapFeatures() {
 });
 
 
+/* Enable Timepicker
+-------------------------------------------------- */
+$(function enableTimepicker() {
+  $('.timepicker').timepicker({
+    timeFormat: 'H:i',
+    step: 15,
+    noneOption: 'Decide later',
+  });
+});
+
+
 /* Enable automatic vertical scrolling to a target
 -------------------------------------------------- */
 
