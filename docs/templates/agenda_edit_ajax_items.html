@@ -4,11 +4,15 @@
 {% csrf_token %}
 
 
-<div class="well" id="meeting_details">
-  <h1><small>Meeting details</small></h1>
-  {{ meeting_form.errors }}
-  {{ meeting_form.as_p }}
-</div><!-- ./well -->
+<div class="panel panel-primary" id="meeting_details">
+  <div class="panel-heading">
+    Meeting details
+  </div>
+  <div class="panel-body">
+    {{ meeting_form.errors }}
+    {{ meeting_form.as_p }}
+  </div>
+</div>
 
 
 {% for item in item_formlist %}
