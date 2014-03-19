@@ -1,6 +1,6 @@
 {% load setclass %}
 
-<form class="savebyjs" action="" method="POST">
+<form id="editminutesform" class="savebyjs" action="" method="POST">
   {% csrf_token %}
 
 
@@ -139,3 +139,125 @@
    
    
 </form>
+
+
+<script>
+
+  $(function() {
+  
+    jQuery.validator.addMethod("timeCheck", function(value, element) {
+      return this.optional(element) || /^([0-1]?[0-9]|[2][0-3]):([0-5][0-9])$/.test(value);
+    },
+    "Please select a time from the options available");
+
+    $("#editminutesform").validate({
+      rules: {
+        date_actual: {
+          required: true,
+          date: true,
+        },
+        start_time_actual: {
+          required: true,
+          timeCheck: true,
+        },
+        end_time_actual: {
+          required: true,
+          timeCheck: true,
+        },
+        location_actual: {
+          required: true,
+          maxlength: 200,
+        },
+        facilitator_actual: "required",
+        minute_taker_actual: "required",     
+        attendance: "required",
+        {% for item in item_formlist %}
+          "{{ item.prefix }}-minute_notes": {
+            required: true,
+            maxlength: 5000,
+          },
+        {% endfor %}
+        {% for decision in decision_formlist %}
+          "{{ decision.prefix }}-description": {
+            required: true,
+            maxlength: 2000,
+          },
+        {% endfor %}
+        {% for task in task_formlist %}
+          "{{ task.prefix }}-description": {
+            required: true,
+            maxlength: 200,
+          },
+          "{{ task.prefix }}-participant": {
+            required: true,
+          },
+          "{{ task.prefix }}-deadline": {
+            required: true,
+            date: true,
+          },
+        {% endfor %}
+        next_meeting_date: {
+          date: true,
+        },
+        next_meeting_start_time: {
+          timeCheck: true,
+        },
+      },
+      messages: {
+        date_actual: {
+          required: "Please select the date that the meeting happened",
+          date: "Please select a valid date from the calendar",
+        },
+        start_time_actual: {
+          required: "Please select the meeting's start time",
+        },
+        end_time_actual: {
+          required: "Please select the meeting's end time",
+        },
+        location_actual: {
+          required: "Please enter the location of the meeting", 
+        },
+        facilitator_actual: "Please select the meeting's facilitator",
+        minute_taker_actual: "Please select the meeting's minute-taker",     
+        attendance: "Please enter the names of the people at the meeting",
+        {% for item in item_formlist %}
+          "{{ item.prefix }}-minute_notes": {
+            required: "Please enter this item's minutes"
+          },
+        {% endfor %}
+        {% for decision in decision_formlist %}
+          "{{ decision.prefix }}-description": {
+            required: "Please enter the decision which was made",
+          },
+        {% endfor %}
+        {% for task in task_formlist %}
+          "{{ task.prefix }}-description": {
+            required: "Please enter a description of the task",
+          },
+          "{{ task.prefix }}-participant": {
+            required: "Please select the person responsible for this task",
+          },
+          "{{ task.prefix }}-deadline": {
+            required: "Please select the deadline for this task",
+            date: "Please select a valid date from the calendar",
+          },
+        {% endfor %}
+        date_scheduled: {
+          date: "Please select a valid date from the calendar",
+        },
+      },
+      submitHandler: function(form) {
+        $('body').css( 'cursor', 'wait' );
+        var next_page = $("#submit_minutes").attr('goto');
+        saveWithoutRefresh('ajax_button=save_minutes', next_page);
+      },
+    });
+
+    $(document).on("click", "#submit_minutes", function(){     
+      $( "#editminutesform" ).submit();
+    });
+
+  })
+
+</script>
+
