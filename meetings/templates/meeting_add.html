@@ -42,9 +42,17 @@
     },
     "Please select a time from the options available");
 
+    jQuery.validator.addMethod("meetingNumberCheck", function(value, element) {
+      return this.optional(element) || /^[a-zA-Z0-9\-\_\/]+$/.test(value);
+    },
+    "The meeting number can only contain letters, numbers and these characters: '-', '_', '/'");
+
     $("#addmeetingform").validate({
       rules: {
-        meeting_no: "required",
+        meeting_no: {
+          required: true,
+          meetingNumberCheck: true,
+        },
         meeting_type: "required",
         date_scheduled: {
           required: true,
@@ -57,7 +65,9 @@
         meeting_status: "required",
       },
       messages: {
-        meeting_no: "Please enter a number or code for this meeting",
+        meeting_no: {
+          required: "Please enter a number or code for this meeting",
+        },
         meeting_type: "Please select the type of meeting that this is",
         date_scheduled: {
           required: "Please select a date for the meeting",

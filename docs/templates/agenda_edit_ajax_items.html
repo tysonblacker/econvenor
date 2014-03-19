@@ -51,31 +51,60 @@
 <script>
 
   $(function() {
+
+    jQuery.validator.addMethod("timeCheck", function(value, element) {
+      return this.optional(element) || /^([0-1]?[0-9]|[2][0-3]):([0-5][0-9])$/.test(value);
+    },
+    "Please select a time from the options available");
+
+    jQuery.validator.addMethod("meetingNumberCheck", function(value, element) {
+      return this.optional(element) || /^[a-zA-Z0-9\-\_\/]+$/.test(value);
+    },
+    "The meeting number can only contain letters, numbers and these characters: '-', '_', '/'");
+
     $("#editagendaform").validate({
       rules: {
-        meeting_no: "required",
+        meeting_no: {
+          required: true,
+          meetingNumberCheck: true,
+        },
         meeting_type: "required",
         date_scheduled: {
           required: true,
           date: true,
         },
-        start_time_scheduled: "required",
+        start_time_scheduled: {
+          required: true,
+          timeCheck: true,
+        },
         meeting_status: "required",
         {% for item in item_formlist %}
           "{{ item.prefix }}-title": "required",
+          "{{ item.prefix }}-time_limit": {
+            digits: true,
+            range: [0, 600],
+          },
         {% endfor %}
       },
       messages: {
-        meeting_no: "Please enter a number or code for this meeting",
+        meeting_no: {
+          required: "Please enter a number or code for this meeting",
+        },
         meeting_type: "Please select the type of meeting that this is",
         date_scheduled: {
           required: "Please select a date for the meeting",
           date: "Please select a valid date from the calendar",
         },
-        start_time_scheduled: "Please select the meeting's start time",
+        start_time_scheduled: {
+          required: "Please select the meeting's start time",        
+        },
         meeting_status: "Please select the current status of the meeting",
         {% for item in item_formlist %}
           "{{ item.prefix }}-title": "Please enter a title for this agenda item",
+          "{{ item.prefix }}-time_limit": {
+            digits: "Please enter a number between 0 and 600",
+            range: "Please enter a number between 0 and 600",
+          },
         {% endfor %}
       },
       submitHandler: function(form) {

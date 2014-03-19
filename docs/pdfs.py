@@ -9,6 +9,7 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
+from django.utils.text import slugify
 
 from reportlab.lib.colors import black, CMYKColor, white
 from reportlab.lib.enums import TA_JUSTIFY, TA_RIGHT
@@ -685,7 +686,6 @@ def create_pdf(request, group, meeting, doc_type):
     for i in range(1, count):
         file_name = 'tmp/' + base_file_name + '_page' + str(i) + '.png'
         pages.append((i, file_name))
-
     return pages
 
 
@@ -693,8 +693,11 @@ def get_base_file_name(request, group, meeting):
     """
     Returns the base file name with no suffix.
     """
+    cleaned_meeting_no = meeting.meeting_no.replace('/', '-')
+    cleaned_meeting_no = cleaned_meeting_no.replace('_', '-')
+    meeting_no_slug = slugify(cleaned_meeting_no)
     base_file_name = str(group.id) + '_' + group.slug + '_agenda_' + \
-                     meeting.meeting_no
+                     meeting_no_slug
     return base_file_name
 
 

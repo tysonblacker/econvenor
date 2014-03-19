@@ -30,7 +30,7 @@ class Meeting(TimeStampedModel):
     agenda_pdf = models.FileField(upload_to='meeting_docs')
     apologies = models.TextField(null=False, blank=True)
     attendance = models.TextField(null=False, blank=True)            
-    meeting_no = models.CharField(max_length=30, null=False, blank=True)
+    meeting_no = models.CharField(max_length=20, null=False, blank=True)
     meeting_type = models.CharField(max_length=30, 
                                     choices=MEETING_TYPE_CHOICES,
                                     default='Ordinary Meeting',
