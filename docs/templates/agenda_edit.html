@@ -48,15 +48,9 @@
           </button>
         </li>
         <li>
-          <button type="button" class="btn btn-primary navigate-button"
-            goto="{% url 'minutes-edit' meeting_id %}" id="minutes_button">
-              Create minutes
-          </button>
-        </li>
-        <li>
-          <button type="button" class="btn btn-primary navigate-button"
+          <button type="submit" class="btn btn-primary navigate-button"
             goto="{% url 'agenda-distribute' meeting_id %}" 
-            id="distribute_button">
+            id="submit_agenda">
               Distribute this agenda
           </button>
         </li>
@@ -149,6 +143,3 @@
 <script src="{% static 'js/econvenor-ajax.js' %}"></script>
 
 {% endblock extrajs %}
-
-
-

@@ -1,6 +1,6 @@
 {% load setclass %}
 
-<form class="savebyjs" action="" method="POST">
+<form id="editagendaform" class="savebyjs" action="" method="POST">
 {% csrf_token %}
 
 
@@ -41,3 +41,49 @@
 
 {% endfor %}
 </form>
+
+
+<script>
+
+  $(function() {
+    $("#editagendaform").validate({
+      rules: {
+        meeting_no: "required",
+        meeting_type: "required",
+        date_scheduled: {
+          required: true,
+          date: true,
+        },
+        start_time_scheduled: "required",
+        meeting_status: "required",
+        {% for item in item_formlist %}
+          "{{ item.prefix }}-title": "required",
+        {% endfor %}
+      },
+      messages: {
+        meeting_no: "Please enter a number or code for this meeting",
+        meeting_type: "Please select the type of meeting that this is",
+        date_scheduled: {
+          required: "Please select a date for the meeting",
+          date: "Please select a valid date from the calendar",
+        },
+        start_time_scheduled: "Please select the meeting's start time",
+        meeting_status: "Please select the current status of the meeting",
+        {% for item in item_formlist %}
+          "{{ item.prefix }}-title": "Please enter a title for this agenda item",
+        {% endfor %}
+      },
+      submitHandler: function(form) {
+        $('body').css( 'cursor', 'wait' );
+        var next_page = $("#submit_agenda").attr('goto');
+        saveWithoutRefresh('ajax_button=save_agenda', next_page);
+      },
+    });
+  })
+
+  $(document).on("click", "#submit_agenda", function(){     
+    $( "#editagendaform" ).submit();
+  });
+
+</script>
+
