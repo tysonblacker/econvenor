@@ -649,7 +649,7 @@ def create_pdf(request, group, meeting, doc_type):
         os.makedirs(preview_path)
 
     # Define name of PDF file
-    base_file_name = get_base_file_name(request, group, meeting) 
+    base_file_name = get_base_file_name(request, group, meeting, doc_type) 
     pdf_name = base_file_name + '.pdf'
 
     # Delete any old PDF versions for this meeting
@@ -689,15 +689,20 @@ def create_pdf(request, group, meeting, doc_type):
     return pages
 
 
-def get_base_file_name(request, group, meeting):
+def get_base_file_name(request, group, meeting, doc_type):
     """
     Returns the base file name with no suffix.
     """
     cleaned_meeting_no = meeting.meeting_no.replace('/', '-')
     cleaned_meeting_no = cleaned_meeting_no.replace('_', '-')
     meeting_no_slug = slugify(cleaned_meeting_no)
-    base_file_name = str(group.id) + '_' + group.slug + '_agenda_' + \
-                     meeting_no_slug
+    if doc_type == 'agenda':
+        base_file_name = str(group.id) + '_' + group.slug + '_agenda_' + \
+                         meeting_no_slug
+    elif doc_type == 'minutes':
+        base_file_name = str(group.id) + '_' + group.slug + '_minutes_' + \
+                         meeting_no_slug   
+    
     return base_file_name
 
 
