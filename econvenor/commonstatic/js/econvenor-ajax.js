@@ -80,11 +80,14 @@ function saveForm( button_data ) {
 -------------------------------------------------- */
 
 $(document).on("keyup change", ".item-heading", function(){ 
+  
   var changed_text = $(this).val();
   var item = $(this).attr('name');
   var item_no = item.split('-', 1);
+  item_no = item_no[0];
+  item_no = item_no.substr(1);
   var target_id = '#sidebar_heading_' + item_no;
-  var replacement_text = item_no + '. ' + changed_text
+  var replacement_text = changed_text
   $(target_id).text(replacement_text);
 });
 
