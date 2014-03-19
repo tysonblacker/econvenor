@@ -26,7 +26,7 @@
       <div class="panel-heading">
         {% ifequal item.added_in_meeting.value True %}
           <strong>Item&nbsp;{{ item.item_no.value }}.&nbsp;
-                  {{ item.title|setclass:"form-control" }}</strong>
+                  {{ item.title|setclass:"form-control item-title" }}</strong>
           <div class="pull-right">
             <button type="button" title="Delete item" 
               class="btn btn-default btn-xs ajax-button tltip"
@@ -105,7 +105,7 @@
                 <div class="form-group">
                   {{ task.description|setclass:"form-control" }}
                   {{ task.participant|setclass:"form-control" }}
-                  {{ task.deadline|setclass:"form-control" }}
+                  {{ task.deadline|setclass:"form-control datepicker" }}
                   <button type="button" title="Delete task" 
                   class="btn btn-default btn-xs ajax-button tltip"
                   id="delete_task_{{ task.instance.id}}"

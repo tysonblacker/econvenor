@@ -79,7 +79,7 @@ function saveForm( button_data ) {
 /* Update sidebar labels in real time
 -------------------------------------------------- */
 
-$(document).on("keyup change", ".item-heading", function(){ 
+$(document).on("keyup change", ".item-title", function(){ 
   
   var changed_text = $(this).val();
   var item = $(this).attr('name');

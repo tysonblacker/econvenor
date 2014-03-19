@@ -6,10 +6,11 @@
       <a href="#id_{{ item.item_no.value}}-title" class="sidebar-heading tltip"
          data-toggle="tooltip" title="Scroll to this item">
         <div>
-          <span id="sidebar_heading_{{ item.item_no.value}}">{{ item.item_no.value}}.
-                &nbsp;{{ item.title.value }}
-          </span>
-        </div>
+          Item&nbsp;{{ item.item_no.value}}.&nbsp;&nbsp;
+            <span id="sidebar_heading_{{ item.item_no.value}}">
+              {{ item.title.value }}
+            </span>
+         </div>
       </a>
     </li>
   {% endfor %}
