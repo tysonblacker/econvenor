@@ -4,66 +4,13 @@
 
 {% block content %}
 
-  <div class="row">
 
-
-    <!-- SIDEBAR
-    ================================================== -->
-
-    <div class="col-sm-3 sidebar">
-      <h1>Agenda</h1>
-      
-      <ul class="nav nav-sidebar">
-        <li>
-          <a href="#meeting_details" class="tltip" data-toggle="tooltip"
-            data-placement="top" title="Scroll to meeting details">
-              Meeting details
-          </a>
-        </li>
-      </ul>
-      
-      <div id="ajax-sidebar">
-      </div>
-             
-      <ul class="nav nav-sidebar">
-        <li>
-          <a href="#tasks" class="tltip" data-toggle="tooltip" 
-            data-placement="top" title="Scroll to tasks">
-              Attachment 1. Tasks
-          </a>
-        </li>
-      </ul>
-      
-      <ul class="nav nav-sidebar">
-        <li>
-          <button type="button" class="btn btn-primary ajax-button" 
-            id="save_agenda">
-              Save all
-          </button>
-        </li>
-        <li>
-          <button type="button" class="btn btn-primary ajax-button" 
-            id="add_item">
-              Add item
-          </button>
-        </li>
-        <li>
-          <button type="submit" class="btn btn-primary navigate-button"
-            goto="{% url 'agenda-distribute' meeting_id %}" 
-            id="submit_agenda">
-              Distribute this agenda
-          </button>
-        </li>
-      </ul>
-       
-    </div><!-- /.col-sm-3 -->
-
-    <div class="col-sm-7 col-sm-offset-4 main">
+    <div class="col-sm-6 col-sm-offset-3 col-md-8 col-md-offset-2 main">
 
       <div class="top-spacer">
       </div>
   
-      
+     
     <!-- AJAX FORMS
     ================================================== -->
     
@@ -139,9 +86,60 @@
       <div class="bottom-spacer">
       </div>
           
-    </div><!-- /.col-sm-7 -->
+    </div><!-- /.col-sm-8 -->
 
-  </div><!-- ./row -->
+
+    <!-- RIGHT SIDEBAR
+    ================================================== -->
+
+    <div class="col-sm-3 col-md-2 toolbar">
+      <h1>Agenda</h1>
+      
+      <ul class="nav nav-sidebar">
+        <li>
+          <a href="#meeting_details" class="tltip" data-toggle="tooltip"
+            data-placement="top" title="Scroll to meeting details">
+              Meeting details
+          </a>
+        </li>
+      </ul>
+      
+      <div id="ajax-sidebar">
+      </div>
+             
+      <ul class="nav nav-sidebar">
+        <li>
+          <a href="#tasks" class="tltip" data-toggle="tooltip" 
+            data-placement="top" title="Scroll to tasks">
+              Attachment 1. Tasks
+          </a>
+        </li>
+      </ul>
+      
+      <ul class="nav nav-sidebar">
+        <li>
+          <button type="button" class="btn btn-primary ajax-button" 
+            id="save_agenda">
+              Save all
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-primary ajax-button" 
+            id="add_item">
+              Add item
+          </button>
+        </li>
+        <li>
+          <button type="submit" class="btn btn-primary navigate-button"
+            goto="{% url 'agenda-distribute' meeting_id %}" 
+            id="submit_agenda">
+              Distribute this agenda
+          </button>
+        </li>
+      </ul>
+       
+    </div><!-- /.col-sm-2 -->
+
 
 {% endblock content%}
 
