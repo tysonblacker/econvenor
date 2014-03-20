@@ -124,8 +124,8 @@ $(document).on("click", ".delete-button", function(){
   console.log("Instruction:" + instruction);
   console.log("Description:" + description);
   $('.modal-button').attr('value', instruction);
-  var confirmation_message = '<p>Are you sure you want to delete <strong>' +
-    description + '</strong>?</p>'
+  var confirmation_message = '<p>You are about to delete this record:\
+    <br/><br/><strong>' + description + '</strong></p>'
   $(".modal-body").html( confirmation_message );
 });
 

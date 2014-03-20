@@ -30,18 +30,18 @@
         {% endif %}
       </div>
     {% endfor %}
-    <button type="submit" class="btn btn-primary" name="button" value="submit"
-      data-toggle="button">
-        Save changes
-    </button>
-    <a href={% url 'task-list' %} type="button" class="btn btn-default">
-      Cancel
-    </a>
-    <button type="submit" class="btn btn-danger" name="button"
-      value="delete-task" data-toggle="button">
-        Delete task
+    <button type="submit" class="btn btn-primary" name="button" value="submit">
+      Save changes
     </button>
   </form>
+  <a href={% url 'task-list' %} class="btn btn-default">
+    Cancel
+  </a>
+  <button class="btn btn-default delete-button" data-toggle="modal" 
+    data-target=".modal" name="Task: {{ form.description.value }}"
+    id="delete_task">
+      Delete task
+  </button>
 </div>
 
 {% endblock content %}

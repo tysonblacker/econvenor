@@ -76,7 +76,7 @@ def task_edit(request, task_id):
     
     if request.method == "POST":
         if request.POST['button']:
-            if request.POST['button']=='delete-task':
+            if request.POST['button']=='delete_task':
                 task.delete()
                 return HttpResponseRedirect(reverse('task-list'))
             else:
