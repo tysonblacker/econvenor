@@ -73,7 +73,7 @@ def participant_edit(request, participant_id):
     page_heading = 'Edit %s\'s details' % participant
     
     if request.method == "POST":
-        if request.POST['button']=='delete':
+        if request.POST['button']=='delete_participant':
             participant.delete()
             return HttpResponseRedirect(reverse('participant-list'))
         elif request.POST['button'] == 'save':

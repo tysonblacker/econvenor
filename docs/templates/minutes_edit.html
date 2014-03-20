@@ -1,6 +1,5 @@
 {% extends "app_base.html" %}
 {% load setclass %}
-
 {% load staticfiles %}
 
 {% block content %}
@@ -31,8 +30,8 @@
       </li>
       <li><button type="button" class="btn btn-primary ajax-button" id="save_all_button">Save all</button></li>
       <li><button type="button" class="btn btn-primary ajax-button" id="add_item_button">Add item</button></li>
-      <li><button type="submit" class="btn btn-primary navigate-button" goto="{% url 'minutes-distribute' meeting_id %}" id="submit_minutes">Distribute thse minutes</button></li>
-      </ul>
+      <li><button type="submit" class="btn btn-primary navigate-button" goto="{% url 'minutes-distribute' meeting_id %}" id="submit_minutes">Distribute these minutes</button></li>
+    </ul>
   </div><!-- /.col-sm-3 -->
 
   <div class="col-sm-7 col-sm-offset-4 main">
@@ -49,8 +48,8 @@
     </div>  
 
 		
-    </div><!-- /.col-sm-7 -->
-  </div><!-- ./row>
+  </div><!-- /.col-sm-7 -->
+</div><!-- ./row>
 
 
 {% endblock content%}
