@@ -38,7 +38,6 @@
 body {
   font-family: 'Body', Helvetica, Arial, sans-serif;
   padding-top: 50px;
-/*  background-color: #eeeeee; */
   background-image: url('/static/images/texture.png');
 }
 
@@ -51,33 +50,33 @@ body {
 
 .nav {
   text-shadow: 0 -1px 0 rgba(0,0,0,.15);
-  background-color: #563d7c;
-  border-color: #463265;
-  box-shadow: 0 1px 0 rgba(255,255,255,.1);
+  background-color: #333333;
+  border-color: #333333;
+  box-shadow: 0 0 0 rgba(255,255,255,.1);
 }
 .nav .navbar-collapse {
-  border-color: #463265;
+  border-color: #333333;
 }
 .nav .navbar-brand {
-  color: #fff;
+  color: #dddddd;
 }
 .nav .navbar-nav > li > a {
-  color: #cdbfe3;
+  color: #dddddd;
 }
 .nav .navbar-nav > li > a:hover {
-  color: #fff;
+  color: #dddddd;
 }
 .nav .navbar-nav > .active > a,
 .nav .navbar-nav > .active > a:hover {
-  color: #fff;
-  background-color: #463265;
+  color: #dddddd;
+  background-color: #333333;
 }
 .nav .navbar-toggle {
-  border-color: #563d7c;
+  border-color: #333333;
 }
 .nav .navbar-toggle:hover {
-  background-color: #463265;
-  border-color: #463265;
+  background-color: #333333;
+  border-color: #333333;
 }
 
 
@@ -202,48 +201,6 @@ fieldset[disabled] .btn-default:active,
 fieldset[disabled] .btn-default.active {
   background-color: #eeeeee;
   border-color: #cccccc;
-}
-
-
-
-/*
- * Button - danger
- *
- * Adjust colours.
-*/
-.btn-danger {
-  color: #eeeeee;
-  background-color: #d9534f;
-  border-color: #d43f3a;
-}
-
-.btn-danger:hover,
-.btn-danger:focus,
-.btn-danger:active,
-.btn-danger.active,
-.open .dropdown-toggle.btn-danger {
-  color: #eeeeee;
-  background-color: #d2322d;
-  border-color: #ac2925;
-}
-
-.btn-danger.disabled,
-.btn-danger[disabled],
-fieldset[disabled] .btn-danger,
-.btn-danger.disabled:hover,
-.btn-danger[disabled]:hover,
-fieldset[disabled] .btn-danger:hover,
-.btn-danger.disabled:focus,
-.btn-danger[disabled]:focus,
-fieldset[disabled] .btn-danger:focus,
-.btn-danger.disabled:active,
-.btn-danger[disabled]:active,
-fieldset[disabled] .btn-danger:active,
-.btn-danger.disabled.active,
-.btn-danger[disabled].active,
-fieldset[disabled] .btn-danger.active {
-  background-color: #d9534f;
-  border-color: #d43f3a;
 }
 
 
@@ -415,6 +372,7 @@ tbody tr:hover {
 .sidebar {
   display: none;
 }
+
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;
@@ -423,11 +381,9 @@ tbody tr:hover {
     left: 0;
     z-index: 1000;
     display: block;
-    padding: 20px;
     overflow-x: hidden;
     overflow-y: auto;
-    background-color: #f5f5f5;
-    border-right: 1px solid #eee;
+    background-color: #333333;
   }
 }
 
@@ -437,17 +393,31 @@ tbody tr:hover {
   margin-bottom: 20px;
   margin-left: -20px;
 }
+
+.nav-sidebar :hover {
+  background-color: #ffffff;
+}
+
 .nav-sidebar > li > a {
   padding-right: 20px;
   padding-left: 20px;
 }
 .nav-sidebar > .active > a {
-  color: #fff;
-  background-color: #993333;
+  color: #ffffff;
+  background-color: #ff0066;
+}
+
+.nav-sidebar a {
+  color: #bbbbbb;
+}
+
+.nav-sidebar strong {
+  color: #ffffff;
 }
 
 .nav-second-level li a {
     padding-left: 37px;
+    background-color: #333333;
 }
 
 /*

@@ -86,7 +86,11 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar" id="leftsidebar">
             {% url 'dashboard' as dashboard %}
-            <li{% if request.path == dashboard %} class="active"{% endif %}>
+            {% if request.path == dashboard %}
+              <li class="sidebar-item active">
+            {% else %}
+              <li class="sidebar-item">
+            {% endif %}
               <a href={% url 'dashboard' %}>
                 <i class="fa fa-tachometer fa-fw fa-lg"></i>Dashboard
               </a>
