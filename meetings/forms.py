@@ -3,6 +3,7 @@ from django import forms
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 from meetings.models import Meeting
+from participants.models import Participant
 
 
 class AgendaMeetingForm(forms.ModelForm):
@@ -10,7 +11,12 @@ class AgendaMeetingForm(forms.ModelForm):
     def __init__(self, group, *args, **kwargs):
         self.group = group
         super(AgendaMeetingForm, self).__init__(*args, **kwargs)
-    
+        self.fields['facilitator_scheduled'].queryset = \
+            Participant.objects.filter(group=group)
+        self.fields['minute_taker_scheduled'].queryset = \
+            Participant.objects.filter(group=group)
+
+            
     error_messages = {
         'duplicate_meeting_no': _("That meeting number has already been used. please choose a different one."),
     }
@@ -66,6 +72,10 @@ class MinutesMeetingForm(forms.ModelForm):
 
     def __init__(self, group, *args, **kwargs):
         super(MinutesMeetingForm, self).__init__(*args, **kwargs)
+        self.fields['facilitator_actual'].queryset = \
+            Participant.objects.filter(group=group)
+        self.fields['minute_taker_actual'].queryset = \
+            Participant.objects.filter(group=group)
                     
     class Meta:
         model = Meeting
@@ -104,7 +114,11 @@ class NextMeetingForm(forms.ModelForm):
 
     def __init__(self, group, *args, **kwargs):
         super(NextMeetingForm, self).__init__(*args, **kwargs)
-                      
+        self.fields['next_meeting_facilitator'].queryset = \
+            Participant.objects.filter(group=group)
+        self.fields['next_meeting_minute_taker'].queryset = \
+            Participant.objects.filter(group=group)
+                                  
     class Meta:
         model = Meeting
         fields = ['next_meeting_date',

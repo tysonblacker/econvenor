@@ -1,12 +1,15 @@
 from django import forms
 
 from docs.models import Item
+from participants.models import Participant
 
 
 class AgendaItemForm(forms.ModelForm):
     
     def __init__(self, group, *args, **kwargs):
         super(AgendaItemForm, self).__init__(*args, **kwargs)
+        self.fields['explainer'].queryset = \
+            Participant.objects.filter(group=group)
 
     class Meta:
         
@@ -38,7 +41,9 @@ class MinutesItemForm(forms.ModelForm):
 
     def __init__(self, group, *args, **kwargs):
         super(MinutesItemForm, self).__init__(*args, **kwargs)
-            
+        self.fields['explainer'].queryset = \
+            Participant.objects.filter(group=group)
+       
     class Meta:
         model = Item
         fields = ['added_in_meeting',
