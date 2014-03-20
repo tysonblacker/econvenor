@@ -40,15 +40,6 @@
         </div><!-- /.navbar-header -->
 
         <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href={% url 'dashboard' %}>
-                <strong>Dashboard</strong></a></li>
-            <li><a href={% url 'task-list' %}>Tasks</a></li>
-            <li><a href={% url 'decision-list' %}>Decisions</a></li>
-            <li><a href={% url 'participant-list' %}>Participants</a></li>
-            <li><a href={% url 'agenda-list' %}>Agendas</a></li>
-            <li><a href={% url 'minutes-list' %}>Minutes</a></li>
-          </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -94,81 +85,127 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar" id="leftsidebar">
-
-            <li>
+            {% url 'dashboard' as dashboard %}
+            <li{% if request.path == dashboard %} class="active"{% endif %}>
               <a href={% url 'dashboard' %}>
                 <i class="fa fa-tachometer fa-fw fa-lg"></i>Dashboard
               </a>
             </li>
 
-            <li class="sidebar-item">
+            {% url 'meeting-add' as newmeeting %}
+            {% url 'agenda-list' as allmeetings %}
+            {% if request.path == newmeeting or request.path == allmeetings %}
+              <li class="sidebar-item active">
+            {% else %}
+              <li class="sidebar-item">
+            {% endif %}
               <a href="#">
                 <i class="fa fa-edit fa-fw fa-lg"></i>
                 Meetings
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href="#"><i class="fa fa-angle-double-right"></i>
+                <li><a href={{ newmeeting }}>
                   New meeting</a>
                 </li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i>
-                  Upcoming meeting</a>
+                <li><a href="#">
+                  Next meeting</a>
                 </li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i>
+                <li><a href="#">
                   Last meeting</a>
                 </li>
-                <li><a href={% url 'agenda-list' %}>
-                  <i class="fa fa-angle-double-right"></i>
-                  All meetings</a>
+                <li><a href={{ allmeetings }}>
+                  {% if request.path == allmeetings %}
+                    <strong>All meetings</strong>
+                    </a>
+                  {% else %}
+                    All meetings</a>
+                  {% endif %}
                 </li>
               </ul>
             </li>
-            
-            <li class="sidebar-item">
+
+            {% url 'task-add' as taskadd %}
+            {% url 'task-list' as tasklist %}            
+            {% if request.path == taskadd or request.path == tasklist %}
+              <li class="sidebar-item active">
+            {% else %}
+              <li class="sidebar-item">
+            {% endif %}
               <a href="#">
                 <i class="fa fa-edit fa-fw fa-lg"></i>
                 Tasks
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href="#"><i class="fa fa-angle-double-right"></i>
-                  New task</a>
+                <li><a href="{{ taskadd }}">
+                 {% if request.path == taskadd %}
+                    <strong>New task</strong>
+                    </a>
+                  {% else %}
+                    New task</a>
+                  {% endif %}
                 </li>
-                <li><a href={% url 'task-list' %}>
-                  <i class="fa fa-angle-double-right"></i>
-                  All tasks</a>
+                <li><a href="{{ tasklist }}">
+                  {% if request.path == tasklist %}
+                    <strong>All tasks</strong></a>
+                  {% else %}
+                    All tasks</a>
+                  {% endif %}
                 </li>
               </ul>
             </li>                    
 
-            <li class="sidebar-item">
+            {% url 'decision-list' as decisionlist %}            
+            {% if request.path == decisionlist %}
+              <li class="sidebar-item active">
+            {% else %}
+              <li class="sidebar-item">
+            {% endif %}
               <a href="#">
                 <i class="fa fa-edit fa-fw fa-lg"></i>
                   Decisions
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href={% url 'decision-list' %}>
-                  <i class="fa fa-angle-double-right"></i>
-                  All decisions</a>
+                <li><a href={{ decisionlist }}>
+                  {% if request.path == decisionlist %}
+                    <strong>All decisions</strong></a>
+                  {% else %}
+                    All decisions</a>
+                  {% endif %}
                 </li>
               </ul>
             </li>                                
 
-            <li class="sidebar-item">
+            {% url 'participant-add' as participantadd %}            
+            {% url 'participant-list' as participantlist %}            
+            {% if request.path == participantadd or request.path == participantlist %}
+              <li class="sidebar-item active">
+            {% else %}
+              <li class="sidebar-item">
+            {% endif %}
               <a href="#">
                 <i class="fa fa-edit fa-fw fa-lg"></i>
                   Participants
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href={% url 'participant-add' %}>
-                  <i class="fa fa-angle-double-right"></i>
-                  New participant</a>
+                <li><a href={{ participantadd }}>
+                  {% if request.path == participantadd %}
+                    <strong>New participant</strong>
+                    </a>
+                  {% else %}
+                    New participant</a>
+                  {% endif %}
                 </li>
-                <li><a href={% url 'participant-list' %}>
-                  <i class="fa fa-angle-double-right"></i>
-                  All participants</a>
+                <li><a href={{ participantlist }}>
+                  {% if request.path == participantlist %}
+                    <strong>All participants</strong>
+                    </a>
+                  {% else %}
+                    All participants</a>
+                  {% endif %}
                 </li>
               </ul>
             </li>
@@ -217,7 +254,7 @@
     <script src="{% static 'js/jquery.validate-1.11.1.min.js' %}"></script>
     <script src="{% static 'js/jquery.metisMenu.js' %}"></script>
     <script src="{% static 'js/econvenor.js' %}"></script>
-
+    
     {% block extrajs %}
     {% endblock extrajs %}
 

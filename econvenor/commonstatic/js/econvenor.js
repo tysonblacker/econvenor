@@ -137,11 +137,10 @@ $(function() {
   $("#leftsidebar").metisMenu();
 });
 
-$(".sidebar-item").click(function() {
+$(".sidebar-item ").click(function() {
   	var item_clicked_arrow = $(this).children().first().children().next()
   	$("i").filter(".fa-angle-up").not(item_clicked_arrow).toggleClass(
   	  "fa-angle-down fa-angle-up"
   	);
   	item_clicked_arrow.toggleClass("fa-angle-down fa-angle-up");
 });
-

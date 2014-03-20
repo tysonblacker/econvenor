@@ -47,6 +47,7 @@ def agenda_list(request):
             delete_meeting(request, group)
     
     return render(request, 'agenda_list.html', {
+                  'request': request,
                   'meetings': meetings,
                   'page_heading': page_heading,
                   'table_headings': table_headings
@@ -95,6 +96,7 @@ def agenda_edit(request, meeting_id):
     responses = []
     for template in templates:
         part_response = render(request, template, {
+                               'request': request,
                                'completed_tasks_list': completed_tasks_list,
                                'group': group,
                                'incomplete_tasks_list': incomplete_tasks_list,
@@ -134,6 +136,7 @@ def agenda_distribute(request, meeting_id):
                                                     args=(meeting_id)))
             	
     return render(request, 'agenda_distribute.html', {
+                  'request': request,
                   'meeting_id': meeting_id,
                   'pages': pages,
                   'participants': participants,
@@ -170,6 +173,7 @@ def agenda_sent(request, meeting_id):
     page_heading = 'Agenda for meeting ' + meeting_id + ' has been sent'
     
     return render(request, 'agenda_sent.html', {
+                  'request': request,
                   'page_heading': page_heading,
                   })
 
@@ -184,6 +188,7 @@ def minutes_list(request):
     table_headings = ('Meeting number', 'Date of meeting', 'Type of meeting')
     
     return render(request, 'minutes_list.html', {
+                  'request': request,
                   'minutes': minutes,
                   'page_heading': page_heading,
                   'table_headings': table_headings
@@ -256,6 +261,7 @@ def minutes_edit(request, meeting_id):
     responses = []
     for template in templates:
         response = render(request, template, {
+                          'request': request,
                           'meeting_id': meeting_id,
                           'meeting': meeting,
                           'meeting_duration': meeting_duration,
@@ -297,6 +303,7 @@ def minutes_distribute(request, meeting_id):
                                                     args=(meeting_id)))
             	
     return render(request, 'minutes_distribute.html', {
+                  'request': request,
                   'meeting_id': meeting_id,
                   'pages': pages,
                   'participants': participants,
