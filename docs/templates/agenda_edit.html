@@ -74,69 +74,73 @@
     ================================================== -->
 
       <div class="panel panel-primary" id="tasks">
-      <div class="panel-heading">
-        Attachment 1.  Tasks
-      </div>
-      <div class="panel-body">  
-        <h2><small>Tasks outstanding</small></h2>
-	    
-	    <div class="panel panel-primary">
-		  <table class="table">
-		    <thead>
-			  <tr>
-			    {% for heading in task_list_headings %}
-				  <th>{{ heading }}</th>
-                {% endfor%}
-			  </tr>
-		    </thead>
-		    <tbody> 
-			  {% for task in incomplete_tasks_list %}
-			    <tr>
-				  <td>{{ task.description }}</td>
-                  <td>{{ task.participant }}</td>
-				  <td>{{ task.deadline }}</td>
-			    </tr>
-			  {% empty %}
-			    <tr>
-			      <td>None</td>
-			    </tr>
-			  {% endfor%}
-		    </tbody>
-		  </table>
-	    </div><!-- /.panel -->
 
-	    <h2><small>Tasks completed since last meeting</small></h2>
-	    <div class="panel panel-primary">
-		  <table class="table">
-			<thead>
-			  <tr>
-				{% for heading in task_list_headings %}
-				  <th>{{ heading }}</th>
-				{% endfor%}
-			  </tr>
-			</thead>
-			<tbody> 
-			  {% for task in completed_tasks_list %}
-				<tr>
-				  <td>{{ task.description }}</td>
-				  <td>{{ task.participant }}</td>
-			      <td>{{ task.deadline }}</td>
-				</tr>
-			  {% empty %}
+        <div class="panel-heading">
+          Attachment 1.  Tasks
+        </div>
+
+        <div class="panel-body">  
+          
+          <h2><small>Tasks outstanding</small></h2>
+          <div class="panel panel-primary">
+		    <table class="table">
+		      <thead>
+		        <tr>
+			      {% for heading in task_list_headings %}
+			        <th>{{ heading }}</th>
+                  {% endfor%}
+			    </tr>
+		      </thead>
+		      <tbody> 
+			    {% for task in incomplete_tasks_list %}
+			      <tr>
+			 	    <td>{{ task.description }}</td>
+                    <td>{{ task.participant }}</td>
+				    <td>{{ task.deadline }}</td>
+			      </tr>
+			    {% empty %}
+			      <tr>
+			        <td>None</td>
+			      </tr>
+			    {% endfor%}
+		      </tbody>
+		    </table>
+	      </div><!-- /.panel -->
+
+	      <h2><small>Tasks completed since last meeting</small></h2>
+	      <div class="panel panel-primary">
+		    <table class="table">
+			  <thead>
 			    <tr>
-				  <td>None</td>
-				</tr>
-			  {% endfor%}
-			</tbody>
-		  </table>
-  	    </div><!-- /.panel -->
-	  </div><!-- /.outer panel body -->
-	  </div><!-- /.outer panel -->
+				  {% for heading in task_list_headings %}
+				    <th>{{ heading }}</th>
+				  {% endfor%}
+			    </tr>
+			  </thead>
+			  <tbody> 
+			    {% for task in completed_tasks_list %}
+				  <tr>
+				    <td>{{ task.description }}</td>
+				    <td>{{ task.participant }}</td>
+			        <td>{{ task.deadline }}</td>
+				  </tr>
+			    {% empty %}
+			      <tr>
+				    <td>None</td>
+				  </tr>
+			    {% endfor%}
+			  </tbody>
+		    </table>
+  	      </div><!-- /.panel -->
+  	      
+	    </div><!-- /.outer panel-body -->
+	  </div><!-- /.outer panel-primary -->
       
       <div class="bottom-spacer">
       </div>
           
     </div><!-- /.col-sm-7 -->
+
   </div><!-- ./row>
 
 {% endblock content%}
