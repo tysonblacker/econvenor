@@ -14,29 +14,31 @@
 	<form role="form" action="" method="POST">
 		{% csrf_token %}
     	
-    	{% for hidden in feature_form.hidden_fields %}
-   			<div class="form-group">
-   				{{ hidden }}
-   			</div>
-		{% endfor %}
-    	
     	<div class="form-group">
 			<label>Title for this feature request</label>
       		{{ feature_form.title|setclass:"form-control" }}
+      		{{ feature_form.title.errors }}
       	</div>
       	<div class="form-group">
 			<label>What is it that you would like to do but can't?</label>
       		{{ feature_form.goal|setclass:"form-control" }}
+      		{{ feature_form.goal.errors }}
       	</div>
       	<div class="form-group">
 			<label>Why can't you do it?</label>
       		{{ feature_form.shortcoming|setclass:"form-control" }}
+      		{{ feature_form.shortcoming.errors }}
       	</div>
       	<div class="form-group">
 			<label>How would you like to be able to do it?</label>
       		{{ feature_form.suggestion|setclass:"form-control" }}
+      		{{ feature_form.suggestion.errors }}
       	</div>
-      	
+      	<div class="form-group">
+			<label>Any other comments?</label>
+      		{{ feature_form.comment|setclass:"form-control" }}
+      		{{ feature_form.comment.errors }}
+      	</div>      	
       
      	<button type="submit" class="btn btn-primary" data-toggle="button">Request feature</button>
      	<a href={% url 'dashboard' %}><button type="button" class="btn btn-default" data-toggle="button">Cancel</button></a>

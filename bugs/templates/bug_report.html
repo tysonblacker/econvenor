@@ -14,31 +14,35 @@
 	<form role="form" action="" method="POST">
 		{% csrf_token %}
     	
-    	{% for hidden in bug_form.hidden_fields %}
-   			<div class="form-group">
-   				{{ hidden }}
-   			</div>
-		{% endfor %}
-    	
     	<div class="form-group">
 			<label>Title for this bug report</label>
       		{{ bug_form.title|setclass:"form-control" }}
+      		{{ bug_form.title.errors }}
       	</div>
       	<div class="form-group">
 			<label>Which page were you on?</label>
       		{{ bug_form.location|setclass:"form-control" }}
+      		{{ bug_form.location.errors }}
       	</div>
       	<div class="form-group">
 			<label>What steps will reproduce the problem?</label>
       		{{ bug_form.trigger|setclass:"form-control" }}
+      		{{ bug_form.trigger.errors }}
       	</div>
       	<div class="form-group">
 			<label>What was the expected result?</label>
       		{{ bug_form.goal|setclass:"form-control" }}
+      		{{ bug_form.goal.errors }}
       	</div>
       	<div class="form-group">
 			<label>What happened instead?</label>
       		{{ bug_form.behaviour|setclass:"form-control" }}
+      		{{ bug_form.behaviour.errors }}
+      	</div>
+      	<div class="form-group">
+			<label>Any other comments?</label>
+      		{{ bug_form.comment|setclass:"form-control" }}
+      		{{ bug_form.comment.errors }}
       	</div>
       
      	<button type="submit" class="btn btn-primary" data-toggle="button">Report bug</button>

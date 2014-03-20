@@ -1,11 +1,9 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 from django.core.urlresolvers import reverse
 
 from bugs.models import Bug, Feature
 from bugs.forms import BugForm, FeatureForm
-from utilities.commonutils import save_and_add_owner
 
 
 def bug_report(request):
@@ -13,11 +11,16 @@ def bug_report(request):
 		return HttpResponseRedirect(reverse('index'))
 	page_heading = 'Report a bug'
 	if request.method == "POST":
-		save_and_add_owner(request, BugForm(request.POST))
-		return HttpResponseRedirect(reverse('bug-list'))
+		bug_form = BugForm(request.POST)
+		if bug_form.is_valid():
+		    bug_form.save(request.user)
+		    return HttpResponseRedirect(reverse('bug-list'))
 	else:
 		bug_form = BugForm()
-	return render_to_response('bug_report.html', {'user': request.user, 'bug_form': bug_form, 'page_heading': page_heading}, RequestContext(request))
+	return render(request, 'bug_report.html', {
+	             'bug_form': bug_form,
+	             'page_heading': page_heading,
+	             })
 	
 
 def bug_edit(request, bug_id):
@@ -33,13 +36,21 @@ def bug_edit(request, bug_id):
 		if request.user.id == administrator:
 			allow_status_editing = True
 		if request.method == "POST":
-			save_and_add_owner(request, BugForm(request.POST, instance=bug))
-			return HttpResponseRedirect(reverse('bug-list'))
+			bug_form = BugForm(request.POST, instance=bug)
+			if bug_form.is_valid():
+			    bug_form.save()
+			    return HttpResponseRedirect(reverse('bug-list'))
 		else:
 			bug_form = BugForm(instance=bug)
 	else:
 		display_mode = 'view'
-	return render_to_response('bug_edit.html', {'user': request.user, 'display_mode': display_mode, 'bug': bug, 'bug_form': bug_form, 'page_heading': page_heading, 'allow_status_editing': allow_status_editing}, RequestContext(request))
+	return render(request, 'bug_edit.html', {
+	              'display_mode': display_mode,
+	              'bug': bug,
+	              'bug_form': bug_form,
+	              'page_heading': page_heading,
+	              'allow_status_editing': allow_status_editing,
+	              })
 	
 
 def bug_list(request):
@@ -48,7 +59,11 @@ def bug_list(request):
 	bugs = Bug.objects.all()
 	page_heading = 'Bugs reported'
 	table_headings = ('Bug number', 'Description', 'Date reported', 'Status')
-	return render_to_response('bug_list.html', {'user': request.user, 'bugs': bugs, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
+	return render(request, 'bug_list.html', {
+	              'bugs': bugs,
+	              'page_heading': page_heading,
+	              'table_headings': table_headings,
+	              })
 	
 	
 def feature_request(request):
@@ -56,11 +71,16 @@ def feature_request(request):
 		return HttpResponseRedirect(reverse('index'))
 	page_heading = 'Request a feature/change'
 	if request.method == "POST":
-		save_and_add_owner(request, FeatureForm(request.POST))
-		return HttpResponseRedirect(reverse('dashboard'))
+		feature_form = FeatureForm(request.POST)
+		if feature_form.is_valid():
+		    feature_form.save(request.user)
+		return HttpResponseRedirect(reverse('feature-list'))
 	else:
 		feature_form = FeatureForm()
-	return render_to_response('feature_request.html', {'user': request.user, 'feature_form': feature_form, 'page_heading': page_heading}, RequestContext(request))
+	return render(request, 'feature_request.html', {
+	              'feature_form': feature_form,
+	              'page_heading': page_heading,
+	              })
 	
 
 def feature_edit(request, feature_id):
@@ -82,7 +102,13 @@ def feature_edit(request, feature_id):
 			feature_form = FeatureForm(instance=feature)
 	else:
 		display_mode = 'view'
-	return render_to_response('feature_edit.html', {'user': request.user, 'display_mode': display_mode, 'feature': feature, 'feature_form': feature_form, 'page_heading': page_heading, 'allow_status_editing': allow_status_editing}, RequestContext(request))
+	return render(request, 'feature_edit.html', {
+	              'display_mode': display_mode,
+	              'feature': feature,
+	              'feature_form': feature_form,
+	              'page_heading': page_heading,
+	              'allow_status_editing': allow_status_editing,
+	              })
 
 
 def feature_list(request):
@@ -91,5 +117,9 @@ def feature_list(request):
 	features = Feature.objects.all()
 	page_heading = 'Features/changes requested'
 	table_headings = ('Request number', 'Description', 'Date requested', 'Status',)
-	return render_to_response('feature_list.html', {'user': request.user, 'features': features, 'page_heading': page_heading, 'table_headings': table_headings}, RequestContext(request))
+	return render(request, 'feature_list.html', {
+	              'features': features,
+	              'page_heading': page_heading,
+	              'table_headings': table_headings,
+	              })
 
