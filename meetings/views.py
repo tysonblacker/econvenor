@@ -12,8 +12,6 @@ def meeting_add(request):
     group = get_current_group(request)
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
-    
-    page_heading = 'Create agenda'
 
     if request.method == "POST":
         meeting_form = AgendaMeetingForm(group, request.POST)
@@ -29,9 +27,30 @@ def meeting_add(request):
                                                 args=(meeting_id,)))
     else:
         meeting_form = AgendaMeetingForm(group)
-            
+
+    menu = {'parent': 'meetings', 'child': 'new_meeting'}            
     return render(request, 'meeting_add.html', {
-                  'request': request,
+                  'menu': menu,
                   'meeting_form': meeting_form,
-                  'page_heading': page_heading
                   })
+                  
+
+def meeting_list(request):
+    group = get_current_group(request)
+    if group == None:	
+        return HttpResponseRedirect(reverse('index'))
+            
+    meetings = Meeting.objects.filter(group=group)
+    table_headings = ('Date', 'Meeting Number', 'Meeting Type', '')
+
+    if request.method == "POST":
+        if request.POST['button'][:6] == 'delete':           
+            delete_meeting(request, group)
+            
+    menu = {'parent': 'meetings', 'child': 'all_meetings'}    
+    return render(request, 'meeting_list.html', {
+                  'menu': menu,
+                  'meetings': meetings,
+                  'table_headings': table_headings
+                  })
+    

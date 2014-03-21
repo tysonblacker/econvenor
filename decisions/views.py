@@ -18,8 +18,9 @@ def decision_list(request):
                       'Agenda item',
                       )
 
+    menu = {'parent': 'decisions', 'child': 'all_decisions'}    
     return render(request, 'decision_list.html', {
-                  'request': request,
+                  'menu': menu,
                   'decisions': decisions,
                   'page_heading': page_heading,
                   'table_headings': table_headings,

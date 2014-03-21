@@ -5,10 +5,8 @@
 {% block content %}
 
 <div class="page-header">
-  <h1>{{ page_heading }}</h1>
+  <h1>New meeting</h1>
 </div>
-
-<h1><small>Meeting details</small></h1>
 
 <div class="well">
   <div class="span10"> 
@@ -18,7 +16,7 @@
       <button type="submit" class="btn btn-primary">
         Save meeting details
       </button>
-      <a href={% url 'agenda-list' %}>
+      <a href={% url 'meeting-list' %}>
         <button type="button" class="btn btn-default">
           Cancel
         </button>

@@ -31,9 +31,10 @@ def participant_list(request):
             participants = Participant.lists.newest_first().\
                 filter(group=group)
             selection = 'newest_first'
-                    
+
+    menu = {'parent': 'participants', 'child': 'all_participants'}               
     return render(request, 'participant_list.html', {
-	              'request': request,
+	              'menu': menu,
                   'participants': participants,
                   'page_heading': page_heading,
                   'selection': selection,
@@ -56,8 +57,9 @@ def participant_add(request):
     else:
         form = AddParticipantForm(group)
 
+    menu = {'parent': 'participants', 'child': 'new_participant'}               
     return render(request, 'participant_add.html', {
-	              'request': request,
+	              'menu': menu,
                   'form': form,
                   'page_heading': page_heading
                   })
@@ -86,9 +88,10 @@ def participant_edit(request, participant_id):
                 return HttpResponseRedirect(reverse('participant-list'))
     else:
         form = EditParticipantForm(group, instance=participant)
-        		
+
+    menu = {'parent': 'participants'}                       		
     return render(request, 'participant_edit.html', {
-	              'request': request,
+	              'menu': menu,
                   'form': form,
                   'page_heading': page_heading,
                   'participant_id': participant_id
@@ -108,8 +111,9 @@ def participant_view(request, participant_id):
     page_heading = participant
     table_headings = ('Description', 'Deadline', 'Status')
 
+    menu = {'parent': 'participants'}                       		
     return render(request, 'participant_view.html', {
-	              'request': request,
+	              'menu': menu,
                   'participant': participant,
                   'page_heading': page_heading,
                   'table_headings': table_headings,

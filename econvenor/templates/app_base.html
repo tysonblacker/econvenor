@@ -88,131 +88,118 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar" id="leftsidebar">
-            {% url 'dashboard' as dashboard %}
-            {% if request.path == dashboard %}
+            {% ifequal menu.parent 'dashboard' %}
               <li class="sidebar-item active">
             {% else %}
               <li class="sidebar-item">
-            {% endif %}
+            {% endifequal %}
               <a href={% url 'dashboard' %}>
                 <i class="fa fa-tachometer fa-fw fa-lg"></i>Dashboard
               </a>
             </li>
 
-            {% url 'meeting-add' as newmeeting %}
-            {% url 'agenda-list' as allmeetings %}
-            {% if request.path == newmeeting or request.path == allmeetings %}
+            {% ifequal menu.parent 'meetings' %}
               <li class="sidebar-item active">
             {% else %}
               <li class="sidebar-item">
-            {% endif %}
+            {% endifequal %}
               <a href="#">
                 <i class="fa fa-edit fa-fw fa-lg"></i>
                 Meetings
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href={{ newmeeting }}>
-                  New meeting</a>
+                <li><a href={% url 'meeting-add' %}>
+                  {% ifequal menu.child 'new_meeting' %}
+                    <strong>New meeting</strong></a>
+                  {% else %}
+                    New meeting</a>
+                  {% endifequal %}
                 </li>
-                <li><a href="#">
-                  Next meeting</a>
-                </li>
-                <li><a href="#">
-                  Last meeting</a>
-                </li>
-                <li><a href={{ allmeetings }}>
-                  {% if request.path == allmeetings %}
-                    <strong>All meetings</strong>
-                    </a>
+                <li><a href={% url 'meeting-list' %}>
+                  {% ifequal menu.child 'all_meetings' %}
+                    <strong>All meetings</strong></a>
                   {% else %}
                     All meetings</a>
-                  {% endif %}
+                  {% endifequal %}
                 </li>
               </ul>
             </li>
-
-            {% url 'task-add' as taskadd %}
-            {% url 'task-list' as tasklist %}            
-            {% if request.path == taskadd or request.path == tasklist %}
+      
+            {% ifequal menu.parent 'tasks' %}
               <li class="sidebar-item active">
             {% else %}
               <li class="sidebar-item">
-            {% endif %}
+            {% endifequal %}
               <a href="#">
                 <i class="fa fa-edit fa-fw fa-lg"></i>
                 Tasks
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href="{{ taskadd }}">
-                 {% if request.path == taskadd %}
-                    <strong>New task</strong>
-                    </a>
+                <li><a href={% url 'task-add' %}>
+                  {% ifequal menu.child 'new_task' %}
+                    <strong>New task</strong></a>
                   {% else %}
                     New task</a>
-                  {% endif %}
+                  {% endifequal %}
                 </li>
-                <li><a href="{{ tasklist }}">
-                  {% if request.path == tasklist %}
+                <li><a href={% url 'task-list' %}>
+                  {% ifequal menu.child 'all_tasks' %}
                     <strong>All tasks</strong></a>
                   {% else %}
                     All tasks</a>
-                  {% endif %}
+                  {% endifequal %}
                 </li>
               </ul>
-            </li>                    
-
-            {% url 'decision-list' as decisionlist %}            
-            {% if request.path == decisionlist %}
+            </li>
+                        
+            {% ifequal menu.parent 'decisions' %}
               <li class="sidebar-item active">
             {% else %}
               <li class="sidebar-item">
-            {% endif %}
+            {% endifequal %}
               <a href="#">
                 <i class="fa fa-edit fa-fw fa-lg"></i>
                   Decisions
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href={{ decisionlist }}>
-                  {% if request.path == decisionlist %}
+                <li><a href={% url 'decision-list' %}>
+                  {% ifequal menu.child 'all_decisions' %}
                     <strong>All decisions</strong></a>
                   {% else %}
                     All decisions</a>
-                  {% endif %}
+                  {% endifequal %}
                 </li>
               </ul>
             </li>                                
 
-            {% url 'participant-add' as participantadd %}            
-            {% url 'participant-list' as participantlist %}            
-            {% if request.path == participantadd or request.path == participantlist %}
+            {% ifequal menu.parent 'participants' %}
               <li class="sidebar-item active">
             {% else %}
               <li class="sidebar-item">
-            {% endif %}
+            {% endifequal %}
               <a href="#">
                 <i class="fa fa-edit fa-fw fa-lg"></i>
                   Participants
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href={{ participantadd }}>
-                  {% if request.path == participantadd %}
+                <li><a href={% url 'participant-add' %}>
+                  {% ifequal menu.child 'new_participant' %}
                     <strong>New participant</strong>
                     </a>
                   {% else %}
                     New participant</a>
-                  {% endif %}
+                  {% endifequal %}
                 </li>
-                <li><a href={{ participantlist }}>
-                  {% if request.path == participantlist %}
-                    <strong>All participants</strong>
-                    </a>
+                <li><a href={% url 'participant-list' %}>
+                  {% ifequal menu.child 'all_participants' %}
+                    <strong>All participants</strong></a>
                   {% else %}
                     All participants</a>
-                  {% endif %}
+                  {% endifequal %}
                 </li>
               </ul>
             </li>

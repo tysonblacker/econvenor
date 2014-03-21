@@ -12,10 +12,11 @@ def task_list(request):
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
 
+    menu = {'parent': 'tasks', 'child': 'all_tasks'}
+
     tasks = Task.lists.all_tasks().filter(group=group)
     selection = 'all'
     
-    page_heading = 'Tasks'
     table_headings = ('Description',
                       'Assigned to',
                       'Deadline',
@@ -34,10 +35,9 @@ def task_list(request):
             selection = 'overdue'
  
     return render(request, 'task_list.html', {
-	              'request': request,
+	              'menu': menu,
 	              'tasks': tasks,
 	              'selection': selection,
-	              'page_heading': page_heading,
 	              'table_headings': table_headings
 	              })
 
@@ -46,8 +46,6 @@ def task_add(request):
     group = get_current_group(request)
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
-
-    page_heading = 'Add a task'
     
     if request.method == "POST":
         form = AddTaskForm(group, request.POST)
@@ -57,10 +55,10 @@ def task_add(request):
     else:
         form = AddTaskForm(group)
 
+    menu = {'parent': 'tasks', 'child': 'new_task'}
     return render(request, 'task_add.html', {
-	              'request': request,
+	              'menu': menu,
 	              'form': form,
-	              'page_heading': page_heading,
 	              })
 
 
@@ -88,9 +86,10 @@ def task_edit(request, task_id):
                     return HttpResponseRedirect(reverse('task-list'))
     else:
         form = EditTaskForm(group, instance=task)
-        		
+
+    menu = {'parent': 'tasks'}        		
     return render(request, 'task_edit.html', {
-	              'request': request,
+	              'menu': menu,
                   'form': form,
                   'page_heading': page_heading,
                   'task_id': task_id,

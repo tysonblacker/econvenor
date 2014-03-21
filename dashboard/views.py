@@ -12,16 +12,21 @@ def dashboard(request):
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
     
-    tasks = Task.objects.filter(group=group).order_by('deadline')
+    all_overdue_tasks = Task.lists.overdue_tasks().filter(group=group)
+    top_overdue_tasks = all_overdue_tasks[:6]
+    all_incomplete_tasks = Task.lists.incomplete_tasks().filter(group=group)
+    top_incomplete_tasks = all_incomplete_tasks[:6]    
+    
     task_headings = ('Description',
-                     'Assigned to',
                      'Deadline',
                      )
-    
+
+    menu = {'parent': 'dashboard'}        
     return render(request, 'dashboard.html', {
-                  'request': request,
+                  'menu': menu,
                   'group': group,
-                  'tasks': tasks,
+                  'top_overdue_tasks': top_overdue_tasks,
+                  'top_incomplete_tasks': top_incomplete_tasks,
                   'task_headings': task_headings,
                   })
 	

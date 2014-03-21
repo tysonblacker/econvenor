@@ -33,27 +33,6 @@ from tasks.models import Task
 from utilities.commonutils import get_current_group
 
 
-def agenda_list(request):
-    group = get_current_group(request)
-    if group == None:	
-        return HttpResponseRedirect(reverse('index'))
-        
-    meetings = Meeting.objects.filter(group=group)
-    page_heading = 'Agendas'
-    table_headings = ('Date', 'Meeting Number', 'Meeting Type', '')
-
-    if request.method == "POST":
-        if request.POST['button'][:6] == 'delete':           
-            delete_meeting(request, group)
-    
-    return render(request, 'agenda_list.html', {
-                  'request': request,
-                  'meetings': meetings,
-                  'page_heading': page_heading,
-                  'table_headings': table_headings
-                  })
-    
-
 def agenda_edit(request, meeting_id):
     group = get_current_group(request)
     if group == None:	
@@ -94,9 +73,10 @@ def agenda_edit(request, meeting_id):
     
     templates = get_templates(request_type, doc_type)
     responses = []
+    menu = {'parent': 'meetings'}
     for template in templates:
         part_response = render(request, template, {
-                               'request': request,
+                               'menu': menu,
                                'completed_tasks_list': completed_tasks_list,
                                'group': group,
                                'incomplete_tasks_list': incomplete_tasks_list,
@@ -134,9 +114,9 @@ def agenda_distribute(request, meeting_id):
             	distribute_agenda(request, group, meeting)
                 return HttpResponseRedirect(reverse('agenda-sent',
                                                     args=(meeting_id)))
-            	
+    menu = {'parent': 'meetings'}            	
     return render(request, 'agenda_distribute.html', {
-                  'request': request,
+                  'menu': menu,
                   'meeting_id': meeting_id,
                   'pages': pages,
                   'participants': participants,
@@ -171,27 +151,11 @@ def agenda_sent(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
 
     page_heading = 'Agenda for meeting ' + meeting_id + ' has been sent'
-    
+
+    menu = {'parent': 'meetings'}    
     return render(request, 'agenda_sent.html', {
-                  'request': request,
+                  'menu': menu,
                   'page_heading': page_heading,
-                  })
-
-
-def minutes_list(request):
-    group = get_current_group(request)
-    if group == None:	
-        return HttpResponseRedirect(reverse('index'))
-        
-    minutes = Meeting.objects.filter(group=group)
-    page_heading = 'Minutes'
-    table_headings = ('Meeting number', 'Date of meeting', 'Type of meeting')
-    
-    return render(request, 'minutes_list.html', {
-                  'request': request,
-                  'minutes': minutes,
-                  'page_heading': page_heading,
-                  'table_headings': table_headings
                   })
 
 
@@ -259,9 +223,10 @@ def minutes_edit(request, meeting_id):
                                         label_suffix='')
     templates = get_templates(request_type, 'minutes')
     responses = []
+    menu = {'parent': 'meetings'}
     for template in templates:
         response = render(request, template, {
-                          'request': request,
+                          'menu': menu,
                           'meeting_id': meeting_id,
                           'meeting': meeting,
                           'meeting_duration': meeting_duration,
@@ -301,9 +266,10 @@ def minutes_distribute(request, meeting_id):
             	distribute_agenda(request, group, meeting)
                 return HttpResponseRedirect(reverse('minutes-sent',
                                                     args=(meeting_id)))
-            	
+
+    menu = {'parent': 'meetings'}            	
     return render(request, 'minutes_distribute.html', {
-                  'request': request,
+                  'menu': menu,
                   'meeting_id': meeting_id,
                   'pages': pages,
                   'participants': participants,

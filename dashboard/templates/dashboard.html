@@ -52,7 +52,7 @@
   </div>  
 </div>  
 
-<div class="col-sm-12">
+<div class="col-sm-6">
   <div class="panel panel-primary">
     <div class="panel-heading">
 	  Most overdue tasks
@@ -66,11 +66,10 @@
         </tr>
       </thead>
       <tbody> 
-        {% for task in tasks %}
+        {% for task in top_overdue_tasks %}
           <tr id={{ task.id }} 
               onclick="document.location='{% url 'task-edit' task.id %}';">
             <td>{{ task.description }}</td>
-            <td>{{ task.participant }}</td>
             <td>{{ task.deadline }}</td>
           </tr>
         {% endfor%}
@@ -79,7 +78,7 @@
   </div>  
 </div>
 
-<div class="col-sm-12">
+<div class="col-sm-6">
   <div class="panel panel-primary">
     <div class="panel-heading">
 	  Tasks due soon
@@ -93,11 +92,10 @@
         </tr>
       </thead>
       <tbody> 
-        {% for task in tasks %}
+        {% for task in top_incomplete_tasks %}
           <tr id={{ task.id }} 
               onclick="document.location='{% url 'task-edit' task.id %}';">
             <td>{{ task.description }}</td>
-            <td>{{ task.participant }}</td>
             <td>{{ task.deadline }}</td>
           </tr>
         {% endfor%}
