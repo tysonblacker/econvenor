@@ -92,7 +92,7 @@
         </tr>
       </thead>
       <tbody> 
-        {% for task in top_incomplete_tasks %}
+        {% for task in top_pending_tasks %}
           <tr id={{ task.id }} 
               onclick="document.location='{% url 'task-edit' task.id %}';">
             <td>{{ task.description }}</td>

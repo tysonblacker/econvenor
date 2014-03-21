@@ -25,9 +25,15 @@ class TaskManager(models.Manager):
     def overdue_tasks(self):
         return self.get_queryset().filter(
                 status='Incomplete',
-                deadline__lte=datetime.date.today())\
+                deadline__lt=datetime.date.today())\
             .order_by('deadline')
 
+    def pending_tasks(self):
+        return self.get_queryset().filter(
+                status='Incomplete',
+                deadline__gte=datetime.date.today())\
+            .order_by('deadline')
+            
     def by_participant(self):
         return self.get_queryset().all().order_by('participant')
                     

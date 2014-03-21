@@ -14,8 +14,8 @@ def dashboard(request):
     
     all_overdue_tasks = Task.lists.overdue_tasks().filter(group=group)
     top_overdue_tasks = all_overdue_tasks[:6]
-    all_incomplete_tasks = Task.lists.incomplete_tasks().filter(group=group)
-    top_incomplete_tasks = all_incomplete_tasks[:6]    
+    all_pending_tasks = Task.lists.pending_tasks().filter(group=group)
+    top_pending_tasks = all_pending_tasks[:6]    
     
     task_headings = ('Description',
                      'Deadline',
@@ -26,7 +26,7 @@ def dashboard(request):
                   'menu': menu,
                   'group': group,
                   'top_overdue_tasks': top_overdue_tasks,
-                  'top_incomplete_tasks': top_incomplete_tasks,
+                  'top_pending_tasks': top_pending_tasks,
                   'task_headings': task_headings,
                   })
 	
