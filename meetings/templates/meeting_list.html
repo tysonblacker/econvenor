@@ -20,16 +20,41 @@
     </thead>
     <tbody> 
       {% for meeting in meetings %}
+        {% with no_of_pdfs=meeting.distributionrecord_set.all|length %}
         <tr>
           <td id={{ meeting.id }} onclick="document.location=
             '{% url 'agenda-edit' meeting.id %}';">
-              {{ meeting.date_scheduled }}
+              {% if meeting.date_actual %}
+                {{ meeting.date_actual }}
+              {% else %}  
+                {{ meeting.date_scheduled }}
+              {% endif %}  
           </td>
           <td>
             {{ meeting.meeting_no }}
           </td>
           <td>
-            {{ meeting.meeting_type }}
+            {% if no_of_pdfs > 0 %}
+              Yes
+            {% else %}  
+              No
+            {% endif %}  
+          </td>
+          <td>
+            {% if no_of_pdfs > 1 %}
+              Yes
+            {% else %}  
+              No
+            {% endif %} 
+          </td>
+         <td>
+            {% if no_of_pdfs = 0 %}
+              Make agenda / Delete meeting
+            {% elif no_of_pdfs = 1 %}
+              View PDF agenda / Revise agenda (warn) / Make minutes / Delete meeting (warn)
+            {% elif no_of_pdfs = 2 %}
+              View PDF agenda / View PDF minutes / Revise minutes (warn) / Delete meeting (warn)
+            {% endif %} 
           </td>
           <td>
             <button class="btn btn-primary delete-button" data-toggle="modal" 
@@ -40,6 +65,7 @@
             </button>
           </td>
         </tr>
+        {% endwith %}
       {% empty %}
         <tr>
           <td>There are no meetings yet.</td>

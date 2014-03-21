@@ -33,10 +33,6 @@ class Item(TimeStampedModel):
     def __unicode__(self):
         return str(self.item_no) + ': ' + self.title
 
-#    def save(self, group, *args, **kwargs):
-#        self.group = group
-#        super(Item, self).save(*args, **kwargs)
-
 
 class Template(TimeStampedModel):
 

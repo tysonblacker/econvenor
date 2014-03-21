@@ -29,6 +29,7 @@ from docs.utils import calculate_meeting_duration, \
                        calculate_meeting_end_time, \
                        get_completed_tasks_list
 from meetings.models import Meeting
+from meetings.utils import find_or_create_distribution_record
 from participants.models import Participant
 from tasks.models import Task
 from utilities.commonutils import set_path
@@ -728,7 +729,7 @@ def get_pdf_contents(request, group, meeting):
     return pdf_contents
 
 
-def distribute_agenda(request, group, meeting):
+def distribute_pdf(request, group, meeting, doc_type):
     """
     Emails out the agenda.
     """  	
@@ -754,19 +755,19 @@ def distribute_agenda(request, group, meeting):
         id_list = []
         for participant in distribution_list:
             participant_id = participant[11:]
-            id_list.append(participant_id)
+            id_list.append(int(participant_id))
 
         # create recipients list with email addresses
         for item in id_list:
-            participant = Participant.objects.get(pk=int(item), group=group)
+            participant = Participant.objects.get(pk=item, group=group)
             participant_email = participant.email
             recipients.append(participant_email)
 
     # set up the email fields
-    base_file_name = get_base_file_name(request, group, meeting)
+    base_file_name = get_base_file_name(request, group, meeting, doc_type)
     base_pdf_path = get_pdf_path()
     pdf_path = base_pdf_path + base_file_name + '.pdf'	
-    subject = group_name + ': You agenda is attached'
+    subject = group_name + ': Your agenda is attached'
     body = 'Here is your agenda'
     sender = 'noreply@econvenor.org'
 
@@ -774,3 +775,15 @@ def distribute_agenda(request, group, meeting):
     email = EmailMessage(subject, body, sender, recipients)
     email.attach_file(pdf_path)
     email.send()
+
+    #record the distribution of the document    
+    distribution_record = find_or_create_distribution_record(group, meeting,
+                                                             doc_type)
+    if 'all_participants' in request.POST:
+        id_list = []
+        for participant in participants:
+            id = participant.id
+            id_list.append(id)                                                          
+    distribution_record.distribution_list = str(id_list)
+    distribution_record.save()
+    

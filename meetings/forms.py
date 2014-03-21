@@ -143,4 +143,3 @@ class NextMeetingForm(forms.ModelForm):
         if commit:
             meeting.save()
         return meeting
-

@@ -93,8 +93,8 @@ class DistributionRecord(TimeStampedModel):
     meeting = models.ForeignKey(Meeting, null=True, blank=True)
 
     covering_message = models.TextField(null=False, blank=True)
-    date_and_time = models.DateTimeField()
     distribution_list = models.TextField(null=False, blank=True)
+    doc_type = models.CharField(max_length=30, null=False, blank=True)
     
     def __unicode__(self):
-        return 'Distibuted on ' + date_and_time
+        return 'Distibuted the ' + doc_type + ' on ' + str(modified)

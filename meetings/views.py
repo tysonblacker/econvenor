@@ -41,7 +41,7 @@ def meeting_list(request):
         return HttpResponseRedirect(reverse('index'))
             
     meetings = Meeting.objects.filter(group=group)
-    table_headings = ('Date', 'Meeting Number', 'Meeting Type', '')
+    table_headings = ('Date', 'Meeting Number', 'Agenda sent', 'Minutes sent', '', '',)
 
     if request.method == "POST":
         if request.POST['button'][:6] == 'delete':           

@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 from docs.pdfs import create_pdf, \
-                      distribute_agenda, \
+                      distribute_pdf, \
                       get_pdf_contents
 from docs.utils import add_decision, \
                        add_item, \
@@ -105,15 +105,17 @@ def agenda_distribute(request, meeting_id):
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
     
+    doc_type = 'agenda'
     participants = Participant.objects.filter(group=group)
-    pages = create_pdf(request, group, meeting, 'agenda')
+    pages = create_pdf(request, group, meeting, doc_type)
     
     if request.method == "POST":
         if 'distribute_button' in request.POST:
             if request.POST['distribute_button']=='distribute_agenda':
-            	distribute_agenda(request, group, meeting)
+            	distribute_pdf(request, group, meeting, doc_type)
                 return HttpResponseRedirect(reverse('agenda-sent',
-                                                    args=(meeting_id)))
+                                                    args=(meeting_id,)))
+
     menu = {'parent': 'meetings'}            	
     return render(request, 'agenda_distribute.html', {
                   'menu': menu,
@@ -256,16 +258,17 @@ def minutes_distribute(request, meeting_id):
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
-    
+
+    doc_type = 'minutes'
     participants = Participant.objects.filter(group=group)
-    pages = create_pdf(request, group, meeting, 'minutes')
+    pages = create_pdf(request, group, meeting, doc_type)
     
     if request.method == "POST":
         if 'distribute_button' in request.POST:
             if request.POST['distribute_button']=='distribute_minutes':
-            	distribute_agenda(request, group, meeting)
+            	distribute_pdf(request, group, meeting, doc_type)
                 return HttpResponseRedirect(reverse('minutes-sent',
-                                                    args=(meeting_id)))
+                                                    args=(meeting_id,)))
 
     menu = {'parent': 'meetings'}            	
     return render(request, 'minutes_distribute.html', {
