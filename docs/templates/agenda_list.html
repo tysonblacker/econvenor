@@ -2,7 +2,6 @@
 
 {% block content %}
 
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 <div class="page-header">
   <h1>{{ page_heading }}</h1>
@@ -48,8 +47,6 @@
       {% endfor%}
     </tbody>
   </table>
-</div>
-
 </div>
 
 <a href={% url 'meeting-add' %}><button type="button" class="btn btn-primary">Create a new meeting</button></a>

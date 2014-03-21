@@ -216,9 +216,12 @@
                                 
           </ul>
         </div><!-- /.sidebar -->
-   
-        {% block content %}
-        {% endblock content %}
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 content"
+             id="content-wrapper">
+          {% block content %}
+          {% endblock content %}
+        </div><!-- /.content -->
 
       </div><!-- /.row -->
         

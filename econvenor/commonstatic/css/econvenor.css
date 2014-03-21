@@ -334,7 +334,7 @@ tbody tr:hover {
  */
 
 .top-spacer {
-  height: 200px;
+  height: 30px;
 }
 
 .bottom-spacer {
@@ -417,7 +417,6 @@ tbody tr:hover {
 
 .nav-second-level li a {
     padding-left: 37px;
-    background-color: #333333;
 }
 
 /*
@@ -445,5 +444,5 @@ tbody tr:hover {
 .toolbar {
   position: fixed; 
   top: 50px;
-  right: 0px;
+  right: 50px;
 }
