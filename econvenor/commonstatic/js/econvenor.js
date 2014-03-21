@@ -137,6 +137,10 @@ $(function() {
   $("#leftsidebar").metisMenu();
 });
 
+$(function removeActiveItemCarat() {
+  $(".active a:nth-child(1) i:nth-child(2)").toggleClass("fa-angle-down fa-angle-up");
+});
+
 $(".sidebar-item ").click(function() {
   	var item_clicked_arrow = $(this).children().first().children().next()
   	$("i").filter(".fa-angle-up").not(item_clicked_arrow).toggleClass(
