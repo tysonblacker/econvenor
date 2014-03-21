@@ -173,9 +173,9 @@ fieldset[disabled] .btn-primary.active {
  * Adjust colours.
 */
 .btn-default {
-  color: #563d7c;
+  color: #333333;
   background-color: #eeeeee;
-  border-color: #bbbbbb;
+  border-color: #333333;
 }
 
 .btn-default:hover,
@@ -296,9 +296,8 @@ h6,
 .h5,
 .h6 {
   font-family: 'Heading', Helvetica, Arial, sans-serif;
-  font-weight: 300;
   line-height: 1.1;
-  color: inherit;
+  color: #ff0066;
 }
 
 

@@ -4,63 +4,119 @@
 
 
 <div class="page-header">
-	<h1>{{ group }}'s Dashboard</h1>
+  <h1>{{ group.name }}</h1>
 </div>
 
-
-<br><br>
-  
-<div class="row">
-	
-	<div class="col-lg-3">
-		<div class="well">
-			<h2>Last meeting</h2>
-			<p><strong>Date:</strong> {{ last_meeting.date }}</p>
-			<p><strong>Minutes status:</strong> {{ last_meeting.agenda_locked }}</p>
-			<p><strong>Days ago:</strong> << no. of days >></p>
-			<p><a class="btn btn-primary" href={% url 'minutes-list' %} role="button">Manage meetings &raquo;</a></p>
-		</div>
-	</div>
-	
-	<div class="col-lg-3">
-		<div class="well">
-			<h2>Next meeting</h2>
-			<p><strong>Date:</strong> {{ next_meeting.date }}</p>
-			<p><strong>Location:</strong> {{ next_meeting.location }}</p>
-			<p><strong>Agenda status:</strong> {{ next_meeting.agenda_locked }}</p>
-			<p><a class="btn btn-primary" href={% url 'minutes-list' %} role="button">Manage meetings &raquo;</a></p>
-		</div>
-	</div>
-	
-	
-	<div class="col-lg-6">
-		<div class="well">
-			<h2>Incomplete tasks</h2>
-			<div class="panel panel-primary">
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							{% for heading in task_headings %}
-								<th>{{ heading }}</th>
-							{% endfor%}
-						</tr>
-					</thead>
-					<tbody> 
-						{% for task in tasks %}
-							<tr id={{ task.id }} onclick="document.location='{% url 'task-edit' task.id %}';">
-								<td>{{ task.description }}</td>
-								<td>{{ task.participant }}</td>
-								<td>{{ task.deadline }}</td>
-							</tr>
-						{% endfor%}
-					</tbody>
-				</table>
-			</div>
-			<p><a class="btn btn-primary" href={% url 'task-list' %} role="button">Manage tasks &raquo;</a></p>
-		</div>
-	</div>
-	
+<div class="col-sm-4">
+  <div class="well">
+    <strong>
+      Days since last meeting<br/>
+    </strong>
+    <span class="feature-text">
+      *7 days*<br/><br/>
+    </span>
+    <strong>
+      Length of last meeting<br/>
+    </strong>
+    <span class="feature-text">
+      *1 hr 30 mins*
+    </span>
+  </div>
 </div>
+
+<div class="col-sm-4">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+	  Last meeting
+    </div>
+    <div class="panel-body">
+      Details here:<br/>
+        Meeting number<br/>
+        Status of minutes (sent? when?)<br/>
+        Length (hrs:mins)
+    </div>
+  </div>  
+</div>
+
+<div class="col-sm-4">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+	  Next meeting
+    </div>
+    <div class="panel-body">
+      Details here:<br/>
+        Time/date<br/>
+        Location<br/>
+        Status of agenda (sent? when?)
+    </div>
+  </div>  
+</div>  
+
+<div class="col-sm-12">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+	  Most overdue tasks
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          {% for heading in task_headings %}
+            <th>{{ heading }}</th>
+          {% endfor%}
+        </tr>
+      </thead>
+      <tbody> 
+        {% for task in tasks %}
+          <tr id={{ task.id }} 
+              onclick="document.location='{% url 'task-edit' task.id %}';">
+            <td>{{ task.description }}</td>
+            <td>{{ task.participant }}</td>
+            <td>{{ task.deadline }}</td>
+          </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+  </div>  
+</div>
+
+<div class="col-sm-12">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+	  Tasks due soon
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          {% for heading in task_headings %}
+            <th>{{ heading }}</th>
+          {% endfor%}
+        </tr>
+      </thead>
+      <tbody> 
+        {% for task in tasks %}
+          <tr id={{ task.id }} 
+              onclick="document.location='{% url 'task-edit' task.id %}';">
+            <td>{{ task.description }}</td>
+            <td>{{ task.participant }}</td>
+            <td>{{ task.deadline }}</td>
+          </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+  </div>  
+</div>
+
+<div class="col-sm-6">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+	  eConvenor feature updates
+    </div>
+    <div class="panel-body">
+      eConvenor's Beta version goes live on April 2nd!
+    </div>
+  </div>  
+</div>
+
 
 
 {% endblock %}
