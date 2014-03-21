@@ -132,8 +132,8 @@ body {
 
 .btn-primary {
   color: #cccccc;
-  background-color: #333333; 
-  border-color: #333333;
+  background-color: #ff0066; 
+  border-color: #ff0066;
 }
 
 .btn-primary:hover,
@@ -142,8 +142,8 @@ body {
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
   color: #ffffff;
-  background-color: #666666;
-  border-color: #666666;
+  background-color: #dd0044;
+  border-color: #dd0044;
 }
 
 .btn-primary.disabled,

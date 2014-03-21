@@ -16,6 +16,7 @@
     
       <div id="ajax-main">
       </div>
+
       
     <!-- TASKS TABLE
     ================================================== -->
@@ -118,13 +119,13 @@
       
       <ul class="nav nav-sidebar">
         <li>
-          <button type="button" class="btn btn-primary ajax-button" 
+          <button type="button" class="btn btn-default ajax-button" 
             id="save_agenda">
               Save all
           </button>
         </li>
         <li>
-          <button type="button" class="btn btn-primary ajax-button" 
+          <button type="button" class="btn btn-default ajax-button" 
             id="add_item">
               Add item
           </button>
@@ -133,7 +134,7 @@
           <button type="submit" class="btn btn-primary navigate-button"
             goto="{% url 'agenda-distribute' meeting_id %}" 
             id="submit_agenda">
-              Distribute this agenda
+              Preview and send
           </button>
         </li>
       </ul>
