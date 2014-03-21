@@ -11,9 +11,9 @@
     <div class="panel-body">
       {{ meeting_form}}
       <button type="button" title="Clear minutes" 
-        class="btn btn-default btn-xs ajax-button"
+        class="btn btn-default ajax-button"
         id="clear_minutes">
-          <span class="glyphicon glyphicon-remove">Clear these minutes</span>
+          <i class="fa fa-times fa-lg"></i> Clear these minutes
       </button>
     </div>
   </div>
@@ -31,7 +31,7 @@
             <button type="button" title="Delete item" 
               class="btn btn-default btn-xs ajax-button tltip"
               id="delete_item_{{ item.item_no.value}}" data-toggle="tooltip" >
-                <span class="glyphicon glyphicon-remove">Delete</span>
+                <i class="fa fa-times fa-lg"></i> Delete
             </button>
           </div>
         {% else %}
@@ -82,7 +82,7 @@
                   class="btn btn-default btn-xs ajax-button tltip"
                   id="delete_decision_{{ decision.instance.id}}"
                   data-toggle="tooltip" >
-                  <span class="glyphicon glyphicon-remove">Delete</span>
+                    <i class="fa fa-times fa-lg"></i> Delete
                 </button>
               </div>
             {% endifequal %}
@@ -110,7 +110,7 @@
                   class="btn btn-default btn-xs ajax-button tltip"
                   id="delete_task_{{ task.instance.id}}"
                   data-toggle="tooltip" >
-                  <span class="glyphicon glyphicon-remove">Delete</span>
+                    <i class="fa fa-times fa-lg"></i> Delete
                 </button>
                 </div>
               </div>
