@@ -386,6 +386,12 @@ tbody tr:hover {
  * Forms
  */
 
+.form-control {
+  height: 30px;
+  border: 1px solid #333333;
+  border-radius: 0px;
+}
+
 .form-control:focus {
   border-color: #ff0066;
   outline: 0;
