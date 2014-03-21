@@ -4,13 +4,95 @@
 
 {% block content %}
 
-  <div class="row">
 
+    <div class="col-sm-8 col-md-9 main">
 
-    <!-- SIDEBAR
+      <div class="top-spacer">
+      </div>
+  
+     
+    <!-- AJAX FORMS
+    ================================================== -->
+    
+      <div id="ajax-main">
+      </div>
+      
+    <!-- TASKS TABLE
     ================================================== -->
 
-    <div class="col-sm-3 sidebar">
+      <div class="panel panel-primary" id="tasks">
+
+        <div class="panel-heading">
+          Attachment 1.  Tasks
+        </div>
+
+        <div class="panel-body">  
+          
+          <h2><small>Tasks outstanding</small></h2>
+          <div class="panel panel-primary">
+		    <table class="table">
+		      <thead>
+		        <tr>
+			      {% for heading in task_list_headings %}
+			        <th>{{ heading }}</th>
+                  {% endfor%}
+			    </tr>
+		      </thead>
+		      <tbody> 
+			    {% for task in incomplete_tasks_list %}
+			      <tr>
+			 	    <td>{{ task.description }}</td>
+                    <td>{{ task.participant }}</td>
+				    <td>{{ task.deadline }}</td>
+			      </tr>
+			    {% empty %}
+			      <tr>
+			        <td>None</td>
+			      </tr>
+			    {% endfor%}
+		      </tbody>
+		    </table>
+	      </div><!-- /.panel -->
+
+	      <h2><small>Tasks completed since last meeting</small></h2>
+	      <div class="panel panel-primary">
+		    <table class="table">
+			  <thead>
+			    <tr>
+				  {% for heading in task_list_headings %}
+				    <th>{{ heading }}</th>
+				  {% endfor%}
+			    </tr>
+			  </thead>
+			  <tbody> 
+			    {% for task in completed_tasks_list %}
+				  <tr>
+				    <td>{{ task.description }}</td>
+				    <td>{{ task.participant }}</td>
+			        <td>{{ task.deadline }}</td>
+				  </tr>
+			    {% empty %}
+			      <tr>
+				    <td>None</td>
+				  </tr>
+			    {% endfor%}
+			  </tbody>
+		    </table>
+  	      </div><!-- /.panel -->
+  	      
+	    </div><!-- /.outer panel-body -->
+	  </div><!-- /.outer panel-primary -->
+      
+      <div class="bottom-spacer">
+      </div>
+          
+    </div><!-- /.col-sm-8 -->
+
+
+    <!-- RIGHT SIDEBAR
+    ================================================== -->
+
+    <div class="col-sm-3 col-md-2 toolbar">
       <h1>Agenda</h1>
       
       <ul class="nav nav-sidebar">
@@ -56,88 +138,8 @@
         </li>
       </ul>
        
-    </div><!-- /.col-sm-3 -->
+    </div><!-- /.col-sm-2 -->
 
-    <div class="col-sm-7 col-sm-offset-4 main">
-
-      <div class="top-spacer">
-      </div>
-  
-      
-    <!-- AJAX FORMS
-    ================================================== -->
-    
-      <div id="ajax-main">
-      </div>
-      
-    <!-- TASKS TABLE
-    ================================================== -->
-
-      <div class="panel panel-primary" id="tasks">
-      <div class="panel-heading">
-        Attachment 1.  Tasks
-      </div>
-      <div class="panel-body">  
-        <h2><small>Tasks outstanding</small></h2>
-	    
-	    <div class="panel panel-primary">
-		  <table class="table">
-		    <thead>
-			  <tr>
-			    {% for heading in task_list_headings %}
-				  <th>{{ heading }}</th>
-                {% endfor%}
-			  </tr>
-		    </thead>
-		    <tbody> 
-			  {% for task in incomplete_tasks_list %}
-			    <tr>
-				  <td>{{ task.description }}</td>
-                  <td>{{ task.participant }}</td>
-				  <td>{{ task.deadline }}</td>
-			    </tr>
-			  {% empty %}
-			    <tr>
-			      <td>None</td>
-			    </tr>
-			  {% endfor%}
-		    </tbody>
-		  </table>
-	    </div><!-- /.panel -->
-
-	    <h2><small>Tasks completed since last meeting</small></h2>
-	    <div class="panel panel-primary">
-		  <table class="table">
-			<thead>
-			  <tr>
-				{% for heading in task_list_headings %}
-				  <th>{{ heading }}</th>
-				{% endfor%}
-			  </tr>
-			</thead>
-			<tbody> 
-			  {% for task in completed_tasks_list %}
-				<tr>
-				  <td>{{ task.description }}</td>
-				  <td>{{ task.participant }}</td>
-			      <td>{{ task.deadline }}</td>
-				</tr>
-			  {% empty %}
-			    <tr>
-				  <td>None</td>
-				</tr>
-			  {% endfor%}
-			</tbody>
-		  </table>
-  	    </div><!-- /.panel -->
-	  </div><!-- /.outer panel body -->
-	  </div><!-- /.outer panel -->
-      
-      <div class="bottom-spacer">
-      </div>
-          
-    </div><!-- /.col-sm-7 -->
-  </div><!-- ./row>
 
 {% endblock content%}
 

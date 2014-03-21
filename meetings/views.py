@@ -31,6 +31,7 @@ def meeting_add(request):
         meeting_form = AgendaMeetingForm(group)
             
     return render(request, 'meeting_add.html', {
+                  'request': request,
                   'meeting_form': meeting_form,
                   'page_heading': page_heading
                   })

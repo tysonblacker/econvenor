@@ -19,6 +19,7 @@ def dashboard(request):
                      )
     
     return render(request, 'dashboard.html', {
+                  'request': request,
                   'group': group,
                   'tasks': tasks,
                   'task_headings': task_headings,

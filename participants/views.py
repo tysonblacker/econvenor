@@ -33,6 +33,7 @@ def participant_list(request):
             selection = 'newest_first'
                     
     return render(request, 'participant_list.html', {
+	              'request': request,
                   'participants': participants,
                   'page_heading': page_heading,
                   'selection': selection,
@@ -56,6 +57,7 @@ def participant_add(request):
         form = AddParticipantForm(group)
 
     return render(request, 'participant_add.html', {
+	              'request': request,
                   'form': form,
                   'page_heading': page_heading
                   })
@@ -86,6 +88,7 @@ def participant_edit(request, participant_id):
         form = EditParticipantForm(group, instance=participant)
         		
     return render(request, 'participant_edit.html', {
+	              'request': request,
                   'form': form,
                   'page_heading': page_heading,
                   'participant_id': participant_id
@@ -106,6 +109,7 @@ def participant_view(request, participant_id):
     table_headings = ('Description', 'Deadline', 'Status')
 
     return render(request, 'participant_view.html', {
+	              'request': request,
                   'participant': participant,
                   'page_heading': page_heading,
                   'table_headings': table_headings,

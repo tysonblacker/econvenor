@@ -19,6 +19,7 @@ def decision_list(request):
                       )
 
     return render(request, 'decision_list.html', {
+                  'request': request,
                   'decisions': decisions,
                   'page_heading': page_heading,
                   'table_headings': table_headings,

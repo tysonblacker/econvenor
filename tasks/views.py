@@ -34,6 +34,7 @@ def task_list(request):
             selection = 'overdue'
  
     return render(request, 'task_list.html', {
+	              'request': request,
 	              'tasks': tasks,
 	              'selection': selection,
 	              'page_heading': page_heading,
@@ -57,6 +58,7 @@ def task_add(request):
         form = AddTaskForm(group)
 
     return render(request, 'task_add.html', {
+	              'request': request,
 	              'form': form,
 	              'page_heading': page_heading,
 	              })
@@ -88,6 +90,7 @@ def task_edit(request, task_id):
         form = EditTaskForm(group, instance=task)
         		
     return render(request, 'task_edit.html', {
+	              'request': request,
                   'form': form,
                   'page_heading': page_heading,
                   'task_id': task_id,
