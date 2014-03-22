@@ -78,6 +78,9 @@ class Meeting(TimeStampedModel):
                                                related_name='minutetaker_next',
                                                blank=True)
     next_meeting_start_time = models.TimeField(null=True, blank=True)
+    current_agenda_version = models.IntegerField(null=True, blank=True)
+    current_minutes_version = models.IntegerField(null=True, blank=True)
+    
     
     objects = models.Manager()
     lists = MeetingManager()

@@ -654,16 +654,17 @@ def create_pdf(request, group, meeting, doc_type):
     pdf_name = base_file_name + '.pdf'
 
     # Delete any old PDF versions for this meeting
-    path_to_old_pdf = pdf_path + pdf_name
-    path_to_old_previews = preview_path + base_file_name + '*'	
+    path_to_pdf = pdf_path + pdf_name
+    path_to_previews = preview_path + base_file_name + '*'	
 
-    call('rm ' + path_to_old_pdf , shell=True)
-    call('rm ' + path_to_old_previews , shell=True)	
+    call('rm ' + path_to_pdf , shell=True)
+    call('rm ' + path_to_previews , shell=True)	
 
-    # Save the PDF
-    pdf_file = ContentFile(pdf)
-    meeting.agenda_pdf.save(pdf_name, pdf_file, save=True)
-
+    # Save the PDF temporarily without assigning a version to it
+    f = open(path_to_pdf, 'w')
+    f.write(pdf)
+    f.close()
+ 
     # Create and save the images
     output_path = preview_path + base_file_name + '_page%d.png' 
     pdf_location = pdf_path + pdf_name
@@ -714,6 +715,7 @@ def get_pdf_path():
     pdf_path = os.path.join(settings.MEDIA_ROOT, 'meeting_docs/')
     return pdf_path
 
+
 def get_pdf_contents(request, group, meeting):
     """
     Returns the contents of the PDF document.
@@ -731,7 +733,7 @@ def get_pdf_contents(request, group, meeting):
 
 def distribute_pdf(request, group, meeting, doc_type):
     """
-    Emails out the agenda.
+    Emails out the document.
     """  	
     recipients = []
     group_name = group.name
@@ -762,18 +764,46 @@ def distribute_pdf(request, group, meeting, doc_type):
             participant = Participant.objects.get(pk=item, group=group)
             participant_email = participant.email
             recipients.append(participant_email)
-
-    # set up the email fields
+   
+    # retrieve the contents of the temporary PDF
     base_file_name = get_base_file_name(request, group, meeting, doc_type)
     base_pdf_path = get_pdf_path()
-    pdf_path = base_pdf_path + base_file_name + '.pdf'	
+    temp_pdf = base_pdf_path + base_file_name + '.pdf'
+    f = open(temp_pdf, 'r')
+    pdf_contents = f.read()
+    f.close()  
+
+    # TODO delete the temporary pdf file to avoid clutter
+
+    # save the pdf as the correct version number
+    if doc_type == 'agenda':
+        version = meeting.current_agenda_version
+        if version:
+            version += 1
+        else:
+            version = 1
+        meeting.current_agenda_version = version
+        meeting.save()
+    elif doc_type == 'minutes':
+        version = meeting.current_minutes_version
+        if version:
+            version += 1
+        else:
+            version = 1
+        meeting.current_minutes_version = version
+        meeting.save()
+    pdf_name = base_pdf_path + base_file_name + '_v' + str(version) + '.pdf'
+    pdf = ContentFile(pdf_contents)
+    meeting.agenda_pdf.save(pdf_name, pdf, save=True)    
+
+    # set up the email fields
     subject = group_name + ': Your agenda is attached'
     body = 'Here is your agenda'
     sender = 'noreply@econvenor.org'
 
     # email the agenda
     email = EmailMessage(subject, body, sender, recipients)
-    email.attach_file(pdf_path)
+    email.attach_file(pdf_name)
     email.send()
 
     #record the distribution of the document    
@@ -786,4 +816,3 @@ def distribute_pdf(request, group, meeting, doc_type):
             id_list.append(id)                                                          
     distribution_record.distribution_list = str(id_list)
     distribution_record.save()
-    
