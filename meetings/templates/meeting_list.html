@@ -8,7 +8,7 @@
 </div>
 
 <div class="panel panel-primary">
-  <table class="table table-hover">
+  <table class="table table-hover" id="meeting_list">
     <thead>
       <tr>
         {% for table_heading in table_headings %}
@@ -22,17 +22,19 @@
       {% for meeting in meetings %}
         {% with no_of_pdfs=meeting.distributionrecord_set.all|length %}
         <tr>
-          <td id={{ meeting.id }} onclick="document.location=
-            '{% url 'agenda-edit' meeting.id %}';">
+
+          <td>
               {% if meeting.date_actual %}
                 {{ meeting.date_actual }}
               {% else %}  
                 {{ meeting.date_scheduled }}
               {% endif %}  
           </td>
+
           <td>
             {{ meeting.meeting_no }}
           </td>
+
           <td>
             {% if no_of_pdfs > 0 %}
               Yes
@@ -40,6 +42,7 @@
               No
             {% endif %}  
           </td>
+
           <td>
             {% if no_of_pdfs > 1 %}
               Yes
@@ -47,15 +50,91 @@
               No
             {% endif %} 
           </td>
-         <td>
-            {% if no_of_pdfs = 0 %}
-              Make agenda / Delete meeting
-            {% elif no_of_pdfs = 1 %}
-              View PDF agenda / Revise agenda (warn) / Make minutes / Delete meeting (warn)
-            {% elif no_of_pdfs = 2 %}
-              View PDF agenda / View PDF minutes / Revise minutes (warn) / Delete meeting (warn)
-            {% endif %} 
-          </td>
+          
+          {% if no_of_pdfs == 0 %}
+            <td>
+              <a href="{% url 'agenda-edit' meeting.id %}" type="button" class="btn btn-primary">
+                Work on agenda
+              </a>
+            </td>
+          {% elif no_of_pdfs == 1 %}
+            <td>
+              <a href="{% url 'minutes-edit' meeting.id %}" type="button" class="btn btn-primary">
+                Work on minutes
+              </a>
+            </td>
+          {% elif no_of_pdfs == 2 %}           
+            <td>
+              <a href="#" type="button" class="btn btn-primary btn-disabled">
+                Archive
+              </a>
+            </td>              
+          {% endif %}   
+
+          {% if no_of_pdfs == 0 %}
+            <td>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default">
+                  Other actions
+                </button>
+                <button type="button" class="btn btn-default dropdown-toggle"
+                  data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">Delete meeting</a></li>
+                </ul>
+              </div><!-- /.btn-group -->
+            </td>
+          {% elif no_of_pdfs == 1 %}
+            <td>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default">
+                  Other actions
+                </button>
+                <button type="button" class="btn btn-default dropdown-toggle"
+                  data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">View PDF agenda</a></li>
+                  <li><a href={% url 'agenda-edit' meeting.id %}>Revise agenda</a></li>
+                  <li class="divider"></li>
+                  <li><a data-toggle="modal" 
+              data-target=".modal"
+              name="Meeting number: {{ meeting.meeting_no }}"
+              id="delete_{{ meeting.id }}">Delete meeting</a></li>
+                </ul>
+              </div><!-- /.btn-group -->
+            </td>
+          {% elif no_of_pdfs == 2 %}           
+            <td>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default">
+                  Other actions
+                </button>
+                <button type="button" class="btn btn-default dropdown-toggle"
+                  data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">View PDF agenda</a></li>
+                  <li><a href="#">View PDF minutes</a></li>
+                  <li><a href={% url 'minutes-edit' meeting.id %}>Revise minutes</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Delete meeting</a></li>
+                </ul>
+              </div><!-- /.btn-group -->
+            </td>              
+          {% endif %}
+
+
+{% comment %}
+
+          
           <td>
             <button class="btn btn-primary delete-button" data-toggle="modal" 
               data-target=".modal"
@@ -64,6 +143,9 @@
                 Delete meeting
             </button>
           </td>
+
+{% endcomment %}
+ 
         </tr>
         {% endwith %}
       {% empty %}
