@@ -1,0 +1,90 @@
+{% extends "app_base.html" %}
+{% load staticfiles %}
+{% load setclass %}
+
+{% block content %}
+
+
+    <!-- DOCUMENT VIEW
+    ================================================== -->
+
+    <div class="col-sm-8 col-md-9 main">
+
+      <div class="top-spacer">
+      </div>
+
+      {% for page in pages %}
+        <img src="{{ MEDIA_URL }}{{ page.1 }}" class="zoomable" 
+        id="page{{page.0}}" width=100% 
+        alt="A series of images showing the completed agenda. Accesibility note: Choose the PDF button on the sidebar to view the agenda in PDF format.">
+        <br/>
+        <br/>
+      {% endfor %}
+      
+      <div class="bottom-spacer">
+      </div>  
+    
+    </div><!-- /.col-sm-8 -->
+
+
+    <!-- TOOLBAR
+    ================================================== -->
+    
+    <div class="col-sm-3 col-md-2 toolbar">
+  
+      <h2>Send out agenda</h2>
+      <ul class="nav nav-sidebar">
+        {% for page in pages %}
+          <li id="sidebar_{{page.o}}">
+            <a href="#page{{page.0}}" class="sidebar-heading tltip"
+              data-toggle="tooltip" title="Scroll to this page">
+                Page {{ page.0 }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul> 
+                 
+      <ul class="nav nav-sidebar">
+        <li>
+          <div>
+            <button type="button" class="btn btn-default zoom-button"
+              id="zoom_in">
+                <span class="glyphicon glyphicon-zoom-in"></span>
+            </button>
+            <button type="button" class="btn btn-default zoom-button"
+              id="zoom_out">
+                <span class="glyphicon glyphicon-zoom-out"></span>
+            </button>
+          </div>
+        </li>
+      </ul>
+      <ul class="nav nav-sidebar"> 
+        <li>
+          <a href={% url 'agenda-edit' meeting_id %}>
+            <button type="button" class="btn btn-primary">
+              Make changes
+            </button>
+          </a>
+        </li>
+        <li>
+          <a href={% url 'meeting-list' %}>
+            <button type="button" class="btn btn-primary">
+              All meetings
+            </button>
+          </a>
+        </li>
+        <li>
+          <a href={% url 'agenda-print' meeting_id %}>
+            <button type="button" class="btn btn-primary">
+              Download PDF
+            </button>
+          </a>
+        </li>
+      </ul>
+
+    
+      </div>
+
+    </div><!-- /.col-sm-3 -->
+
+{% endblock %}

@@ -645,9 +645,7 @@ def create_pdf(request, group, meeting, doc_type):
 
     # Define locations to save files to
     pdf_path = get_pdf_path()
-    preview_path = os.path.join(settings.MEDIA_ROOT, 'tmp/')
-    if not os.path.exists(preview_path):
-        os.makedirs(preview_path)
+    preview_path = get_preview_path()
 
     # Define name of PDF file
     base_file_name = get_base_file_name(request, group, meeting, doc_type) 
@@ -664,9 +662,28 @@ def create_pdf(request, group, meeting, doc_type):
     f = open(path_to_pdf, 'w')
     f.write(pdf)
     f.close()
- 
+
+    # Generate the preview images
+    pages = create_images_from_pdf(base_file_name)
+    return pages
+    
+
+def create_images_from_pdf(base_file_name, **kwargs):
+    """
+    Creates preview images from a PDF.
+    Returns a list of their file paths.
+    """
     # Create and save the images
-    output_path = preview_path + base_file_name + '_page%d.png' 
+    preview_path = get_preview_path()
+    pdf_path = get_pdf_path()
+    if kwargs:
+        version = str(kwargs['version'])
+        pdf_name = base_file_name + '_v' + version + '.pdf'
+        output_path = preview_path + base_file_name + '_v' + \
+                      version + '_page%d.png' 
+    else:
+        pdf_name = base_file_name + '.pdf'
+        output_path = preview_path + base_file_name + '_page%d.png' 
     pdf_location = pdf_path + pdf_name
     ghostscript_command = "gs -q -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m \
                           -r135 -dTextAlphaBits=4 -sPAPERSIZE=a4 \
@@ -716,19 +733,41 @@ def get_pdf_path():
     return pdf_path
 
 
-def get_pdf_contents(request, group, meeting):
+def get_preview_path():
+    """
+    Returns the location that the preview images will be saved to.
+    """
+    preview_path = os.path.join(settings.MEDIA_ROOT, 'tmp/')
+    if not os.path.exists(preview_path):
+        os.makedirs(preview_path)
+    return preview_path
+    
+
+def get_pdf_preview_contents(request, group, meeting, doc_type):
     """
     Returns the contents of the PDF document.
     """
-    pdf_name = get_base_file_name(request, group, meeting) + '.pdf'
     pdf_path = get_pdf_path()
-    pdf_location = pdf_path + pdf_name
-
-    f = open(pdf_location, 'r')
-    pdf_contents = f.read()
+    base_file_name = get_base_file_name(request, group, meeting, doc_type)
+    path_to_pdf = pdf_path + base_file_name + ".pdf"
+    f = open(path_to_pdf, 'r')
+    contents = f.read()
     f.close()
 
-    return pdf_contents
+    return contents
+    
+
+def get_pdf_contents(request, group, meeting, doc_type):
+    """
+    Returns the contents of the PDF document.
+    """
+    
+    if doc_type == 'agenda':
+        contents = meeting.agenda_pdf
+    elif doc_type == 'minutes':
+        contents = meeting.minutes_pdf
+
+    return contents
 
 
 def distribute_pdf(request, group, meeting, doc_type):
@@ -794,7 +833,10 @@ def distribute_pdf(request, group, meeting, doc_type):
         meeting.save()
     pdf_name = base_pdf_path + base_file_name + '_v' + str(version) + '.pdf'
     pdf = ContentFile(pdf_contents)
-    meeting.agenda_pdf.save(pdf_name, pdf, save=True)    
+    if doc_type == 'agenda':
+        meeting.agenda_pdf.save(pdf_name, pdf, save=True)    
+    elif doc_type == 'minutes':
+        meeting.minutes_pdf.save(pdf_name, pdf, save=True)    
 
     # set up the email fields
     subject = group_name + ': Your agenda is attached'

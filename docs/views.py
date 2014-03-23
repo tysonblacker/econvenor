@@ -2,9 +2,11 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
-from docs.pdfs import create_pdf, \
+from docs.pdfs import create_images_from_pdf, \
+                      create_pdf, \
                       distribute_pdf, \
-                      get_pdf_contents
+                      get_base_file_name, \
+                      get_pdf_preview_contents
 from docs.utils import add_decision, \
                        add_item, \
                        add_task, \
@@ -134,7 +136,7 @@ def agenda_print(request, meeting_id):
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
 
-    pdf_contents = get_pdf_contents(request, group, meeting)
+    pdf_contents = get_pdf_preview_contents(request, group, meeting, 'agenda')
     file_name = group.slug + '_agenda_' + meeting.meeting_no + '.pdf'
     
     response = HttpResponse(pdf_contents, content_type='application/pdf')
@@ -158,6 +160,27 @@ def agenda_sent(request, meeting_id):
     return render(request, 'agenda_sent.html', {
                   'menu': menu,
                   'page_heading': page_heading,
+                  })
+
+
+def agenda_view(request, meeting_id):
+    group = get_current_group(request)
+    if group == None:
+        return HttpResponseRedirect(reverse('index'))
+        
+    meeting = Meeting.objects.get(pk=int(meeting_id))
+    if meeting.group != group:
+        return HttpResponseRedirect(reverse('index'))
+    
+    version = meeting.current_agenda_version
+    base_file_name = get_base_file_name(request, group, meeting, 'agenda')
+    pages = create_images_from_pdf(base_file_name, version=version)
+
+    menu = {'parent': 'meetings'}            	
+    return render(request, 'agenda_view.html', {
+                  'menu': menu,
+                  'meeting_id': meeting_id,
+                  'pages': pages,
                   })
 
 
@@ -280,7 +303,57 @@ def minutes_distribute(request, meeting_id):
 
     
 def minutes_print(request, meeting_id):
-    pass
+    group = get_current_group(request)
+    if group == None:	
+        return HttpResponseRedirect(reverse('index'))
+        
+    meeting = Meeting.objects.get(pk=int(meeting_id))
+    if meeting.group != group:
+        return HttpResponseRedirect(reverse('index'))
+
+    pdf_contents = get_pdf_preview_contents(request, group, meeting, 'minutes')
+    file_name = group.slug + '_minutes_' + meeting.meeting_no + '.pdf'
     
+    response = HttpResponse(pdf_contents, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=' + file_name
+
+    return response
+
+
 def minutes_sent(request, meeting_id):
-    pass
+    group = get_current_group(request)
+    if group == None:	
+        return HttpResponseRedirect(reverse('index'))
+        
+    meeting = Meeting.objects.get(pk=int(meeting_id))
+    if meeting.group != group:
+        return HttpResponseRedirect(reverse('index'))
+
+    page_heading = 'Minutes for meeting ' + meeting_id + ' have been sent'
+
+    menu = {'parent': 'meetings'}    
+    return render(request, 'minutes_sent.html', {
+                  'menu': menu,
+                  'page_heading': page_heading,
+                  })
+
+
+def minutes_view(request, meeting_id):
+    group = get_current_group(request)
+    if group == None:
+        return HttpResponseRedirect(reverse('index'))
+        
+    meeting = Meeting.objects.get(pk=int(meeting_id))
+    if meeting.group != group:
+        return HttpResponseRedirect(reverse('index'))
+    
+    version = meeting.current_minutes_version
+    base_file_name = get_base_file_name(request, group, meeting, 'minutes')
+    pages = create_images_from_pdf(base_file_name, version=version)
+
+    menu = {'parent': 'meetings'}            	
+    return render(request, 'minutes_view.html', {
+                  'menu': menu,
+                  'meeting_id': meeting_id,
+                  'pages': pages,
+                  })

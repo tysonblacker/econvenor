@@ -10,7 +10,7 @@
 <div class="row">
 
   <div class="col-sm-3 sidebar">
-    <h2>Agenda distribution</h2>
+    <h2>Minutes distribution</h2>
     <ul class="nav nav-sidebar">
       {% for page in pages %}
         <li id="sidebar_{{page.o}}"><a href="#page{{page.0}}" class="sidebar-heading tltip" data-toggle="tooltip" title="Scroll to this page">
@@ -51,7 +51,7 @@
       </div>
     {% endfor %}
     <br>
-    <button type="submit" class="btn btn-primary" name="distribute_button" value="distribute_agenda" data-toggle="button">Distribute</button>
+    <button type="submit" class="btn btn-primary" name="distribute_button" value="distribute_minutes" data-toggle="button">Distribute</button>
   </form>
 </div>
 
