@@ -3,8 +3,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from docs.models import Item
-from meetings.models import Meeting
 from meetings.forms import AgendaMeetingForm
+from meetings.models import Meeting
+from meetings.utils import archive_meeting, delete_meeting
 from utilities.commonutils import get_current_group
 
 
@@ -40,13 +41,22 @@ def meeting_list(request):
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
             
-    meetings = Meeting.objects.filter(group=group)
-    table_headings = ('Date', 'Meeting Number', 'Agenda sent', 'Minutes sent', 'Next action', '',)
+    meetings = Meeting.lists.current_meetings().filter(group=group)
+    table_headings = ('Date',
+                      'Meeting Number',
+                      'Agenda sent',
+                      'Minutes sent',
+                      'Next action',
+                      '',
+                      )
 
     if request.method == "POST":
         if request.POST['button'][:6] == 'delete':           
             delete_meeting(request, group)
-            
+        if request.POST['button'][:7] == 'archive':           
+            archive_meeting(request, group)
+        meetings = Meeting.lists.current_meetings().filter(group=group)
+                        
     menu = {'parent': 'meetings', 'child': 'all_meetings'}    
     return render(request, 'meeting_list.html', {
                   'menu': menu,

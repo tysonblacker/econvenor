@@ -53,21 +53,28 @@
           
           {% if no_of_pdfs == 0 %}
             <td>
-              <a href="{% url 'agenda-edit' meeting.id %}" type="button" class="btn btn-primary">
-                Work on agenda
+              <a href="{% url 'agenda-edit' meeting.id %}" type="button"
+                class="btn btn-primary">
+                  Work on agenda
               </a>
             </td>
           {% elif no_of_pdfs == 1 %}
             <td>
-              <a href="{% url 'minutes-edit' meeting.id %}" type="button" class="btn btn-primary">
-                Work on minutes
+              <a href="{% url 'minutes-edit' meeting.id %}" type="button"
+                class="btn btn-primary">
+                  Work on minutes
               </a>
             </td>
           {% elif no_of_pdfs == 2 %}           
             <td>
-              <a href="#" type="button" class="btn btn-primary btn-disabled">
-                Archive
-              </a>
+              <form action="" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary"
+                  name="button"
+                  value="archive_{{ meeting.id }}">
+                    Archive this meeting
+                </button>
+              </form>
             </td>              
           {% endif %}   
 
@@ -100,6 +107,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href={% url 'agenda-view' meeting.id %}>View PDF agenda</a></li>
+                  <li class="divider"></li>
                   <li><a href={% url 'agenda-edit' meeting.id %}>Revise agenda</a></li>
                   <li class="divider"></li>
                   <li><a data-toggle="modal" 
@@ -122,7 +130,9 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href={% url 'agenda-view' meeting.id %}>View PDF agenda</a></li>
-                  <li><a href="#">View PDF minutes</a></li>
+                  <li><a href={% url 'minutes-view' meeting.id %}>View PDF minutes</a></li>
+                  <li class="divider"></li>
+                  <li><a href={% url 'agenda-edit' meeting.id %}>Revise agenda</a></li>
                   <li><a href={% url 'minutes-edit' meeting.id %}>Revise minutes</a></li>
                   <li class="divider"></li>
                   <li><a href="#">Delete meeting</a></li>

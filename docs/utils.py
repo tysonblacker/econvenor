@@ -256,15 +256,6 @@ def save_next_meeting_form(request, group, meeting):
         next_meeting_form.save(group)
 
 
-def delete_meeting(request, group):
-    """
-    Deletes a meeting.
-    """
-    meeting_id = request.POST['button'][7:]
-    meeting = Meeting.objects.get(pk=int(meeting_id))
-    meeting.delete()        
-
-
 def clear_minutes(request, group, meeting, decisions, items, tasks):
     """
     Deletes a set of minutes.

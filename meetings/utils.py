@@ -1,4 +1,4 @@
-from meetings.models import DistributionRecord
+from meetings.models import Meeting, DistributionRecord
 
 
 def find_or_create_distribution_record(group, meeting, doc_type):
@@ -17,3 +17,24 @@ def find_or_create_distribution_record(group, meeting, doc_type):
         record.save(group)
     
     return record
+
+
+def archive_meeting(request, group):
+    """
+    Archives a meeting.
+    """
+    meeting_id = request.POST['button'][8:]
+    meeting = Meeting.objects.get(pk=int(meeting_id))
+    meeting.meeting_archived = True
+    meeting.save()
+
+
+def delete_meeting(request, group):
+    """
+    Deletes a meeting.
+    """
+    meeting_id = request.POST['button'][7:]
+    meeting = Meeting.objects.get(pk=int(meeting_id))
+    meeting.delete()        
+
+

@@ -16,7 +16,6 @@ from docs.utils import add_decision, \
                        clear_minutes, \
                        delete_decision, \
                        delete_item, \
-                       delete_meeting, \
                        delete_task, \
                        get_completed_tasks_list, \
                        get_formatted_meeting_duration, \

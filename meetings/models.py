@@ -10,6 +10,9 @@ class MeetingManager(models.Manager):
     def all_meetings(self):
         return self.get_queryset().all().order_by('meeting_no')
 
+    def current_meetings(self):
+        return self.get_queryset().exclude(meeting_archived=True).order_by('meeting_no')
+
 
 class Meeting(TimeStampedModel):
 
@@ -80,7 +83,7 @@ class Meeting(TimeStampedModel):
     next_meeting_start_time = models.TimeField(null=True, blank=True)
     current_agenda_version = models.IntegerField(null=True, blank=True)
     current_minutes_version = models.IntegerField(null=True, blank=True)
-    
+    meeting_archived = models.BooleanField(default=False)
     
     objects = models.Manager()
     lists = MeetingManager()
