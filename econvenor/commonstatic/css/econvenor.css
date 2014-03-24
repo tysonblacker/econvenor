@@ -79,56 +79,93 @@ body {
   border-color: #333333;
 }
 
+.nav > li > a:hover,
+.nav > li > a:focus {
+  text-decoration: none;
+  background-color: #ff0066;
+}
 
 
 /*
- * Index page navigation
- *
- * Adjust colours.
-*/
+ * Sidebar
+ */
 
-.index-nav {
-  text-shadow: 0 0 0 rgba(0,0,0,.15);
-  background-color: #ffffff; /* colour of area not under navigation text */
-  border-color: #111111; /* bottom border of entire navigation bar */
-  box-shadow: 0 0 0 rgba(255,255,255,.1);
-}
-.index-nav .navbar-collapse {
-  border-color: #463265; /* this setting doesn't appear to be active on larger screens */
-}
-.index-nav .navbar-brand {
-  color: #000000; /* brand area text colour */
-}
-.index-nav .navbar-nav > li > a {
-  color: #222222; /* navigation text colour */
-  background-color: #ffffff; /* colour of area under navigation text */
-}
-.index-nav .navbar-nav > li > a:hover {
-  color: #563d7c; /* navigation text hover colour */
-}
-.index-nav .navbar-nav > .active > a,
-.index-nav .navbar-nav > .active > a:hover {
-  color: #000000; /* active text colour */
-  background-color: #ffffff; /* colour of area under active text */
-}
-.index-nav .navbar-toggle {
-  border-color: #563d7c; /* this setting doesn't appear to be active on larger screens */
-}
-.index-nav .navbar-toggle:hover {
-  background-color: #463265; /* this setting doesn't appear to be active on larger screens */
-  border-color: #463265; /* this setting doesn't appear to be active on larger screens */
+/* Hide for mobile */
+.sidebar {
+  display: none;
 }
 
-
-.btn {
-  border-radius: 0px;
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #333333;
+  }
 }
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px;
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+
+.nav-sidebar :hover {
+  background-color: #ffffff;
+}
+
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a {
+  color: #ffffff;
+  background-color: #ff0066;
+}
+
+.nav-second-level > li {
+  text-decoration: none;
+  background-color: #555555;
+}
+
+.nav-second-level > li > a:hover,
+.nav-second-level > li > a:focus {
+  text-decoration: none;
+  background-color: #444444;
+  color: #ffffff; 
+}
+
+
+.nav-second-level .active > a {
+  color: #ffffff;
+  background-color: #444444;
+}
+
+.nav-sidebar a {
+  color: #bbbbbb;
+}
+
+.nav-second-level li a {
+    padding-left: 37px;
+}
+
+
 
 /*
  * Button - primary
  *
  * Adjust colours.
 */
+
+.btn {
+  border-radius: 0px;
+}
 
 .btn-primary {
   color: #cccccc;
@@ -268,15 +305,6 @@ fieldset[disabled] .btn-default.active {
 }
 
 
-
-
-
-
-
-
-
-
-
 /*
  * Heading text
  *
@@ -299,43 +327,6 @@ h6,
   line-height: 1.1;
   color: #ff0066;
 }
-
-
-/*
- * Small heading text
- *
- * Adjust colour.
-*/
-
-h1 small,
-h2 small,
-h3 small,
-h4 small,
-h5 small,
-h6 small,
-.h1 small,
-.h2 small,
-.h3 small,
-.h4 small,
-.h5 small,
-.h6 small,
-h1 .small,
-h2 .small,
-h3 .small,
-h4 .small,
-h5 .small,
-h6 .small,
-.h1 .small,
-.h2 .small,
-.h3 .small,
-.h4 .small,
-.h5 .small,
-.h6 .small {
-  font-weight: normal;
-  line-height: 1;
-  color: #666666;
-}
-
 
 
 /*
@@ -402,61 +393,6 @@ tbody tr:hover {
           box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 0, 102, .6);
 }
 
-
-/*
- * Sidebar
- */
-
-/* Hide for mobile */
-.sidebar {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 51px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    display: block;
-    overflow-x: hidden;
-    overflow-y: auto;
-    background-color: #333333;
-  }
-}
-
-/* Sidebar navigation */
-.nav-sidebar {
-  margin-right: -21px;
-  margin-bottom: 20px;
-  margin-left: -20px;
-}
-
-.nav-sidebar :hover {
-  background-color: #ffffff;
-}
-
-.nav-sidebar > li > a {
-  padding-right: 20px;
-  padding-left: 20px;
-}
-.nav-sidebar > .active > a {
-  color: #ffffff;
-  background-color: #ff0066;
-}
-
-.nav-sidebar a {
-  color: #bbbbbb;
-}
-
-.nav-sidebar strong {
-  color: #ffffff;
-}
-
-.nav-second-level li a {
-    padding-left: 37px;
-}
 
 /*
  * Main content

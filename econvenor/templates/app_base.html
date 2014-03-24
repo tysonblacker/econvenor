@@ -123,29 +123,35 @@
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href={% url 'meeting-add' %}>
-                  <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
-                  {% ifequal menu.child 'new_meeting' %}
-                    <strong>New meeting</strong></a>
-                  {% else %}
-                    New meeting</a>
-                  {% endifequal %}
+                {% ifequal menu.child 'new_meeting' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'meeting-add' %}>
+                    <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
+                      New meeting
+                  </a>
                 </li>
-                <li><a href={% url 'meeting-list-current' %}>
-                  <i class="fa fa-pencil fa-fw"></i>&nbsp;
-                  {% ifequal menu.child 'current_meetings' %}
-                    <strong>Current meetings</strong></a>
-                  {% else %}
-                    Current meetings</a>
-                  {% endifequal %}
+                {% ifequal menu.child 'current_meetings' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'meeting-list-current' %}>
+                    <i class="fa fa-pencil fa-fw"></i>&nbsp;
+                      Current meetings
+                  </a>
                 </li>
-                <li><a href={% url 'meeting-list-archive' %}>
-                  <i class="fa fa-archive fa-fw"></i>&nbsp;
-                  {% ifequal menu.child 'archived_meetings' %}
-                    <strong>Archived meetings</strong></a>
-                  {% else %}
-                    Archived meetings</a>
-                  {% endifequal %}
+                {% ifequal menu.child 'archived_meetings' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'meeting-list-archive' %}>
+                    <i class="fa fa-archive fa-fw"></i>&nbsp;
+                      Archived meetings
+                  </a>
                 </li>
               </ul>
             </li>
@@ -161,21 +167,25 @@
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href={% url 'task-add' %}>
-                  <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
-                  {% ifequal menu.child 'new_task' %}
-                    <strong>New task</strong></a>
-                  {% else %}
-                    New task</a>
-                  {% endifequal %}
+                {% ifequal menu.child 'new_task' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'task-add' %}>
+                    <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
+                      New task
+                  </a>
                 </li>
-                <li><a href={% url 'task-list' %}>
-                  <i class="fa fa-check-square-o fa-fw"></i>&nbsp;
-                  {% ifequal menu.child 'all_tasks' %}
-                    <strong>Manage tasks</strong></a>
-                  {% else %}
-                    Manage tasks</a>
-                  {% endifequal %}
+                {% ifequal menu.child 'all_tasks' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'task-list' %}>
+                    <i class="fa fa-check-square-o fa-fw"></i>&nbsp;
+                      Manage tasks
+                  </a>
                 </li>
               </ul>
             </li>
@@ -191,13 +201,15 @@
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href={% url 'decision-list' %}>
-                  <i class="fa fa-th fa-fw"></i>&nbsp;
-                  {% ifequal menu.child 'all_decisions' %}
-                    <strong>View all decisions</strong></a>
-                  {% else %}
-                    View all decisions</a>
-                  {% endifequal %}
+                {% ifequal menu.child 'all_decisions' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'decision-list' %}>
+                    <i class="fa fa-th fa-fw"></i>&nbsp;
+                      View all decisions
+                  </a>
                 </li>
               </ul>
             </li>                                
@@ -213,22 +225,25 @@
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
-                <li><a href={% url 'participant-add' %}>
-                  <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
-                  {% ifequal menu.child 'new_participant' %}
-                    <strong>New participant</strong>
-                    </a>
-                  {% else %}
-                    New participant</a>
-                  {% endifequal %}
+                {% ifequal menu.child 'new_participant' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'participant-add' %}>
+                    <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
+                      New participant
+                  </a>
                 </li>
-                <li><a href={% url 'participant-list' %}>
-                  <i class="fa fa-pencil fa-fw"></i>&nbsp;
-                  {% ifequal menu.child 'all_participants' %}
-                    <strong>Manage participants</strong></a>
-                  {% else %}
-                    Manage participants</a>
-                  {% endifequal %}
+                {% ifequal menu.child 'all_participants' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'participant-list' %}>
+                    <i class="fa fa-pencil fa-fw"></i>&nbsp;
+                      Manage participants
+                  </a>
                 </li>
               </ul>
             </li>
