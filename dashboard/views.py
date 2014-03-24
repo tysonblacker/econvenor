@@ -16,7 +16,11 @@ def dashboard(request):
     
     last_meeting = Meeting.lists.past_meetings().filter(group=group).last()
     next_meeting = Meeting.lists.future_meetings().filter(group=group).first()
-    days_since_last_meeting = (date.today() - last_meeting.date_scheduled).days
+    if last_meeting:
+        days_since_last_meeting = (date.today() - last_meeting.date_scheduled)\
+                                  .days
+    else:
+        days_since_last_meeting = None
     top_overdue_tasks = Task.lists.overdue_tasks().filter(group=group)[:6]
     top_pending_tasks = Task.lists.pending_tasks().filter(group=group)[:6]
 
