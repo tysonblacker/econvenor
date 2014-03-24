@@ -37,8 +37,8 @@
   <a href={% url 'task-list' %} class="btn btn-default">
     Cancel
   </a>
-  <button class="btn btn-default delete-button" data-toggle="modal" 
-    data-target=".modal" name="Task: {{ form.description.value }}"
+  <button class="btn btn-default delete-button"
+    name="Task: {{ form.description.value }}"
     id="delete_task">
       Delete task
   </button>

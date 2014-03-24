@@ -69,7 +69,7 @@ $(function enableTimepicker() {
 /* Enable automatic vertical scrolling to a target
 -------------------------------------------------- */
 
-$("html").on("click", "a", function(event){ 
+$("html").on("click", ".sidebar-heading", function(event){ 
   var $anchor = $(this);
   $("html").stop().animate({
     scrollTop: $($anchor.attr('href')).offset().top-80
@@ -117,16 +117,19 @@ $(document).on("click", ".individual-checkbox", function(){
 /* Populate deletion confirmation modal
 -------------------------------------------------- */
 
-$(document).on("click", ".delete-button", function(){ 
+$(document).on("click", ".delete-button", function(event){ 
+  event.preventDefault();
   console.log("Delete button pressed");
   var instruction = $(this).attr('id');
   var description = $(this).attr('name');
+  var confirmation_message = '<p>You are about to delete this record:\
+    <br/><br/><strong>' + description + '</strong><br/><br/>\
+    This action cannot be undone.</p>';
   console.log("Instruction:" + instruction);
   console.log("Description:" + description);
   $('.modal-button').attr('value', instruction);
-  var confirmation_message = '<p>You are about to delete this record:\
-    <br/><br/><strong>' + description + '</strong></p>'
   $(".modal-body").html( confirmation_message );
+  $('#delete_modal').modal();
 });
 
 

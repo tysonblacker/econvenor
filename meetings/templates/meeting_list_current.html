@@ -90,7 +90,13 @@
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Delete meeting</a></li>
+                  <li>
+                    <a href="#" class="delete-button"
+                      name="Meeting number: {{ meeting.meeting_no }}"
+                      id="delete_{{ meeting.id }}">
+                        Delete meeting
+                    </a>
+                  </li>
                 </ul>
               </div><!-- /.btn-group -->
             </td>
@@ -110,10 +116,13 @@
                   <li class="divider"></li>
                   <li><a href={% url 'agenda-edit' meeting.id %}>Revise agenda</a></li>
                   <li class="divider"></li>
-                  <li><a data-toggle="modal" 
-              data-target=".modal"
-              name="Meeting number: {{ meeting.meeting_no }}"
-              id="delete_{{ meeting.id }}">Delete meeting</a></li>
+                  <li>
+                    <a href="#" class="delete-button"
+                      name="Meeting number: {{ meeting.meeting_no }}"
+                      id="delete_{{ meeting.id }}">
+                        Delete meeting
+                    </a>
+                  </li>
                 </ul>
               </div><!-- /.btn-group -->
             </td>
@@ -135,26 +144,17 @@
                   <li><a href={% url 'agenda-edit' meeting.id %}>Revise agenda</a></li>
                   <li><a href={% url 'minutes-edit' meeting.id %}>Revise minutes</a></li>
                   <li class="divider"></li>
-                  <li><a href="#">Delete meeting</a></li>
+                  <li>
+                    <a href="#" class="delete-button"
+                      name="Meeting number: {{ meeting.meeting_no }}"
+                      id="delete_{{ meeting.id }}">
+                        Delete meeting
+                    </a>
+                  </li>
                 </ul>
               </div><!-- /.btn-group -->
             </td>              
           {% endif %}
-
-
-{% comment %}
-
-          
-          <td>
-            <button class="btn btn-primary delete-button" data-toggle="modal" 
-              data-target=".modal"
-              name="Meeting number: {{ meeting.meeting_no }}"
-              id="delete_{{ meeting.id }}">
-                Delete meeting
-            </button>
-          </td>
-
-{% endcomment %}
  
         </tr>
         {% endwith %}
@@ -166,8 +166,5 @@
     </tbody>
   </table>
 </div>
-
-<a href={% url 'meeting-add' %}><button type="button" class="btn btn-primary">Create a new meeting</button></a>
 	
-	
-{% endblock %}
+{% endblock content %}
