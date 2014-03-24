@@ -8,20 +8,16 @@
 </div>
 
 <div class="col-sm-4">
-  <div class="well">
-    <strong>
-      Days since last meeting<br/>
-    </strong>
-    <span class="feature-text">
-      *7 days*<br/><br/>
-    </span>
-    <strong>
-      Length of last meeting<br/>
-    </strong>
-    <span class="feature-text">
-      *1 hr 30 mins*
-    </span>
-  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      Time since last meeting<br/>
+    </div>
+    <div class="panel-body">
+      <span class="feature-text">
+       {{ days_since_last_meeting }} days<br/><br/>
+      </span>
+    </div>
+  </div>  
 </div>
 
 <div class="col-sm-4">
@@ -30,11 +26,20 @@
 	  Last meeting
     </div>
     <div class="panel-body">
-      Details here:<br/>
-        Meeting number<br/>
-        Status of minutes (sent? when?)<br/>
-        Length (hrs:mins)
+        Number: {{ last_meeting.meeting_no }}<br/>
+        Date: {{ last_meeting.date_scheduled }}<br/>
+        Type: {{ last_meeting.meeting_type }}<br/>
+        {% if last_meeting.current_minutes_version %}
+          Minutes: Sent<br/>
+        {% else %}
+          Minutes: Not yet sent out<br/>
+        {% endif %}
     </div>
+    <a href={% url 'meeting-list-current' %}>
+      <button type="button" class="btn btn-default">
+        Go to current meetings
+      </button>
+    </a>
   </div>  
 </div>
 
@@ -44,11 +49,20 @@
 	  Next meeting
     </div>
     <div class="panel-body">
-      Details here:<br/>
-        Time/date<br/>
-        Location<br/>
-        Status of agenda (sent? when?)
+        Number: {{ next_meeting.meeting_no }}<br/>
+        Date: {{ next_meeting.date_scheduled }}<br/>
+        Type: {{ next_meeting.meeting_type }}<br/>
+        {% if next_meeting.current_agenda_version %}
+          Agenda: Sent<br/>
+        {% else %}
+          Agenda: Not yet sent out<br/>
+        {% endif %}
     </div>
+    <a href={% url 'meeting-list-current' %}>
+      <button type="button" class="btn btn-default">
+        Go to current meetings
+      </button>
+    </a>
   </div>  
 </div>  
 
@@ -75,6 +89,11 @@
         {% endfor%}
       </tbody>
     </table>
+    <a href={% url 'task-list' %}>
+      <button type="button" class="btn btn-default">
+        Go to tasks
+      </button>
+    </a>
   </div>  
 </div>
 
@@ -101,6 +120,11 @@
         {% endfor%}
       </tbody>
     </table>
+    <a href={% url 'task-list' %}>
+      <button type="button" class="btn btn-default">
+        Go to tasks
+      </button>
+    </a>
   </div>  
 </div>
 

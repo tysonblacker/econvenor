@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from utilities.models import TimeStampedModel
 
@@ -16,6 +18,16 @@ class MeetingManager(models.Manager):
     def archived_meetings(self):
         return self.get_queryset().filter(meeting_archived=True).order_by('meeting_no')
 
+    def past_meetings(self):
+        return self.get_queryset().\
+            filter(date_scheduled__lt=datetime.date.today()).\
+            order_by('date_scheduled')
+
+    def future_meetings(self):
+        return self.get_queryset().\
+            filter(date_scheduled__gte=datetime.date.today()).\
+            order_by('date_scheduled')
+                        
 class Meeting(TimeStampedModel):
 
     MEETING_TYPE_CHOICES = (
