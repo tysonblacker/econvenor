@@ -45,32 +45,45 @@
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-flag fa-fw fa-lg"></i>&nbsp;
                 Feedback <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
                 <li><a href={% url 'bug-report' %}>
-                  <strong>Report a bug</strong></a></li>
-                <li><a href={% url 'bug-list' %}>View all bug reports</a></li>
+                  <i class="fa fa-bug fa-fw"></i>&nbsp;
+                  Report a bug</a></li>
+                <li><a href={% url 'bug-list' %}>
+                  <i class="fa fa-list-alt fa-fw"></i>&nbsp;
+                  View all bug reports</a></li>
                 <li class="divider"></li>
                 <li><a href={% url 'feature-request' %}>
-                  <strong>Request a feature/change</strong></a></li>
+                  <i class="fa fa-wrench fa-fw"></i>&nbsp;
+                  Request a feature/change</a></li>
                 <li><a href={% url 'feature-list' %}>
+                  <i class="fa fa-list-alt fa-fw"></i>&nbsp;                  
                   View all feature/change requests</a></li>
               </ul>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-info-circle fa-fw fa-lg"></i>&nbsp;
                 Help <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href={% url 'user-guide' %}>
-                  <strong>User guide</strong></a></li>
+                  <i class="fa fa-file-text-o fa-fw"></i>&nbsp;                  
+                  User guide</a></li>
                 <li class="divider"></li>
-                <li><a href={% url 'faqs' %}><strong>FAQs</strong></a></li>
-                <li><a href={% url 'ask-question' %}>Ask a question</a></li>
+                <li><a href={% url 'faqs' %}>
+                  <i class="fa fa-list-alt fa-fw"></i>&nbsp;                  
+                  FAQs</a></li>
+                <li><a href={% url 'ask-question' %}>
+                  <i class="fa fa-question-circle fa-fw"></i>&nbsp;                  
+                  Ask a question</a></li>
               </ul>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user fa-fw fa-lg"></i>&nbsp;
                 Hi, {{ user }} <b class="caret"></b></a>
               <ul class="dropdown-menu">
 
@@ -94,7 +107,8 @@
               <li class="sidebar-item">
             {% endifequal %}
               <a href={% url 'dashboard' %}>
-                <i class="fa fa-tachometer fa-fw fa-lg"></i>Dashboard
+                <i class="fa fa-tachometer fa-fw fa-lg"></i>&nbsp;
+                Dashboard
               </a>
             </li>
 
@@ -104,12 +118,13 @@
               <li class="sidebar-item">
             {% endifequal %}
               <a href="#">
-                <i class="fa fa-edit fa-fw fa-lg"></i>
+                <i class="fa fa-comments fa-fw fa-lg"></i>&nbsp;
                 Meetings
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
                 <li><a href={% url 'meeting-add' %}>
+                  <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
                   {% ifequal menu.child 'new_meeting' %}
                     <strong>New meeting</strong></a>
                   {% else %}
@@ -117,6 +132,7 @@
                   {% endifequal %}
                 </li>
                 <li><a href={% url 'meeting-list-current' %}>
+                  <i class="fa fa-pencil fa-fw"></i>&nbsp;
                   {% ifequal menu.child 'current_meetings' %}
                     <strong>Current meetings</strong></a>
                   {% else %}
@@ -124,6 +140,7 @@
                   {% endifequal %}
                 </li>
                 <li><a href={% url 'meeting-list-archive' %}>
+                  <i class="fa fa-archive fa-fw"></i>&nbsp;
                   {% ifequal menu.child 'archived_meetings' %}
                     <strong>Archived meetings</strong></a>
                   {% else %}
@@ -139,12 +156,13 @@
               <li class="sidebar-item">
             {% endifequal %}
               <a href="#">
-                <i class="fa fa-edit fa-fw fa-lg"></i>
+                <i class="fa fa-list fa-fw fa-lg"></i>&nbsp;
                 Tasks
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
                 <li><a href={% url 'task-add' %}>
+                  <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
                   {% ifequal menu.child 'new_task' %}
                     <strong>New task</strong></a>
                   {% else %}
@@ -152,6 +170,7 @@
                   {% endifequal %}
                 </li>
                 <li><a href={% url 'task-list' %}>
+                  <i class="fa fa-check-square-o fa-fw"></i>&nbsp;
                   {% ifequal menu.child 'all_tasks' %}
                     <strong>All tasks</strong></a>
                   {% else %}
@@ -167,12 +186,13 @@
               <li class="sidebar-item">
             {% endifequal %}
               <a href="#">
-                <i class="fa fa-edit fa-fw fa-lg"></i>
-                  Decisions
+                <i class="fa fa-star fa-fw fa-lg"></i>&nbsp;
+                Decisions
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
                 <li><a href={% url 'decision-list' %}>
+                  <i class="fa fa-th fa-fw"></i>&nbsp;
                   {% ifequal menu.child 'all_decisions' %}
                     <strong>All decisions</strong></a>
                   {% else %}
@@ -188,12 +208,13 @@
               <li class="sidebar-item">
             {% endifequal %}
               <a href="#">
-                <i class="fa fa-edit fa-fw fa-lg"></i>
-                  Participants
+                <i class="fa fa-users fa-fw fa-lg"></i>&nbsp;
+                Participants
                 <i class="fa fa-angle-down pull-right"></i>
               </a>
               <ul class="nav nav-second-level">
                 <li><a href={% url 'participant-add' %}>
+                  <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
                   {% ifequal menu.child 'new_participant' %}
                     <strong>New participant</strong>
                     </a>
@@ -202,6 +223,7 @@
                   {% endifequal %}
                 </li>
                 <li><a href={% url 'participant-list' %}>
+                  <i class="fa fa-pencil fa-fw"></i>&nbsp;
                   {% ifequal menu.child 'all_participants' %}
                     <strong>All participants</strong></a>
                   {% else %}
