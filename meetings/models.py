@@ -13,6 +13,8 @@ class MeetingManager(models.Manager):
     def current_meetings(self):
         return self.get_queryset().exclude(meeting_archived=True).order_by('meeting_no')
 
+    def archived_meetings(self):
+        return self.get_queryset().filter(meeting_archived=True).order_by('meeting_no')
 
 class Meeting(TimeStampedModel):
 

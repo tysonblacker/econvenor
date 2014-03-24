@@ -36,12 +36,13 @@ def meeting_add(request):
                   })
                   
 
-def meeting_list(request):
+def meeting_list_current(request):
     group = get_current_group(request)
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
             
     meetings = Meeting.lists.current_meetings().filter(group=group)
+    page_heading = 'Current meetings'
     table_headings = ('Date',
                       'Meeting Number',
                       'Agenda sent',
@@ -57,10 +58,40 @@ def meeting_list(request):
             archive_meeting(request, group)
         meetings = Meeting.lists.current_meetings().filter(group=group)
                         
-    menu = {'parent': 'meetings', 'child': 'all_meetings'}    
-    return render(request, 'meeting_list.html', {
+    menu = {'parent': 'meetings', 'child': 'current_meetings'}    
+    return render(request, 'meeting_list_current.html', {
                   'menu': menu,
                   'meetings': meetings,
+                  'page_heading': page_heading,
                   'table_headings': table_headings
                   })
-    
+
+
+def meeting_list_archive(request):
+    group = get_current_group(request)
+    if group == None:	
+        return HttpResponseRedirect(reverse('index'))
+            
+    meetings = Meeting.lists.archived_meetings().filter(group=group)
+    page_heading = 'Archived meetings'
+    table_headings = ('Date',
+                      'Meeting Number',
+                      'Meeting type',
+                      '',
+                      '',
+                      '',
+                      )
+
+    if request.method == "POST":
+        if request.POST['button'][:6] == 'delete':           
+            delete_meeting(request, group)
+        meetings = Meeting.lists.archived_meetings().filter(group=group)
+                        
+    menu = {'parent': 'meetings', 'child': 'archived_meetings'}    
+    return render(request, 'meeting_list_archive.html', {
+                  'menu': menu,
+                  'meetings': meetings,
+                  'page_heading': page_heading,
+                  'table_headings': table_headings
+                  })
+        

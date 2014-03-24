@@ -28,7 +28,8 @@ urlpatterns = patterns('',
 	url(r'^tasks/add/$', 'tasks.views.task_add', name="task-add"),       
 	url(r'^tasks/(\d{1,4})/edit/$', 'tasks.views.task_edit', name="task-edit"),
    	
-	url(r'^meetings/$', 'meetings.views.meeting_list', name="meeting-list"),
+	url(r'^meetings/archive/$', 'meetings.views.meeting_list_archive', name="meeting-list-archive"),
+	url(r'^meetings/current/$', 'meetings.views.meeting_list_current', name="meeting-list-current"),
 	url(r'^meetings/add/$', 'meetings.views.meeting_add', name="meeting-add"),       
 
 	url(r'^agenda/(\d{1,4})/edit/$', 'docs.views.agenda_edit',

@@ -116,11 +116,18 @@
                     New meeting</a>
                   {% endifequal %}
                 </li>
-                <li><a href={% url 'meeting-list' %}>
-                  {% ifequal menu.child 'all_meetings' %}
-                    <strong>All meetings</strong></a>
+                <li><a href={% url 'meeting-list-current' %}>
+                  {% ifequal menu.child 'current_meetings' %}
+                    <strong>Current meetings</strong></a>
                   {% else %}
-                    All meetings</a>
+                    Current meetings</a>
+                  {% endifequal %}
+                </li>
+                <li><a href={% url 'meeting-list-archive' %}>
+                  {% ifequal menu.child 'archived_meetings' %}
+                    <strong>Archived meetings</strong></a>
+                  {% else %}
+                    Archived meetings</a>
                   {% endifequal %}
                 </li>
               </ul>
