@@ -24,6 +24,19 @@
 }
 
 
+h1,
+h2 {
+  font-family: 'Heading', Helvetica, Arial, sans-serif;
+  line-height: 1.1;
+  color: #ff0066;
+}
+
+.error {
+  color: #ff0066;
+  border-color: #ff0066;
+}
+
+
 /* BODY
 -------------------------------------------------- */
 
@@ -214,7 +227,8 @@ body {
   background-color: #444444;
 }
 
-.btn-toolbar {
+.btn-toolbar,
+.btn-toolbar:focus {
   display: block;
   width: 100%;
   text-align: left;
@@ -224,8 +238,7 @@ body {
   background-color: #555555;
 }
 
-.btn-toolbar:hover,
-.btn-toolbar:focus {
+.btn-toolbar:hover {
   color: #ffffff;
   background-color: #ff0066;
 }
@@ -237,6 +250,8 @@ body {
 .btn {
   border-radius: 0px;
 }
+
+/* Primary button */
 
 .btn-primary {
   color: #ffffff;
@@ -254,36 +269,12 @@ body {
   border-color: #ff0066;
 }
 
-.btn-primary.disabled,
-.btn-primary[disabled],
-fieldset[disabled] .btn-primary,
-.btn-primary.disabled:hover,
-.btn-primary[disabled]:hover,
-fieldset[disabled] .btn-primary:hover,
-.btn-primary.disabled:focus,
-.btn-primary[disabled]:focus,
-fieldset[disabled] .btn-primary:focus,
-.btn-primary.disabled:active,
-.btn-primary[disabled]:active,
-fieldset[disabled] .btn-primary:active,
-.btn-primary.disabled.active,
-.btn-primary[disabled].active,
-fieldset[disabled] .btn-primary.active {
-  background-color: #7251A4;
-  border-color: #563d7c;
-}
+/* Default button */
 
-
-
-/*
- * Button - default
- *
- * Adjust colours.
-*/
 .btn-default {
-  color: #333333;
-  background-color: #eeeeee;
-  border-color: #333333;
+  color: #ffffff;
+  background-color: #555555;
+  border-color: #555555;
 }
 
 .btn-default:hover,
@@ -291,51 +282,24 @@ fieldset[disabled] .btn-primary.active {
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  color: #333333;
-  background-color: #cccccc;
-  border-color: #999999;
-}
-
-.btn-default.disabled,
-.btn-default[disabled],
-fieldset[disabled] .btn-default,
-.btn-default.disabled:hover,
-.btn-default[disabled]:hover,
-fieldset[disabled] .btn-default:hover,
-.btn-default.disabled:focus,
-.btn-default[disabled]:focus,
-fieldset[disabled] .btn-default:focus,
-.btn-default.disabled:active,
-.btn-default[disabled]:active,
-fieldset[disabled] .btn-default:active,
-.btn-default.disabled.active,
-.btn-default[disabled].active,
-fieldset[disabled] .btn-default.active {
-  background-color: #eeeeee;
-  border-color: #cccccc;
+  color: #bbbbbb;
+  background-color: #444444;
+  border-color: #444444;
 }
 
 
-
-/*
- * Well
- *
- * Adjust colour.
-*/
+/* WELLS
+-------------------------------------------------- */
 
 .well {
-  background-color: #aaaaaa;
-  border: 0px solid #e3e3e3;
+  background-color: #bbbbbb;
+  border: 0px;
   border-radius: 0px;
  }
  
  
- 
- /*
- * Panel - primary
- *
- * Adjust colours.
-*/
+/* PANELS
+-------------------------------------------------- */
 
 .panel {
   border-radius: 0px;
@@ -353,68 +317,57 @@ fieldset[disabled] .btn-default.active {
 }
 
  .panel-primary {
-  border-color: #333333;
-  border: 2px solid #333333;
+  border-color: #555555;
+  border: 2px solid #555555;
 }
 
 .panel-primary > .panel-heading {
-  color: #eeeeee;
-  background-color: #333333;
-  border-color: #333333;
+  color: #ffffff;
+  background-color: #555555;
+  border-color: #555555;
 }
 
 .panel-primary > .panel-heading + .panel-collapse .panel-body {
-  border-top-color: #333333;
+  border-top-color: #555555;
 }
 
 .panel-primary > .panel-heading > .dropdown .caret {
-  border-color: #eeeeee transparent;
+  border-color: #555555 transparent;
 }
 
 .panel-primary > .panel-footer + .panel-collapse .panel-body {
-  border-bottom-color: #333333;
+  border-bottom-color: #555555;
 }
 
 
-/*
- * Heading text
- *
- * Change font.
-*/
+/* TABLES
+-------------------------------------------------- */
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
-  font-family: 'Heading', Helvetica, Arial, sans-serif;
-  line-height: 1.1;
-  color: #ff0066;
+/* Set colors for tables by themselves */
+
+.table > thead > tr > th {
+  color: #ffffff;
+  vertical-align: bottom;
+  border-bottom: 0px solid #555555;
 }
 
-
-/*
- * Table
- */
-
-/* Adjust colours */
-
-th {
-  color: #333333
+.table > thead {
+  background-color: #555555;
 }
 
-thead {
+/* Set colors for tables in panels */
+
+.panel .table > thead > tr > th {
+  color: #333333;
+  vertical-align: bottom;
+  border-bottom: 0px solid #aaaaaa;
+}
+
+.panel .table > thead {
   background-color: #aaaaaa;
 }
 
-/* Set cursor to pointer */
+/* Set cursor to pointer for all tables except meeting lists */
 
 tbody tr:hover {
   cursor: pointer;
@@ -424,9 +377,9 @@ tbody tr:hover {
   cursor: default;
 }
 
-/*
- * Spacers
- */
+
+/* SPACERS
+-------------------------------------------------- */
 
 .top-spacer {
   height: 30px;
@@ -437,48 +390,32 @@ tbody tr:hover {
 }
 
 
-/*
- * Error text
- */
-
-.error {
-  color: #ff0066;
-  border-color: #ff0066;
-}
-
-
-/*
- * Forms
- */
+/* FORMS
+-------------------------------------------------- */
 
 .form-control {
   height: 30px;
-  border: 1px solid #333333;
+  border: 1px solid #555555;
   border-radius: 0px;
 }
 
 .form-control:focus {
   border-color: #ff0066;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, , 102, .6);
-          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 0, 102, .6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, , 102, .4);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 0, 102, .4);
 }
 
 
-/*
- * Main content
- */
-
+/* MAIN WINDOW
+-------------------------------------------------- */
 .main {
-  padding: 20px;
+  padding-top: 20px;
 }
+
 @media (min-width: 768px) {
   .main {
-    padding-right: 40px;
-    padding-left: 40px;
+    padding-right: 20px;
+    padding-left: 20px;
   }
 }
-.main .page-header {
-  margin-top: 0;
-}
-
