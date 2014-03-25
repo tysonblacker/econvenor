@@ -50,7 +50,8 @@ def agenda_edit(request, meeting_id):
                           'Assigned to',
                           'Deadline')
     items = meeting.item_set.filter(group=group).order_by('item_no')
-    incomplete_tasks_list = Task.lists.incomplete_tasks().filter(group=group)
+    overdue_tasks_list = Task.lists.overdue_tasks().filter(group=group)
+    pending_tasks_list = Task.lists.pending_tasks().filter(group=group)
     completed_tasks_list = get_completed_tasks_list(group=group)
 
     if request.method == "POST" and 'ajax_button' in request.POST:
@@ -68,7 +69,8 @@ def agenda_edit(request, meeting_id):
 
     item_formlist = build_formlist(group, items, 'items', doc_type)
     
-    meeting_form = AgendaMeetingForm(group=group, instance=meeting)
+    meeting_form = AgendaMeetingForm(group=group, instance=meeting,
+                                     label_suffix='')
     meeting_duration = get_formatted_meeting_duration(meeting_id)
     meeting_end_time = calculate_meeting_end_time(meeting)
     
@@ -80,7 +82,6 @@ def agenda_edit(request, meeting_id):
                                'menu': menu,
                                'completed_tasks_list': completed_tasks_list,
                                'group': group,
-                               'incomplete_tasks_list': incomplete_tasks_list,
                                'item_formlist': item_formlist,
                                'items': items,
                                'meeting': meeting,
@@ -88,7 +89,9 @@ def agenda_edit(request, meeting_id):
                                'meeting_end_time': meeting_end_time,
                                'meeting_form': meeting_form,
                                'meeting_id': meeting_id,                      
+                               'overdue_tasks_list': overdue_tasks_list,
                                'page_heading': page_heading,
+                               'pending_tasks_list': pending_tasks_list,
                                'task_list_headings': task_list_headings,
                                })
         responses.append(part_response)

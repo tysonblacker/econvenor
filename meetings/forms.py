@@ -29,18 +29,41 @@ class AgendaMeetingForm(forms.ModelForm):
                   'start_time_scheduled',
                   'location_scheduled',
                   'meeting_status',
-                  'instructions_scheduled',
                   'facilitator_scheduled',
                   'minute_taker_scheduled',
+                  'instructions_scheduled',
                   ]
         widgets = {
-            'location_scheduled': forms.Textarea(attrs={'rows': 3}),
-            'date_scheduled': forms.DateInput(attrs={'class': 'datepicker'}),
-            'start_time_scheduled': forms.TimeInput(attrs=
-                {'class': 'timepicker'}
-            ),
-            'instructions_scheduled': forms.Textarea(attrs={'rows': 4}),
-        }
+            'meeting_no': forms.TextInput(attrs={
+                'class': 'form-control',
+                }),
+            'meeting_type': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'date_scheduled': forms.DateInput(attrs={
+                'class': 'datepicker form-control',
+                }),
+            'start_time_scheduled': forms.TimeInput(attrs={
+                'class': 'timepicker form-control',
+                }),
+            'location_scheduled': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                }),
+            'meeting_status': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'facilitator_scheduled': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'minute_taker_scheduled': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'instructions_scheduled': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                }),
+            }
     
     def clean_meeting_no(self):
         meeting_no = self.cleaned_data["meeting_no"]

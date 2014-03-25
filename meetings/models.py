@@ -47,41 +47,52 @@ class Meeting(TimeStampedModel):
     agenda_pdf = models.FileField(upload_to='meeting_docs')
     apologies = models.TextField(null=False, blank=True)
     attendance = models.TextField(null=False, blank=True)            
-    meeting_no = models.CharField(max_length=20, null=False, blank=True)
-    meeting_type = models.CharField(max_length=30, 
+    meeting_no = models.CharField('meeting number', max_length=20, null=False,
+                                  blank=True)
+    meeting_type = models.CharField('type of meeting', max_length=30, 
                                     choices=MEETING_TYPE_CHOICES,
                                     default='Ordinary Meeting',
                                     null=False,
                                     blank=True)
-    meeting_status = models.CharField(max_length=30, 
+    meeting_status = models.CharField('meeting status', max_length=30, 
                                       choices=MEETING_STATUS_CHOICES,
                                       default='Scheduled',
                                       null=False, blank=True)
     minutes_pdf = models.FileField(upload_to='meeting_docs')    
     reminder_sent = models.DateTimeField(null=True, blank=True)
-    date_scheduled = models.DateField(null=True, blank=True)
-    date_actual = models.DateField(null=True, blank=True)
-    end_time_actual = models.TimeField(null=True, blank=True)  
-    facilitator_scheduled = models.ForeignKey(Participant,
-                                              related_name='facilitator_sch',
-                                              null=True, blank=True)
+    date_scheduled = models.DateField('date', null=True,
+                                      blank=True)
+    date_actual = models.DateField('date', null=True, blank=True)
+    end_time_actual = models.TimeField('meeting end time', null=True,
+                                       blank=True)  
+    facilitator_scheduled = models.ForeignKey(
+                            Participant, 
+                            verbose_name='facilitator / chair (optional)',
+                            related_name='facilitator_sch',
+                            null=True, blank=True)
     facilitator_actual = models.ForeignKey(Participant,
+                                           verbose_name='facilitator',
                                            related_name='facilitator_act',
                                            null=True, blank=True)
-    instructions_scheduled = models.TextField(max_length=200, null=False,
-                                              blank=True)
+    instructions_scheduled = models.TextField(
+                             'instructions / notes (optional)',
+                             max_length=200, null=False, blank=True)
     instructions_actual = models.TextField(max_length=200, null=False,
                                            blank=True)
-    location_scheduled = models.TextField(max_length=200, null=False,
-                                          blank=True)
+    location_scheduled = models.TextField('location', max_length=200,
+                                          null=False, blank=True)
     location_actual = models.TextField(max_length=200, null=False, blank=True)
-    minute_taker_scheduled = models.ForeignKey(Participant,
-                                               related_name='minutetaker_sch',
-                                               null=True, blank=True)
+    minute_taker_scheduled = models.ForeignKey(
+                             Participant,
+                             verbose_name='minute taker (optional)',
+                             related_name='minutetaker_sch',
+                             null=True, blank=True)
     minute_taker_actual = models.ForeignKey(Participant,
+                                            verbose_name='minute taker',    
                                             related_name='minutetaker_act',
                                             null=True, blank=True)
-    start_time_scheduled = models.TimeField(null=True, blank=True)
+    start_time_scheduled = models.TimeField('start time', null=True,
+                                            blank=True)
     start_time_actual = models.TimeField(null=True, blank=True)
     next_meeting_date = models.DateField(null=True, blank=True)
     next_meeting_facilitator = models.ForeignKey(Participant,
