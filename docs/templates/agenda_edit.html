@@ -5,7 +5,7 @@
 {% block content %}
 
 
-    <div class="col-sm-8 col-md-9 main">
+    <div class="col-sm-8 col-md-8 main">
 
       <div class="top-spacer">
       </div>
@@ -90,16 +90,24 @@
     </div><!-- /.col-sm-8 -->
 
 
-    <!-- RIGHT SIDEBAR
+    <!-- TOOLBAR
     ================================================== -->
 
-    <div class="col-sm-3 col-md-2 toolbar">
-      <h1>Agenda</h1>
+    <div class="col-sm-3 col-md-3 toolbar">
       
-      <ul class="nav nav-sidebar">
+      <ul class="nav nav-toolbar">
+        <li class="toolbar-heading">
+          <h1><i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
+            Create agenda</h1>
+        </li>
+        <li class="toolbar-subheading">
+          <h2><i class="fa fa-compass fa-fw fa-lg"></i>&nbsp;
+            Navigation toolbar</h2>
+        </li>
         <li>
           <a href="#meeting_details" class="tltip" data-toggle="tooltip"
             data-placement="top" title="Scroll to meeting details">
+              <i class="fa fa-align-justify fa-fw"></i>&nbsp;
               Meeting details
           </a>
         </li>
@@ -108,33 +116,41 @@
       <div id="ajax-sidebar">
       </div>
              
-      <ul class="nav nav-sidebar">
+      <ul class="nav nav-toolbar">
         <li>
           <a href="#tasks" class="tltip" data-toggle="tooltip" 
             data-placement="top" title="Scroll to tasks">
+              <i class="fa fa-align-justify fa-fw"></i>&nbsp;
               Attachment 1. Tasks
           </a>
         </li>
+       <li class="toolbar-subheading">
+         <h2><i class="fa fa-rocket fa-fw fa-lg"></i>&nbsp;
+           Actions toolbar</h2>
+        </li>
       </ul>
       
-      <ul class="nav nav-sidebar">
+      <ul class="nav nav-toolbar">
         <li>
-          <button type="button" class="btn btn-default ajax-button" 
+          <button type="button" class="btn btn-toolbar ajax-button" 
             id="save_agenda">
-              Save all
+              <i class="fa fa-save fa-fw"></i>&nbsp;
+              Save changes
           </button>
         </li>
         <li>
-          <button type="button" class="btn btn-default ajax-button" 
+          <button type="button" class="btn btn-toolbar ajax-button" 
             id="add_item">
-              Add item
+              <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
+              Add agenda item
           </button>
         </li>
         <li>
-          <button type="submit" class="btn btn-primary navigate-button"
+          <button type="submit" class="btn btn-toolbar navigate-button"
             goto="{% url 'agenda-distribute' meeting_id %}" 
             id="submit_agenda">
-              Preview and send
+              <i class="fa fa-share-square-o fa-fw"></i>&nbsp;
+              Preview and send agenda
           </button>
         </li>
       </ul>

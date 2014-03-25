@@ -1,11 +1,12 @@
 {% load setclass %}
 
-<ul class="nav nav-sidebar sortable">
+<ul class="nav nav-toolbar sortable">
   {% for item in items %}
     <li id="sidebar_{{ item.item_no}}">
       <a href="#id_i{{ item.item_no}}-title" class="sidebar-heading tltip"
          data-toggle="tooltip" title="Scroll to this item">
         <div>
+          <i class="fa fa-arrows-v fa-fw"></i>&nbsp;
           Item&nbsp;{{ item.item_no}}.&nbsp;&nbsp;
             <span id="sidebar_heading_{{ item.item_no}}">
               {{ item.title }}
