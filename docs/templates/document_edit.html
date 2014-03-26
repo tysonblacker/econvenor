@@ -1,0 +1,204 @@
+{% extends "app_base.html" %}
+{% load setclass %}
+{% load staticfiles %}
+
+{% block content %}
+
+
+    <div class="col-sm-8 col-md-8 main">
+
+      <div class="top-spacer">
+      </div>
+  
+     
+    <!-- AJAX FORMS
+    ================================================== -->
+    
+      <div id="ajax-main">
+      </div>
+
+      
+    <!-- TASKS TABLES
+    ================================================== -->
+      {% if doc_type == 'agenda' %}
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Attachment 1. &nbsp;&nbsp; Tasks overdue
+          </div>
+  	      <table class="table">
+		    <thead>
+		      <tr>
+			    {% for heading in task_list_headings %}
+			      <th>{{ heading }}</th>
+                {% endfor%}
+	          </tr>
+		    </thead>
+		    <tbody id="tasks"> 
+	          {% for task in overdue_tasks_list %}
+			    <tr>
+			      <td>{{ task.description }}</td>
+                  <td>{{ task.participant }}</td>
+				  <td>{{ task.deadline }}</td>
+			    </tr>
+			  {% empty %}
+			    <tr>
+			      <td>None</td>
+			    </tr>
+	          {% endfor%}
+            </tbody>
+		  </table>
+	    </div><!-- /.panel -->
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Attachment 2. &nbsp;&nbsp; Tasks outstanding
+          </div>
+	      <table class="table">
+		    <thead>
+		      <tr>
+			    {% for heading in task_list_headings %}
+			      <th>{{ heading }}</th>
+                {% endfor%}
+	          </tr>
+		    </thead>
+		    <tbody> 
+	          {% for task in pending_tasks_list %}
+			    <tr>
+			      <td>{{ task.description }}</td>
+                  <td>{{ task.participant }}</td>
+				  <td>{{ task.deadline }}</td>
+			    </tr>
+			  {% empty %}
+			    <tr>
+			      <td>None</td>
+			    </tr>
+	          {% endfor%}
+            </tbody>
+		  </table>
+	    </div><!-- /.panel -->
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Attachment 3. &nbsp;&nbsp; Tasks completed since last meeting
+          </div>
+	      <table class="table table-hover">
+		    <thead>
+		      <tr>
+			    {% for heading in task_list_headings %}
+			      <th>{{ heading }}</th>
+                {% endfor%}
+	          </tr>
+		    </thead>
+		    <tbody> 
+	          {% for task in completed_tasks_list %}
+			    <tr>
+			      <td>{{ task.description }}</td>
+                  <td>{{ task.participant }}</td>
+				  <td>{{ task.deadline }}</td>
+			    </tr>
+			  {% empty %}
+			    <tr>
+			      <td>None</td>
+			    </tr>
+	          {% endfor%}
+            </tbody>
+	      </table>
+	    </div><!-- /.panel -->
+
+      {% endif %}
+
+      <div class="bottom-spacer">
+      </div>
+          
+    </div><!-- /.col-sm-8 -->
+
+
+    <!-- TOOLBAR
+    ================================================== -->
+
+    <div class="col-xs-3 toolbar">
+      
+      <ul class="nav nav-toolbar">
+        <li class="toolbar-heading">
+          <h1><i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
+            Create {{ doc_type }}</h1>
+        </li>
+        <li class="toolbar-subheading">
+          <h2><i class="fa fa-compass fa-fw fa-lg"></i>&nbsp;
+            Navigation toolbar</h2>
+        </li>
+        <li>
+          <a href="#meeting_details" class="sidebar-heading tltip">
+              <i class="fa fa-align-justify fa-fw"></i>&nbsp;
+              Meeting details
+          </a>
+        </li>
+      </ul>
+      
+      <div id="ajax-sidebar">
+      </div>
+             
+      <ul class="nav nav-toolbar">
+        {% if doc_type == 'agenda' %}
+          <li>
+            <a href="#tasks" class="sidebar-heading">
+                <i class="fa fa-paperclip fa-fw"></i>&nbsp;
+                Attachments
+            </a>
+          </li>
+        {% elif doc_type == 'minutes' %}
+          <li>
+            <a href="#next_meeting_details" class="sidebar-heading">
+                <i class="fa fa-align-justify fa-fw"></i>&nbsp;
+                Next meeting details
+            </a>
+          </li>
+        {% endif %}
+        <li class="toolbar-subheading">
+          <h2><i class="fa fa-rocket fa-fw fa-lg"></i>&nbsp;
+            Actions toolbar</h2>
+        </li>
+        <li>
+          <button type="button" class="btn btn-toolbar ajax-button" 
+            id="save_{{ doc_type }}">
+              <i class="fa fa-save fa-fw"></i>&nbsp;
+              Save changes
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-toolbar ajax-button" 
+            id="add_item">
+              <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
+              Add an item
+          </button>
+        </li>
+        <li>
+          {% if doc_type == 'agenda' %}
+            <button type="submit" class="btn btn-toolbar navigate-button"
+              goto="{% url 'agenda-distribute' meeting_id %}" 
+              id="submit_agenda">
+                <i class="fa fa-share-square-o fa-fw"></i>&nbsp;
+                Preview and send
+            </button>
+          {% elif doc_type == 'minutes' %}
+            <button type="submit" class="btn btn-toolbar navigate-button"
+              goto="{% url 'minutes-distribute' meeting_id %}" 
+              id="submit_minutes">
+                <i class="fa fa-share-square-o fa-fw"></i>&nbsp;
+                Preview and send
+            </button>
+          {% endif %}
+        </li>
+      </ul>
+       
+    </div><!-- /.col-xs-3 -->
+
+
+{% endblock content%}
+
+
+{% block extrajs %}
+
+<script src="{% static 'js/econvenor-ajax.js' %}"></script>
+
+{% endblock extrajs %}

@@ -45,7 +45,6 @@ def agenda_edit(request, meeting_id):
 
     doc_type = 'agenda'
     request_type = 'refresh'
-    page_heading = 'Create agenda'
     task_list_headings = ('Description',
                           'Assigned to',
                           'Deadline')
@@ -81,6 +80,7 @@ def agenda_edit(request, meeting_id):
         part_response = render(request, template, {
                                'menu': menu,
                                'completed_tasks_list': completed_tasks_list,
+                               'doc_type': doc_type,
                                'group': group,
                                'item_formlist': item_formlist,
                                'items': items,
@@ -90,7 +90,6 @@ def agenda_edit(request, meeting_id):
                                'meeting_form': meeting_form,
                                'meeting_id': meeting_id,                      
                                'overdue_tasks_list': overdue_tasks_list,
-                               'page_heading': page_heading,
                                'pending_tasks_list': pending_tasks_list,
                                'task_list_headings': task_list_headings,
                                })
@@ -198,7 +197,6 @@ def minutes_edit(request, meeting_id):
     
     doc_type = 'minutes'
     request_type = 'refresh'
-    page_heading = 'Minutes'
   
     decisions = meeting.decision_set.filter(group=group)  
     items = meeting.item_set.filter(group=group).order_by('item_no')
@@ -223,7 +221,7 @@ def minutes_edit(request, meeting_id):
             clear_minutes(request, group, meeting, decisions, items, tasks)
         if request.POST['ajax_button'][:12]=='add_decision':
             add_decision(request, group, meeting)
-        if request.POST['ajax_button']=='add_item_button':
+        if request.POST['ajax_button']=='add_item':
             add_item(group, meeting, items, 'minutes')
         if request.POST['ajax_button'][:8]=='add_task':
             add_task(request, group, meeting)
@@ -255,11 +253,11 @@ def minutes_edit(request, meeting_id):
     for template in templates:
         response = render(request, template, {
                           'menu': menu,
+                          'doc_type': doc_type,
                           'meeting_id': meeting_id,
                           'meeting': meeting,
                           'meeting_duration': meeting_duration,
                           'meeting_end_time': meeting_end_time,
-                          'page_heading': page_heading,
                           'completed_tasks_list': completed_tasks_list,
                           'incomplete_tasks_list': incomplete_tasks_list,
                           'meeting_form': meeting_form,
@@ -291,7 +289,7 @@ def minutes_distribute(request, meeting_id):
     
     if request.method == "POST":
         if 'distribute_button' in request.POST:
-            if request.POST['distribute_button']=='distribute_minutes':
+            if request.POST['distribute_button']=='distribute':
             	distribute_pdf(request, group, meeting, doc_type)
                 return HttpResponseRedirect(reverse('minutes-sent',
                                                     args=(meeting_id,)))

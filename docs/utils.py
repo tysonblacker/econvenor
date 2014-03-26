@@ -363,10 +363,7 @@ def get_templates(request_type, doc_type):
     for an agenda or minutes.
     """    
     if request_type == 'refresh':
-        if doc_type == 'agenda':
-            templates = ['agenda_edit.html']
-        elif doc_type == 'minutes':
-            templates = ['minutes_edit.html']
+        templates = ['document_edit.html']
     elif request_type == 'ajax':
         if doc_type == 'agenda':
             templates = ['agenda_edit_ajax_sidebar.html',
