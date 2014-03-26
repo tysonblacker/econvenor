@@ -1,0 +1,25 @@
+{% extends "app_base.html" %}
+{% load staticfiles %}
+{% load setclass %}
+
+{% block content %}
+
+
+<div class="col-sm-8">
+
+  <div class="top-spacer-large">
+  </div>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      {{ doc_type|capfirst }} sent!
+    </div>
+    <div class="panel-body">
+      {{ confirmation_text }}
+    </div>
+  </div> 
+   
+</div><!-- col-sm-8 -->
+
+
+{% endblock %}

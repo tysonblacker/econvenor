@@ -156,12 +156,15 @@ def agenda_sent(request, meeting_id):
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
 
-    page_heading = 'Agenda for meeting ' + meeting_id + ' has been sent'
+    doc_type = 'agenda'
+    confirmation_text = 'The agenda for meeting ' + meeting_id + \
+                        ' has been emailed out.'
 
     menu = {'parent': 'meetings'}    
-    return render(request, 'agenda_sent.html', {
+    return render(request, 'document_sent.html', {
                   'menu': menu,
-                  'page_heading': page_heading,
+                  'confirmation_text': confirmation_text,
+                  'doc_type': doc_type,
                   })
 
 
@@ -333,12 +336,15 @@ def minutes_sent(request, meeting_id):
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
 
-    page_heading = 'Minutes for meeting ' + meeting_id + ' have been sent'
+    doc_type = 'minutes'
+    confirmation_text = 'The minutes for meeting ' + meeting_id + \
+                        ' have been emailed out.'
 
     menu = {'parent': 'meetings'}    
-    return render(request, 'minutes_sent.html', {
+    return render(request, 'document_sent.html', {
                   'menu': menu,
-                  'page_heading': page_heading,
+                  'confirmation_text': confirmation_text,
+                  'doc_type': doc_type,
                   })
 
 

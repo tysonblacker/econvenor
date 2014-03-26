@@ -388,6 +388,10 @@ tbody tr:hover {
   height: 30px;
 }
 
+.top-spacer-large {
+  height: 50px;
+}
+
 .bottom-spacer {
   height: 500px;
 }
