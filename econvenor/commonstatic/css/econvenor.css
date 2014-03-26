@@ -228,7 +228,9 @@ body {
 }
 
 .btn-toolbar,
-.btn-toolbar:focus {
+.btn-toolbar:focus,
+.nav-toolbar > li > a.btn-toolbar,
+.nav-toolbar > li > a.btn-toolbar:focus {
   display: block;
   width: 100%;
   text-align: left;
@@ -238,7 +240,8 @@ body {
   background-color: #555555;
 }
 
-.btn-toolbar:hover {
+.btn-toolbar:hover,
+.nav-toolbar > li > a.btn-toolbar:hover {
   color: #ffffff;
   background-color: #ff0066;
 }
@@ -415,8 +418,10 @@ tbody tr:hover {
     width: 50%;
 }
 
+
 /* MAIN WINDOW
 -------------------------------------------------- */
+
 .main {
   padding-top: 20px;
 }
@@ -427,3 +432,23 @@ tbody tr:hover {
     padding-left: 20px;
   }
 }
+
+
+/* MODALS
+-------------------------------------------------- */
+
+.modal-content {
+  border-radius: 0px;
+}
+
+.modal-header {
+  color: #ffffff;
+  background-color: #ff0066;
+  border-bottom: 0px solid #ff0066;
+}
+
+.modal-footer {
+  background-color: #bbbbbb;
+  border-top: 1px solid #bbbbbb;
+}
+

@@ -287,12 +287,12 @@
             <div class="modal-body">
             </div><!-- /.modal-body -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" 
-                      data-dismiss="modal">
-                Cancel
-              </button>
               <form action="" method="POST">
                 {% csrf_token %} 
+                <button type="button" class="btn btn-default" 
+                        data-dismiss="modal">
+                  Cancel
+                </button>
                 <button type="submit" class="btn btn-primary modal-button"
                         name="button">
                   Delete
