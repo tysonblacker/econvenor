@@ -29,88 +29,186 @@
 
     <!-- TOOLBAR
     ================================================== -->
-    
-    <div class="col-sm-3 col-md-2 toolbar">
-  
-      <h2>Send out agenda</h2>
-      <ul class="nav nav-sidebar">
+
+    <div class="col-xs-2 toolbar">
+      
+      <ul class="nav nav-toolbar">
+        <li class="toolbar-heading">
+          <h1><i class="fa fa-check-circle fa-fw fa-lg"></i>&nbsp;
+            Review and send agenda</h1>
+        </li>
+        <li class="toolbar-subheading">
+          <h2><i class="fa fa-compass fa-fw fa-lg"></i>&nbsp;
+            Navigation toolbar</h2>
+        </li>
         {% for page in pages %}
           <li id="sidebar_{{page.o}}">
             <a href="#page{{page.0}}" class="sidebar-heading tltip"
               data-toggle="tooltip" title="Scroll to this page">
+                <i class="fa fa-file-text-o fa-fw"></i>&nbsp;
                 Page {{ page.0 }}
             </a>
           </li>
-        {% endfor %}
-      </ul> 
-                 
-      <ul class="nav nav-sidebar">
-        <li>
-          <div>
-            <button type="button" class="btn btn-default zoom-button"
-              id="zoom_in">
-                <span class="glyphicon glyphicon-zoom-in"></span>
-            </button>
-            <button type="button" class="btn btn-default zoom-button"
-              id="zoom_out">
-                <span class="glyphicon glyphicon-zoom-out"></span>
-            </button>
-          </div>
+        {% endfor %}        
+      </ul>
+      <ul class="nav nav-toolbar">
+       <li class="toolbar-subheading">
+         <h2><i class="fa fa-rocket fa-fw fa-lg"></i>&nbsp;
+           Actions toolbar</h2>
         </li>
       </ul>
-      <ul class="nav nav-sidebar"> 
+      <ul class="nav nav-toolbar">
         <li>
-          <a href={% url 'agenda-edit' meeting_id %}>
-            <button type="button" class="btn btn-primary">
-              Make changes
-            </button>
-          </a>
-        </li>
-        <li>
-          <a href={% url 'dashboard' %}>
-            <button type="button" class="btn btn-primary">
-              Send later
-            </button>
-          </a>
-        </li>
-        <li>
-          <a href={% url 'agenda-print' meeting_id %}>
-            <button type="button" class="btn btn-primary">
-              Download PDF
-            </button>
-          </a>
-        </li>
-      </ul>
-
-      <h2><small>Distribute this agenda by email</small></h2>
-        <form action="" method="POST">
-          {% csrf_token %}
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" name="all_participants" 
-                id="all_participants" value="checked">
-                  <strong>All participants</strong>
-            </label>
-          </div>
-          {% for participant in participants %}
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" class="individual-checkbox"
-                  id="participant{{ participant.id }}" 
-                  name="participant{{ participant.id }}" value="checked"> 
-                    {{ participant }}
-              </label>
-            </div>
-          {% endfor %}
-          <br/>
-          <button type="submit" class="btn btn-primary"
-            name="distribute_button" value="distribute_agenda"
-            data-toggle="button">
-              Distribute
+          <button type="button" class="btn btn-toolbar zoom-button"
+            id="zoom_in">
+              <i class="fa fa-search-plus fa-fw"></i>&nbsp;
+              Zoom in
           </button>
-        </form>
-      </div>
+        </li>
+        <li>
+          <button type="button" class="btn btn-toolbar zoom-button"
+            id="zoom_out">
+              <i class="fa fa-search-minus fa-fw"></i>&nbsp;
+              Zoom out
+          </button>
+        </li>        
+        <li>
+          <a href={% url 'agenda-edit' meeting_id %} type="button" 
+            class="btn btn-toolbar">
+              <i class="fa fa-edit fa-fw"></i>&nbsp;
+              Make changes
+          </a>
+        </li>
+        <li>
+          <a href={% url 'dashboard' %} type="button" class="btn btn-toolbar">
+            <i class="fa fa-clock-o fa-fw"></i>&nbsp;
+            Send later
+          </a>
+        </li>
+        <li>
+          <a href={% url 'agenda-print' meeting_id %} type="button"
+            class="btn btn-toolbar">
+              <i class="fa fa-file-text fa-fw"></i>&nbsp;
+              Open in PDF format
+          </a>
+        </li>
+      </ul>
+      <ul class="nav nav-toolbar">
+       <li class="toolbar-subheading">
+         <h2><i class="fa fa-share-square fa-fw fa-lg"></i>&nbsp;
+           Send agenda</h2>
+        </li>
+      </ul>
+      <ul class="nav nav-toolbar">
+        <li>
+          <button type="button" class="btn btn-toolbar" id="all_participants">
+            <i class="fa fa-users fa-fw"></i>&nbsp;
+            To all participants
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-toolbar" id="selected_participants">
+              <i class="fa fa-list-ul fa-fw"></i>&nbsp;
+              To selected participants
+          </button>
+        </li>
+      </ul>
+       
+    </div><!-- /.col-xs-2 -->
 
-    </div><!-- /.col-sm-3 -->
+    <!-- MODALS
+    ================================================== -->
+
+    <div class="modal fade" id="distribute_to_selected_modal" tabindex="-1"
+         role="dialog" aria-labelledby="DistributeToSelected"
+         aria-hidden="true" 
+         aria-describedby="A pop-up to confirm sending the document">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">
+              Send to selected participants
+            </h4>
+          </div><!-- /.modal-header -->
+          <form action="" method="POST">
+            {% csrf_token %}
+            <div class="modal-body">
+              Choose the participants to send the document to:
+              {% for participant in participants %}
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" class="individual-checkbox"
+                      id="participant{{ participant.id }}" 
+                      name="participant{{ participant.id }}" value="checked"> 
+                        {{ participant }}
+                  </label>
+                </div><!-- /.checkbox -->
+              {% endfor %}
+            </div><!-- /.modal-body -->
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary modal-button"
+                name="distribute_button" value="distribute"
+                data-toggle="button">
+                  Send
+              </button>
+              <button type="button" class="btn btn-default" 
+                data-dismiss="modal">
+                  Cancel
+              </button>
+            </form>
+          </div><!-- /.modal-footer -->
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->        
+
+    <div class="modal fade" id="distribute_to_all_modal" tabindex="-1"
+         role="dialog" aria-labelledby="DistributeToAll"
+         aria-hidden="true" 
+         aria-describedby="A pop-up to confirm sending the document">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">
+              Send to all participants
+            </h4>
+          </div><!-- /.modal-header -->
+          <div class="modal-body">
+            The document will be distributed to all participants in the group.
+          </div><!-- /.modal-body -->
+          <div class="modal-footer">
+            <form action="" method="POST">
+            {% csrf_token %}
+              <input type="hidden" name="all_participants" 
+                    id="all_participants" value="checked">
+              <button type="submit" class="btn btn-primary modal-button"
+                name="distribute_button" value="distribute"
+                data-toggle="button">
+                  Send
+              </button>
+              <button type="button" class="btn btn-default" 
+                data-dismiss="modal">
+                  Cancel
+              </button>
+            </form>
+          </div><!-- /.modal-footer -->
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->        
 
 {% endblock %}
+
+{% block extrajs %}
+
+<script>
+
+  $(document).on("click", "#selected_participants", function(){ 
+    $('#distribute_to_selected_modal').modal();
+  });
+
+  $(document).on("click", "#all_participants", function(){ 
+    $('#distribute_to_all_modal').modal();
+  });
+
+</script>
+
+{% endblock extrajs %}

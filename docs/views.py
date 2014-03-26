@@ -115,7 +115,7 @@ def agenda_distribute(request, meeting_id):
     
     if request.method == "POST":
         if 'distribute_button' in request.POST:
-            if request.POST['distribute_button']=='distribute_agenda':
+            if request.POST['distribute_button']=='distribute':
             	distribute_pdf(request, group, meeting, doc_type)
                 return HttpResponseRedirect(reverse('agenda-sent',
                                                     args=(meeting_id,)))
