@@ -121,8 +121,9 @@ def agenda_distribute(request, meeting_id):
                                                     args=(meeting_id,)))
 
     menu = {'parent': 'meetings'}            	
-    return render(request, 'agenda_distribute.html', {
+    return render(request, 'document_distribute.html', {
                   'menu': menu,
+                  'doc_type': doc_type,
                   'meeting_id': meeting_id,
                   'pages': pages,
                   'participants': participants,
@@ -296,8 +297,9 @@ def minutes_distribute(request, meeting_id):
                                                     args=(meeting_id,)))
 
     menu = {'parent': 'meetings'}            	
-    return render(request, 'minutes_distribute.html', {
+    return render(request, 'document_distribute.html', {
                   'menu': menu,
+                  'doc_type': doc_type,
                   'meeting_id': meeting_id,
                   'pages': pages,
                   'participants': participants,
