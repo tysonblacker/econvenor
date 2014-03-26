@@ -8,10 +8,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import socket
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
@@ -35,6 +35,7 @@ else:
 	ALLOWED_HOSTS = []
 
 # Application definition
+# --------------------------------------------------------
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -82,6 +83,7 @@ WSGI_APPLICATION = 'econvenor.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+
 if socket.gethostname() == 'web439.webfaction.com':
 	DATABASES = {
     	'default': {
@@ -108,7 +110,7 @@ TIME_ZONE = 'Australia/Sydney'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
@@ -148,3 +150,12 @@ if socket.gethostname() == 'web439.webfaction.com':
 	SERVER_EMAIL = 'mail@econvenor.org'
 else:
 	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Dates
+# --------------------------------------------------------
+
+DATE_FORMAT = 'd M Y'
+
+DATE_INPUT_FORMATS = (
+    '%d %b %Y',
+)

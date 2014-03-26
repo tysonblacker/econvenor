@@ -42,7 +42,12 @@ function updatePage( resp ) {
     placement: 'bottom',
     delay: { show: 500, hide: 100 }
   });
-  $('.datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
+  $('.datepicker').datepicker({
+    dateFormat: 'dd M yy',
+    onClose: function() {
+      $(this).valid();
+    },  
+  });
   $( '.sortable' ).sortable({
     axis: 'y',
     containment: 'parent',

@@ -31,7 +31,7 @@ var csrftoken = getCookie('csrftoken');
 
 $(function enableJQueryUIFeatures() {
   $('.datepicker').datepicker({
-    dateFormat: 'yy-mm-dd',
+    dateFormat: 'dd M yy',
     onClose: function() {
       $(this).valid();
     },  
@@ -119,14 +119,11 @@ $(document).on("click", ".individual-checkbox", function(){
 
 $(document).on("click", ".delete-button", function(event){ 
   event.preventDefault();
-  console.log("Delete button pressed");
   var instruction = $(this).attr('id');
   var description = $(this).attr('name');
   var confirmation_message = '<p>You are about to delete this record:\
     <br/><br/><strong>' + description + '</strong><br/><br/>\
     This action cannot be undone.</p>';
-  console.log("Instruction:" + instruction);
-  console.log("Description:" + description);
   $('.modal-button').attr('value', instruction);
   $(".modal-body").html( confirmation_message );
   $('#delete_modal').modal();
