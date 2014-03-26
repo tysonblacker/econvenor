@@ -28,7 +28,6 @@ h1,
 h2 {
   font-family: 'Heading', Helvetica, Arial, sans-serif;
   line-height: 1.1;
-  color: #ff0066;
 }
 
 .error {
@@ -36,13 +35,19 @@ h2 {
   border-color: #ff0066;
 }
 
+.feature-text {
+  color: #aaaaaa;
+  font-size: 60px;
+  font-weight: bold;
+}
 
 /* BODY
 -------------------------------------------------- */
 
 body {
   font-family: 'Body', Helvetica, Arial, sans-serif;
-  padding-top: 40px;
+  color: #555555;
+  padding-top: 50px;
   background-image: url('/static/images/texture.png');
 }
 
@@ -298,8 +303,25 @@ body {
   background-color: #bbbbbb;
   border: 0px;
   border-radius: 0px;
- }
- 
+}
+
+#dashboard-header {
+  font-size: 1em;
+  text-align: center;  
+  background-color: #555555;
+  height: 41px;
+  margin: 0px -15px 30px -15px;
+  border: 0px;
+  border-radius: 0px;
+}
+
+#dashboard-header h1 {
+  color: #bbbbbb;
+  font-size: 18px;
+  margin-top: 3px;
+  margin-bottom: 4px;
+}
+
  
 /* PANELS
 -------------------------------------------------- */
@@ -314,6 +336,10 @@ body {
   border-top-right-radius: 0px;
 }
 
+.panel a:hover,
+.panel a:focus {
+  text-decoration: none;
+}
 
 .panel-footer {
   border-bottom-right-radius: 0px;
@@ -325,7 +351,7 @@ body {
   border: 0px;
 }
 
-.panel-primary > .panel-heading {
+.panel-primary .panel-heading {
   color: #ffffff;
   background-color: #ff0066;
   border: 0px;
@@ -336,12 +362,21 @@ body {
   border: 0px solid #555555;
 }
 
-.panel-default > .panel-heading {
+.panel-default .panel-heading {
   color: #ffffff;
   background-color: #555555;
   border: 0px solid #555555;
 }
 
+.panel-dashboard .panel-body {
+  height: 160px;
+  overflow-y: auto;
+}
+
+.table-dashboard {
+  height: 160px;
+  overflow: auto;
+}
 
 /* TABLES
 -------------------------------------------------- */
@@ -350,8 +385,9 @@ body {
 
 .table > thead > tr > th {
   color: #ffffff;
+  font-weight: normal;
   vertical-align: bottom;
-  border-bottom: 0px solid #555555;
+  border-bottom: 1px solid #555555;
 }
 
 .table > thead {
@@ -361,14 +397,31 @@ body {
 /* Set colors for tables in panels */
 
 .panel .table > thead > tr > th {
-  color: #333333;
+  font-weight: normal;
   vertical-align: bottom;
-  border-bottom: 0px solid #aaaaaa;
+  border-bottom: 1px solid #aaaaaa;
 }
 
 .panel .table > thead {
   background-color: #aaaaaa;
 }
+
+/* Set up meeting summary tables on dashboard */
+
+.meeting-table {
+  margin: -15px -15px -15px -15px;
+  height: 160px;
+}
+
+.meeting-table td {
+  padding: 10px 40px 0px 15px;
+}
+
+.meeting-table td:first-child {
+  color: #ffffff;
+  background-color: #aaaaaa;
+}
+
 
 /* Set cursor to pointer for all tables except meeting lists */
 
@@ -389,7 +442,7 @@ tbody tr:hover {
 }
 
 .top-spacer-large {
-  height: 50px;
+  height: 40px;
 }
 
 .bottom-spacer {
@@ -427,7 +480,7 @@ tbody tr:hover {
 -------------------------------------------------- */
 
 .main {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 @media (min-width: 768px) {
