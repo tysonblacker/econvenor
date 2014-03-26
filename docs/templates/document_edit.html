@@ -21,7 +21,7 @@
     <!-- TASKS TABLES
     ================================================== -->
       {% if doc_type == 'agenda' %}
-        <div class="panel panel-primary">
+        <div class="panel panel-primary" id="tasks">
           <div class="panel-heading">
             Attachment 1. &nbsp;&nbsp; Tasks overdue
           </div>
@@ -33,7 +33,7 @@
                 {% endfor%}
 	          </tr>
 		    </thead>
-		    <tbody id="tasks"> 
+		    <tbody> 
 	          {% for task in overdue_tasks_list %}
 			    <tr>
 			      <td>{{ task.description }}</td>

@@ -3,7 +3,6 @@
 <form id="editminutesform" class="savebyjs" action="" method="POST">
   {% csrf_token %}
 
-
   <div class="panel panel-primary" id="meeting_details">
     <div class="panel-heading">
       <strong>Meeting details</strong>                
@@ -21,7 +20,7 @@
  
   {% for item in item_formlist %}
     
-    <div class="panel panel-primary" id="id_{{ item.item_no.value}}-title">
+    <div class="panel panel-primary" id="panel_{{ item.item_no.value}}">
       
       <div class="panel-heading">
         {% ifequal item.added_in_meeting.value True %}

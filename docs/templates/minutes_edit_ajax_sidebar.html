@@ -3,7 +3,7 @@
 <ul class="nav nav-toolbar">
   {% for item in item_formlist %}
     <li id="sidebar_{{ item.item_no.value}}">
-      <a href="#id_{{ item.item_no.value}}-title" class="sidebar-heading">
+      <a href="#panel_{{ item.item_no.value}}" class="sidebar-heading">
         <div>
           <i class="fa fa-file-text-o fa-fw"></i>&nbsp;
           Item&nbsp;{{ item.item_no.value}}.&nbsp;&nbsp;

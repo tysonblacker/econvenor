@@ -72,7 +72,7 @@ $(function enableTimepicker() {
 $("html").on("click", ".sidebar-heading", function(event){ 
   var $anchor = $(this);
   $("html").stop().animate({
-    scrollTop: $($anchor.attr('href')).offset().top-173
+    scrollTop: $($anchor.attr('href')).offset().top-90
   }, 1000);
   event.preventDefault();
 });
