@@ -174,13 +174,15 @@ def agenda_view(request, meeting_id):
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
     
+    doc_type = 'agenda'
     version = meeting.current_agenda_version
     base_file_name = get_base_file_name(request, group, meeting, 'agenda')
     pages = create_images_from_pdf(base_file_name, version=version)
 
     menu = {'parent': 'meetings'}            	
-    return render(request, 'agenda_view.html', {
+    return render(request, 'document_view.html', {
                   'menu': menu,
+                  'doc_type': doc_type,
                   'meeting_id': meeting_id,
                   'pages': pages,
                   })
@@ -349,13 +351,15 @@ def minutes_view(request, meeting_id):
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
     
+    doc_type = 'minutes'
     version = meeting.current_minutes_version
     base_file_name = get_base_file_name(request, group, meeting, 'minutes')
     pages = create_images_from_pdf(base_file_name, version=version)
 
     menu = {'parent': 'meetings'}            	
-    return render(request, 'minutes_view.html', {
+    return render(request, 'document_view.html', {
                   'menu': menu,
+                  'doc_type': doc_type,
                   'meeting_id': meeting_id,
                   'pages': pages,
                   })

@@ -112,7 +112,7 @@
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href={% url 'agenda-view' meeting.id %}>View PDF agenda</a></li>
+                  <li><a href={% url 'agenda-view' meeting.id %}>View sent agenda</a></li>
                   <li class="divider"></li>
                   <li><a href={% url 'agenda-edit' meeting.id %}>Revise agenda</a></li>
                   <li class="divider"></li>
@@ -138,8 +138,8 @@
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href={% url 'agenda-view' meeting.id %}>View PDF agenda</a></li>
-                  <li><a href={% url 'minutes-view' meeting.id %}>View PDF minutes</a></li>
+                  <li><a href={% url 'agenda-view' meeting.id %}>View sent agenda</a></li>
+                  <li><a href={% url 'minutes-view' meeting.id %}>View sent minutes</a></li>
                   <li class="divider"></li>
                   <li><a href={% url 'agenda-edit' meeting.id %}>Revise agenda</a></li>
                   <li><a href={% url 'minutes-edit' meeting.id %}>Revise minutes</a></li>

@@ -1,0 +1,92 @@
+{% extends "app_base.html" %}
+{% load staticfiles %}
+{% load setclass %}
+
+{% block content %}
+
+
+    <!-- DOCUMENT VIEW
+    ================================================== -->
+
+    <div class="col-sm-8 col-md-9 main">
+
+      <div class="top-spacer">
+      </div>
+
+      {% for page in pages %}
+        <img src="{{ MEDIA_URL }}{{ page.1 }}" class="zoomable" 
+        id="page{{page.0}}" width=100% 
+        alt="A series of images showing the completed {{ doc_type }}. Accesibility note: Choose the PDF button on the sidebar to view the agenda in PDF format.">
+        <br/>
+        <br/>
+      {% endfor %}
+      
+      <div class="bottom-spacer">
+      </div>  
+    
+    </div><!-- /.col-sm-8 -->
+
+
+    <!-- TOOLBAR
+    ================================================== -->
+
+    <div class="col-xs-2 toolbar">
+      
+      <ul class="nav nav-toolbar">
+        <li class="toolbar-heading">
+          <h1><i class="fa fa-search fa-fw fa-lg"></i>&nbsp;
+            View {{ doc_type }}</h1>
+        </li>
+        <li class="toolbar-subheading">
+          <h2><i class="fa fa-compass fa-fw fa-lg"></i>&nbsp;
+            Navigation</h2>
+        </li>
+        {% for page in pages %}
+          <li id="sidebar_{{page.o}}">
+            <a href="#page{{page.0}}" class="sidebar-heading tltip"
+              data-toggle="tooltip" title="Scroll to this page">
+                <i class="fa fa-file-text-o fa-fw"></i>&nbsp;
+                Page {{ page.0 }}
+            </a>
+          </li>
+        {% endfor %}        
+      </ul>
+      <ul class="nav nav-toolbar">
+       <li class="toolbar-subheading">
+         <h2><i class="fa fa-rocket fa-fw fa-lg"></i>&nbsp;
+           Actions</h2>
+        </li>
+      </ul>
+      <ul class="nav nav-toolbar">
+        <li>
+          <button type="button" class="btn btn-toolbar zoom-button"
+            id="zoom_in">
+              <i class="fa fa-search-plus fa-fw"></i>&nbsp;
+              Zoom in
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-toolbar zoom-button"
+            id="zoom_out">
+              <i class="fa fa-search-minus fa-fw"></i>&nbsp;
+              Zoom out
+          </button>
+        </li>        
+        <li>
+          {% if doc_type == 'agenda' %}
+            <a href={% url 'agenda-edit' meeting_id %} type="button" 
+              class="btn btn-toolbar">
+          {% elif doc_type == 'minutes' %}
+            <a href={% url 'minutes-edit' meeting_id %} type="button" 
+              class="btn btn-toolbar">
+          {% endif %}
+            <i class="fa fa-edit fa-fw"></i>&nbsp;
+            Edit {{ doc_type }}
+          </a>
+        </li>
+      </ul>
+       
+    </div><!-- /.col-xs-2 -->
+ 
+{% endblock content %}
+
