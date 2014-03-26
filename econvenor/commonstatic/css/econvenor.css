@@ -306,6 +306,7 @@ body {
 
 .panel {
   border-radius: 0px;
+  margin-bottom: 30px;
 }
 
 .panel-heading {
@@ -319,27 +320,26 @@ body {
   border-bottom-left-radius: 0px;
 }
 
- .panel-primary {
+.panel-primary {
   border-color: #555555;
-  border: 2px solid #555555;
+  border: 0px;
 }
 
 .panel-primary > .panel-heading {
   color: #ffffff;
-  background-color: #555555;
+  background-color: #ff0066;
+  border: 0px;
+}
+
+.panel-default {
   border-color: #555555;
+  border: 0px solid #555555;
 }
 
-.panel-primary > .panel-heading + .panel-collapse .panel-body {
-  border-top-color: #555555;
-}
-
-.panel-primary > .panel-heading > .dropdown .caret {
-  border-color: #555555 transparent;
-}
-
-.panel-primary > .panel-footer + .panel-collapse .panel-body {
-  border-bottom-color: #555555;
+.panel-default > .panel-heading {
+  color: #ffffff;
+  background-color: #555555;
+  border: 0px solid #555555;
 }
 
 
