@@ -57,7 +57,6 @@ function updatePage( resp ) {
   $('.timepicker').timepicker({
     timeFormat: 'H:i',
     step: 15,
-    noneOption: 'Decide later',
   });
   $('body').css( 'cursor', 'default' );
 };

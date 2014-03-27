@@ -61,7 +61,6 @@ $(function enableTimepicker() {
   $('.timepicker').timepicker({
     timeFormat: 'H:i',
     step: 15,
-    noneOption: 'Decide later',
   });
 });
 
@@ -123,7 +122,7 @@ $(document).on("click", ".delete-button", function(event){
   var description = $(this).attr('name');
   var confirmation_message = '<p>You are about to delete this record:\
     <br/><br/><strong>' + description + '</strong><br/><br/>\
-    This action cannot be undone.</p>';
+    This action cannot be undone.<br/><br/>Continue?</p>';
   $('.modal-button').attr('value', instruction);
   $(".modal-body").html( confirmation_message );
   $('#delete_modal').modal();

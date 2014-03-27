@@ -15,10 +15,10 @@ def meeting_add(request):
         return HttpResponseRedirect(reverse('index'))
 
     if request.method == "POST":
-        meeting_form = AgendaMeetingForm(group, request.POST)
-        if meeting_form.is_valid() :
+        form = AgendaMeetingForm(group, request.POST, label_suffix='')
+        if form.is_valid() :
             # save the data
-            meeting = meeting_form.save(group)
+            meeting = form.save(group)
             # create a blank first agenda item and link it to the meeting
             first_item = Item(title='New item', item_no=1, group=group)
             meeting.item_set.add(first_item)
@@ -27,12 +27,12 @@ def meeting_add(request):
             return HttpResponseRedirect(reverse('agenda-edit',
                                                 args=(meeting_id,)))
     else:
-        meeting_form = AgendaMeetingForm(group)
+        form = AgendaMeetingForm(group, label_suffix='')
 
     menu = {'parent': 'meetings', 'child': 'new_meeting'}            
     return render(request, 'meeting_add.html', {
                   'menu': menu,
-                  'meeting_form': meeting_form,
+                  'form': form,
                   })
                   
 
