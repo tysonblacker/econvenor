@@ -56,41 +56,37 @@
 	    <i class="fa fa-arrow-circle-right pull-right"></i>
       </div>
     </a>
-    <div class="panel-body">
-      {% if last_meeting %}
-        <table class="meeting-table"> 
-           <tr>
-             <td>Number</td>
-             <td>{{ last_meeting.meeting_no }}</td>
-           </tr>
-           <tr>
-             <td>Date</td>
-             <td>{{ last_meeting.date_scheduled }}</td>
-           </tr>
-           <tr>
-             <td>Type</td>
-             <td>{{ last_meeting.meeting_type }}</td>
-            </tr>
-           <tr>
-             <td>Minutes</td>
-             {% if last_meeting.current_minutes_version %}
-               <td>Sent</td>
-             {% else %}
-               <td>Not yet sent out</td>
-             {% endif %}
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-        </table>
-      {% else %}
-        <br/><br/>
-        <p class="text-center">
-          The box will be empty until eConvenor has more data.
-        <p/>
-      {% endif%}
-    </div>  
+    {% if last_meeting %}
+      <table class="table dashboard-meeting-table"> 
+        <tbody>
+          <tr>
+            <td>Number</td>
+            <td>{{ last_meeting.meeting_no }}</td>
+          </tr>
+          <tr>
+            <td>Date</td>
+            <td>{{ last_meeting.date_scheduled }}</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td>{{ last_meeting.meeting_type }}</td>
+          </tr>
+          <tr>
+            <td>Minutes</td>
+            {% if last_meeting.current_minutes_version %}
+              <td>Sent</td>
+            {% else %}
+              <td>Not yet sent out</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+    {% else %}
+      <br/><br/>
+      <p class="text-center">
+        The box will be empty until eConvenor has more data.
+      <p/>
+    {% endif%}
   </div>  
 </div>
 
@@ -103,41 +99,35 @@
 	    <i class="fa fa-arrow-circle-right pull-right"></i>
       </div>
     </a>
-    <div class="panel-body">
-      {% if next_meeting %}
-        <table class="meeting-table"> 
-           <tr>
-             <td>Number</td>
-             <td>{{ next_meeting.meeting_no }}</td>
-           </tr>
-           <tr>
-             <td>Date</td>
-             <td>{{ next_meeting.date_scheduled }}</td>
-           </tr>
-           <tr>
-             <td>Type</td>
-             <td>{{ next_meeting.meeting_type }}</td>
-            </tr>
-           <tr>
-             <td>Agenda</td>
-             {% if next_meeting.current_agenda_version %}
-               <td>Sent</td>
-             {% else %}
-               <td>Not yet sent out</td>
-             {% endif %}
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-        </table>
-      {% else %}
-        <br/><br/>
-        <p class="text-center">
-          The box will be empty until eConvenor has more data.
-        <p/>
-      {% endif%}
-    </div>
+    {% if next_meeting %}
+      <table class="table dashboard-meeting-table"> 
+         <tr>
+           <td>Number</td>
+           <td>{{ next_meeting.meeting_no }}</td>
+         </tr>
+         <tr>
+           <td>Date</td>
+           <td>{{ next_meeting.date_scheduled }}</td>
+         </tr>
+         <tr>
+           <td>Type</td>
+           <td>{{ next_meeting.meeting_type }}</td>
+         </tr>
+         <tr>
+           <td>Agenda</td>
+           {% if next_meeting.current_agenda_version %}
+             <td>Sent</td>
+           {% else %}
+             <td>Not yet sent out</td>
+           {% endif %}
+          </tr>
+      </table>
+    {% else %}
+    <br/><br/>
+      <p class="text-center">
+        The box will be empty until eConvenor has more data.
+      <p/>
+    {% endif%}
   </div>  
 </div>  
 
