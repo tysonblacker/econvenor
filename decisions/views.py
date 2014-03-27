@@ -12,16 +12,14 @@ def decision_list(request):
         return HttpResponseRedirect(reverse('index'))
 
     decisions = Decision.objects.filter(group=group)
-    page_heading = 'Decisions'
-    table_headings = ('Decision',
-                      'Meeting',
-                      'Agenda item',
+    table_headings = ('Meeting no',
+                      'Item no',
+                      'Decision',
                       )
 
     menu = {'parent': 'decisions', 'child': 'all_decisions'}    
     return render(request, 'decision_list.html', {
                   'menu': menu,
                   'decisions': decisions,
-                  'page_heading': page_heading,
                   'table_headings': table_headings,
                   })

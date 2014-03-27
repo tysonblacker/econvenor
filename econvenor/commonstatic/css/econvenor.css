@@ -406,6 +406,27 @@ body {
   background-color: #555555;
 }
 
+
+/* Set up minimum column widths for tables in management views */
+
+#table_manage_tasks td:nth-child(0n+3) {
+  width: 110px;
+}
+
+#table_manage_tasks td:nth-child(0n+2) {
+  min-width: 110px;
+}
+
+#table_manage_decisions td:first-child {
+  text-align: center;
+  width: 90px;
+}
+
+#table_manage_decisions td:nth-child(0n+2) {
+  text-align: center;
+  width: 70px;
+}
+
 /* Set colors for tables in panels */
 
 .panel .table > thead > tr > th {
