@@ -18,6 +18,24 @@ class AddTaskForm(forms.ModelForm):
                   'deadline',
                   'notes',
                   ]
+        widgets = {
+            'description': forms.Textarea(attrs={
+                'rows': 2,
+                'class': 'form-control',
+                'placeholder': '80 characters maximum',
+                }),
+            'participant': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'deadline': forms.DateInput(attrs={
+                'class': 'datepicker form-control',
+                }),
+            'notes': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'form-control',
+                'placeholder': '300 characters maximum',
+                }),
+            }
                   
     def save(self, group, commit=True):
         task = super(AddTaskForm, self).save(commit=False)
@@ -43,7 +61,31 @@ class EditTaskForm(forms.ModelForm):
                   'completion_date',
                   'notes',
                   ]
-                  
+        widgets = {
+            'description': forms.Textarea(attrs={
+                'rows': 2,
+                'class': 'form-control',
+                'placeholder': '80 characters maximum',
+                }),
+            'participant': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'deadline': forms.DateInput(attrs={
+                'class': 'datepicker form-control',
+                }),
+            'status': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'completion_date': forms.DateInput(attrs={
+                'class': 'datepicker form-control',
+                }),
+            'notes': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'form-control',
+                'placeholder': '300 characters maximum',
+                }),
+            }
+
     def save(self, group, commit=True):
         task = super(EditTaskForm, self).save(commit=False)
         task.group = group

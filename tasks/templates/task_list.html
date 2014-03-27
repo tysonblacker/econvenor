@@ -1,57 +1,115 @@
 {% extends "app_base.html" %}
+{% load setclass %}
 
 {% block content %}
 
+<div class="col-sm-9 with-toolbar">
 
-<div class="page-header">
-  <h1>All tasks</h1>
-</div>
+  <!-- TABLE
+  ================================================== -->
+      
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {% if selection == "completed" %}
+        <i class="fa fa-star fa-fw fa-lg"></i>&nbsp;
+        Completed tasks
+      {% elif selection == "incomplete" %}
+        <i class="fa fa-star-o fa-fw fa-lg"></i>&nbsp;
+        Incomplete tasks
+      {% elif selection == "overdue" %}
+        <i class="fa fa-exclamation-triangle fa-fw fa-lg"></i>&nbsp;
+        Overdue tasks
+      {% endif %}
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          {% for table_heading in table_headings %}
+            <th>{{ table_heading }}</th>
+          {% endfor%}
+        </tr>
+      </thead>
+      <tbody> 
+        {% for task in tasks %}
+          <tr id={{ task.id }}
+            onclick="document.location='{% url 'task-edit' task.id %}';">
+              <td>{{ task.description }}</td>
+              <td>{{ task.participant }}</td>
+              {% if selection == "completed" %}
+                <td>{{ task.completion_date }}</td>
+              {% else %}
+                <td>{{ task.deadline }}</td>
+              {% endif %}
+          </tr>
+        {% empty %}
+          <tr>
+            <td>There are no {{ selection }} tasks</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+  </div><!-- /.panel -->
 
-<form role="form" action="" method="POST">
-  {% csrf_token %}
-  <ul class="nav nav-pills">
-    <li class="active"><button type="submit" class="btn btn-primary"
-      value="all" name="button">All</button></li>
-    <li><button type="submit" class="btn btn-primary" value="incomplete"
-      name="button">Incomplete</button></li>
-    <li class="active"><button type="submit" class="btn btn-primary"
-      value="complete" name="button">Complete</button></li>
-    <li class="active"><button type="submit" class="btn btn-primary"
-      value="overdue" name="button">Overdue</button></li>
-  </ul>
-</form>
+  <!-- TOOLBAR
+  ================================================== -->
 
-<br/>
+  <div class="col-xs-2 toolbar">
 
-<div class="panel panel-primary">
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				{% for table_heading in table_headings %}
-					<th>{{ table_heading }}</th>
-				{% endfor%}
-			</tr>
-		</thead>
-		<tbody> 
-			{% for task in tasks %}
-				<tr id={{ task.id }} onclick="document.location='{% url 'task-edit' task.id %}';">
-					<td>{{ task.description }}</td>
-					<td>{{ task.participant }}</td>
-					<td>{{ task.deadline }}</td>
-					<td>{{ task.status }}</td>
-				</tr>
-			{% empty %}
-				<tr>
-					<td>There are no tasks yet.</td>
-				</tr>
-			{% endfor%}
-		</tbody>
-	</table>
-</div>
+    <form role="form" action="" method="POST">
+      {% csrf_token %}      
+      <ul class="nav nav-toolbar">
 
-<a href={% url 'task-add' %}>
-  <button type="button" class="btn btn-primary">Add task</button>
-</a>
-	
-	
-{% endblock %}
+        <li class="toolbar-heading">
+          <h1><i class="fa fa-gears fa-fw fa-lg"></i>&nbsp;
+            Manage tasks</h1>
+        </li>
+
+        <li class="toolbar-subheading">
+          <h2><i class="fa fa-filter fa-fw fa-lg"></i>&nbsp;
+            Filter options</h2>
+        </li>
+        {% if selection == "overdue" %}
+          <li class="active">
+        {% else %}
+          <li>
+        {% endif %}
+          <button type="submit" class="btn btn-toolbar"
+            value="overdue" name="button">
+              <i class="fa fa-exclamation-triangle fa-fw"></i>&nbsp;
+              Overdue
+          </button>
+        </li>
+
+        {% if selection == "incomplete" %}
+          <li class="active">
+        {% else %}
+          <li>
+        {% endif %}
+          <button type="submit" class="btn btn-toolbar"
+            value="incomplete" name="button">
+              <i class="fa fa-star-o fa-fw"></i>&nbsp;
+              Incomplete
+          </button>
+        </li>
+
+        {% if selection == "completed" %}
+          <li class="active">
+        {% else %}
+          <li>
+        {% endif %}
+          <button type="submit" class="btn btn-toolbar"
+            value="completed" name="button">
+              <i class="fa fa-star fa-fw"></i>&nbsp;
+              Completed
+          </button>
+        </li>
+
+      </ul>
+    </form>
+
+  </div><!-- /.toolbar -->
+
+{% endblock content %}

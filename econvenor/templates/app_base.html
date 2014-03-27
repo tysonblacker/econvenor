@@ -193,7 +193,7 @@
                       New task
                   </a>
                 </li>
-                {% ifequal menu.child 'all_tasks' %}
+                {% ifequal menu.child 'manage_tasks' %}
                   <li class="active">
                 {% else %}
                   <li>
@@ -282,7 +282,10 @@
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Confirm deletion</h4>
+              <h4 class="modal-title">
+                <i class="fa fa-times-circle fa-lg"></i>&nbsp;
+                Confirm deletion
+              </h4>
             </div><!-- /.modal-header -->
             <div class="modal-body">
             </div><!-- /.modal-body -->
@@ -291,11 +294,11 @@
                 {% csrf_token %} 
                 <button type="button" class="btn btn-default" 
                         data-dismiss="modal">
-                  Cancel
+                  No, cancel
                 </button>
                 <button type="submit" class="btn btn-primary modal-button"
                         name="button">
-                  Delete
+                  Yes, delete
                 </button>
               </form>
             </div><!-- /.modal-footer -->

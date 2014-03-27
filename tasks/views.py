@@ -12,28 +12,23 @@ def task_list(request):
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
 
-    menu = {'parent': 'tasks', 'child': 'all_tasks'}
-
-    tasks = Task.lists.all_tasks().filter(group=group)
-    selection = 'all'
-    
-    table_headings = ('Description',
-                      'Assigned to',
-                      'Deadline',
-                      'Status',
-                      )
+    tasks = Task.lists.incomplete_tasks().filter(group=group)
+    selection = 'incomplete'
+    table_headings = ('Description', 'Assigned to', 'Deadline',)
     
     if request.method == "POST":
-        if request.POST['button']=='complete':
-            tasks = Task.lists.complete_tasks().filter(group=group)
-            selection = 'complete'
+        if request.POST['button']=='completed':
+            tasks = Task.lists.completed_tasks().filter(group=group)
+            selection = 'completed'
+            table_headings = ('Description', 'Assigned to', 'Completed on',)
         elif request.POST['button']=='incomplete':
             tasks = Task.lists.incomplete_tasks().filter(group=group)
             selection = 'incomplete'
         elif request.POST['button']=='overdue':
             tasks = Task.lists.overdue_tasks().filter(group=group)
             selection = 'overdue'
- 
+
+    menu = {'parent': 'tasks', 'child': 'manage_tasks'} 
     return render(request, 'task_list.html', {
 	              'menu': menu,
 	              'tasks': tasks,
@@ -48,12 +43,12 @@ def task_add(request):
         return HttpResponseRedirect(reverse('index'))
     
     if request.method == "POST":
-        form = AddTaskForm(group, request.POST)
+        form = AddTaskForm(group, request.POST, label_suffix='')
         if form.is_valid():
             form.save(group)    
             return HttpResponseRedirect(reverse('task-list'))
     else:
-        form = AddTaskForm(group)
+        form = AddTaskForm(group, label_suffix='')
 
     menu = {'parent': 'tasks', 'child': 'new_task'}
     return render(request, 'task_add.html', {
@@ -80,12 +75,14 @@ def task_edit(request, task_id):
                 task.delete()
                 return HttpResponseRedirect(reverse('task-list'))
             else:
-                form = EditTaskForm(group, request.POST, instance=task)
+                form = EditTaskForm(group, request.POST, instance=task,
+                                    label_suffix='')
+#                import pdb; pdb.set_trace()
                 if form.is_valid():
                     form.save(group)    
                     return HttpResponseRedirect(reverse('task-list'))
     else:
-        form = EditTaskForm(group, instance=task)
+        form = EditTaskForm(group, instance=task, label_suffix='')
 
     menu = {'parent': 'tasks'}        		
     return render(request, 'task_edit.html', {
@@ -94,10 +91,5 @@ def task_edit(request, task_id):
                   'page_heading': page_heading,
                   'task_id': task_id,
                   })
-    
-    
-    
-    
-    
-    
-    
+                  
+                  

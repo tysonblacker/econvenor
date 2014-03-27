@@ -14,9 +14,9 @@ class TaskManager(models.Manager):
     def all_tasks(self):
         return self.get_queryset().all().order_by('deadline')
                 
-    def complete_tasks(self):
-        return self.get_queryset().filter(status='Complete').\
-            order_by('deadline')
+    def completed_tasks(self):
+        return self.get_queryset().filter(status='Completed').\
+            order_by('completion_date').reverse()
 
     def incomplete_tasks(self):
         return self.get_queryset().filter(status='Incomplete').\
@@ -42,7 +42,7 @@ class Task(TimeStampedModel):
 
     STATUS_CHOICES = (
         ('Incomplete', 'Incomplete'),
-        ('Complete', 'Complete'),
+        ('Completed', 'Completed'),
         ('Cancelled', 'Cancelled'),
         )
    
@@ -50,12 +50,14 @@ class Task(TimeStampedModel):
     
     item = models.ForeignKey(Item, null=True, blank=True)
     meeting = models.ForeignKey(Meeting, null=True, blank=True)
-    participant = models.ForeignKey(Participant, null=True, blank=False)
-
-    completion_date = models.DateField(null=True, blank=True)
+    participant = models.ForeignKey(Participant,
+                                    verbose_name='person responsible',
+                                    null=True, blank=False)
+    completion_date = models.DateField('date completed', null=True, blank=True)
     deadline = models.DateField(null=True, blank=True)
-    description = models.CharField(max_length=200, null=False, blank=True)
-    notes = models.TextField(null=False, blank=True)
+    description = models.CharField(max_length=80, null=False, blank=True)
+    notes = models.TextField('notes (optional)', max_length=300, null=False,
+                             blank=True)
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
                               default='Incomplete',
