@@ -13,10 +13,12 @@ class MeetingManager(models.Manager):
         return self.get_queryset().all().order_by('meeting_no')
 
     def current_meetings(self):
-        return self.get_queryset().exclude(meeting_archived=True).order_by('meeting_no')
+        return self.get_queryset().exclude(meeting_archived=True).\
+            order_by('date_scheduled')
 
     def archived_meetings(self):
-        return self.get_queryset().filter(meeting_archived=True).order_by('meeting_no')
+        return self.get_queryset().filter(meeting_archived=True).\
+            order_by('date_actual').reverse()
 
     def past_meetings(self):
         return self.get_queryset().\

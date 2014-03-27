@@ -1,89 +1,93 @@
 {% extends "app_base.html" %}
+{% load setclass %}
 
 {% block content %}
 
-
-<div class="page-header">
-  <h1>{{ page_heading }}</h1>
-</div>
-
-<div class="panel panel-primary">
-  <table class="table table-hover" id="meeting_list">
-    <thead>
-      <tr>
-        {% for table_heading in table_headings %}
-          <th>
-            {{ table_heading }}
-          </th>
-        {% endfor%}
-      </tr>
-    </thead>
-    <tbody> 
-      {% for meeting in meetings %}
-        {% with no_of_pdfs=meeting.distributionrecord_set.all|length %}
+<div class="col-lg-10 no-toolbar">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+	  <i class="fa fa-archive fa-fw fa-lg"></i>&nbsp;
+	  Archived meetings
+    </div>
+    <table class="table table-hover" id="table_archived_meetings">
+      <thead>
         <tr>
+          {% for table_heading in table_headings %}
+            <th>
+              {{ table_heading }}
+            </th>
+          {% endfor%}
+        </tr>
+      </thead>
+      <tbody> 
+        {% for meeting in meetings %}
+          {% with no_of_pdfs=meeting.distributionrecord_set.all|length %}
+          <tr>
 
-          <td>
+            <td>
               {% if meeting.date_actual %}
                 {{ meeting.date_actual }}
               {% else %}  
                 {{ meeting.date_scheduled }}
               {% endif %}  
-          </td>
+            </td>
 
-          <td>
-            {{ meeting.meeting_no }}
-          </td>
+            <td>
+              {{ meeting.meeting_no }}
+            </td>
 
-          <td>
-            {{ meeting.meeting_type }}
-          </td>
-          <td>
-            <a href="{% url 'agenda-view' meeting.id %}" type="button"
-              class="btn btn-primary">
-                View agenda
-            </a>
-          </td>
+            <td>
+              {{ meeting.meeting_type }}
+            </td>
+
+            <td>
+              <a href="{% url 'agenda-view' meeting.id %}" type="button"
+                class="btn btn-primary">
+                  <i class="fa fa-file-text-o fa-fw fa-lg"></i>&nbsp;
+                  View agenda
+              </a>
+            </td>
           
-          <td>
-            <a href="{% url 'minutes-view' meeting.id %}" type="button"
-              class="btn btn-primary">
-                View minutes
-            </a>
-          </td>
+            <td>
+              <a href="{% url 'minutes-view' meeting.id %}" type="button"
+                class="btn btn-primary">
+                  <i class="fa fa-file-text fa-fw fa-lg"></i>&nbsp;
+                  View minutes
+              </a>
+            </td>
 
-          <td>
-            <div class="btn-group">
-              <button type="button" class="btn btn-default">
-                Other actions
-              </button>
-              <button type="button" class="btn btn-default dropdown-toggle"
-                data-toggle="dropdown">
-                  <span class="caret"></span>
-                  <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Un-archive meeting</a></li>
-                <li class="divider"></li>
-                <li>
-                  <a href="#" class="delete-button"
-                    name="Meeting number: {{ meeting.meeting_no }}"
-                    id="delete_{{ meeting.id }}">
-                      Delete meeting
-                  </a>
-                </li>
-              </ul>
-            </div><!-- /.btn-group -->
-          </td>
-        </tr>
-        {% endwith %}
-      {% empty %}
-        <tr>
-          <td>There are no archived meetings at the moment.</td>
-        </tr>
-      {% endfor%}
-    </tbody>
-  </table>
-</div>
-	
+            <td>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle"
+                  data-toggle="dropdown">
+                    <i class="fa fa-gears fa-fw fa-lg"></i>&nbsp;
+                    Other actions
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">Un-archive meeting</a></li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#" class="delete-button"
+                      name="Meeting number: {{ meeting.meeting_no }}"
+                      id="delete_{{ meeting.id }}">
+                        Delete meeting
+                    </a>
+                  </li>
+                </ul>
+              </div><!-- /.btn-group -->
+            </td>
+
+          </tr>
+          {% endwith %}
+        {% empty %}
+          <tr>
+            <td>There are no archived meetings at the moment.</td>
+          </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+  </div><!-- /.panel -->
+</div><!-- /.col -->
+  	
 {% endblock %}

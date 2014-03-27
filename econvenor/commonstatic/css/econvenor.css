@@ -420,7 +420,7 @@ body {
   background-color: #555555;
 }
 
-/* Set up minimum column widths for tables in management views */
+/* Set column widths and text alignment for tables in management views */
 
 #table_manage_tasks td:nth-child(0n+3) {
   width: 120px;
@@ -452,6 +452,19 @@ body {
 
 #view_participant_tasks td:nth-child(0n+2) {
   width: 100px;
+}
+
+/* Set row height for current and archived meetings tables */
+
+#table_current_meetings td:first-child,
+#table_archived_meetings td:first-child,
+#table_current_meetings td:nth-child(0n+2),
+#table_archived_meetings td:nth-child(0n+2),
+#table_current_meetings td:nth-child(0n+3),
+#table_archived_meetings td:nth-child(0n+3),
+#table_current_meetings td:nth-child(0n+4) {
+  padding-top: 15px;
+  padding-bottom: 0px;
 }
 
 /* Set colors for tables in panels */
@@ -498,7 +511,7 @@ tbody tr:hover {
 }
 
 .dashboard-meeting-table tbody tr:hover,
-#meeting_list tbody tr:hover {
+#table_current_meetings tbody tr:hover {
   cursor: default;
 }
 
@@ -541,7 +554,7 @@ tbody tr:hover {
 }
 
 .no-toolbar {
-  padding-top: 30px;
+  padding-top: 40px;
 }
 
 @media (min-width: 768px) {

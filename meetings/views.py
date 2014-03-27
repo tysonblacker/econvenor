@@ -48,7 +48,7 @@ def meeting_list_current(request):
                       'Agenda sent',
                       'Minutes sent',
                       'Next action',
-                      '',
+                      'Other actions',
                       )
 
     if request.method == "POST":
