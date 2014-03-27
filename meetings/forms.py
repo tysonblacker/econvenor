@@ -95,9 +95,9 @@ class MinutesMeetingForm(forms.ModelForm):
 
     def __init__(self, group, *args, **kwargs):
         super(MinutesMeetingForm, self).__init__(*args, **kwargs)
-        self.fields['facilitator_scheduled'].queryset = \
+        self.fields['facilitator_actual'].queryset = \
             Participant.objects.filter(group=group, status='Active')
-        self.fields['minute_taker_scheduled'].queryset = \
+        self.fields['minute_taker_actual'].queryset = \
             Participant.objects.filter(group=group, status='Active')
                     
     class Meta:
@@ -137,9 +137,9 @@ class NextMeetingForm(forms.ModelForm):
 
     def __init__(self, group, *args, **kwargs):
         super(NextMeetingForm, self).__init__(*args, **kwargs)
-        self.fields['facilitator_scheduled'].queryset = \
+        self.fields['next_meeting_facilitator'].queryset = \
             Participant.objects.filter(group=group, status='Active')
-        self.fields['minute_taker_scheduled'].queryset = \
+        self.fields['next_meeting_minute_taker'].queryset = \
             Participant.objects.filter(group=group, status='Active')
                                   
     class Meta:
