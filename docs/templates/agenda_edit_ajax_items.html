@@ -3,7 +3,7 @@
 <form id="editagendaform" class="savebyjs" action="" method="POST">
 {% csrf_token %}
 
-<div class="panel panel-primary" id="meeting_details">
+<div class="panel panel-default" id="meeting_details">
   <div class="panel-heading">
     Meeting details
   </div>
@@ -21,7 +21,7 @@
 
 {% for item in item_formlist %}
 
-  <div class="panel panel-primary" id="panel_{{ item.item_no.value}}">
+  <div class="panel panel-default" id="panel_{{ item.item_no.value}}">
     
     <div class="panel-heading">
       Item {{ item.item_no.value }}
@@ -49,7 +49,7 @@
         {{ item.background.errors }}
      </div>
       <button type="button" title="Delete item" 
-        class="btn btn-default btn-sm ajax-button"
+        class="btn btn-default btn-sm ajax-button pull-right"
         id="delete_item_{{ item.item_no.value}}">
         <i class="fa fa-times fa-fw"></i>&nbsp; Delete this item
       </button>

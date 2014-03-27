@@ -504,13 +504,15 @@ body {
   border-bottom: 1px solid #dddddd;
 }
 
-/* Set cursor to pointer for all tables except meeting lists */
+/* Control cursor for tables */
 
 tbody tr:hover {
   cursor: pointer;
 }
 
 .dashboard-meeting-table tbody tr:hover,
+.cursor-default tbody tr:hover,
+#table_archived_meetings tbody tr:hover,
 #table_current_meetings tbody tr:hover {
   cursor: default;
 }

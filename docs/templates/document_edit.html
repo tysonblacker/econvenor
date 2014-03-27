@@ -4,12 +4,7 @@
 
 {% block content %}
 
-
-    <div class="col-sm-8 col-md-8 main">
-
-      <div class="top-spacer">
-      </div>
-  
+    <div class="col-sm-8 col-md-8 with-toolbar">
      
     <!-- AJAX FORMS
     ================================================== -->
@@ -21,11 +16,11 @@
     <!-- TASKS TABLES
     ================================================== -->
       {% if doc_type == 'agenda' %}
-        <div class="panel panel-primary" id="tasks">
+        <div class="panel panel-default" id="tasks">
           <div class="panel-heading">
             Attachment 1. &nbsp;&nbsp; Tasks overdue
           </div>
-  	      <table class="table">
+  	      <table class="table cursor-default">
 		    <thead>
 		      <tr>
 			    {% for heading in task_list_headings %}
@@ -49,11 +44,11 @@
 		  </table>
 	    </div><!-- /.panel -->
 
-        <div class="panel panel-primary">
+        <div class="panel panel-default">
           <div class="panel-heading">
             Attachment 2. &nbsp;&nbsp; Tasks outstanding
           </div>
-	      <table class="table">
+	      <table class="table cursor-default">
 		    <thead>
 		      <tr>
 			    {% for heading in task_list_headings %}
@@ -77,11 +72,11 @@
 		  </table>
 	    </div><!-- /.panel -->
 
-        <div class="panel panel-primary">
+        <div class="panel panel-default">
           <div class="panel-heading">
             Attachment 3. &nbsp;&nbsp; Tasks completed since last meeting
           </div>
-	      <table class="table table-hover">
+	      <table class="table cursor-default">
 		    <thead>
 		      <tr>
 			    {% for heading in task_list_headings %}
@@ -124,7 +119,7 @@
             Create {{ doc_type }}</h1>
         </li>
         <li class="toolbar-subheading">
-          <h2><i class="fa fa-compass fa-fw fa-lg"></i>&nbsp;
+          <h2><i class="fa fa-compass fa-fw"></i>&nbsp;
             Navigation toolbar</h2>
         </li>
         <li>
@@ -155,21 +150,21 @@
           </li>
         {% endif %}
         <li class="toolbar-subheading">
-          <h2><i class="fa fa-rocket fa-fw fa-lg"></i>&nbsp;
+          <h2><i class="fa fa-rocket fa-fw"></i>&nbsp;
             Actions toolbar</h2>
-        </li>
-        <li>
-          <button type="button" class="btn btn-toolbar ajax-button" 
-            id="save_{{ doc_type }}">
-              <i class="fa fa-save fa-fw"></i>&nbsp;
-              Save changes
-          </button>
         </li>
         <li>
           <button type="button" class="btn btn-toolbar ajax-button" 
             id="add_item">
               <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
               Add an item
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-toolbar ajax-button" 
+            id="save_{{ doc_type }}">
+              <i class="fa fa-save fa-fw"></i>&nbsp;
+              Save changes
           </button>
         </li>
         <li>
