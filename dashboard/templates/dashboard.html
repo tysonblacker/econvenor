@@ -82,10 +82,11 @@
         </tbody>
       </table>
     {% else %}
-      <br/><br/>
-      <p class="text-center">
-        The box will be empty until eConvenor has more data.
-      <p/>
+      <div class="panel-body text-center">
+        <br/><br/>
+          This box will be empty until eConvenor has more data.
+        <p/>
+      </div>
     {% endif%}
   </div>  
 </div>
@@ -123,10 +124,11 @@
           </tr>
       </table>
     {% else %}
-    <br/><br/>
-      <p class="text-center">
-        The box will be empty until eConvenor has more data.
-      <p/>
+      <div class="panel-body text-center">
+        <br/><br/>
+          This box is empty because there are no meetings scheduled.
+        <p/>
+      </div>
     {% endif%}
   </div>  
 </div>  
@@ -163,7 +165,8 @@
     </div>
     {% else %}
       <div class="panel-body text-center">
-        <br/><br/><p>There are no tasks due soon.<br/>Click 
+        <br/><br/>
+        <p>There are no tasks due soon.<br/>Click 
           the heading of this box to create some.<p/>
       </div>
     {% endif%}
@@ -200,14 +203,11 @@
           {% endif %}
         </span>
       {% else %}
-        <br/><br/>
-        <p class="text-center">
-          The box will be empty until eConvenor has more data.
-        <p/>
+        <br/>
+        <p>This box will be empty until eConvenor has more data.<p/>
       {% endif %}    
     </div>
   </div>  
 </div>
-
 
 {% endblock %}
