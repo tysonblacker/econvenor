@@ -3,72 +3,69 @@
 
 {% block content %}
 
-<div class="col-sm-9 with-toolbar">
-
   <!-- TABLE
   ================================================== -->
-      
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      {% if selection == "completed" %}
-        <i class="fa fa-star fa-fw fa-lg"></i>&nbsp;
-        Completed tasks
-      {% elif selection == "incomplete" %}
-        <i class="fa fa-star-o fa-fw fa-lg"></i>&nbsp;
-        Incomplete tasks
-      {% elif selection == "overdue" %}
-        <i class="fa fa-exclamation-triangle fa-fw fa-lg"></i>&nbsp;
-        Overdue tasks
-      {% endif %}
-    </div>
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          {% for table_heading in table_headings %}
-            <th>{{ table_heading }}</th>
-          {% endfor%}
-        </tr>
-      </thead>
-      <tbody> 
-        {% for task in tasks %}
-          <tr id={{ task.id }}
-            onclick="document.location='{% url 'task-edit' task.id %}';">
-              <td>{{ task.description }}</td>
-              <td>{{ task.participant }}</td>
-              {% if selection == "completed" %}
-                <td>{{ task.completion_date }}</td>
-              {% else %}
-                <td>{{ task.deadline }}</td>
-              {% endif %}
-          </tr>
-        {% empty %}
-          <tr>
-            <td>There are no {{ selection }} tasks</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        {% endfor%}
-      </tbody>
-    </table>
-  </div><!-- /.panel -->
 
+  <div class="col-sm-9 with-toolbar">      
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {% if selection == "completed" %}
+          <i class="fa fa-star fa-fw fa-lg"></i>&nbsp;
+          Completed tasks
+        {% elif selection == "incomplete" %}
+          <i class="fa fa-star-o fa-fw fa-lg"></i>&nbsp;
+          Incomplete tasks
+        {% elif selection == "overdue" %}
+          <i class="fa fa-exclamation-triangle fa-fw fa-lg"></i>&nbsp;
+          Overdue tasks
+        {% endif %}
+      </div>
+      <table class="table table-hover" id="table_manage_tasks">
+        <thead>
+          <tr>
+            {% for table_heading in table_headings %}
+              <th>{{ table_heading }}</th>
+            {% endfor%}
+          </tr>
+        </thead>
+        <tbody> 
+          {% for task in tasks %}
+            <tr id={{ task.id }}
+              onclick="document.location='{% url 'task-edit' task.id %}';">
+                <td>{{ task.description }}</td>
+                <td>{{ task.participant }}</td>
+                {% if selection == "completed" %}
+                  <td>{{ task.completion_date }}</td>
+                {% else %}
+                  <td>{{ task.deadline }}</td>
+                {% endif %}
+            </tr>
+          {% empty %}
+            <tr>
+              <td>There are no {{ selection }} tasks</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+    </div><!-- /.panel -->
+  </div><!-- /.col -->
+  
   <!-- TOOLBAR
   ================================================== -->
 
-  <div class="col-xs-2 toolbar">
-
+  <div class="col-sm-2 toolbar">
     <form role="form" action="" method="POST">
       {% csrf_token %}      
       <ul class="nav nav-toolbar">
-
         <li class="toolbar-heading">
-          <h1><i class="fa fa-gears fa-fw fa-lg"></i>&nbsp;
+          <h1><i class="fa fa-check-square-o fa-fw fa-lg"></i>&nbsp;
             Manage tasks</h1>
         </li>
-
         <li class="toolbar-subheading">
-          <h2><i class="fa fa-filter fa-fw fa-lg"></i>&nbsp;
+          <h2><i class="fa fa-filter fa-fw"></i>&nbsp;
             Filter options</h2>
         </li>
         {% if selection == "overdue" %}
@@ -82,7 +79,6 @@
               Overdue
           </button>
         </li>
-
         {% if selection == "incomplete" %}
           <li class="active">
         {% else %}
@@ -94,7 +90,6 @@
               Incomplete
           </button>
         </li>
-
         {% if selection == "completed" %}
           <li class="active">
         {% else %}
@@ -106,10 +101,8 @@
               Completed
           </button>
         </li>
-
       </ul>
     </form>
-
-  </div><!-- /.toolbar -->
+  </div><!-- /.col -->
 
 {% endblock content %}
