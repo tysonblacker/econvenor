@@ -24,6 +24,9 @@
 }
 
 
+/* TEXT STYLES
+-------------------------------------------------- */
+
 h1,
 h2 {
   font-family: 'Heading', Helvetica, Arial, sans-serif;
@@ -37,11 +40,19 @@ label.error {
   font-weight: normal;
 }
 
+.errorlist > li {
+  margin-top: 6px;
+  margin-left: -40px;
+  list-style-type: none;
+  color: #ff0066;
+}
+
 .feature-text {
   color: #aaaaaa;
   font-size: 60px;
   font-weight: bold;
 }
+
 
 /* BODY
 -------------------------------------------------- */
@@ -202,18 +213,19 @@ body {
 }
 
 .nav-toolbar .toolbar-heading {
+  color: #ffffff;
   background-color: #ff0066;
   padding: 13px 20px 12px 20px;
 }
 
 .nav-toolbar h1,
 .nav-toolbar h2  {
-  color: #ffffff;
   margin: 0 0 0 0;
   font-size: 1em;
 }
 
 .nav-toolbar .toolbar-subheading {
+  color: #bbbbbb;
   background-color: #333333;
   padding: 13px 20px 12px 20px;
 }
@@ -257,7 +269,6 @@ body {
   color: #ffffff;
   background-color: #ff0066;
 }
-
 
 
 /* BUTTONS
@@ -356,6 +367,8 @@ body {
 .panel-footer {
   border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0px;
+  background-color: #ffffff;
+  padding: 15px 15px 15px 15px;
 }
 
 .panel-primary {
@@ -390,13 +403,14 @@ body {
   overflow: auto;
 }
 
+
 /* TABLES
 -------------------------------------------------- */
 
 /* Set colors for tables by themselves */
 
 .table > thead > tr > th {
-  color: #ffffff;
+  color: #555555;
   font-weight: normal;
   vertical-align: bottom;
   border-bottom: 1px solid #555555;
@@ -406,11 +420,10 @@ body {
   background-color: #555555;
 }
 
-
 /* Set up minimum column widths for tables in management views */
 
 #table_manage_tasks td:nth-child(0n+3) {
-  width: 110px;
+  width: 120px;
 }
 
 #table_manage_tasks td:nth-child(0n+2) {
@@ -425,6 +438,20 @@ body {
 #table_manage_decisions td:nth-child(0n+2) {
   text-align: center;
   width: 70px;
+}
+
+#table_manage_participants td:nth-child(0n+3) {
+  text-align: center;
+  width: 150px;
+}
+
+#view_participant_details td:first-child {
+  background-color: #aaaaaa;
+  width: 150px;
+}
+
+#view_participant_tasks td:nth-child(0n+2) {
+  width: 100px;
 }
 
 /* Set colors for tables in panels */
