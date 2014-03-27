@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from participants.models import Participant
 from participants.forms import AddParticipantForm, EditParticipantForm
 from tasks.forms import AddTaskForm
+from tasks.models import Task
 from utilities.commonutils import get_current_group
 
 
@@ -13,30 +14,25 @@ def participant_list(request):
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
 
-    participants = Participant.lists.by_first_name().filter(group=group)
-    selection = 'first_name'
-        
-    page_heading = 'Participants'
+    participants = Participant.lists.active().filter(group=group)
+    selection = 'active'
     table_headings = ('First name',
                       'Last name',
-                      'Email address',
-                      'Phone number',)
+                      'Receiving reminders?',
+                      )
 
     if request.method == "POST":
-        if request.POST['button']=='last_name':
-            participants = Participant.lists.by_last_name().\
-                filter(group=group)
-            selection = 'last_name'
-        elif request.POST['button']=='newest_first':
-            participants = Participant.lists.newest_first().\
-                filter(group=group)
-            selection = 'newest_first'
+        if request.POST['button']=='inactive':
+            participants = Participant.lists.inactive().filter(group=group)
+            selection = 'inactive'
+        elif request.POST['button']=='former':
+            participants = Participant.lists.former().filter(group=group)
+            selection = 'former'
 
-    menu = {'parent': 'participants', 'child': 'all_participants'}               
+    menu = {'parent': 'participants', 'child': 'manage_participants'}   
     return render(request, 'participant_list.html', {
 	              'menu': menu,
                   'participants': participants,
-                  'page_heading': page_heading,
                   'selection': selection,
                   'table_headings': table_headings,
                   })
@@ -47,21 +43,18 @@ def participant_add(request):
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
         
-    page_heading = 'Add a participant'
-    
     if request.method == "POST":
-        form = AddParticipantForm(group, request.POST)
+        form = AddParticipantForm(group, request.POST, label_suffix='')
         if form.is_valid():
             form.save(group)    
             return HttpResponseRedirect(reverse('participant-list'))
     else:
-        form = AddParticipantForm(group)
+        form = AddParticipantForm(group, label_suffix='')
 
     menu = {'parent': 'participants', 'child': 'new_participant'}               
     return render(request, 'participant_add.html', {
 	              'menu': menu,
                   'form': form,
-                  'page_heading': page_heading
                   })
 
 
@@ -73,27 +66,25 @@ def participant_edit(request, participant_id):
     participant = Participant.objects.get(pk=int(participant_id))
     if participant.group != group:
         return HttpResponseRedirect(reverse('index'))
-    
-    page_heading = 'Edit %s\'s details' % participant
-    
+   
     if request.method == "POST":
         if request.POST['button']=='delete_participant':
             participant.delete()
             return HttpResponseRedirect(reverse('participant-list'))
-        elif request.POST['button'] == 'save':
+        elif request.POST['button'] == 'save_participant':
             form = EditParticipantForm(group, request.POST,
-                                   instance=participant)
+                                   instance=participant, label_suffix='')
             if form.is_valid():
                 form.save(group) 
                 return HttpResponseRedirect(reverse('participant-list'))
     else:
-        form = EditParticipantForm(group, instance=participant)
+        form = EditParticipantForm(group, instance=participant,
+                                   label_suffix='')
 
-    menu = {'parent': 'participants'}                       		
+    menu = {'parent': 'participants', 'child': 'manage_participants'}
     return render(request, 'participant_edit.html', {
 	              'menu': menu,
                   'form': form,
-                  'page_heading': page_heading,
                   'participant_id': participant_id
                   })
 
@@ -107,15 +98,15 @@ def participant_view(request, participant_id):
     if participant.group != group:
         return HttpResponseRedirect(reverse('index'))
     
-    tasks = participant.task_set.all()
-    page_heading = participant
-    table_headings = ('Description', 'Deadline', 'Status')
+    incomplete_tasks = Task.lists.incomplete_tasks().\
+                       filter(participant=participant)
+    table_headings = ('Description', 'Deadline',)
 
-    menu = {'parent': 'participants'}                       		
+    menu = {'parent': 'participants', 'child': 'manage_participants'}
     return render(request, 'participant_view.html', {
 	              'menu': menu,
                   'participant': participant,
-                  'page_heading': page_heading,
                   'table_headings': table_headings,
-                  'tasks': tasks,
+                  'incomplete_tasks': incomplete_tasks,
                   })
+                  

@@ -16,6 +16,25 @@ class AddParticipantForm(forms.ModelForm):
                   'phone',
                   'notes',
                   ]
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                }),
+            'phone': forms.TextInput(attrs={
+                'class': 'form-control',
+                }),
+            'notes': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'form-control',
+                'placeholder': '300 characters maximum',
+                }),
+            }
 
     def save(self, group, commit=True):
         participant = super(AddParticipantForm, self).save(commit=False)
@@ -36,10 +55,35 @@ class EditParticipantForm(forms.ModelForm):
                   'last_name',
                   'email',
                   'phone',
-                  'notes',
                   'status',
-                  'no_reminders',
+                  'reminders',
+                  'notes',
                   ]
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                }),
+            'phone': forms.TextInput(attrs={
+                'class': 'form-control',
+                }),
+            'status': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'reminders': forms.CheckboxInput(attrs={
+                'class': 'form-control',
+                }),
+            'notes': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'form-control',
+                'placeholder': '300 characters maximum',
+                }),
+            }
 
     def save(self, group, commit=True):
         participant = super(EditParticipantForm, self).save(commit=False)
@@ -47,3 +91,4 @@ class EditParticipantForm(forms.ModelForm):
         if commit:
             participant.save()
         return participant
+        

@@ -3,41 +3,45 @@
 
 {% block content %}
 
-<div class="page-header">
-  <h1>{{ page_heading }}</h1>
-</div>
-
-<div class="well"> 
-  <form id="editparticipantform" action="" method="POST">
-    {% csrf_token %}
-    {% for field in form %}
-      <div>
-        {{ field.label_tag }}
-        {{ field|setclass:"form-control" }}
-        {{ field.errors }}
-      </div>
-      <br>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary" name="button"
-      value="save">
-        Save changes
-    </button>
-    <a href={% url 'participant-view' participant_id %} type="button"
-      class="btn btn-default">
-        Cancel
-    </a>
-  </form>
-
-  <button class="btn btn-default delete-button"
-    name="Participant: {{ form.first_name.value }}"
-    id="delete_participant">
-      Delete participant
-  </button>
-
-</div>
+<div class="col-sm-10 col-md-8 col-lg-6 no-toolbar">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+	  <i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
+	  Edit participant
+    </div>
+    <div class="panel-body">
+      <form role="form" id="editparticipantform" action="" method="POST">
+      {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+          </div>
+        {% endfor %}
+        <div class="pull-right">
+          <button class="btn btn-default delete-button"
+            name="Participant: {{ form.first_name.value }}"
+            id="delete_participant">
+              <i class="fa fa-times-circle fa-lg"></i>&nbsp;
+              Delete participant
+          </button>
+          <a href={% url 'participant-view' participant_id %} type="button" class="btn btn-default" >
+            <i class="fa fa-minus-circle fa-lg"></i>&nbsp;
+            Cancel
+          </a>
+          <button type="submit" class="btn btn-primary" name="button" 
+            value="save_participant">
+              <i class="fa fa-check-circle fa-lg"></i>&nbsp;
+              Save changes
+          </button>
+        </div><!-- /.pull-right -->
+      </form>
+    </div><!-- /.panel-body -->
+  </div><!-- /.panel -->  
+</div><!-- /.col -->
 
 {% endblock content %}
-
 
 {% block extrajs %}
 
@@ -47,38 +51,40 @@
       rules: {
         first_name: {
           required: true,
-          maxlength: 100,
+          maxlength: 80,
         },
         last_name: {
-          maxlength: 100,
+          maxlength: 80,
         },
         email: {
+          required: true,
           email: true,
         },
         phone: {
           maxlength: 20,
         },
         notes: {
-          maxlength: 1000,
+          maxlength: 300,
         },
         status: "required",
       },
       messages: {
         first_name: {
           required: "Please enter this participant's first name",
-          maxlength: "The maximum length of this field is 100 characters",
+          maxlength: "The maximum length of this field is 80 characters",
         },
         last_name: {
-          maxlength: "The maximum length of this field is 100 characters",
+          maxlength: "The maximum length of this field is 90 characters",
         },
         email: {
+          required: "Please enter this participant's email address",
           email: "Please enter a valid email address",
         },
         phone: {
           maxlength: "The maximum length of this field is 20 characters",
         },
         notes: {
-          maxlength: "The maximum length of this field is 1000 characters",
+          maxlength: "The maximum length of this field is 300 characters",
         },
         status: "Each participant must be assigned a status",
       },

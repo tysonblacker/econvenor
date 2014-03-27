@@ -14,24 +14,40 @@ class ParticipantManager(models.Manager):
 
     def newest_first(self):
         return self.get_queryset().all().order_by('created').reverse()
-        
+
+    def active(self):
+        return self.get_queryset().filter(status='Active').\
+            order_by('first_name')        
+
+    def inactive(self):
+        return self.get_queryset().filter(status='Inactive').\
+            order_by('first_name')  
+
+    def former(self):
+        return self.get_queryset().filter(status='Former').\
+            order_by('first_name')  
+
         
 class Participant(TimeStampedModel):
     
     STATUS_CHOICES = (
         ('Active', 'Active'),
         ('Inactive', 'Inactive'),
-        ('Cancelled', 'Cancelled'),
+        ('Former', 'Former'),
         )
     
     group = models.ForeignKey(Group)
     
-    email = models.EmailField(null=True, blank=True)
-    first_name = models.CharField(max_length=100, null=False, blank=False)
-    last_name = models.CharField(max_length=100, null=False, blank=True)
-    no_reminders = models.BooleanField(default=False) 
-    notes = models.TextField(null=False, blank=True)
-    phone = models.CharField(max_length=20, null=False, blank=True)
+    email = models.EmailField('email address', null=True, blank=True)
+    first_name = models.CharField(max_length=80, null=False, blank=True)
+    last_name = models.CharField('last name (optional)', max_length=80,
+                                 null=False, blank=True)
+    reminders = models.BooleanField('Receive email reminders',
+                                     default=True) 
+    notes = models.TextField('notes (optional)', max_length=300, null=False,
+                             blank=True)
+    phone = models.CharField('phone number (optional)', max_length=20,
+                             null=False, blank=True)
     status = models.CharField(max_length=20, 
                               choices=STATUS_CHOICES,
                               default='Active',
