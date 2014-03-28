@@ -29,6 +29,11 @@
     <div class="panel panel-default" id="panel_{{ item.item_no.value}}">
       <div class="panel-heading">
         Item {{ item.item_no.value }}
+        <button type="button" title="Delete item" 
+          class="btn btn-default btn-item-delete ajax-button pull-right"
+          id="delete_item_{{ item.item_no.value}}">
+            <i class="fa fa-times-circle fa-lg"></i>
+        </button>
       </div>
       <div class="panel-body">
         {% for field in item.visible_fields %}
@@ -41,11 +46,6 @@
         {% for field in item.hidden_fields %}
             {{ field }}
         {% endfor %}
-        <button type="button" title="Delete item" 
-          class="btn btn-default btn-sm ajax-button pull-right"
-          id="delete_item_{{ item.item_no.value}}">
-          <i class="fa fa-times fa-fw"></i>&nbsp; Delete this item
-        </button>
       </div><!-- /.panel-body -->
     </div><!-- /.panel -->
   {% endfor %}
