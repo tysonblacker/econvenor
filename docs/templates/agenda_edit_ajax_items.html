@@ -8,6 +8,7 @@
   
   <div class="panel panel-default" id="meeting_details">
     <div class="panel-heading">
+      <i class="fa fa-align-justify fa-fw fa-lg"></i>&nbsp;
       Meeting details
     </div>
     <div class="panel-body">
@@ -64,6 +65,7 @@
   {% for item in item_formlist %}
     <div class="panel panel-default" id="panel_{{ item.item_no.value}}">
       <div class="panel-heading">
+      <i class="fa fa-file-text-o fa-fw fa-lg"></i>&nbsp;
         Item {{ item.item_no.value }}
         <button type="button" title="Delete item" 
           class="btn btn-default btn-item-delete ajax-button pull-right"

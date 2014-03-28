@@ -8,6 +8,7 @@
   
   <div class="panel panel-default" id="meeting_details">
     <div class="panel-heading">
+      <i class="fa fa-align-justify fa-fw fa-lg"></i>&nbsp;
       Meeting details                
     </div>
     <div class="panel-body">
@@ -70,6 +71,7 @@
     <div class="panel panel-default" id="panel_{{ item.item_no.value}}">
       <div class="panel-heading">
         {% if item.added_in_meeting.value == True %}
+      <i class="fa fa-file-text-o fa-fw fa-lg"></i>&nbsp;
           Item&nbsp;{{ item.item_no.value }}.&nbsp;
           Item added during meeting
           <button type="button" title="Delete item" 
@@ -78,6 +80,7 @@
               <i class="fa fa-times-circle fa-lg"></i>
           </button>
         {% else %}
+          <i class="fa fa-file-text-o fa-fw fa-lg"></i>&nbsp;
           Item&nbsp;{{ item.item_no.value }}.&nbsp;
             {{ item.title.value }}                
           {% if item.time_limit.value != None %}
@@ -197,6 +200,7 @@
     
   <div class="panel panel-default" id="next_meeting_details">
     <div class="panel-heading">
+      <i class="fa fa-align-justify fa-fw fa-lg"></i>&nbsp;
       Details of next meeting&nbsp;&nbsp;(optional but recommended)         
     </div>
     <div class="panel-body">
