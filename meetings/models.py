@@ -47,8 +47,9 @@ class Meeting(TimeStampedModel):
     group = models.ForeignKey(Group)
 
     agenda_pdf = models.FileField(upload_to='meeting_docs')
-    apologies = models.TextField(null=False, blank=True)
-    attendance = models.TextField(null=False, blank=True)            
+    apologies = models.TextField('apologies (optional)', max_length=200,
+                                 null=False, blank=True)
+    attendance = models.TextField(max_length=200, null=False, blank=True)            
     meeting_no = models.CharField('meeting number', max_length=20, null=False,
                                   blank=True)
     meeting_type = models.CharField('type of meeting', max_length=30, 
@@ -73,17 +74,18 @@ class Meeting(TimeStampedModel):
                             related_name='facilitator_sch',
                             null=True, blank=True)
     facilitator_actual = models.ForeignKey(Participant,
-                                           verbose_name='facilitator',
+                                           verbose_name='facilitator / chair',
                                            related_name='facilitator_act',
                                            null=True, blank=True)
     instructions_scheduled = models.TextField(
                              'instructions / notes (optional)',
                              max_length=200, null=False, blank=True)
-    instructions_actual = models.TextField(max_length=200, null=False,
-                                           blank=True)
+    instructions_actual = models.TextField('notes (optional)', max_length=200,
+                                           null=False, blank=True)
     location_scheduled = models.TextField('location', max_length=200,
                                           null=False, blank=True)
-    location_actual = models.TextField(max_length=200, null=False, blank=True)
+    location_actual = models.TextField('location', max_length=200, null=False,
+                                       blank=True)
     minute_taker_scheduled = models.ForeignKey(
                              Participant,
                              verbose_name='minute taker (optional)',
@@ -95,19 +97,22 @@ class Meeting(TimeStampedModel):
                                             null=True, blank=True)
     start_time_scheduled = models.TimeField('start time', null=True,
                                             blank=True)
-    start_time_actual = models.TimeField(null=True, blank=True)
-    next_meeting_date = models.DateField(null=True, blank=True)
+    start_time_actual = models.TimeField('start time', null=True, blank=True)
+    next_meeting_date = models.DateField('date', null=True, blank=True)
     next_meeting_facilitator = models.ForeignKey(Participant,
-                                              related_name='facilitator_next',
-                                              null=True, blank=True)
-    next_meeting_instructions = models.TextField(max_length=200, null=False,
-                                                 blank=True)
-    next_meeting_location = models.TextField(max_length=200, null=False,
-                                             blank=True)
+                               verbose_name='facilitator / chair',
+                               related_name='facilitator_next',
+                               null=True, blank=True)
+    next_meeting_instructions = models.TextField(
+                                'instructions / notes',
+                                max_length=200, null=False, blank=True)
+    next_meeting_location = models.TextField('location', max_length=200,
+                                             null=False, blank=True)
     next_meeting_minute_taker = models.ForeignKey(Participant, null=True,
-                                               related_name='minutetaker_next',
+                                verbose_name='minute taker',
+                                related_name='minutetaker_next', blank=True)
+    next_meeting_start_time = models.TimeField('start time', null=True,
                                                blank=True)
-    next_meeting_start_time = models.TimeField(null=True, blank=True)
     current_agenda_version = models.IntegerField(null=True, blank=True)
     current_minutes_version = models.IntegerField(null=True, blank=True)
     meeting_archived = models.BooleanField(default=False)

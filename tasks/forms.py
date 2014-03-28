@@ -9,7 +9,7 @@ class AddTaskForm(forms.ModelForm):
     def __init__(self, group, *args, **kwargs):
         super(AddTaskForm, self).__init__(*args, **kwargs)
         self.fields['participant'].queryset = \
-            Participant.objects.filter(group=group)
+            Participant.objects.filter(group=group, status='Active')
         
     class Meta:
         model = Task
@@ -50,7 +50,7 @@ class EditTaskForm(forms.ModelForm):
     def __init__(self, group, *args, **kwargs):
         super(EditTaskForm, self).__init__(*args, **kwargs)
         self.fields['participant'].queryset = \
-            Participant.objects.filter(group=group)
+            Participant.objects.filter(group=group, status='Active')
         
     class Meta:
         model = Task
@@ -99,7 +99,7 @@ class MinutesTaskForm(forms.ModelForm):
     def __init__(self, group, *args, **kwargs):
         super(MinutesTaskForm, self).__init__(*args, **kwargs)
         self.fields['participant'].queryset = \
-            Participant.objects.filter(group=group)
+            Participant.objects.filter(group=group, status='Active')
         
     class Meta:
         model = Task
@@ -107,10 +107,25 @@ class MinutesTaskForm(forms.ModelForm):
                   'participant',
                   'deadline',
                  ]
+        widgets = {
+            'description': forms.TextInput(attrs={
+                'class': 'form-control description-field',
+                'placeholder': 'Description',
+                }),
+            'participant': forms.Select(attrs={
+                'class': 'form-control participant-field',
+                }),
+            'deadline': forms.DateInput(attrs={
+                'class': 'datepicker form-control deadline-field',
+                'placeholder': 'Deadline',
+                }),
+            }
+
                   
     def save(self, group, commit=True):
         task = super(MinutesTaskForm, self).save(commit=False)
         task.group = group
+        task.status = 'Draft'
         if commit:
             task.save()
         return task

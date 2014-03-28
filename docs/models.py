@@ -15,24 +15,28 @@ class ItemManager(models.Manager):
 class Item(TimeStampedModel):
 
     TIME_LIMIT_CHOICES = (
-        (2,2), (5,5), (10,10), (15,15), (20,20), (25,25), (30,30), (35,35),
-        (40,40), (45,45), (50,50), (55,55), (60,60), (75,75), (90,90),
-        (120,120), (150,150), (180,180), (210,210), (240,240), (300,300),
+        (2,'2 mins'), (5,'5 mins'), (10,'10 mins'), (15,'15 mins'),
+        (20,'20 mins'), (25,'25 mins'), (30,'30 mins'), (35,'35 mins'),
+        (40,'40 mins'), (45,'45 mins'), (50,'50 mins'), (55,'55 mins'),
+        (60,'60 mins'), (90,'90 mins'), (120,'120 mins'), (150,'150 mins'),
+        (180,'180 mins'), (240,'240 mins'), (300,'300 mins'), (360,'360 mins'),
         )
         
     group = models.ForeignKey(Group)
 
-    explainer = models.ForeignKey(Participant, null=True, blank=True)
+    explainer = models.ForeignKey(Participant,
+                                  verbose_name='to be explained by',
+                                  null=True, blank=True)
     meeting = models.ForeignKey(Meeting, null=True, blank=True)
 
     added_in_meeting = models.BooleanField(default=False)
-    background = models.TextField('background information', null=False,
-                                  blank=True)
+    background = models.TextField('background information', max_length=1000,
+                                  null=False, blank=True)
     carry_over = models.BooleanField(default=False)
     item_no = models.IntegerField(null=True, blank=True)
-    minute_notes = models.TextField('minutes', null=False, blank=True)
-    time_limit = models.IntegerField('time limit (mins)',
-                                     choices=TIME_LIMIT_CHOICES,
+    minute_notes = models.TextField('minutes', max_length=2000,null=False,
+                                    blank=True)
+    time_limit = models.IntegerField(choices=TIME_LIMIT_CHOICES,
                                      null=True, blank=True)
     title = models.CharField('item title', max_length=100, null=False,
                              blank=True)

@@ -12,6 +12,13 @@ class MinutesDecisionForm(forms.ModelForm):
         model = Decision
         
         fields = ['description']
+        widgets = {
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 2,
+                'placeholder': '300 characters maximum',
+                }),
+            }            
         
     def save(self, group, commit=True):
         decision = super(MinutesDecisionForm, self).save(commit=False)

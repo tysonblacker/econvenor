@@ -25,7 +25,25 @@ class AgendaItemForm(forms.ModelForm):
                   'explainer',
                   'background'
                   ]
-        
+        widgets = {
+            'item_no': forms.HiddenInput(),
+            'title': forms.TextInput(attrs={
+                'class': 'form-control item-title',
+                'placeholder': '100 characters maximum',
+                }),
+            'time_limit': forms.Select(attrs={
+                'class': 'form-control field-short',
+                }),
+            'explainer': forms.Select(attrs={
+                'class': 'form-control field-short',
+                }),
+            'background': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': '200 characters maximum',
+                }),
+            }              
+       
     def clean_item_no(self):
         return self.instance.item_no
              
@@ -56,7 +74,16 @@ class MinutesItemForm(forms.ModelForm):
                   ]
         widgets = {
             'item_no': forms.HiddenInput(),
-        }    
+            'title': forms.TextInput(attrs={
+                'class': 'form-control item-title',
+                'placeholder': '100 characters maximum',
+                }),
+            'minute_notes': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': '2000 characters maximum',
+                }),
+            }    
 
     def clean_added_in_meeting(self):
         return self.instance.added_in_meeting

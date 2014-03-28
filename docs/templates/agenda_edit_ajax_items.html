@@ -1,66 +1,60 @@
 {% load setclass %}
 
 <form id="editagendaform" class="savebyjs" action="" method="POST">
-{% csrf_token %}
+  {% csrf_token %}
 
-<div class="panel panel-default" id="meeting_details">
-  <div class="panel-heading">
-    Meeting details
-  </div>
-  <div class="panel-body">
-    <div class="col-md-6">
-    {% for field in meeting_form %}
-      <div class="form-group">
-        {{field.label_tag}}
-        {{ field }}
-      </div>
-    {% endfor %}
-    </div>
-  </div>    
-</div>
-
-{% for item in item_formlist %}
-
-  <div class="panel panel-default" id="panel_{{ item.item_no.value}}">
-    
+  <!-- MEETING DETAILS
+  ================================================== -->
+  
+  <div class="panel panel-default" id="meeting_details">
     <div class="panel-heading">
-      Item {{ item.item_no.value }}
+      Meeting details
     </div>
-    
     <div class="panel-body">
-      <div class="form-group">
-        {{ item.title.label_tag }}
-        {{ item.title|setclass:"form-control item-title" }}
-        {{ item.time_limit.errors }}
+      <div class="col-md-6">
+        {% for field in meeting_form %}
+          <div class="form-group">
+            {{field.label_tag}}
+            {{ field }}
+          </div>
+        {% endfor %}
       </div>
-      <div class="form-group">
-        {{ item.time_limit.label_tag }}<br/>
-        {{ item.time_limit|setclass:"form-control field-short" }}		
-        {{ item.time_limit.errors }}
-      </div>
-      <div class="form-group">
-        {{ item.explainer.label_tag }}
-        {{ item.explainer|setclass:"form-control field-short" }}
-        {{ item.explainer.errors }}
-      </div>
-      <div class="form-group">
-        {{ item.background.label_tag }}
-        {{ item.background|setclass:"form-control" }}
-        {{ item.background.errors }}
-     </div>
-      <button type="button" title="Delete item" 
-        class="btn btn-default btn-sm ajax-button pull-right"
-        id="delete_item_{{ item.item_no.value}}">
-        <i class="fa fa-times fa-fw"></i>&nbsp; Delete this item
-      </button>
-    </div>
-    
+    </div>    
   </div>
 
-{% endfor %}
+  <!-- ITEMS
+  ================================================== -->
+  
+  {% for item in item_formlist %}
+    <div class="panel panel-default" id="panel_{{ item.item_no.value}}">
+      <div class="panel-heading">
+        Item {{ item.item_no.value }}
+      </div>
+      <div class="panel-body">
+        {% for field in item.visible_fields %}
+          <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+          </div>
+        {% endfor %}
+        {% for field in item.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+        <button type="button" title="Delete item" 
+          class="btn btn-default btn-sm ajax-button pull-right"
+          id="delete_item_{{ item.item_no.value}}">
+          <i class="fa fa-times fa-fw"></i>&nbsp; Delete this item
+        </button>
+      </div><!-- /.panel-body -->
+    </div><!-- /.panel -->
+  {% endfor %}
+
 </form>
 
-
+  <!-- FORM VALIDATION
+  ================================================== -->
+  
 <script>
 
   $(function() {

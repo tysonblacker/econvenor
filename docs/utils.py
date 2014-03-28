@@ -47,8 +47,12 @@ def add_decision(request, group, meeting):
     Adds a decision to a minutes item.
     """
     item_number = request.POST['ajax_button'][13:]
-    new_decision = Decision(item_id=int(item_number), group=group,
-                            meeting=meeting)
+    item_number = int(item_number)
+    predecessors = Decision.objects.filter(item_id=item_number)
+    no_of_precessors = predecessors.count()
+    new_decision_number = no_of_precessors + 1
+    new_decision = Decision(item_id=item_number, group=group, meeting=meeting,
+                            decision_no=new_decision_number, status = 'Draft')
     new_decision.save(group)
 
 
@@ -57,8 +61,12 @@ def add_task(request, group, meeting):
     Adds a task to a minutes item.
     """
     item_number = request.POST['ajax_button'][9:]
-    new_task = Task(item_id=int(item_number), group=group,              
-                    meeting=meeting, status = 'Incomplete')
+    item_number = int(item_number)
+    predecessors = Task.objects.filter(item_id=item_number)
+    no_of_precessors = predecessors.count()
+    new_task_number = no_of_precessors + 1
+    new_task = Task(item_id=int(item_number), group=group, meeting=meeting,
+                    task_no=new_task_number, status = 'Draft')
     new_task.save(group)
 
 
@@ -86,33 +94,64 @@ def delete_item(request, group, meeting, **kwargs):
 def delete_decision(request, group, meeting, **kwargs):
     """
     Deletes a decision from a minutes item. If a decision number is passed via
-    *kwargs then it is used, otherwise the decision number is found from the
+    **kwargs then it is used, otherwise the decision number is found from the
     request.POST data
     """    
+    # Get the decision
     if kwargs:
-        decision_number = kwargs['decision_number']
+        decision_id = kwargs['decision_id']
     else:
         button_value = request.POST['ajax_button']
-        decision_number = int(button_value[16:])
+        decision_id = int(button_value[16:])
     decision = Decision.objects.get(meeting=meeting, group=group,
-                                    id=decision_number)
+                                    id=decision_id)
+    # Work out where the decision fitted with the item it was attached to
+    deleted_decision_no = decision.decision_no
+    item = decision.item
+    # Delete the decision
     decision.delete()
-
+    # Renumber other decisions on that item to fill the gap it left
+    decisions = Decision.objects.filter(meeting=meeting, group=group,
+                                        item=item)
+    for decision in decisions:
+        current_decision_no = decision.decision_no
+        if current_decision_no > deleted_decision_no:
+            new_decision_no = current_decision_no - 1
+            decision.decision_no = new_decision_no
+            decision.save()
+                
 
 def delete_task(request, group, meeting, **kwargs):
     """
     Deletes a task from a minutes item. If a task number is passed via
-    *kwargs then it is used, otherwise the task number is found from the
+    **kwargs then it is used, otherwise the task number is found from the
     request.POST data
     """    
+    # Get the task
     if kwargs:
-        task_number = kwargs['task_number']
+        task_id = kwargs['task_id']
     else:
         button_value = request.POST['ajax_button']
-        task_number = int(button_value[12:])
+        task_id = int(button_value[12:])
     task = Task.objects.get(meeting=meeting, group=group,
-                                    id=task_number)
+                                    id=task_id)
+    # Work out where the task fitted with the item it was attached to
+    deleted_task_no = task.task_no
+    item = task.item
+    # Delete the decision
     task.delete()
+    # Renumber other decisions on that item to fill the gap it left
+    tasks = Task.objects.filter(meeting=meeting, group=group,
+                                item=item)
+    for task in tasks:
+        current_task_no = task.task_no
+        if current_task_no > deleted_task_no:
+            new_task_no = current_task_no - 1
+            task.task_no = new_task_no
+            task.save()
+
+
+
     
     
 def move_item(request, group, meeting):
@@ -261,12 +300,12 @@ def clear_minutes(request, group, meeting, decisions, items, tasks):
     Deletes a set of minutes.
     """
     for decision in decisions:
-        decision_number = decision.id
+        decision_id = decision.id
         delete_decision(request, group, meeting,
-                        decision_number=decision_number)
+                        decision_id=decision_id)
     for task in tasks:
-        task_number = task.id
-        delete_task(request, group, meeting, task_number=task_number)    
+        task_id = task.id
+        delete_task(request, group, meeting, task_id=task_id)    
     for item in items:
         if item.minute_notes:
             item.minute_notes = ''
@@ -390,3 +429,17 @@ def get_response(responses, request_type):
         return HttpResponse(json.dumps(ajax_response), \
                             content_type="application/json")
 
+def undraft_tasks_and_decisions(group, meeting):
+    """
+    Changes the status of tasks and decisions attached to minutes from draft to
+    distributed once the minutes are sent out.
+    """      
+    decisions = meeting.decision_set.filter(group=group)
+    tasks = meeting.task_set.filter(group=group)
+    for decision in decisions:
+        decision.status = 'Distributed'
+        decision.save()    
+    for task in tasks:
+        task.status = 'Distributed'
+        task.save()    
+    

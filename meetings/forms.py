@@ -28,7 +28,6 @@ class AgendaMeetingForm(forms.ModelForm):
                   'date_scheduled',
                   'start_time_scheduled',
                   'location_scheduled',
-                  'meeting_status',
                   'facilitator_scheduled',
                   'minute_taker_scheduled',
                   'instructions_scheduled',
@@ -49,9 +48,6 @@ class AgendaMeetingForm(forms.ModelForm):
             'location_scheduled': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
-                }),
-            'meeting_status': forms.Select(attrs={
-                'class': 'form-control',
                 }),
             'facilitator_scheduled': forms.Select(attrs={
                 'class': 'form-control',
@@ -86,6 +82,7 @@ class AgendaMeetingForm(forms.ModelForm):
     def save(self, group, commit=True):
         meeting = super(AgendaMeetingForm, self).save(commit=False)
         meeting.group = group
+        meeting.status = 'Scheduled'
         if commit:
             meeting.save()
         return meeting
@@ -106,23 +103,48 @@ class MinutesMeetingForm(forms.ModelForm):
                   'start_time_actual',
                   'end_time_actual',
                   'location_actual',
-                  'instructions_actual',
                   'facilitator_actual',
                   'minute_taker_actual',
                   'attendance',
                   'apologies',
+                  'instructions_actual',
                   ]
         widgets = {
-            'location_actual': forms.Textarea(attrs={'rows': 3}),
-            'date_actual': forms.DateInput(attrs={'class': 'datepicker'}),
-            'instructions_actual': forms.Textarea(attrs={'rows': 4}),
-           'start_time_actual': forms.TimeInput(attrs=
-                {'class': 'timepicker'}
-            ),
-           'end_time_actual': forms.TimeInput(attrs=
-                {'class': 'timepicker'}
-            ),
-        }
+            'date_actual': forms.DateInput(attrs={
+                'class': 'datepicker form-control',
+                }),
+            'start_time_actual': forms.TimeInput(attrs={
+                'class': 'timepicker form-control',
+                }),
+            'end_time_actual': forms.TimeInput(attrs={
+                'class': 'timepicker form-control',
+                }),
+            'location_actual': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                }),
+            'facilitator_actual': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'minute_taker_actual': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'attendance': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': '200 characters maximum',
+                }),
+            'apologies': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': '200 characters maximum',
+                }),
+            'instructions_actual': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': '200 characters maximum',
+                }),
+            }              
 
     def save(self, group, commit=True):
         meeting = super(MinutesMeetingForm, self).save(commit=False)
@@ -152,13 +174,29 @@ class NextMeetingForm(forms.ModelForm):
                   'next_meeting_instructions',
                   ]
         widgets = {
-            'next_meeting_location': forms.Textarea(attrs={'rows': 3}),
-            'next_meeting_date': forms.DateInput(attrs={'class': 'datepicker'}),
-            'next_meeting_instructions': forms.Textarea(attrs={'rows': 4}),
-            'next_meeting_start_time': forms.TimeInput(attrs=
-                {'class': 'timepicker'}
-            ),
-        }
+            'next_meeting_date': forms.DateInput(attrs={
+                'class': 'datepicker form-control',
+                }),
+            'next_meeting_start_time': forms.TimeInput(attrs={
+                'class': 'timepicker form-control',
+                }),
+            'next_meeting_location': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': '200 characters maximum',
+                'rows': 3,
+                }),
+            'next_meeting_facilitator': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'next_meeting_minute_taker': forms.Select(attrs={
+                'class': 'form-control',
+                }),
+            'next_meeting_instructions': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': '200 characters maximum',
+                'rows': 3,
+                }),
+            }       
 
     def save(self, group, commit=True):
         meeting = super(NextMeetingForm, self).save(commit=False)

@@ -24,7 +24,8 @@ from docs.utils import add_decision, \
                        move_item, \
                        save_formlist, \
                        save_meeting_form, \
-                       save_next_meeting_form
+                       save_next_meeting_form, \
+                       undraft_tasks_and_decisions
 from meetings.models import Meeting
 from meetings.forms import AgendaMeetingForm, \
                            MinutesMeetingForm, \
@@ -296,6 +297,7 @@ def minutes_distribute(request, meeting_id):
         if 'distribute_button' in request.POST:
             if request.POST['distribute_button']=='distribute':
             	distribute_pdf(request, group, meeting, doc_type)
+            	undraft_tasks_and_decisions(group, meeting)
                 return HttpResponseRedirect(reverse('minutes-sent',
                                                     args=(meeting_id,)))
 

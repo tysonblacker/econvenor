@@ -3,142 +3,239 @@
 <form id="editminutesform" class="savebyjs" action="" method="POST">
   {% csrf_token %}
 
-  <div class="panel panel-primary" id="meeting_details">
+  <!-- MEETING DETAILS
+  ================================================== -->
+  
+  <div class="panel panel-default" id="meeting_details">
     <div class="panel-heading">
-      <strong>Meeting details</strong>                
+      Meeting details                
     </div>
     <div class="panel-body">
-      {{ meeting_form}}
-      <button type="button" title="Clear minutes" 
-        class="btn btn-default ajax-button"
-        id="clear_minutes">
-          <i class="fa fa-times fa-lg"></i> Clear these minutes
-      </button>
-    </div>
-  </div>
+      <div class="col-md-6">
+       <div class="form-group">
+          {{ meeting_form.date_actual.label_tag}}
+          {{ meeting_form.date_actual }}
+          {{ meeting_form.date_actual.errors }}
+        </div>
+        <div class="form-group">
+          {{ meeting_form.start_time_actual.label_tag}}
+          {{ meeting_form.start_time_actual }}
+          {{ meeting_form.start_time_actual.errors }}
+        </div>
+        <div class="form-group">
+          {{ meeting_form.end_time_actual.label_tag}}
+          {{ meeting_form.end_time_actual }}
+          {{ meeting_form.end_time_actual.errors }}
+        </div>
+        <div class="form-group">
+          {{ meeting_form.location_actual.label_tag}}
+          {{ meeting_form.location_actual }}
+          {{ meeting_form.location_actual.errors }}
+        </div>    
+        <div class="form-group">
+          {{ meeting_form.facilitator_actual.label_tag}}
+          {{ meeting_form.facilitator_actual }}
+          {{ meeting_form.facilitator_actual.errors }}
+        </div>        
+        <div class="form-group">
+          {{ meeting_form.minute_taker_actual.label_tag}}
+          {{ meeting_form.minute_taker_actual }}
+          {{ meeting_form.minute_taker_actual.errors }}
+        </div>
+      </div><!-- /.col -->
+      <div class="col-md-6">
+        <div class="form-group">
+          {{ meeting_form.attendance.label_tag}}
+          {{ meeting_form.attendance }}
+          {{ meeting_form.attendance.errors }}
+        </div>
+        <div class="form-group">
+          {{ meeting_form.apologies.label_tag}}
+          {{ meeting_form.apologies }}
+          {{ meeting_form.apologies.errors }}
+        </div>
+        <div class="form-group">
+          {{ meeting_form.instructions_actual.label_tag}}
+          {{ meeting_form.instructions_actual }}
+          {{ meeting_form.instructions_actual.errors }}
+        </div>        
+      </div><!-- /.col -->
+    </div><!-- /.panel-body -->
+  </div><!-- /.panel -->
    
- 
+  <!-- ITEMS - MAIN SECTION
+  ================================================== -->
+   
   {% for item in item_formlist %}
-    
-    <div class="panel panel-primary" id="panel_{{ item.item_no.value}}">
-      
+    <div class="panel panel-default" id="panel_{{ item.item_no.value}}">
       <div class="panel-heading">
-        {% ifequal item.added_in_meeting.value True %}
-          <strong>Item&nbsp;{{ item.item_no.value }}.&nbsp;
-                  {{ item.title|setclass:"form-control item-title" }}</strong>
-          <div class="pull-right">
-            <button type="button" title="Delete item" 
-              class="btn btn-default btn-xs ajax-button tltip"
-              id="delete_item_{{ item.item_no.value}}" data-toggle="tooltip" >
-                <i class="fa fa-times fa-lg"></i> Delete
-            </button>
-          </div>
+        {% if item.added_in_meeting.value == True %}
+          Item&nbsp;{{ item.item_no.value }}. Item added during meeting
+          <button type="button" title="Delete item" 
+            class="btn btn-default btn-item-delete ajax-button pull-right"
+            id="delete_item_{{ item.item_no.value}}">
+              <i class="fa fa-times-circle fa-lg"></i>
+          </button>
         {% else %}
-          <strong>Item&nbsp;{{ item.item_no.value }}.&nbsp;
-                  {{ item.title.value }}</strong>                
-          <div class="pull-right">
-            {{ item.time_limit.value }}&nbsp;minutes		
-          </div>
-        {% endifequal %}
-      </div>
-      
+          Item&nbsp;{{ item.item_no.value }}.&nbsp;
+            {{ item.title.value }}                
+          {% if item.time_limit.value != None %}
+            <div class="pull-right">
+              {{ item.time_limit.value }}&nbsp;minutes		
+            </div>
+          {% endif %}
+        {% endif %}
+      </div><!-- /.panel-heading -->
       <div class="panel-body">
-      
-        <div class="form-group">
-          <div class="well well-sm">
-            To be explained by&nbsp;{{ item.explainer.value }}
-            <br/>
+        {% if item.added_in_meeting.value == True %}
+          <div class="form-group">
+            {{ item.title.label_tag }}
+            {{ item.title }}
+            {{ item.title.errors }}
           </div>
-        </div>
-        
-        <div class="form-group">
-          {{ item.background.label_tag }}
-          <div class="well">
-            {{ item.background.value }}
+        {% endif %}
+        {% if item.explainer.value != None %}
+          <div class="form-group">
+            {{ item.explainer.label_tag }}
+            <div class="well well-sm">
+              {{ item.instance.explainer }}
+            </div>
           </div>
-        </div>
-        
+        {% endif %}
+        {% if item.background.value %}
+          <div class="form-group">
+            {{ item.background.label_tag }}
+            <div class="well well-sm">
+              {{ item.background.value }}
+            </div>
+          </div>
+        {% endif %}
         <div class="form-group">
           {{ item.minute_notes.label_tag }}
-          {{ item.minute_notes|setclass:"form-control" }}
-        </div>
-        
-        {% for hidden in item.hidden_fields %}
-          <div class="form-group">
+          {{ item.minute_notes }}
+        </div>    
+        <div class="clearfix">
+          {% for hidden in item.hidden_fields %}
             {{ hidden }}
+          {% endfor %}
+          <div class="pull-right">
+            <button id="add_decision_{{ item.instance.id }}"
+              class="btn btn-default ajax-button" type="button">
+              <i class="fa fa-plus-circle fa-fw fa-lg"></i>&nbsp;
+              Add decision
+            </button>
+            <button id="add_task_{{ item.instance.id }}"
+              class="btn btn-default ajax-button" type="button">
+              <i class="fa fa-plus-circle fa-fw fa-lg"></i>&nbsp;
+              Add task
+            </button>
           </div>
+        </div><!-- /.clearfix -->
+
+  <!-- ITEMS - DECISIONS SECTION
+  ================================================== -->
+
+        {% for decision in decision_formlist %}
+          {% ifequal decision.instance.item.id item.instance.id %}
+            <div class="minutes-subheading" id="id_{{ decision.prefix }}-heading">
+              Decision {{ item.instance.item_no }}.{{ decision.instance.decision_no }}
+            </div>
+            <div class="clearfix meeting-field-extra">
+              <div class="form-group">
+                {{ decision.description|setclass:"form-control" }}
+              </div><!-- /.form-group -->
+              <div class="pull-right">
+                <button type="button"
+                  class="btn btn-default btn-xs ajax-button"
+                  id="delete_decision_{{ decision.instance.id}}">
+                    <i class="fa fa-times-circle fa-fw"></i>&nbsp;
+                    Delete decision
+                </button>
+              </div><!-- /.pull-right -->
+            </div><!-- /.clearfix -->
+          {% endifequal %}
         {% endfor %}
 
+  <!-- ITEMS - TASKS SECTION
+  ================================================== -->
 
-        <p><strong>Decisions:</strong></p>
-        <div class="panel panel-default">
-          {% for decision in decision_formlist %}
-            {% ifequal decision.instance.item.id item.instance.id %}
-              <div class="form-group">
-                {{ decision.label_tag }}
-                {{ decision.description|setclass:"form-control" }}
-                <button type="button" title="Delete decision" 
-                  class="btn btn-default btn-xs ajax-button tltip"
-                  id="delete_decision_{{ decision.instance.id}}"
-                  data-toggle="tooltip" >
-                    <i class="fa fa-times fa-lg"></i> Delete
-                </button>
-              </div>
-            {% endifequal %}
-          {% endfor %}
-
-          <button id="add_decision_{{ item.instance.id }}"
-            class="btn btn-default ajax-button" type="button">
-              Add a decision to this item
-          </button>
-          
-        </div>
-
-
-        <p><strong>Tasks:</strong></p>
-        
-        <div class="panel panel-default">
-          {% for task in task_formlist %}
-            {% ifequal task.instance.item.id item.instance.id %}
+        {% for task in task_formlist %}
+          {% ifequal task.instance.item.id item.instance.id %}
+            <div class="minutes-subheading" id="id_{{ task.prefix }}-heading">
+              Task {{ item.instance.item_no }}.{{ task.instance.task_no }}
+            </div>
+            <div class="clearfix meeting-field-extra">
               <div class="form-inline" role="form">
-                <div class="form-group">
-                  {{ task.description|setclass:"form-control" }}
-                  {{ task.participant|setclass:"form-control" }}
-                  {{ task.deadline|setclass:"form-control datepicker" }}
-                  <button type="button" title="Delete task" 
-                  class="btn btn-default btn-xs ajax-button tltip"
-                  id="delete_task_{{ task.instance.id}}"
-                  data-toggle="tooltip" >
-                    <i class="fa fa-times fa-lg"></i> Delete
+                {{ task.description }}
+                {{ task.participant }}
+                {{ task.deadline }}
+              </div><!-- /.form-inline -->
+              <div class="pull-right">
+                <button type="button"
+                  class="btn btn-default btn-xs ajax-button"
+                  id="delete_task_{{ task.instance.id}}">
+                    <i class="fa fa-times-circle fa-fw"></i>&nbsp;
+                    Delete task
                 </button>
-                </div>
-              </div>
-            {% endifequal %}
-          {% endfor %}
-
-          <button id="add_task_{{ item.instance.id }}"
-            class="btn btn-default ajax-button" type="button">
-            Add a task to this item
-          </button>
-        </div>						
+              </div><!-- /.pull-right -->
+            </div><!-- /.clearfix -->
+          {% endifequal %}
+        {% endfor %}
 
       </div>
     </div>
   {% endfor %}
-  
-  
-    <div class="panel panel-primary" id="next_meeting_details">
+</div>
+</div>  
+  <!-- NEXT MEETING DETAILS
+  ================================================== -->
+    
+  <div class="panel panel-default" id="next_meeting_details">
     <div class="panel-heading">
-      <strong>Details of next meeting</strong>                
+      Details of next meeting&nbsp;&nbsp;(optional but recommended)         
     </div>
     <div class="panel-body">
-      {{ next_meeting_form}}
-    </div>
-  </div>
-   
+      <div class="col-md-6">
+       <div class="form-group">
+          {{ next_meeting_form.next_meeting_date.label_tag }}
+          {{ next_meeting_form.next_meeting_date }}
+          {{ next_meeting_form.next_meeting_date.errors }}
+        </div>
+        <div class="form-group">
+          {{ next_meeting_form.next_meeting_start_time.label_tag }}
+          {{ next_meeting_form.next_meeting_start_time }}
+          {{ next_meeting_form.next_meeting_start_time.errors }}
+        </div>
+        <div class="form-group">
+          {{ next_meeting_form.next_meeting_location.label_tag }}
+          {{ next_meeting_form.next_meeting_location }}
+          {{ next_meeting_form.next_meeting_location.errors }}
+        </div>
+      </div><!-- /.col -->
+      <div class="col-md-6">
+        <div class="form-group">
+          {{ next_meeting_form.next_meeting_facilitator.label_tag }}
+          {{ next_meeting_form.next_meeting_facilitator }}
+          {{ next_meeting_form.next_meeting_facilitator.errors }}
+        </div>    
+        <div class="form-group">
+          {{ next_meeting_form.next_meeting_minute_taker.label_tag }}
+          {{ next_meeting_form.next_meeting_minute_taker }}
+          {{ next_meeting_form.next_meeting_minute_taker.errors }}
+        </div>        
+        <div class="form-group">
+          {{ next_meeting_form.next_meeting_instructions.label_tag }}
+          {{ next_meeting_form.next_meeting_instructions }}
+          {{ next_meeting_form.next_meeting_instructions.errors }}
+        </div>
+      </div><!-- /.col -->
+    </div><!-- /.panel-body -->
+  </div><!-- /.panel -->
    
 </form>
 
+  <!-- FORM VALIDATION
+  ================================================== -->
 
 <script>
 
@@ -169,7 +266,13 @@
         },
         facilitator_actual: "required",
         minute_taker_actual: "required",     
-        attendance: "required",
+        attendance: {
+          required: true,
+          maxlength: 200,
+        },
+        apologies: {
+          maxlength: 200,
+        },
         {% for item in item_formlist %}
           "{{ item.prefix }}-minute_notes": {
             required: true,
@@ -202,6 +305,22 @@
           timeCheck: true,
         },
       },
+      groups: {
+        {% for task in task_formlist %}
+          task{{ task.prefix }}: "'{{ task.prefix }}-description' '{{ task.prefix }}-participant' '{{ task.prefix }}-deadline'",
+        {% endfor %}
+      },
+      errorPlacement: function(error, element) {
+        {% for task in task_formlist %}
+          {% if task.prefix == "t1" %} if {% else %} else if {% endif %}
+            (element.attr("name") == "{{ task.prefix }}-description" || element.attr("name") == "{{ task.prefix }}-participant" || element.attr("name") == "{{ task.prefix }}-deadline") {
+            error.insertAfter("#id_{{ task.prefix }}-heading");
+          }
+        {% endfor %}
+          else {
+            error.insertAfter(element);
+          }        
+      },
       messages: {
         date_actual: {
           required: "Please select the date that the meeting happened",
@@ -231,14 +350,14 @@
         {% endfor %}
         {% for task in task_formlist %}
           "{{ task.prefix }}-description": {
-            required: "Please enter a description of the task",
+            required: "Please enter a description",
           },
           "{{ task.prefix }}-participant": {
-            required: "Please select the person responsible for this task",
+            required: "Please select the person responsible /&nbsp;",
           },
           "{{ task.prefix }}-deadline": {
-            required: "Please select the deadline for this task",
-            date: "Please select a valid date from the calendar",
+            required: "Please select the deadline /&nbsp;",
+            date: "Please select a valid date / ",
           },
         {% endfor %}
         date_scheduled: {

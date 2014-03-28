@@ -314,8 +314,12 @@ body {
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
   color: #bbbbbb;
-  background-color: #444444;
-  border-color: #444444;
+  background-color: #555555;
+  border-color: #555555;
+}
+
+.btn-item-delete {
+  margin: -5px -15px 0px 0px;
 }
 
 
@@ -540,13 +544,28 @@ tbody tr:hover {
 }
 
 .field-short {
-    width: 33%;
+  width: 33%;
 }
 
 .field-medium {
-    width: 50%;
+  width: 50%;
 }
 
+.form-inline .form-control.description-field {
+  width: 62%;
+}
+
+.form-inline .form-control.participant-field {
+  width: 22%;
+}
+.form-inline .form-control.deadline-field {
+  width: 15%;
+}
+
+.meeting-field-extra .form-group,
+.meeting-field-extra .form-inline {
+  margin-bottom: 5px;
+}
 
 /* SPACING
 -------------------------------------------------- */

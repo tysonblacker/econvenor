@@ -44,6 +44,7 @@ class Task(TimeStampedModel):
         ('Incomplete', 'Incomplete'),
         ('Completed', 'Completed'),
         ('Cancelled', 'Cancelled'),
+        ('Draft', 'Draft'),
         )
    
     group = models.ForeignKey(Group)
@@ -63,6 +64,7 @@ class Task(TimeStampedModel):
                               default='Incomplete',
                               null=False,
                               blank=True)
+    task_no = models.IntegerField(null=True, blank=True)
     
     objects = models.Manager()
     lists = TaskManager()
