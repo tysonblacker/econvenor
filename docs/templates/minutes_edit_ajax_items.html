@@ -72,8 +72,10 @@
       <div class="panel-heading">
         {% if item.added_in_meeting.value == True %}
       <i class="fa fa-file-text-o fa-fw fa-lg"></i>&nbsp;
-          Item&nbsp;{{ item.item_no.value }}.&nbsp;
-          Item added during meeting
+           Item {{ item.item_no.value }}.&nbsp;&nbsp;
+        <span id="panel_heading_{{ item.item_no.value}}">
+            {{ item.title.value }}
+          </span>
           <button type="button" title="Delete item" 
             class="btn btn-default btn-item-delete ajax-button pull-right"
             id="delete_item_{{ item.item_no.value}}">
