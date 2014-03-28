@@ -137,10 +137,12 @@
 
         {% for decision in decision_formlist %}
           {% ifequal decision.instance.item.id item.instance.id %}
-            <div class="minutes-subheading" id="id_{{ decision.prefix }}-heading">
-              Decision {{ item.instance.item_no }}.{{ decision.instance.decision_no }}
+            <div class="error-container">
+              <div class="minutes-subheading" id="id_{{ decision.prefix }}-heading">
+                Decision {{ item.instance.item_no }}.{{ decision.instance.decision_no }}
+              </div>
             </div>
-            <div class="clearfix meeting-field-extra">
+            <div class="clearfix minutes-field-extra">
               <div class="form-group">
                 {{ decision.description|setclass:"form-control" }}
               </div><!-- /.form-group -->
@@ -161,10 +163,12 @@
 
         {% for task in task_formlist %}
           {% ifequal task.instance.item.id item.instance.id %}
-            <div class="minutes-subheading" id="id_{{ task.prefix }}-heading">
-              Task {{ item.instance.item_no }}.{{ task.instance.task_no }}
+            <div class="error-container">
+              <div class="minutes-subheading" id="id_{{ task.prefix }}-heading">
+                Task {{ item.instance.item_no }}.{{ task.instance.task_no }}
+              </div>
             </div>
-            <div class="clearfix meeting-field-extra">
+            <div class="clearfix minutes-field-extra">
               <div class="form-inline" role="form">
                 {{ task.description }}
                 {{ task.participant }}
@@ -315,6 +319,12 @@
           {% if task.prefix == "t1" %} if {% else %} else if {% endif %}
             (element.attr("name") == "{{ task.prefix }}-description" || element.attr("name") == "{{ task.prefix }}-participant" || element.attr("name") == "{{ task.prefix }}-deadline") {
             error.insertAfter("#id_{{ task.prefix }}-heading");
+          }
+        {% endfor %}
+        {% for decision in decision_formlist %}
+          {% if task_formlist %} else if {% elif decision.prefix == "d1" %} if {% else %} else if {% endif %}
+            (element.attr("name") == "{{ decision.prefix }}-description") {
+            error.insertAfter("#id_{{ decision.prefix }}-heading");
           }
         {% endfor %}
           else {

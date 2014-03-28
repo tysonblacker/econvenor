@@ -40,6 +40,10 @@ label.error {
   font-weight: normal;
 }
 
+.error-container .error {
+  margin-top: 0px;
+}
+
 .errorlist > li {
   margin-top: 6px;
   margin-left: -40px;
@@ -562,8 +566,8 @@ tbody tr:hover {
   width: 15%;
 }
 
-.meeting-field-extra .form-group,
-.meeting-field-extra .form-inline {
+.minutes-field-extra .form-group,
+.minutes-field-extra .form-inline {
   margin-bottom: 5px;
 }
 
