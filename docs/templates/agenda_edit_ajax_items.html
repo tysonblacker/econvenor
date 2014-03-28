@@ -12,13 +12,49 @@
     </div>
     <div class="panel-body">
       <div class="col-md-6">
-        {% for field in meeting_form %}
-          <div class="form-group">
-            {{field.label_tag}}
-            {{ field }}
-          </div>
-        {% endfor %}
-      </div>
+        <div class="form-group">
+          {{ meeting_form.meeting_no.label_tag}}
+          {{ meeting_form.meeting_no }}
+          {{ meeting_form.meeting_no.errors }}
+        </div>
+        <div class="form-group">
+          {{ meeting_form.meeting_type.label_tag}}
+          {{ meeting_form.meeting_type }}
+          {{ meeting_form.meeting_type.errors }}
+        </div>
+        <div class="form-group">
+          {{ meeting_form.date_scheduled.label_tag}}
+          {{ meeting_form.date_scheduled }}
+          {{ meeting_form.date_scheduled.errors }}
+        </div>
+        <div class="form-group">
+          {{ meeting_form.start_time_scheduled.label_tag}}
+          {{ meeting_form.start_time_scheduled }}
+          {{ meeting_form.start_time_scheduled.errors }}
+        </div>
+        <div class="form-group">
+          {{ meeting_form.location_scheduled.label_tag}}
+          {{ meeting_form.location_scheduled }}
+          {{ meeting_form.location_scheduled.errors }}
+        </div>    
+      </div><!-- /.col -->
+      <div class="col-md-6">
+        <div class="form-group">
+          {{ meeting_form.facilitator_scheduled.label_tag}}
+          {{ meeting_form.facilitator_scheduled }}
+          {{ meeting_form.facilitator_scheduled.errors }}
+        </div>        
+        <div class="form-group">
+          {{ meeting_form.minute_taker_scheduled.label_tag}}
+          {{ meeting_form.minute_taker_scheduled }}
+          {{ meeting_form.minute_taker_scheduled.errors }}
+        </div>
+        <div class="form-group">
+          {{ meeting_form.instructions_scheduled.label_tag}}
+          {{ meeting_form.instructions_scheduled }}
+          {{ meeting_form.instructions_scheduled.errors }}
+        </div>    
+      </div><!-- /.col -->
     </div>    
   </div>
 
