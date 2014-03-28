@@ -66,7 +66,10 @@
     <div class="panel panel-default" id="panel_{{ item.item_no.value}}">
       <div class="panel-heading">
       <i class="fa fa-file-text-o fa-fw fa-lg"></i>&nbsp;
-        Item {{ item.item_no.value }}
+        Item {{ item.item_no.value }}.&nbsp;&nbsp;
+        <span id="panel_heading_{{ item.item_no.value}}">
+            {{ item.title.value }}
+          </span>
         <button type="button" title="Delete item" 
           class="btn btn-default btn-item-delete ajax-button pull-right"
           id="delete_item_{{ item.item_no.value}}">
