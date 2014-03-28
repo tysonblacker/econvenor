@@ -6,137 +6,132 @@
 <div class="col-lg-10 no-toolbar">
   <div class="panel panel-default">
     <div class="panel-heading">
-	  <i class="fa fa-pencil fa-fw fa-lg"></i>&nbsp;
-	  Current meetings
+      <i class="fa fa-pencil fa-fw fa-lg"></i>&nbsp;
+      Current meetings
     </div>
-    <table class="table" id="table_current_meetings">
-    <thead>
-      <tr>
-        {% for table_heading in table_headings %}
-          <th>
-            {{ table_heading }}
-          </th>
-        {% endfor%}
-      </tr>
-    </thead>
-    <tbody> 
-      {% for meeting in meetings %}
-        {% with no_of_pdfs=meeting.distributionrecord_set.all|length %}
-        <tr>
-
-          <td>
-              {% if meeting.date_actual %}
-                {{ meeting.date_actual }}
-              {% else %}  
-                {{ meeting.date_scheduled }}
-              {% endif %}  
-          </td>
-
-          <td>
-            {{ meeting.meeting_no }}
-          </td>
-
-          <td>
-            {% if no_of_pdfs > 0 %}
-              Yes
-            {% else %}  
-              No
-            {% endif %}  
-          </td>
-
-          <td>
-            {% if no_of_pdfs > 1 %}
-              Yes
-            {% else %}  
-              No
-            {% endif %} 
-          </td>
-          
-          {% if no_of_pdfs == 0 %}
-            <td>
-              <a href="{% url 'agenda-edit' meeting.id %}" type="button"
-                class="btn btn-primary">
- 	              <i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
-                  Write agenda
-              </a>
-            </td>
-          {% elif no_of_pdfs == 1 %}
-            <td>
-              <a href="{% url 'minutes-edit' meeting.id %}" type="button"
-                class="btn btn-primary">
-            	  <i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
-                  Write minutes
-              </a>
-            </td>
-          {% elif no_of_pdfs == 2 %}           
-            <td>
-              <form action="" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary"
-                  name="button"
-                  value="archive_{{ meeting.id }}">
-             	    <i class="fa fa-archive fa-fw fa-lg"></i>&nbsp;
-                    Archive meeting
-                </button>
-              </form>
-            </td>              
-          {% endif %}   
-
-          <td>
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle"
-                data-toggle="dropdown">
-                  <i class="fa fa-gears fa-fw fa-lg"></i>&nbsp;
-                  Other actions
-                  <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                {% if no_of_pdfs == 2 %}           
-                  <li>
-                    <a href={% url 'minutes-view' meeting.id %}>
-                      View sent minutes</a>
-                  </li>
-                {% endif %}
+    {% if meetings %}
+      <table class="table" id="table_current_meetings">
+        <thead>
+          <tr>
+            {% for table_heading in table_headings %}
+              <th>
+                {{ table_heading }}
+              </th>
+            {% endfor%}
+          </tr>
+        </thead>
+        <tbody> 
+          {% for meeting in meetings %}
+            {% with no_of_pdfs=meeting.distributionrecord_set.all|length %}
+            <tr>
+              <td>
+                {% if meeting.date_actual %}
+                  {{ meeting.date_actual }}
+                {% else %}  
+                  {{ meeting.date_scheduled }}
+                {% endif %}  
+              </td>
+              <td>
+                {{ meeting.meeting_no }}
+              </td>
+              <td>
                 {% if no_of_pdfs > 0 %}
-                  <li>
-                    <a href={% url 'agenda-view' meeting.id %}>
-                      View sent agenda</a>
-                  </li>
-                  <li class="divider"></li>
-                {% endif %}
-                {% if no_of_pdfs == 2 %}           
-                  <li>
-                    <a href={% url 'minutes-edit' meeting.id %}>
-                      Revise minutes</a>
-                  </li>
-                {% endif %}
-                {% if no_of_pdfs > 0 %}
-                  <li>
-                    <a href={% url 'agenda-edit' meeting.id %}>
-                      Revise agenda</a>
-                  </li>
-                  <li class="divider"></li>
-                {% endif %}
-                  <li>
-                    <a href="#" class="delete-button"
-                      name="Meeting number: {{ meeting.meeting_no }}"
-                      id="delete_{{ meeting.id }}">
-                        Delete meeting
-                    </a>
-                  </li>
-              </ul>
-            </div><!-- /.btn-group -->
-          </td>
-
-        </tr>
-        {% endwith %}
-      {% empty %}
-        <tr>
-          <td>There are no current meetings at the moment.</td>
-        </tr>
-      {% endfor%}
-    </tbody>
-    </table>
+                  Yes
+                {% else %}  
+                  No
+                {% endif %}  
+              </td>
+              <td>
+                {% if no_of_pdfs > 1 %}
+                  Yes
+                {% else %}  
+                  No
+                {% endif %} 
+              </td>
+              {% if no_of_pdfs == 0 %}
+                <td>
+                  <a href="{% url 'agenda-edit' meeting.id %}" type="button"
+                    class="btn btn-primary">
+                      <i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
+                      Write agenda
+                  </a>
+                </td>
+              {% elif no_of_pdfs == 1 %}
+                <td>
+                  <a href="{% url 'minutes-edit' meeting.id %}" type="button"
+                    class="btn btn-primary">
+                      <i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
+                      Write minutes
+                  </a>
+                </td>
+              {% elif no_of_pdfs == 2 %}           
+                <td>
+                  <form action="" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary"
+                      name="button"
+                      value="archive_{{ meeting.id }}">
+                        <i class="fa fa-archive fa-fw fa-lg"></i>&nbsp;
+                        Archive meeting
+                    </button>
+                  </form>
+                </td>              
+              {% endif %}   
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle"
+                    data-toggle="dropdown">
+                      <i class="fa fa-gears fa-fw fa-lg"></i>&nbsp;
+                      Other actions
+                      <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    {% if no_of_pdfs == 2 %}           
+                      <li>
+                        <a href={% url 'minutes-view' meeting.id %}>
+                          View sent minutes</a>
+                      </li>
+                    {% endif %}
+                    {% if no_of_pdfs > 0 %}
+                      <li>
+                        <a href={% url 'agenda-view' meeting.id %}>
+                          View sent agenda</a>
+                      </li>
+                      <li class="divider"></li>
+                    {% endif %}
+                    {% if no_of_pdfs == 2 %}           
+                      <li>
+                        <a href={% url 'minutes-edit' meeting.id %}>
+                          Revise minutes</a>
+                      </li>
+                    {% endif %}
+                    {% if no_of_pdfs > 0 %}
+                      <li>
+                        <a href={% url 'agenda-edit' meeting.id %}>
+                          Revise agenda</a>
+                        </li>
+                      <li class="divider"></li>
+                    {% endif %}
+                    <li>
+                      <a href="#" class="delete-button"
+                        name="Meeting number: {{ meeting.meeting_no }}"
+                        id="delete_{{ meeting.id }}">
+                          Delete meeting
+                      </a>
+                    </li>
+                  </ul><!-- /.dropdown-menu -->
+                </div><!-- /.btn-group -->
+              </td>
+            </tr>
+            {% endwith %}
+          {% endfor%}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="panel-body text-center">
+        There are no current meetings right now.
+      </div>
+    {% endif%}
   </div><!-- /.panel -->
 </div><!-- /.col -->
 	

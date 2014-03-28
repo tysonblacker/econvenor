@@ -12,28 +12,30 @@
         <i class="fa fa-th fa-align-justify fa-fw fa-lg"></i>&nbsp;
         All decisions
        </div>
-      <table class="table table-hover" id="table_manage_decisions">
-        <thead>
-          <tr>
-            {% for table_heading in table_headings %}
-              <th>{{ table_heading }}</th>
-            {% endfor%}
-          </tr>
-        </thead>
-        <tbody> 
-          {% for decision in decisions %}
-            <tr id={{ decision.id }} onclick="document.location='{% url 'minutes-view' decision.meeting_id %}';">
-              <td>{{ decision.meeting.meeting_no }}</td>
-              <td>{{ decision.item.item_no }}</td>
-              <td>{{ decision.description }}</td>
-            </tr>
-          {% empty %}
+      {% if decisions %}
+        <table class="table table-hover" id="table_manage_decisions">
+          <thead>
             <tr>
-              <td>There are no decisions yet.</td><td></td><td></td>
+              {% for table_heading in table_headings %}
+                <th>{{ table_heading }}</th>
+              {% endfor%}
             </tr>
-          {% endfor%}
-        </tbody>
-      </table>
+          </thead>
+          <tbody> 
+            {% for decision in decisions %}
+              <tr id={{ decision.id }} onclick="document.location='{% url 'minutes-view' decision.meeting_id %}';">
+                <td>{{ decision.meeting.meeting_no }}</td>
+                <td>{{ decision.item.item_no }}</td>
+                <td>{{ decision.description }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="panel-body text-center">
+          There are no decisions yet.
+        </div>
+      {% endif%}
     </div><!-- /.panel -->
   </div><!-- /.col -->
 

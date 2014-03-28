@@ -20,36 +20,35 @@
           Overdue tasks
         {% endif %}
       </div>
-      <table class="table table-hover" id="table_manage_tasks">
-        <thead>
-          <tr>
-            {% for table_heading in table_headings %}
-              <th>{{ table_heading }}</th>
-            {% endfor%}
-          </tr>
-        </thead>
-        <tbody> 
-          {% for task in tasks %}
-            <tr id={{ task.id }}
-              onclick="document.location='{% url 'task-edit' task.id %}';">
-                <td>{{ task.description }}</td>
-                <td>{{ task.participant }}</td>
-                {% if selection == "completed" %}
-                  <td>{{ task.completion_date }}</td>
-                {% else %}
-                  <td>{{ task.deadline }}</td>
-                {% endif %}
-            </tr>
-          {% empty %}
+      {% if tasks %}
+        <table class="table table-hover" id="table_manage_tasks">
+          <thead>
             <tr>
-              <td>There are no {{ selection }} tasks</td>
-              <td></td>
-              <td></td>
-              <td></td>
+              {% for table_heading in table_headings %}
+                <th>{{ table_heading }}</th>
+              {% endfor%}
             </tr>
-          {% endfor%}
-        </tbody>
-      </table>
+          </thead>
+          <tbody> 
+            {% for task in tasks %}
+              <tr id={{ task.id }}
+                onclick="document.location='{% url 'task-edit' task.id %}';">
+                  <td>{{ task.description }}</td>
+                  <td>{{ task.participant }}</td>
+                  {% if selection == "completed" %}
+                    <td>{{ task.completion_date }}</td>
+                  {% else %}
+                    <td>{{ task.deadline }}</td>
+                  {% endif %}
+              </tr>
+            {% endfor%}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="panel-body text-center">
+          There are no {{ selection }} tasks.
+        </div>
+      {% endif%}
     </div><!-- /.panel -->
   </div><!-- /.col -->
   
