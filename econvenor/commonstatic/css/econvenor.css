@@ -75,7 +75,8 @@ body {
 .nav {
   text-shadow: 0 0 0;
   background-color: #333333;
-  border-color: #333333;
+  border: 50px;
+  
 }
 
 
@@ -134,7 +135,7 @@ body {
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;
-    top: 51px;
+    top: 50px;
     bottom: 0;
     left: 0;
     z-index: 1000;
@@ -340,7 +341,7 @@ body {
   font-size: 1em;
   text-align: center;  
   background-color: #555555;
-  height: 41px;
+  height: 40px;
   margin: 0px -15px 30px -15px;
   border: 0px;
   border-radius: 0px;
@@ -350,7 +351,7 @@ body {
   color: #bbbbbb;
   font-size: 18px;
   margin-top: 3px;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
  

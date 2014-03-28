@@ -4,19 +4,15 @@
 
 {% block content %}
 
-
     <!-- DOCUMENT VIEW
     ================================================== -->
 
-    <div class="col-sm-8 col-md-9 main">
-
-      <div class="top-spacer">
-      </div>
+    <div class="col-sm-8 col-md-9 with-toolbar">
 
       {% for page in pages %}
         <img src="{{ MEDIA_URL }}{{ page.1 }}" class="zoomable" 
         id="page{{page.0}}" width=100% 
-        alt="A series of images showing the completed {{ doc_type }}. Accesibility note: Choose the PDF button on the sidebar to view the agenda in PDF format.">
+        alt="A series of images showing the completed {{ doc_type }}. Accesibility note: Choose the PDF button on the sidebar to view the {{ doc_type }} in PDF format.">
         <br/>
         <br/>
       {% endfor %}
