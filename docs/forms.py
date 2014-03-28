@@ -32,10 +32,10 @@ class AgendaItemForm(forms.ModelForm):
                 'placeholder': '100 characters maximum',
                 }),
             'time_limit': forms.Select(attrs={
-                'class': 'form-control field-medium',
+                'class': 'form-control',
                 }),
             'explainer': forms.Select(attrs={
-                'class': 'form-control field-medium',
+                'class': 'form-control',
                 }),
             'background': forms.Textarea(attrs={
                 'class': 'form-control',

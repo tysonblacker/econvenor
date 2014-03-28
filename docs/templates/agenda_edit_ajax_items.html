@@ -72,13 +72,34 @@
         </button>
       </div>
       <div class="panel-body">
-        {% for field in item.visible_fields %}
+        <div class="col-md-12">
           <div class="form-group">
-            {{ field.label_tag }}
-            {{ field }}
-            {{ field.errors }}
+            {{ item.title.label_tag}}
+            {{ item.title }}
+            {{ item.title.errors }}
           </div>
-        {% endfor %}
+        </div><!-- /.col -->
+        <div class="col-md-6">
+          <div class="form-group">
+            {{ item.time_limit.label_tag}}
+            {{ item.time_limit }}
+            {{ item.time_limit.errors }}
+          </div>
+        </div><!-- /.col -->
+        <div class="col-md-6">
+          <div class="form-group">
+            {{ item.explainer.label_tag}}
+            {{ item.explainer }}
+            {{ item.explainer.errors }}
+          </div>
+        </div><!-- /.col -->
+        <div class="col-md-12">
+          <div class="form-group">
+            {{ item.background.label_tag}}
+            {{ item.background }}
+            {{ item.background.errors }}
+          </div>
+        </div><!-- /.col -->      
         {% for field in item.hidden_fields %}
             {{ field }}
         {% endfor %}
