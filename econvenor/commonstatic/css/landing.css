@@ -121,7 +121,7 @@ body {
   font-family: 'Body', Helvetica, Arial, sans-serif;
   font-size: 1em;
   border: 2px solid transparent;
-  border-radius: 8px;
+  border-radius: 0px;
 }
 
 .btn-default {
@@ -151,7 +151,7 @@ body {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  color: #ffffff;
+  color: #ffb8d4;
   background-color: #ff0066;
   border-color: #ff0066;
 }
@@ -408,6 +408,102 @@ li p.lead {
 -------------------------------------------------- */
 
 #footer {
-padding: 10px 0 0 0;
+  padding: 10px 0 0 0;
 }
+
+
+/* REGISTRATION PAGES
+-------------------------------------------------- */
+
+.navbar-static-top {
+  margin-top: -75px;
+}
+
+.section-registration {
+  background-image: url(../images/texture.png);
+  padding: 50px 0px 400px 0px;
+}
+
+.panel .panel-register {
+  border-radius: 0px;
+}
+
+.panel-register .panel-default {
+  border: 0px;
+}
+
+.panel-register .panel-heading {
+  color: #ffffff;
+  background-color: #555555;
+  border: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.panel-register .panel-heading.red {
+  background-color: #ff0066;
+}
+
+.panel-register .panel-heading h1 {
+  color: #ffffff;
+  font-size: 1.6em;
+  text-align: left;
+  margin: 5px 0px 5px 8px;
+}
+
+.panel-register .panel-heading h2 {
+  color: #bbbbbb;
+  font-size: 1.2em;
+  text-align: left;
+  margin: 5px 0px 5px 10px;
+}
+
+.panel-register .panel-body p {
+  color: #333333;
+  font-size: 0.85em;
+  margin: 15px 10px 20px 10px;
+}
+
+.panel-register .panel-body ul {
+  padding: 0px 0px 0px 20px;
+}
+
+.panel-register .panel-body li {
+  color: #333333;
+  font-size: 0.85em;
+  padding: 0px 0px 10px 00px;
+}
+
+.panel-register .panel-body .lead {
+  font-size: 19px;
+}
+
+.panel-register .btn {
+  margin: 10px 10px 10px 10px;
+}
+
+.panel-register .btn + .btn {
+  margin: 10px 10px 10px 0px;
+}
+
+.panel-register .btn-default {
+  color: #ffffff;
+  background-color: #555555;
+  border-color: #555555;
+}
+
+.panel-register .btn-default:hover {
+  color: #bbbbbb;
+}
+
+.panel-register .btn-home {
+  color: #ffffff;
+  background-color: #999999;
+  border-color: #999999;
+}
+
+.fa-md {
+font-size: 0.6em;
+}
+
 

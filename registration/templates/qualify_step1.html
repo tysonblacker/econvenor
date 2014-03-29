@@ -1,0 +1,42 @@
+{% extends "registration_base.html" %}
+{% load setclass %}
+{% load staticfiles %}
+
+{% block heading %}
+
+  Before you begin&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  Step 1 of 10
+
+{% endblock heading %}
+
+{% block content %}
+   
+  <p class="lead">Other web services have minimalist sign-up processes, but there are important reasons why eConvenor requires that you qualify to use the service. <span class="red">The process should take less than 15 minutes.</span></p>
+
+  <p>It is important to us that you go through a meaningful sign-up process and understand the terms and conditions of using the eConvenor.</p>
+
+  <p>We put a lot of work into this project, and we want to make sure the right people can use it.</p>
+
+  <p>The sign up process includes information about your group, your log in details, our expectations of users, what you can expect from us and the license. Together with this note, these form the terms and conditions. Users need to fill out the questions and agree to the terms before they can access eConvenor.</p>
+
+  <p>There are 10 pages in total, including this one, and 12 questions. It should take between 5 and 15 minutes to complete. We have tried to use plain language where possible, but if you have suggestions for improvement please email us.</p>
+
+  <p>Definitions</p>
+
+  <p>When we use the words "eConvenor", "the site" or "the service", we are talking about eConvenor.</p>
+
+  <p>When we talk about "you" we are talking about yourself as a person who agrees to the terms and yourself as a user of the site.</p>
+
+  <p>When we talk about "users" we are talking about all persons and groups who use the service, including yourself.</p>
+    
+  <a href="{% url 'index' %}" class="btn btn-default btn-home">
+    <i class="fa fa-home fa-lg fa-fw"></i>
+  </a>
+    
+  <a href="{% url 'qualify' 'step2' %}" class="btn btn-primary pull-right">
+    <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
+      I understand
+  </a>
+       
+{% endblock content %}
+

@@ -1,0 +1,46 @@
+{% extends "registration_base.html" %}
+{% load setclass %}
+{% load staticfiles %}
+
+{% block heading %}
+
+  Should you be using eConvenor?&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  Step 3 of 10
+
+{% endblock heading %}
+
+{% block content %}
+
+  <p class="lead">Does your group fit into one or more of these categories?</p>
+
+  <ul>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      It operates to make a profit</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      It is a government agency, authority or department</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      It aims to spread or impose religion</li>
+  </ul>
+
+<p><span class="red">If you group aims to spread religion you should not use eConvenor, however we see a difference between religious motivation and religious purpose.</span> If your group is motivated by their religion to make the world better without spreading your religion or operating religious services, you can use eConvenor. For example, a christian group that organises to advocate for refugee reform, a feminist muslim women's group, a jewish anti-war group or a buddhist vegetarian food-coop may use eConvenor, as long as promoting religion isn't the aim.</p>
+
+  <div class="pull-right">
+    <a href="{% url 'qualify' 'step2' %}" class="btn btn-default">
+      <i class="fa fa-arrow-circle-left fa-lg fa-fw"></i>&nbsp;
+      Back
+    </a>
+    <a href="{% url 'qualify' 'step4' %}" class="btn btn-primary">
+      <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
+      Yes
+    </a>
+    <a href="{% url 'qualify' 'step4' %}" class="btn btn-primary">
+      <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
+      No
+    </a>
+  </div>
+       
+{% endblock content %}
+

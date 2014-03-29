@@ -1,0 +1,45 @@
+{% extends "registration_base.html" %}
+{% load setclass %}
+{% load staticfiles %}
+
+{% block heading %}
+
+  From each according to their means&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  Step 4 of 10
+
+{% endblock heading %}
+
+{% block content %}
+
+  <p class="lead">eConvenor is free for most users, and that's the way we plan to keep it. However, we think some users should contribute when they can.</p>
+
+  <p class="lead"><i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+Most groups</p>
+
+  <p>Does your group have no budget or a tiny budget? eConvenor was built for you! You can use eConvenor completely free. No obligation, no worries.</p>
+
+  <p class="lead"><i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+Groups which can afford to contribute</p>
+
+  <p>Groups who feel that they can afford to make a donation in return for using eConvenor should do so once each year.</p>
+
+  <p class="lead"><i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+Political parties and trade unions</p>
+
+  <p>Political parties and trade unions in high income countries who are progressive and committed to social justice can use eConvenor for a fee.</p>
+
+  <p>We rely on your honesty. Donations help eConvenor improve.</p>
+
+  <div class="pull-right">
+    <a href="{% url 'qualify' 'step3' %}" class="btn btn-default">
+      <i class="fa fa-arrow-circle-left fa-lg fa-fw"></i>&nbsp;
+      Back
+    </a>
+    <a href="{% url 'qualify' 'step5' %}" class="btn btn-primary">
+      <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
+      I understand
+    </a>
+  </div>
+       
+{% endblock content %}
+

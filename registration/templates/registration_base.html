@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 {% load staticfiles %}
+{% load as_range %}
 
 <html lang="en">
 
@@ -11,7 +12,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     
-    <link rel="shortcut icon" href="{% static 'images/econvenor-favicon-v1.ico' %}">
+    <link rel="shortcut icon" 
+      href="{% static 'images/econvenor-favicon-v1.ico' %}">
 
     <title>eConvenor - Your virtual convenor</title>
 
@@ -19,21 +21,15 @@
 	<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
 	<link href="{% static 'css/landing.css' %}" rel="stylesheet">
 	    
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and
+         media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
+        </script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js">
+        </script>
     <![endif]-->
-    
-    <style type="text/css">
-    
-      #icon {
-        margin-top: 10px;
-        margin-bottom: 10px
-      }    
         
-    </style>
-    
   </head>
   
   <body>
@@ -41,11 +37,12 @@
     <!-- NAVBAR 
     ================================================== -->
 
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-static-top">
       <div class="container">
         <span class="navbar-brand">
           <a href="{% url 'index' %}">
-            <img src="{% static 'images/econvenor-logo-v1l.png' %}" width="200" height="45" alt="An image of the eConvenor logo">
+            <img src="{% static 'images/econvenor-logo-v1l.png' %}"
+              width="200" height="45" alt="An image of the eConvenor logo">
           </a>
         </span>
       </div>
@@ -53,18 +50,72 @@
 
     <!-- MAIN SECTION
     ================================================== -->
-    <div class="section">
-      <div class="container text-center">
-        <span class="fa-stack fa-3x" id="icon">
-          <i class="fa fa-circle fa-stack-2x red"></i>
-          <i class="fa fa-flash fa-stack-1x fa-inverse"></i>
-        </span>
-    	{% block content %}
-		{% endblock %}
-      </div>
-    </div>
+
+    <div class="section-registration">
+      <div class="container">
+        <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <div class="panel panel-default panel-register">
+            <div class="panel-heading red">
+              <h1>
+                <span class="fa-stack fa-md fa-fw">
+                  <i class="fa fa-circle fa-stack-2x white"></i>
+                  <i class="fa fa-star fa-stack-1x red"></i>
+                </span>&nbsp;
+                Verify your eligibility
+              </h1>
+            </div>
+            <div class="panel-heading">
+              <h2>
+                {% block heading %}
+                {% endblock heading %}
+              </h2>
+            </div>
+            <div class="panel-body">
+              {% block content %}
+              {% endblock content %}
+            </div>
+          </div><!-- panel -->
+        </div><!-- col -->
+
+    <!-- MODAL
+    ================================================== -->
+
+        <div class="modal fade" id="EXIT_modal" tabindex="-1" role="dialog" 
+           aria-labelledby="ExitNotification" aria-hidden="true" 
+           aria-describedby="Exit the eligibility verification">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">
+                  <i class="fa fa-times-circle fa-lg"></i>&nbsp;
+                  Exit the eConvenor eligibility verification
+                </h4>
+              </div><!-- /.modal-header -->
+              <div class="modal-body">
+              </div><!-- /.modal-body -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                  data-dismiss="modal">
+                    Cancel
+                </button>
+                <a type="button" class="btn btn-primary modal-button">
+                    Go to econvenor.org
+                </a>
+              </div><!-- /.modal-footer -->
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->        
+
+      </div><!-- container -->
+    </div><!-- section -->
+
+    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script> 
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script src="{% static 'js/jquery.validate-1.11.1.min.js' %}"></script>
     
+    {% block extrajs %}
+    {% endblock extrajs %}
+   
   </body>
-</html>        
-            
-            
+</html>

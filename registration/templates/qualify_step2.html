@@ -1,0 +1,60 @@
+{% extends "registration_base.html" %}
+{% load setclass %}
+{% load staticfiles %}
+
+{% block heading %}
+
+  Who eConvenor is for&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  Step 2 of 10
+
+{% endblock heading %}
+
+{% block content %}
+
+  <p class="lead">eConvenor is for grassroots campaigns, non-government organisations (NGOs), progressive service providers and activist groups.</p>
+  
+  <p>To use eConvenor your group must:</p>
+  <ul>
+    <li>
+      <i class="fa fa-check-circle fa-lg fa-fw red"></i>&nbsp;
+      have a socially-just, progressive focus and</li>
+    <li>
+      <i class="fa fa-check-circle fa-lg fa-fw red"></i>&nbsp;
+      be not-for-profit.</li>
+  </ul>
+
+  <p>You must not use eConvenor if your group:</p>
+  <ul>
+    <li>
+      <i class="fa fa-times-circle fa-lg fa-fw red"></i>&nbsp;
+      is conservative or oppressive</li>
+    <li>
+      <i class="fa fa-times-circle fa-lg fa-fw red"></i>&nbsp;
+      operates for profit</li>
+    <li>
+      <i class="fa fa-times-circle fa-lg fa-fw red"></i>&nbsp;
+      is a government agency</li>
+    <li>
+      <i class="fa fa-times-circle fa-lg fa-fw red"></i>&nbsp;
+      is a major political party or</li>
+    <li>
+      <i class="fa fa-times-circle fa-lg fa-fw red"></i>&nbsp;
+      aims to spread religion.</li>
+  </ul>
+
+  <a href="{% url 'index' %}" class="btn btn-default btn-home">
+    <i class="fa fa-home fa-lg fa-fw"></i>
+  </a>
+  <div class="pull-right">
+    <a href="{% url 'qualify' 'step1' %}" class="btn btn-default">
+      <i class="fa fa-arrow-circle-left fa-lg fa-fw"></i>&nbsp;
+      Back
+    </a>
+    <a href="{% url 'qualify' 'step3' %}" class="btn btn-primary">
+      <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
+      I understand
+    </a>
+  </div>
+       
+{% endblock content %}
+
