@@ -8,13 +8,11 @@
 
 <div class="col-sm-6 col-sm-offset-3">
   <div class="panel panel-primary panel-dashboard">
-    <a href={% url 'task-list' %}>
-      <div class="panel-heading">
-	    <i class="fa fa-star fa-fw"></i>&nbsp;
-	    Welcome to eConvenor!
-	    <i class="fa fa-arrow-circle-right pull-right"></i>
-      </div>
-      </a>
+    <div class="panel-heading">
+      <i class="fa fa-star fa-fw"></i>&nbsp;
+	  Welcome to eConvenor!
+	  <i class="fa fa-arrow-circle-right pull-right"></i>
+    </div>
       {% if top_overdue_tasks %}
       <div class="table-dashboard">
       <table class="table table-hover task-table">
@@ -42,7 +40,6 @@
         <p>Hi Jess and Suz!<br/>Thanks for helping.<p/>
       </div>
       {% endif%}
-    </a>
   </div>  
 </div>
 
@@ -82,7 +79,6 @@
         <p>Instructions for getting started go here.<p/>
       </div>
       {% endif%}
-    </a>
   </div>  
 </div>
 {% endblock %}
