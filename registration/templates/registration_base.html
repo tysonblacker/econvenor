@@ -57,11 +57,19 @@
           <div class="panel panel-default panel-register">
             <div class="panel-heading red">
               <h1>
-                <span class="fa-stack fa-md fa-fw">
-                  <i class="fa fa-circle fa-stack-2x white"></i>
-                  <i class="fa fa-star fa-stack-1x red"></i>
-                </span>&nbsp;
-                Verify your eligibility
+                {% if page_type == 'qualify' %}
+                  <span class="fa-stack fa-md fa-fw">
+                    <i class="fa fa-circle fa-stack-2x white"></i>
+                    <i class="fa fa-star fa-stack-1x red"></i>
+                  </span>&nbsp;
+                  Verify your eligibility
+                {% elif page_type == 'register' %}
+                  <span class="fa-stack fa-md fa-fw">
+                    <i class="fa fa-circle fa-stack-2x white"></i>
+                    <i class="fa fa-flash fa-stack-1x red"></i>
+                  </span>&nbsp;
+                  Register for an account
+                {% endif %}
               </h1>
             </div>
             <div class="panel-heading">

@@ -1,0 +1,88 @@
+{% extends "app_base.html" %}
+
+{% block content %}
+
+<div class="well-sm" id="dashboard-header">
+  <h1>{{ group.name }}</h1>
+</div>
+
+<div class="col-sm-6 col-sm-offset-3">
+  <div class="panel panel-primary panel-dashboard">
+    <a href={% url 'task-list' %}>
+      <div class="panel-heading">
+	    <i class="fa fa-star fa-fw"></i>&nbsp;
+	    Welcome to eConvenor!
+	    <i class="fa fa-arrow-circle-right pull-right"></i>
+      </div>
+      </a>
+      {% if top_overdue_tasks %}
+      <div class="table-dashboard">
+      <table class="table table-hover task-table">
+        <thead>
+          <tr>
+            {% for heading in task_headings %}
+              <th>{{ heading }}</th>
+            {% endfor%}
+          </tr>
+        </thead>
+        <tbody> 
+          {% for task in top_overdue_tasks %}
+            <tr id={{ task.id }} 
+              onclick="document.location='{% url 'task-edit' task.id %}';">
+              <td>{{ task.description }}</td>
+              <td>{{ task.deadline }}</td>
+            </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+      </div>
+      {% else %}
+      <div class="panel-body text-center">
+        <br/><br/>
+        <p>Hi Jess and Suz!<br/>Thanks for helping.<p/>
+      </div>
+      {% endif%}
+    </a>
+  </div>  
+</div>
+
+<div class="col-sm-6 col-sm-offset-3">
+  <div class="panel panel-default panel-dashboard">
+    <a href={% url 'task-list' %}>
+      <div class="panel-heading">
+	    <i class="fa fa-align-justify fa-fw"></i>&nbsp;
+	    Quick-start guide
+	    <i class="fa fa-arrow-circle-right pull-right"></i>
+      </div>
+      </a>
+      {% if top_overdue_tasks %}
+      <div class="table-dashboard">
+      <table class="table table-hover task-table">
+        <thead>
+          <tr>
+            {% for heading in task_headings %}
+              <th>{{ heading }}</th>
+            {% endfor%}
+          </tr>
+        </thead>
+        <tbody> 
+          {% for task in top_overdue_tasks %}
+            <tr id={{ task.id }} 
+              onclick="document.location='{% url 'task-edit' task.id %}';">
+              <td>{{ task.description }}</td>
+              <td>{{ task.deadline }}</td>
+            </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+      </div>
+      {% else %}
+      <div class="panel-body text-center">
+        <br/><br/>
+        <p>Instructions for getting started go here.<p/>
+      </div>
+      {% endif%}
+    </a>
+  </div>  
+</div>
+{% endblock %}

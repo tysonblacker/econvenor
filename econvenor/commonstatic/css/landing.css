@@ -474,6 +474,11 @@ li p.lead {
   padding: 0px 0px 10px 00px;
 }
 
+.panel-register .panel-body label {
+  color: #333333;
+  font-size: 0.85em;
+}
+
 .panel-register .panel-body .lead {
   font-size: 19px;
 }
@@ -506,4 +511,12 @@ li p.lead {
 font-size: 0.6em;
 }
 
+.panel-register .form-group {
+  margin: 10px 10px 25px 10px;
+}
+
+.panel-register .form-control {
+  border: 1px solid #999999;
+  border-radius: 0px;
+}
 

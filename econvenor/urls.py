@@ -13,12 +13,14 @@ urlpatterns = patterns('',
 	url(r'^login/$', 'authentication.views.user_login', name="login"),
 	url(r'^logout/$', 'authentication.views.user_logout', name="logout"),
 
-	url(r'^register/(step\d{1,2})/$', 'registration.views.register',
-	    name="register"),
-	
 	url(r'^qualify/(step\d{1,2})/$', 'registration.views.qualify',
 	    name="qualify"),
-	    
+	url(r'^register/step1/$', 'registration.views.register',
+	    name="register"),
+	url(r'^register/step2/$', 'registration.views.initialise',
+	    name="initialise"),
+	url(r'^welcome/$', 'registration.views.welcome', name="welcome"),
+		
 	url(r'^dashboard/$', 'dashboard.views.dashboard', name="dashboard"),
     
 	url(r'^participants/$', 'participants.views.participant_list',
@@ -68,8 +70,6 @@ urlpatterns = patterns('',
 			
 	url(r'^account/$', 'accounts.views.account',
 		name="account"),
-	url(r'^account-setup/$', 'registration.views.account_setup',
-		name="account-setup"),
 
 	url(r'^bugs/$', 'bugs.views.bug_list', name="bug-list"),	
 	url(r'^bugs/report/$', 'bugs.views.bug_report', name="bug-report"),

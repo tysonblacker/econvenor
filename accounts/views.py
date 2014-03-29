@@ -1,44 +1,25 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
-from django.utils.text import slugify
 
-from accounts.forms import GroupSetupForm, UserSetupForm
 from accounts.models import UserSettings
+from utilities.commonutils import get_current_group
+
 
 def account(request):
-    pass
-
-
-def account_setup(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('index'))
-    
-    if request.method == "POST":
-        user_setup_form = UserSetupForm(request.POST, instance=request.user)
-        group_setup_form = GroupSetupForm(request.POST)
-    
-        if user_setup_form.is_valid() and group_setup_form.is_valid():
-            # save each form
-            user_setup_form.save()
-            g = group_setup_form.save()
-            # associate the user with the group
-            u = request.user
-            g.users.add(u)
-            # set the group as the user's current_group
-            settings = UserSettings(user=u, current_group=g)
-            settings.save()
-            # generate a slug from the group name
-            slug = slugify(g.name)[:20]
-            g.slug = slug
-            g.save()
-            return HttpResponseRedirect(reverse('dashboard'))
-    else:
-        user_setup_form = UserSetupForm()   
-        group_setup_form = GroupSetupForm()   
-    
-    return render(request, 'account_setup.html', {
-        'user_form': user_setup_form,
-        'group_form': group_setup_form})
-    
-   
+
+    group = get_current_group(request)
+    if group == None:	
+        return HttpResponseRedirect(reverse('index'))
+        
+    user_setup_form = UserSetupForm(instance=request.user)
+    group_setup_form = GroupSetupForm(instance=group)
+
+    menu = {'parent': 'account'}
+    return render(request, 'account.html', {
+                  'menu': menu, 
+                  'user_form': user_setup_form,
+                  'group_form': group_setup_form})
+
