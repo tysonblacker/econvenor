@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'meetings',
     'participants',
     'tasks',
+    'registration',
     'templatetags',
     'utilities',
 )
