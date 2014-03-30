@@ -11,7 +11,7 @@ def decision_list(request):
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
 
-    decisions = Decision.objects.filter(group=group)
+    decisions = Decision.lists.all_decisions().filter(group=group)
     table_headings = ('Meeting no',
                       'Item no',
                       'Decision',

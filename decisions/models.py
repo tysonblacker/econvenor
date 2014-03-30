@@ -6,6 +6,12 @@ from docs.models import Item
 from meetings.models import Meeting
 
 
+class TaskManager(models.Manager):
+    def all_decisions(self):
+        return self.get_queryset().filter(status='Distributed').\
+            order_by('modified').reverse()
+
+
 class Decision(TimeStampedModel):
 
     STATUS_CHOICES = (
@@ -26,5 +32,8 @@ class Decision(TimeStampedModel):
                               null=False,
                               blank=True)
     
+    objects = models.Manager()
+    lists = TaskManager()
+        
     def __unicode__(self):
         return self.description

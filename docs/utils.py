@@ -150,9 +150,6 @@ def delete_task(request, group, meeting, **kwargs):
             task.task_no = new_task_no
             task.save()
 
-
-
-    
     
 def move_item(request, group, meeting):
     """
@@ -440,6 +437,6 @@ def undraft_tasks_and_decisions(group, meeting):
         decision.status = 'Distributed'
         decision.save()    
     for task in tasks:
-        task.status = 'Distributed'
+        task.status = 'Incomplete'
         task.save()    
     
