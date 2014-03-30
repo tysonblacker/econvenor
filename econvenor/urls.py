@@ -63,7 +63,9 @@ urlpatterns = patterns('',
 		
 	url(r'^decisions/$', 'decisions.views.decision_list',
 		name="decision-list"),
-	
+
+	url(r'^quick-start-guide/$', 'help.views.quick_start_guide',
+	    name="quick-start-guide"),	
 	url(r'^user-guide/$', 'help.views.user_guide', name="user-guide"),
 	url(r'^faqs/$', 'help.views.faqs', name="faqs"),
 	url(r'^ask-question/$', 'help.views.ask_question', name="ask-question"),
