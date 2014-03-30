@@ -36,10 +36,10 @@ from utilities.commonutils import set_path
 
 
 # Define colors
-heading_color = CMYKColor(0.3,0,0.15,0.6)	
+heading_color = CMYKColor(0,0,0,0.85)	
 body_color = CMYKColor(0,0,0,0.85)
-table_color = CMYKColor(0.3,0,0.15,0.6)
-shading_color = CMYKColor(0.1,0,0.05,0.2)
+table_color = CMYKColor(0,0,0,0.85)
+shading_color = CMYKColor(0,0,0,0.2)
 
 # Define line width
 line_width = 0.75
