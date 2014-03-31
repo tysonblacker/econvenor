@@ -368,6 +368,10 @@ body {
   border-top-right-radius: 0px;
 }
 
+.panel-body {
+  background-color: #bbbbbb;
+}
+
 .panel a:hover,
 .panel a:focus {
   text-decoration: none;
@@ -403,13 +407,9 @@ body {
 }
 
 .panel-dashboard .panel-body {
+  background-color: #ffffff;
   height: 160px;
   overflow-y: auto;
-}
-
-.table-dashboard {
-  height: 160px;
-  overflow: auto;
 }
 
 
@@ -490,6 +490,11 @@ body {
 
 /* Set up meeting tables on dashboard */
 
+.table-dashboard {
+  height: 160px;
+  overflow: auto;
+}
+
 .dashboard-meeting-table {
   height: 160px;
 }
@@ -532,7 +537,7 @@ tbody tr:hover {
 
 .form-control {
   height: 32px;
-  background-color: #cccccc;
+  background-color: #ffffff;
   border: 1px solid #999999;
   border-radius: 0px;
 }
