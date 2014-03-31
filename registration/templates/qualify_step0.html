@@ -1,0 +1,31 @@
+{% extends "registration_base.html" %}
+{% load setclass %}
+{% load staticfiles %}
+
+{% block content %}
+   
+  <p class="lead">eConvenor is not your normal web service.</p>
+
+  <p>Although other web services will give anyone an account in under a minute, eConvenor works differently.</p>
+  
+  <p>eConvenor is only for progressive groups who are opposed to oppression, so you must complete an eligibility self-check and read the terms of use before signing up.</p> 
+  
+  <p>It takes about 10 minutes to do the eligibility check and read the terms of use.</p>
+
+  <p>We're excited to offer groups which share our vision of a better world a tool to help them be more effective.</p>
+  
+  <p>Keep fighting!</p>
+
+  <div class="pull-right">    
+    <a href="{% url 'index' %}" class="btn btn-default">
+      <i class="fa fa-home fa-lg fa-fw"></i>
+      Quit
+    </a>
+    <a href="{% url 'qualify' 'step1' %}" class="btn btn-primary">
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw"></i>&nbsp;
+      Start
+    </a>
+  </div>
+     
+{% endblock content %}
+

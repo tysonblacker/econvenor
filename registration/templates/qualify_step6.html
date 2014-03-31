@@ -1,0 +1,46 @@
+{% extends "registration_base.html" %}
+{% load setclass %}
+{% load staticfiles %}
+
+{% block heading %}
+
+  Success!&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  Step 6 of 10
+
+{% endblock heading %}
+
+{% block content %}
+
+<p class="lead"><span class="red">Your group is eligible for an account</span></p>
+
+<p>Your group meets eConvenor's eligibility criteria! We'd love it if you would set up an account and use the service.</p>
+
+<p> The final few steps take you through our terms of service. Once you have read and agreed to them, you can set up your account.</p>
+
+<p class="lead"><span class="red">eConvenor is currently a beta release</span></p>
+
+<p> eConvenor is a brand new service and is currently what's known as a "beta release". This means that it is usable and includes its basic initial feature-set, but that the software it runs on also contains some bugs.</p>
+
+<p>As the bug fixing process takes some time, and eConvenor is working well enough to be useful right now, it is being released in beta so that the activist community can start benefiting from it sooner rather than later.</p>
+
+<p>If you encounter unexpected behaviour while using eConvenor, please be patient and know that we are working flat out to find and fix bugs, and improve the service. You can help us by submitting bug reports through the "Help" menu when using eConvenor, or by writing code for eConvenor if you know how.<p> 
+
+
+
+  <div class="pull-right">
+    <a href="{% url 'qualify' 'step5' %}" class="btn btn-default">
+      <i class="fa fa-arrow-circle-left fa-lg fa-fw"></i>&nbsp;
+      Back
+    </a>
+    <a href="{% url 'index' %}" class="btn btn-primary">
+      <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
+      Quit
+    </a>
+    <a href="{% url 'qualify' 'step7' %}" class="btn btn-primary">
+      <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
+      I understand
+    </a>
+  </div>
+       
+{% endblock content %}
+

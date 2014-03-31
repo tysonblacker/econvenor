@@ -9,6 +9,7 @@ body {
   font-family: 'Body', Helvetica, Arial, sans-serif;
   font-size: 18px;
   padding-top: 75px;
+  background-image: url(../images/texture.png);
 }
 
 .orange {
@@ -125,9 +126,9 @@ body {
 }
 
 .btn-default {
-  color: #aaaaaa;
-  background-color: #ffffff;
-  border-color: #aaaaaa;
+  color: #ffffff;
+  background-color: #555555;
+  border-color: #555555;
 }
 
 .btn-default:hover,
@@ -135,8 +136,8 @@ body {
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  color: #555555;
-  background-color: #ffffff;
+  color: #bbbbbb;
+  background-color: #555555;
   border-color: #555555;
 }
 
@@ -419,13 +420,9 @@ li p.lead {
   margin-top: -75px;
 }
 
-.section-registration {
-  background-image: url(../images/texture.png);
-  padding: 50px 0px 400px 0px;
-}
-
-.panel .panel-register {
+.panel {
   border-radius: 0px;
+  margin-top: 40px;
 }
 
 .panel-register .panel-default {
@@ -462,16 +459,20 @@ li p.lead {
   color: #333333;
   font-size: 0.85em;
   margin: 15px 10px 20px 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .panel-register .panel-body ul {
-  padding: 0px 0px 0px 20px;
+  padding: 0px 0px 0px 40px;
 }
 
 .panel-register .panel-body li {
   color: #333333;
   font-size: 0.85em;
-  padding: 0px 0px 10px 00px;
+  padding: 0px 0px 10px 0px;
+  text-indent: -32px;
+  margin-left: 25px;
 }
 
 .panel-register .panel-body label {
@@ -491,16 +492,6 @@ li p.lead {
   margin: 10px 10px 10px 0px;
 }
 
-.panel-register .btn-default {
-  color: #ffffff;
-  background-color: #555555;
-  border-color: #555555;
-}
-
-.panel-register .btn-default:hover {
-  color: #bbbbbb;
-}
-
 .panel-register .btn-home {
   color: #ffffff;
   background-color: #999999;
@@ -518,5 +509,15 @@ font-size: 0.6em;
 .panel-register .form-control {
   border: 1px solid #999999;
   border-radius: 0px;
+}
+
+.modal-header {
+  background-color: #ff0066;
+}
+
+.modal-header h1 {
+  color: #ffffff;
+  font-size: 1.6em;
+  text-align: left;
 }
 

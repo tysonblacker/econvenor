@@ -62,7 +62,15 @@
                     <i class="fa fa-circle fa-stack-2x white"></i>
                     <i class="fa fa-star fa-stack-1x red"></i>
                   </span>&nbsp;
-                  Verify your eligibility
+                  {% if section == 'start' %}
+                    Setting up an account
+                  {% elif section == 'eligibility' %}
+                    Eligibility check                  
+                  {% elif section == 'terms' %}
+                    Terms of use
+                  {% elif section == 'complete' %}
+                    Complete!
+                  {% endif %}
                 {% elif page_type == 'register' %}
                   <span class="fa-stack fa-md fa-fw">
                     <i class="fa fa-circle fa-stack-2x white"></i>
@@ -72,12 +80,14 @@
                 {% endif %}
               </h1>
             </div>
-            <div class="panel-heading">
-              <h2>
-                {% block heading %}
-                {% endblock heading %}
-              </h2>
-            </div>
+            {% if section != 'start' %}
+              <div class="panel-heading">
+                <h2>
+                  {% block heading %}
+                  {% endblock heading %}
+                </h2>
+              </div>
+            {% endif %}
             <div class="panel-body">
               {% block content %}
               {% endblock content %}
@@ -88,26 +98,24 @@
     <!-- MODAL
     ================================================== -->
 
-        <div class="modal fade" id="EXIT_modal" tabindex="-1" role="dialog" 
+        <div class="modal fade" id="exit_modal" tabindex="-1" role="dialog" 
            aria-labelledby="ExitNotification" aria-hidden="true" 
-           aria-describedby="Exit the eligibility verification">
-          <div class="modal-dialog modal-sm">
+           aria-describedby="Exit the qualification process">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">
-                  <i class="fa fa-times-circle fa-lg"></i>&nbsp;
-                  Exit the eConvenor eligibility verification
-                </h4>
+                <h1 class="modal-title" id="modal_title">
+                </h1>
               </div><!-- /.modal-header -->
-              <div class="modal-body">
+              <div class="modal-body" id="modal_body">
               </div><!-- /.modal-body -->
               <div class="modal-footer">
                 <button type="button" class="btn btn-default"
                   data-dismiss="modal">
-                    Cancel
+                    <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
+                    Close this message
                 </button>
-                <a type="button" class="btn btn-primary modal-button">
-                    Go to econvenor.org
+                <a type="button" class="btn btn-primary" id="modal_button">
                 </a>
               </div><!-- /.modal-footer -->
             </div><!-- /.modal-content -->
@@ -121,6 +129,27 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
     <script src="{% static 'js/jquery.validate-1.11.1.min.js' %}"></script>
+    
+    <script>
+
+    $( function(){
+      $( ".modal-data" ).hide();
+    }); 
+    
+    $(document).on("click", "#exit_button", function(event){ 
+      var exit_title = $("#exit_modal_title").html();
+      var exit_body = $("#exit_modal_body").html();
+      var exit_button = $("#exit_modal_button").html();
+      var exit_button_target = $("#exit_modal_button_target").html();
+      console.log( exit_button);
+      $('#modal_title').html( exit_title );
+      $('#modal_body').html( exit_body );
+      $('#modal_button').html( exit_button );
+      $('#modal_button').attr( 'href', exit_button_target );
+      $('#exit_modal').modal();
+    });
+    
+    </script>
     
     {% block extrajs %}
     {% endblock extrajs %}

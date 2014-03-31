@@ -1,0 +1,98 @@
+{% extends "registration_base.html" %}
+{% load setclass %}
+{% load staticfiles %}
+
+{% block heading %}
+
+  What you can expect from eConvenor&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  Step 8 of 10
+
+{% endblock heading %}
+
+{% block content %}
+
+<p class="lead">eConvenor promises to:</p>
+  <ul>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      act ethically in our work building and maintaining eConvenor</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      use your data only for the purpose for which we collected it unless we gain your express permission</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      collect data only where it assists us to make eConvenor better and more accessible, or allows  us to facilitate your access to eConvenor</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      resist all and any demands for information from governments and other third parties up until the point where we are legally required to comply with a lawful demand from a democratic jurisdiction and</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      tell you if the terms and conditions change the next time you log in</li>
+  </ul>
+
+<p class="lead">eConvenor will try as hard as possible to:</p>
+  <ul>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      keep your data secure</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      make eConvenor accessible</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      resist all and any demands for information from governments and other third parties</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      ensure you can access your groups meeting, tasks, and participants data at any time (unless you break the rules) and</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      ensure you can access all of your data in a reasonable timeframe on request (unless you break the rules).</li>
+  </ul>
+
+<p class="lead">eConvenor will not:</p>
+  <ul>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      give your data to third persons unless compelled by law</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      sell or trade your contact details or other information or</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      ask you for unnecessary private or personal information.</li>
+    <li>
+  </ul>
+
+<p class="lead">If you raise a concern with eConvenor we will:</p>
+  <ul>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      aim to respond in reasonable timeframe (considering we are a tiny volunteer organisation)</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      examine our own conduct in good faith and with an openness to change</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      aim to be fair in determining issues between users and</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      apply our ethics in resolving the issue, including a will to abolish oppression, recognition of responsibility for misuse of privilege, and social equity and justice.</li>
+  </ul>
+
+  <div class="pull-right">
+    <a href="{% url 'qualify' 'step7' %}" class="btn btn-default">
+      <i class="fa fa-arrow-circle-left fa-lg fa-fw"></i>&nbsp;
+      Back
+    </a>
+    <a href="{% url 'index' %}" class="btn btn-primary">
+      <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
+      Quit
+    </a>
+    <a href="{% url 'qualify' 'step9' %}" class="btn btn-primary">
+      <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
+      I understand
+    </a>
+  </div>
+       
+{% endblock content %}
+

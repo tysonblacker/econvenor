@@ -14,8 +14,19 @@ from utilities.commonutils import get_current_group
 def qualify(request, step):
     template = 'qualify_' + step + '.html'
     page_type = 'qualify'
+    step_number = int(step[4:])
+    if step_number == 0:
+        section = 'start'
+    elif step_number>0 and step_number<7:
+        section = 'eligibility'
+    elif step_number>=7 and step_number<10:
+        section = 'terms'
+    elif step_number == 10:
+        section = 'complete'
+         
     return render(request, template, {
         'page_type': page_type,
+        'section': section,
     })
 
 

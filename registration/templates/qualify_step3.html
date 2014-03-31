@@ -4,7 +4,7 @@
 
 {% block heading %}
 
-  Should you be using eConvenor?&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  Disqualification criteria&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
   Step 3 of 10
 
 {% endblock heading %}
@@ -16,31 +16,60 @@
   <ul>
     <li>
       <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      It operates to make a profit</li>
+      The group operates to make a profit</li>
     <li>
       <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      It is a government agency, authority or department</li>
+      The group is a government agency, authority or department</li>
     <li>
       <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      It aims to spread or impose religion</li>
+      The group is, or is a part of, a major political party</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      The group aims to spread or impose religion</li>
+    <li>
   </ul>
 
-<p><span class="red">If you group aims to spread religion you should not use eConvenor, however we see a difference between religious motivation and religious purpose.</span> If your group is motivated by their religion to make the world better without spreading your religion or operating religious services, you can use eConvenor. For example, a christian group that organises to advocate for refugee reform, a feminist muslim women's group, a jewish anti-war group or a buddhist vegetarian food-coop may use eConvenor, as long as promoting religion isn't the aim.</p>
+<p class="lead">A note for religious groups</p>
+
+<p>We see a difference between groups whose purpose is to spread or impose religion and groups motivated to work against oppression by their religious belief.</p>
+
+<p>If your group is motivated by religious belief to work against oppression, but doesn't seek to spread that belief to others, we would love you to use eConvenor.</p>
+
+<p>Examples of religious groups welcome to use eConvenor include: a feminist Muslim women's group; a Jewish anti-war group; a Buddhist vegetarian food co-op and a Christian group advocating for refugee rights.</p>
 
   <div class="pull-right">
     <a href="{% url 'qualify' 'step2' %}" class="btn btn-default">
       <i class="fa fa-arrow-circle-left fa-lg fa-fw"></i>&nbsp;
       Back
     </a>
-    <a href="{% url 'qualify' 'step4' %}" class="btn btn-primary">
+    <button type="button" class="btn btn-primary" id="exit_button">
       <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
       Yes
-    </a>
+    </button>
     <a href="{% url 'qualify' 'step4' %}" class="btn btn-primary">
       <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
       No
     </a>
   </div>
+
+  <div class="modal-data" id="exit_modal_title">
+    <i class="fa fa-times-circle fa-lg"></i>&nbsp;
+    You are not eligible for an eConvenor account
+  </div>
+  <div class="modal-data" id="exit_modal_body">
+    <p>Fitting one of more of these categories means that you cannot set up an eConvenor account.<p>
+  </div>
+  <div class="modal-data" id="exit_modal_button">
+    <i class="fa fa-arrow-circle-right fa-lg fa-fw"></i>&nbsp;
+    Exit eligibility check
+  </div>
+  <div class="modal-data" id="exit_modal_button_target">
+    {% url 'index' %}
+  </div>
+
+
+
+
        
 {% endblock content %}
 

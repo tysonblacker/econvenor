@@ -1,0 +1,40 @@
+{% extends "registration_base.html" %}
+{% load setclass %}
+{% load staticfiles %}
+
+{% block heading %}
+
+  The last step&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  Step 10 of 10
+
+{% endblock heading %}
+
+{% block content %}
+
+<p class="lead">Please confirm the following to move on to setting up your account:</p>
+  <ul>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      I have answered the eligibility-check questions honestly</li>
+    <li>
+      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
+      I agree to eConvenor's terms of service</li>
+  </ul>
+
+  <div class="pull-right">
+    <a href="{% url 'qualify' 'step9' %}" class="btn btn-default">
+      <i class="fa fa-arrow-circle-left fa-lg fa-fw"></i>&nbsp;
+      Back
+    </a>
+    <a href="{% url 'index' %}" class="btn btn-primary">
+      <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
+      Quit
+    </a>
+    <a href="{% url 'register' %}" class="btn btn-primary">
+      <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
+      I confirm
+    </a>
+  </div>
+       
+{% endblock content %}
+
