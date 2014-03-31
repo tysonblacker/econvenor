@@ -4,39 +4,46 @@
 
 {% block heading %}
 
-  Eligibility requirements&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-  Step 2 of 10
+  Disqualification criteria&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  Step 2 of 9
 
 {% endblock heading %}
 
 {% block content %}
 
-  <p class="lead">Does your group meet both of these criteria?</p>
+  <p class="lead">Does your group fit into either or both of these categories?</p>
 
   <ul>
     <li>
       <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      The group has a progressive focus</li>
+      The group is a government agency, authority or department</li>
     <li>
       <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      The group is opposed to oppression</li>
+      The group aims to spread or impose religion</li>
+    <li>
   </ul>
 
-  <p> If doesn't matter what your area or issue of primary focus is, but you must meet these criteria to use eConvenor.  
+<p class="lead">A note for religious groups</p>
+
+<p>We see a difference between groups whose purpose is to spread or impose religion and groups motivated by their religious belief to work against oppression.</p>
+
+<p>If your group is motivated by religious belief to work against oppression, but doesn't aim to convert people, we would love you to use eConvenor.</p>
+
+<p>Examples of religious groups welcome to use eConvenor include: a feminist Muslim women's group; a Jewish anti-war group; a Buddhist vegetarian food co-op and a Christian group advocating for refugee rights.</p>
 
   <div class="pull-right">
     <a href="{% url 'qualify' 'step1' %}" class="btn btn-default">
       <i class="fa fa-arrow-circle-left fa-lg fa-fw"></i>&nbsp;
       Back
     </a>
-    <a href="{% url 'qualify' 'step3' %}" class="btn btn-primary">
+    <button type="button" class="btn btn-primary" id="exit_button">
       <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
       Yes
-    </a>
-    <button type="button" class="btn btn-primary" id="exit_button">
+    </button>
+    <a href="{% url 'qualify' 'step3' %}" class="btn btn-primary">
       <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
       No
-    </button>
+    </a>
   </div>
 
   <div class="modal-data" id="exit_modal_title">
@@ -44,7 +51,7 @@
     You are not eligible for an eConvenor account
   </div>
   <div class="modal-data" id="exit_modal_body">
-    <p>Your group must have a progressive focus and be opposed to oppression for you to set up an eConvenor account.<p>
+    <p>Fitting either or both of more of these categories means that you cannot set up an eConvenor account.<p>
   </div>
   <div class="modal-data" id="exit_modal_button">
     <i class="fa fa-arrow-circle-right fa-lg fa-fw"></i>&nbsp;
@@ -53,6 +60,8 @@
   <div class="modal-data" id="exit_modal_button_target">
     {% url 'index' %}
   </div>
+
+
 
 
        

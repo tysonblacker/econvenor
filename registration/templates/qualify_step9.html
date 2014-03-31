@@ -4,59 +4,22 @@
 
 {% block heading %}
 
-  Licence and legal bits&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-  Step 9 of 10
+  The last step&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  Step 9 of 9
 
 {% endblock heading %}
 
 {% block content %}
 
-<p class="lead">It is okay for you to:</p>
+<p class="lead">Please confirm the following to move on to setting up your account:</p>
   <ul>
     <li>
       <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      use eConvenor within the boundaries of these terms and conditions</li>
+      I have answered the eligibility check questions honestly</li>
     <li>
       <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      tell others about eConvenor in person, via social media, electronic or other forms of communication</li>
-    <li>
-      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      use, modify or reproduce snippets of code without attribution (for example code to send email, verify data or style a button), whether for profit or not</li>
-    <li>
-      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      review the source code for learning, security or other purposes</li>
-    <li>
-      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      contribute to the code</li>
+      I agree to eConvenor's terms and conditions</li>
   </ul>
-
-<p class="lead">It is not okay for you to:</p>
-  <ul>
-    <li>
-      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      sell access to this site or service</li>
-    <li>
-      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      sell copies of this site or service</li>
-    <li>
-      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      use the source code to create and sell a significantly similar service or</li>
-    <li>
-      <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-      use the eConvenor name or logo without express permission from the creators</li>
-  </ul>
-
-<p class="lead">Updates to eConvenor's terms and conditions</p>
-
-<p>eConvenor's terms and conditions may change from time to time. We will alert you to changes the next time you log in, via a note on your dashboard. You agree to changes by continuing to use this service.</p>
-
-<p class="lead">Jurisdiction</p>
-
-<p>eConvenor is an Australian organisation, and the terms and conditions are governed in all respects by the laws of Australia. Any actions arising from the terms and conditions or in anyway associated with eConvenor may be brought only in Australia.</p>
-
-<p class="lead">Liability</p>
-
-<p>The service is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and non infringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the service.</p>
 
   <div class="pull-right">
     <a href="{% url 'qualify' 'step8' %}" class="btn btn-default">
@@ -67,9 +30,9 @@
       <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
       Quit
     </a>
-    <a href="{% url 'qualify' 'step10' %}" class="btn btn-primary">
+    <a href="{% url 'register' %}" class="btn btn-primary">
       <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
-      I understand
+      I agree
     </a>
   </div>
        

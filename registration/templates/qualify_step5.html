@@ -4,65 +4,43 @@
 
 {% block heading %}
 
-  Unions and political parties&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-  Step 5 of 10
+  Success!&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+  Step 5 of 9
 
 {% endblock heading %}
 
 {% block content %}
 
-  <p class="lead">Is your group a part of a major political party or trade union in a high-income, reasonably democratic country?</p>
-  
-  <p>If it is, you must pay a fee to use eConvenor. This will help us provide the service to less well-funded groups for free. Click the "Yes" button below.
+<p class="lead"><span class="red">Your group is eligible for an account</span></p>
+
+<p>Your group meets eConvenor's eligibility criteria! We'd love you to use the service.</p>
+
+<p> The final few steps take you through our terms and conditions. Once you have read and agreed to them, you can set up your account.</p>
+
+<p class="lead"><span class="red">eConvenor is currently a beta release</span></p>
+
+<p> eConvenor is a brand new service and is currently what's known as a "beta release". This means that it is usable and includes its basic initial feature-set, but that the software it runs on also contains some bugs.</p>
+
+<p>As the bug fixing process takes some time, and eConvenor is working well enough to be useful right now, it is being released in beta so that the activist community can start benefiting from it sooner rather than later.</p>
+
+<p>If you encounter unexpected behaviour while using eConvenor, please be patient and know that we are working flat out to find and fix bugs, and improve the service. You can help us by submitting bug reports through the "Help" menu when using eConvenor, or by writing code for eConvenor if you know how.<p> 
 
 
-  <p class="lead">A note for unions and political parties in lower-income and less democratic countries</p>
-
-  <p>We understand that you won't have access to as many resources as similar organisations in high-income and/or more democratic countries, so we'd love you to to use eConvenor for free. Click the "No" button below to continue.
 
   <div class="pull-right">
     <a href="{% url 'qualify' 'step4' %}" class="btn btn-default">
       <i class="fa fa-arrow-circle-left fa-lg fa-fw"></i>&nbsp;
       Back
     </a>
-    <button type="button" class="btn btn-primary" id="exit_button">
-      <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
-      Yes
-    </button>
-    <a href="{% url 'qualify' 'step6' %}" class="btn btn-primary">
+    <a href="{% url 'index' %}" class="btn btn-primary">
       <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
-      No
+      Quit
+    </a>
+    <a href="{% url 'qualify' 'step6' %}" class="btn btn-primary">
+      <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
+      I understand
     </a>
   </div>
-  
-  <div class="modal-data" id="exit_modal_title">
-    <i class="fa fa-star fa-lg"></i>&nbsp;
-    Contact eConvenor
-  </div>
-  <div class="modal-data" id="exit_modal_body">
-    <p>As part of a union or major political party in a high-income, reasonably democratic country, you must pay a fee to use eConvenor.</p>
-    <p>Click the "Email eConvenor" button below, or email <a href="mailto:fees@econvenor.org?subject=Fee+enquiry">fees@econvenor.org</a> and include this information:</p>
-    <ul>
-      <li>
-        <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-        The country you operate in</li>
-      <li>
-        <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-        The number of participants in the group which will be using eConvenor</li>
-      <li>
-        <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-        The address of your website</li>
-    </ul>    
-    <p>Do not continue with this eligibility self-check. We will set up your account once your fee is paid.</p>
-  </div>
-  <div class="modal-data" id="exit_modal_button">
-    <i class="fa fa-envelope fa-lg fa-fw"></i>&nbsp;
-    Email eConvenor
-  </div>
-  <div class="modal-data" id="exit_modal_button_target">
-    mailto:fees@econvenor.org?subject=Fee+enquiry
-  </div>
-
        
 {% endblock content %}
 

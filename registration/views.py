@@ -17,11 +17,11 @@ def qualify(request, step):
     step_number = int(step[4:])
     if step_number == 0:
         section = 'start'
-    elif step_number>0 and step_number<7:
+    elif step_number>0 and step_number<6:
         section = 'eligibility'
-    elif step_number>=7 and step_number<10:
+    elif step_number>=6 and step_number<9:
         section = 'terms'
-    elif step_number == 10:
+    elif step_number == 9:
         section = 'complete'
          
     return render(request, template, {
