@@ -10,30 +10,44 @@ from accounts.models import Group
 
 class UserRegisterForm(forms.ModelForm):
     """
-    A form that creates a user. Assigns a SHA1 hash of email address as a
-    temporary username.This is a modified version of Django's UserCreationForm.
+    A form that creates a user. This is a modified version of Django's
+    UserCreationForm.
     """
     error_messages = {
         'duplicate_email': _("A user with that email address already exists."),
+        'duplicate_username': _("A user with that username already exists. "
+                                "Please try again."),
         'password_mismatch': _("The two password fields didn't match."),
     }
-    email = forms.EmailField(label=_("Email"),
+    email = forms.EmailField(label=_("Email address"),
         error_messages={
             'invalid': _("This must be a valid email address.")})
+    first_name = forms.CharField(label=_("Given name (optional)"),
+                                 required=False)
+    last_name = forms.CharField(label=_("Family name (optional)"),
+                                required=False)
     password1 = forms.RegexField(label=_("Password"), min_length=8,
         regex=r'[(?=.\d)]',
         widget=forms.PasswordInput,
+        help_text=_("At least 8 characters long. Must at least 1 digit and 1"
+                    "special character."),
         error_messages={
             'invalid': _("Passwords must be at least 8 characters long and "
-                         "include at least 1 digit.")})
+                         "include at least 1 digit and 1 special character.")})
     password2 = forms.CharField(label=_("Password confirmation"),
         widget=forms.PasswordInput)
-    username = forms.CharField(initial="PlaceholderText",
-                               widget=forms.HiddenInput)
+    username = forms.RegexField(label=_("Preferred username"), min_length=2,
+                                max_length=30,
+        regex=r'^[\w]+$',
+        help_text=_("30 characters or fewer. Letters, digits and underscores "
+                    "('_') only."),
+        error_messages={
+            'invalid': _("You username may contain only letters, numbers and "
+                         "underscore ('_') characters.")})
     
     class Meta:
         model = User
-        fields = ("email", "username",)
+        fields = ("email", "username", "first_name", "last_name")
 
     def clean_email(self):
         email = self.cleaned_data["email"]
@@ -57,10 +71,15 @@ class UserRegisterForm(forms.ModelForm):
         return password2
     
     def clean_username(self):
-        password = self.data["email"]
-        password_hash = hashlib.sha1(password).hexdigest()
-        username = password_hash[:30]
-        return username
+        username = self.cleaned_data["username"]
+        try:
+            User._default_manager.get(username=username)
+        except User.DoesNotExist:
+            return username
+        raise forms.ValidationError(
+            self.error_messages['duplicate_username'],
+            code='duplicate_username',
+        )
             
     def save(self, commit=True):
         user = super(UserRegisterForm, self).save(commit=False)
@@ -71,41 +90,8 @@ class UserRegisterForm(forms.ModelForm):
             user.save()
         return user
 
-       
-class UserSetupForm(forms.ModelForm):
-    """
-    A form that sets up basic user information once an account has been
-    created. Is displayed with GroupSetupForm on the one page.
-    """
-    error_messages = {
-        'duplicate_username': _("A user with that username already exists. "
-                                "Please try again."),
-    }
-    username = forms.RegexField(label=_("Username"), min_length=2, max_length=30,
-        regex=r'^[\w]+$',
-        help_text=_("Required. 30 characters or fewer. Letters, digits and "
-                    "underscores ('_') only."),
-        error_messages={
-            'invalid': _("You username may contain only letters, numbers and "
-                         "underscore ('_') characters.")})
-                                 
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name')
 
-    def clean_username(self):
-        username = self.cleaned_data["username"]
-        try:
-            User._default_manager.get(username=username)
-        except User.DoesNotExist:
-            return username
-        raise forms.ValidationError(
-            self.error_messages['duplicate_username'],
-            code='duplicate_username',
-        )
-
-
-class GroupSetupForm(forms.ModelForm):
+class GroupRegisterForm(forms.ModelForm):
     """
     A form that sets up basic user information once an account has been
     created. Is displayed with UserSetupForm on the one page.
@@ -118,7 +104,7 @@ class GroupSetupForm(forms.ModelForm):
         
     class Meta:
         model = Group
-        fields = ('name', 'description',)
+        fields = ('name', 'aim', 'focus', 'country')
         
     def clean_name(self):
         name = self.cleaned_data["name"]

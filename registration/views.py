@@ -5,9 +5,7 @@ from django.shortcuts import render
 from django.utils.text import slugify
 
 from accounts.models import UserSettings
-from registration.forms import GroupSetupForm, \
-                               UserRegisterForm, \
-                               UserSetupForm
+from registration.forms import GroupRegisterForm, UserRegisterForm
 from utilities.commonutils import get_current_group
 
 
@@ -35,40 +33,15 @@ def register(request):
     page_type = 'register'
 
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST, label_suffix='')
-        if form.is_valid():
-            password = form.cleaned_data['password1']
-            new_user = form.save()
-            user = authenticate(username=new_user.username,
-                                password=password)
-            login(request, user)
-            return HttpResponseRedirect(reverse('initialise'))
-    else:
-        form = UserRegisterForm(label_suffix='')
-
-    return render(request, 'register.html', {
-        'form': form,
-        'page_type': page_type,
-    })
-
-   
-def initialise(request):
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('index'))
-
-    page_type = 'register'    
-
-    if request.method == "POST":
-        user_setup_form = UserSetupForm(request.POST, instance=request.user,
-                                        label_suffix='')
-        group_setup_form = GroupSetupForm(request.POST, label_suffix='')
-    
-        if user_setup_form.is_valid() and group_setup_form.is_valid():
+        user_form = UserRegisterForm(request.POST, label_suffix='')
+        group_form = GroupRegisterForm(request.POST, label_suffix='')
+        if user_form.is_valid() and group_form.is_valid():
             # save each form
-            user_setup_form.save()
-            g = group_setup_form.save()
+            password = user_form.cleaned_data['password1']
+            new_user = user_form.save()
+            g = group_form.save()
             # associate the user with the group
-            u = request.user
+            u = new_user
             g.users.add(u)
             # set the group as the user's current_group
             settings = UserSettings(user=u, current_group=g)
@@ -77,16 +50,21 @@ def initialise(request):
             slug = slugify(g.name)[:20]
             g.slug = slug
             g.save()
+            # log the new user in
+            user = authenticate(username=new_user.username,
+                                password=password)
+            login(request, user)
+
             return HttpResponseRedirect(reverse('welcome'))
     else:
-        user_setup_form = UserSetupForm(label_suffix='')   
-        group_setup_form = GroupSetupForm(label_suffix='')   
-    
-    return render(request, 'initialise.html', {
-                  'group_form': group_setup_form,
-                  'page_type': page_type,
-                  'user_form': user_setup_form,
-                  })
+        user_form = UserRegisterForm(label_suffix='')
+        group_form = GroupRegisterForm(label_suffix='')
+        
+    return render(request, 'register.html', {
+        'group_form': group_form,
+        'page_type': page_type,
+        'user_form': user_form,
+    })
 
 
 def welcome(request):

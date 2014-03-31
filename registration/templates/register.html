@@ -4,7 +4,7 @@
 
 {% block heading %}
 
-  Step 1 of 2
+Log in details
 
 {% endblock heading %}
 
@@ -13,22 +13,69 @@
     <form role="form" method="POST">
       {% csrf_token %}
 
-        {{form.username|setclass:"form-control" }}
-
       <div class="form-group">      
-        {{ form.email.label_tag }}      
-        {{form.email|setclass:"form-control" }}
-        {{ form.email.errors }}
+        {{ user_form.email.label_tag }}      
+        {{user_form.email|setclass:"form-control" }}
+        {{ user_form.email.errors }}
       </div>
       <div class="form-group">      
-        {{ form.password1.label_tag }}      
-        {{ form.password1|setclass:"form-control" }}
+        {{ user_form.password1.label_tag }}      
+        {{ user_form.password1|setclass:"form-control" }}
       </div>
       <div class="form-group">      
-        {{ form.password2.label_tag }}      
-        {{ form.password2|setclass:"form-control" }}
-        {{ form.password1.errors }}
-        {{ form.password2.errors }}
+        {{ user_form.password2.label_tag }}      
+        {{ user_form.password2|setclass:"form-control" }}
+        {{ user_form.password1.errors }}
+        {{ user_form.password2.errors }}
+      </div>
+    </div><!-- /.panel-body -->
+    <div class="panel-heading">
+      <h2>
+        Your details
+      </h2>
+    </div><!-- /.panel-heading -->
+    <div class="panel-body">
+      <div class="form-group">      
+        {{ user_form.username.label_tag }}      
+        {{user_form.username|setclass:"form-control" }}
+        {{ user_form.username.errors }}
+      </div>
+      <div class="form-group">      
+        {{ user_form.first_name.label_tag }}      
+        {{ user_form.first_name|setclass:"form-control" }}
+        {{ user_form.first_name.errors }}
+      </div>
+      <div class="form-group">      
+        {{ user_form.last_name.label_tag }}      
+        {{ user_form.last_name|setclass:"form-control" }}
+        {{ user_form.last_name.errors }}
+      </div>
+    </div><!-- /.panel-body -->
+    <div class="panel-heading">
+      <h2>
+        Your group's details
+      </h2>
+    </div><!-- /.panel-heading -->
+    <div class="panel-body">
+      <div class="form-group">      
+        {{ group_form.name.label_tag }}      
+        {{ group_form.name|setclass:"form-control" }}
+        {{ group_form.name.errors }}
+      </div>
+      <div class="form-group">      
+        {{ group_form.aim.label_tag }}      
+        {{ group_form.aim|setclass:"form-control" }}
+        {{ group_form.aim.errors }}
+      </div>
+      <div class="form-group">      
+        {{ group_form.focus.label_tag }}      
+        {{ group_form.focus|setclass:"form-control" }}
+        {{ group_form.focus.errors }}
+      </div>
+      <div class="form-group">      
+        {{ group_form.country.label_tag }}      
+        {{ group_form.country|setclass:"form-control" }}
+        {{ group_form.country.errors }}
       </div>
       <div class="pull-right">
         <a href="{% url 'qualify' 'step9' %}" class="btn btn-default">

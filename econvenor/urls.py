@@ -15,10 +15,8 @@ urlpatterns = patterns('',
 
 	url(r'^qualify/(step\d{1,2})/$', 'registration.views.qualify',
 	    name="qualify"),
-	url(r'^register/step1/$', 'registration.views.register',
+	url(r'^register/$', 'registration.views.register',
 	    name="register"),
-	url(r'^register/step2/$', 'registration.views.initialise',
-	    name="initialise"),
 	url(r'^welcome/$', 'registration.views.welcome', name="welcome"),
 		
 	url(r'^dashboard/$', 'dashboard.views.dashboard', name="dashboard"),
