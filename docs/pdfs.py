@@ -847,7 +847,8 @@ def distribute_pdf(request, group, meeting, doc_type):
         body = 'The agenda for ' + group_name + ' Meeting ' + \
                meeting.meeting_no + ' scheduled for ' + \
                meeting.date_scheduled.strftime("%d %B %Y") + \
-               ' is attached.\n\nThis email was sent by eConvenor.org'
+               ' is attached.\n\nThis email was sent by eConvenor' + \
+               ' (beta version)'
     elif doc_type == 'minutes':
         subject = group_name + ' Meeting ' + meeting.meeting_no + \
                   ': Minutes of the meeting on ' + \
@@ -855,7 +856,8 @@ def distribute_pdf(request, group, meeting, doc_type):
         body = 'The minutes of ' + group_name + ' Meeting ' + \
                meeting.meeting_no + ' held on ' + \
                meeting.date_scheduled.strftime("%d %B %Y") + \
-               ' are attached.\n\nThis email was sent by eConvenor.org'
+               ' are attached.\n\nThis email was sent by eConvenor' + \
+               ' (beta version)'
 
     # email the agenda
     email = EmailMessage(subject, body, sender, bcc=recipients)
