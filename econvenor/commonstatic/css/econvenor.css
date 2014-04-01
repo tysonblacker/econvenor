@@ -205,6 +205,7 @@ body {
 .toolbar {
     position: fixed;
     top: 90px;
+    max-height:85%;
     right: 40px;
     z-index: 1000;
     display: block;
@@ -622,3 +623,9 @@ tbody tr:hover {
   margin-top: 0px;
 }
 
+/* DATEPICKER
+-------------------------------------------------- */
+
+#ui-datepicker-div {
+  z-index: 1010 !important;
+}
