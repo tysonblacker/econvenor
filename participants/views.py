@@ -16,8 +16,8 @@ def participant_list(request):
 
     participants = Participant.lists.active().filter(group=group)
     selection = 'active'
-    table_headings = ('First name',
-                      'Last name',
+    table_headings = ('Given name',
+                      'Family name',
                       'Receiving reminders?',
                       )
 

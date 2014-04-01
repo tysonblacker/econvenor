@@ -1,5 +1,7 @@
 from django import forms
 
+from django.utils.translation import ugettext, ugettext_lazy as _
+
 from participants.models import Participant
 
 
@@ -59,6 +61,10 @@ class EditParticipantForm(forms.ModelForm):
                   'reminders',
                   'notes',
                   ]
+        labels = {
+            'reminders': _('Automatically email reminders about nearly-due and overdue tasks (recommended)'),
+                }
+
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',

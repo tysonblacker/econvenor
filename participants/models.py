@@ -39,11 +39,11 @@ class Participant(TimeStampedModel):
     group = models.ForeignKey(Group)
     
     email = models.EmailField('email address', null=True, blank=True)
-    first_name = models.CharField(max_length=80, null=False, blank=True)
-    last_name = models.CharField('last name (optional)', max_length=80,
+    first_name = models.CharField('given name', max_length=80, null=False,
+                                  blank=True)
+    last_name = models.CharField('family name (optional)', max_length=80,
                                  null=False, blank=True)
-    reminders = models.BooleanField('Receive email reminders',
-                                     default=True) 
+    reminders = models.BooleanField(default=True) 
     notes = models.TextField('notes (optional)', max_length=300, null=False,
                              blank=True)
     phone = models.CharField('phone number (optional)', max_length=20,
