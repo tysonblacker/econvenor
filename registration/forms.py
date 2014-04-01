@@ -27,10 +27,10 @@ class UserRegisterForm(forms.ModelForm):
     last_name = forms.CharField(label=_("Family name (optional)"),
                                 required=False)
     password1 = forms.RegexField(label=_("Password"), min_length=8,
-        regex=r'[(?=.\d)]',
+        regex=r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W)[a-zA-Z0-9\S]{8,}$',
         widget=forms.PasswordInput,
-        help_text=_("At least 8 characters long. Must at least 1 digit and 1"
-                    "special character."),
+        help_text=_("At least 8 characters long. Must have at least 1 letter, " 
+                    "1 digit and 1 special character."),
         error_messages={
             'invalid': _("Passwords must be at least 8 characters long and "
                          "include at least 1 digit and 1 special character.")})

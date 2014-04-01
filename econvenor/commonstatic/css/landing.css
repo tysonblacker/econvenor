@@ -437,6 +437,10 @@ li p.lead {
   border-top-right-radius: 0px;
 }
 
+form .panel-heading {
+  margin: 40px -15px 20px -15px;
+}
+
 .panel-register .panel-heading.red {
   background-color: #ff0066;
 }
@@ -521,3 +525,23 @@ font-size: 0.6em;
   text-align: left;
 }
 
+.form-group label.error {
+  margin-top: 6px;
+  color: #ff0066;
+  border-color: #ff0066;
+  font-weight: normal;
+  font-size: 1em;
+}
+
+.error-container .error {
+  margin-top: 0px;
+}
+
+.form-group .errorlist > li {
+  margin-top: 6px;
+  margin-left: -5px;
+  list-style-type: none;
+  color: #ff0066;
+  font-weight: normal;
+  font-size: 1.1em;
+}
