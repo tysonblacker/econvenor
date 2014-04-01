@@ -158,7 +158,7 @@ def agenda_sent(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
 
     doc_type = 'agenda'
-    confirmation_text = 'The agenda for meeting ' + meeting_id + \
+    confirmation_text = 'The agenda for meeting ' + meeting.meeting_no + \
                         ' has been emailed out.'
 
     menu = {'parent': 'meetings'}    
@@ -339,7 +339,7 @@ def minutes_sent(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
 
     doc_type = 'minutes'
-    confirmation_text = 'The minutes for meeting ' + meeting_id + \
+    confirmation_text = 'The minutes for meeting ' + meeting.meeting_no + \
                         ' have been emailed out.'
 
     menu = {'parent': 'meetings'}    
