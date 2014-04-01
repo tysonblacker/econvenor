@@ -22,6 +22,7 @@ from docs.utils import add_decision, \
                        get_response, \
                        get_templates, \
                        move_item, \
+                       populate_minutes_meeting_details, \
                        save_formlist, \
                        save_meeting_form, \
                        save_next_meeting_form, \
@@ -117,6 +118,7 @@ def agenda_distribute(request, meeting_id):
         if 'distribute_button' in request.POST:
             if request.POST['distribute_button']=='distribute':
             	distribute_pdf(request, group, meeting, doc_type)
+            	populate_minutes_meeting_details(group, meeting)
                 return HttpResponseRedirect(reverse('agenda-sent',
                                                     args=(meeting_id,)))
 

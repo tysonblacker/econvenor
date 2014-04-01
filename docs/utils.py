@@ -439,4 +439,17 @@ def undraft_tasks_and_decisions(group, meeting):
     for task in tasks:
         task.status = 'Incomplete'
         task.save()    
-    
+
+
+def populate_minutes_meeting_details(group, meeting):
+    """
+    In minutes have not yet been distributed, populates the meeting details
+    form of the minutes edit view with corresponding data from the agenda.
+    """      
+    if not meeting.current_minutes_version:
+        meeting.date_actual = meeting.date_scheduled
+        meeting.start_time_actual = meeting.start_time_scheduled
+        meeting.location_actual = meeting.location_scheduled
+        meeting.facilitator_actual = meeting.facilitator_scheduled        
+        meeting.minute_taker_actual = meeting.minute_taker_scheduled
+        meeting.save()
