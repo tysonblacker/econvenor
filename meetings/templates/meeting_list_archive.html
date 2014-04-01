@@ -60,7 +60,16 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="#">Un-archive meeting</a></li>
+                      <li>
+                        <form action="" method="POST">
+                          {% csrf_token %}
+                          <button type="submit" class="btn"
+                            name="button"
+                            value="unarchive_{{ meeting.id }}">
+                              Un-archive meeting
+                          </button>
+                        </form>
+                      </li>
                       <li class="divider"></li>
                       <li>
                         <a href="#" class="delete-button"
@@ -79,7 +88,7 @@
       </table>
     {% else %}
       <div class="panel-body text-center">
-        There are no archived meetings yet.
+        There are no archived meetings.
       </div>
     {% endif%}
   </div><!-- /.panel -->

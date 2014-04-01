@@ -5,7 +5,9 @@ from django.shortcuts import render
 from docs.models import Item
 from meetings.forms import AgendaMeetingForm
 from meetings.models import Meeting
-from meetings.utils import archive_meeting, delete_meeting
+from meetings.utils import archive_meeting, \
+                           delete_meeting, \
+                           unarchive_meeting
 from utilities.commonutils import get_current_group
 
 
@@ -85,6 +87,8 @@ def meeting_list_archive(request):
     if request.method == "POST":
         if request.POST['button'][:6] == 'delete':           
             delete_meeting(request, group)
+        if request.POST['button'][:9] == 'unarchive':           
+            unarchive_meeting(request, group)
         meetings = Meeting.lists.archived_meetings().filter(group=group)
                         
     menu = {'parent': 'meetings', 'child': 'archived_meetings'}    
