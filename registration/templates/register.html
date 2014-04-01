@@ -113,7 +113,7 @@ Log in details
     jQuery.validator.addMethod("usernameCheck", function(value, element) {
       return this.optional(element) || /^[\w]+$/.test(value);
     },
-    "Usernames must be 30 characters or fewer and contain letters, digits and underscores ('_') only.");
+    "This username does not meet the requirements.");
 
     $("#registerform").validate({
       rules: {
@@ -134,6 +134,7 @@ Log in details
           usernameCheck: true,
         },
         first_name: {
+          required: true,
           maxlength: 30,
         },
         last_name: {
@@ -172,6 +173,7 @@ Log in details
           required: "Please enter a username.",
         },
         first_name: {
+          required: "Please enter your given name.",
           maxlength: 30,
         },
         last_name: {

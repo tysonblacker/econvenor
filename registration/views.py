@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.utils.text import slugify
 
 from accounts.models import UserSettings
+from participants.models import Participant
 from registration.forms import GroupRegisterForm, UserRegisterForm
 from utilities.commonutils import get_current_group
 
@@ -39,22 +40,26 @@ def register(request):
             # save each form
             password = user_form.cleaned_data['password1']
             new_user = user_form.save()
-            g = group_form.save()
+            group = group_form.save()
             # associate the user with the group
             u = new_user
-            g.users.add(u)
+            group.users.add(u)
             # set the group as the user's current_group
-            settings = UserSettings(user=u, current_group=g)
+            settings = UserSettings(user=u, current_group=group)
             settings.save()
             # generate a slug from the group name
-            slug = slugify(g.name)[:20]
-            g.slug = slug
-            g.save()
+            slug = slugify(group.name)[:20]
+            group.slug = slug
+            group.save()
             # log the new user in
             user = authenticate(username=new_user.username,
                                 password=password)
             login(request, user)
-
+            # set the new user up as a participant
+            participant = Participant(group=group, email=user.email,
+                                      first_name=user.first_name,
+                                      last_name=user.last_name)
+            participant.save()
             return HttpResponseRedirect(reverse('welcome'))
     else:
         user_form = UserRegisterForm(label_suffix='')
