@@ -286,7 +286,6 @@
         },
         {% for item in item_formlist %}
           "{{ item.prefix }}-minute_notes": {
-            required: true,
             maxlength: 5000,
           },
         {% endfor %}
@@ -357,11 +356,6 @@
         facilitator_actual: "Please select the meeting's facilitator",
         minute_taker_actual: "Please select the meeting's minute-taker",     
         attendance: "Please enter the names of the people at the meeting",
-        {% for item in item_formlist %}
-          "{{ item.prefix }}-minute_notes": {
-            required: "Please enter this item's minutes"
-          },
-        {% endfor %}
         {% for decision in decision_formlist %}
           "{{ decision.prefix }}-description": {
             required: "Please enter the decision which was made",
