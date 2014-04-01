@@ -18,7 +18,8 @@ class AgendaMeetingForm(forms.ModelForm):
 
             
     error_messages = {
-        'duplicate_meeting_no': _("That meeting number has already been used. please choose a different one."),
+        'duplicate_meeting_no': _('That meeting number has already been used.'\
+        ' Please choose a different one.'),
     }
                     
     class Meta:
@@ -35,6 +36,7 @@ class AgendaMeetingForm(forms.ModelForm):
         widgets = {
             'meeting_no': forms.TextInput(attrs={
                 'class': 'form-control',
+                'placeholder': '30 characters maximum',
                 }),
             'meeting_type': forms.Select(attrs={
                 'class': 'form-control',

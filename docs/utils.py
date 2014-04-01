@@ -280,6 +280,8 @@ def save_meeting_form(request, group, meeting, doc_type):
         meeting_form = MinutesMeetingForm(group, request.POST, instance=meeting)        
     if meeting_form.is_valid():
         meeting_form.save(group)
+    if doc_type == 'agenda':
+        return meeting_form
 
 
 def save_next_meeting_form(request, group, meeting):            

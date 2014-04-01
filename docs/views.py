@@ -60,7 +60,7 @@ def agenda_edit(request, meeting_id):
         request_type = 'ajax'
         if request.POST['ajax_button'] != 'page_refresh':              
             save_formlist(request, group, items, 'items', doc_type)
-            save_meeting_form(request, group, meeting, doc_type)            
+            meeting_form = save_meeting_form(request, group, meeting, doc_type)            
         if request.POST['ajax_button']=='add_item':
             add_item(group, meeting, items, doc_type)
         if request.POST['ajax_button'][0:11] =='delete_item':
