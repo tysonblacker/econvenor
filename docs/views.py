@@ -31,6 +31,7 @@ from meetings.models import Meeting
 from meetings.forms import AgendaMeetingForm, \
                            MinutesMeetingForm, \
                            NextMeetingForm
+from meetings.utils import archive_meeting
 from participants.models import Participant
 from tasks.models import Task
 from utilities.commonutils import get_current_group
@@ -160,13 +161,12 @@ def agenda_sent(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
 
     doc_type = 'agenda'
-    confirmation_text = 'The agenda for meeting ' + meeting.meeting_no + \
-                        ' has been emailed out.'
+    meeting_no = meeting.meeting_no
 
     menu = {'parent': 'meetings'}    
     return render(request, 'document_sent.html', {
                   'menu': menu,
-                  'confirmation_text': confirmation_text,
+                  'meeting_no': meeting_no,
                   'doc_type': doc_type,
                   })
 
@@ -298,8 +298,9 @@ def minutes_distribute(request, meeting_id):
     if request.method == "POST":
         if 'distribute_button' in request.POST:
             if request.POST['distribute_button']=='distribute':
-            	distribute_pdf(request, group, meeting, doc_type)
             	undraft_tasks_and_decisions(group, meeting)
+            	distribute_pdf(request, group, meeting, doc_type)
+            	archive_meeting(request, group, meeting_id=meeting_id)
                 return HttpResponseRedirect(reverse('minutes-sent',
                                                     args=(meeting_id,)))
 
@@ -341,13 +342,12 @@ def minutes_sent(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
 
     doc_type = 'minutes'
-    confirmation_text = 'The minutes for meeting ' + meeting.meeting_no + \
-                        ' have been emailed out.'
+    meeting_no = meeting.meeting_no
 
     menu = {'parent': 'meetings'}    
     return render(request, 'document_sent.html', {
                   'menu': menu,
-                  'confirmation_text': confirmation_text,
+                  'meeting_no': meeting_no,
                   'doc_type': doc_type,
                   })
 

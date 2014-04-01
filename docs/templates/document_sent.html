@@ -12,11 +12,16 @@
       Success!
     </div>
     <div class="panel-body">
-      {{ confirmation_text }}
+      {% if doc_type == "agenda" %}
+        <p>The agenda for meeting {{ meeting_no }} has been emailed out.</p>
+      {% elif doc_type == "minutes" %}
+        <p>The minutes for meeting {{ meeting_no }} have been emailed out.</p>         
+        <p>This meeting has now been archived.<p>      
+      {% endif %}
     </div>
   </div> 
    
 </div><!-- col-sm-8 -->
 
 
-{% endblock %}
+{% endblock content %}}
