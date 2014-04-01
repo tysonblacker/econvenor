@@ -515,6 +515,13 @@ font-size: 0.6em;
   border-radius: 0px;
 }
 
+.panel-register .form-control:focus {
+  border-color: #ff0066;
+  outline: 0;
+  -webkit-box-shadow: inset 0 0 0 rgba(255,0,102,0), 0 0 0 rgba(255, , 102, .4);
+          box-shadow: inset 0 0 0 rgba(255,0,102,0), 0 0 0 rgba(255, 0, 102, .4);
+}
+
 .modal-header {
   background-color: #ff0066;
 }
@@ -544,4 +551,9 @@ font-size: 0.6em;
   color: #ff0066;
   font-weight: normal;
   font-size: 1.1em;
+}
+
+.form-group {
+  color: #999999;
+  font-size: 0.9em;
 }

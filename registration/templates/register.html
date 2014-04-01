@@ -21,6 +21,7 @@ Log in details
       <div class="form-group">      
         {{ user_form.password1.label_tag }}      
         {{ user_form.password1|setclass:"form-control" }}
+        {{ user_form.password1.help_text }}      
       </div>
       <div class="form-group">      
         {{ user_form.password2.label_tag }}      
@@ -40,16 +41,19 @@ Log in details
         {{ user_form.username.label_tag }}      
         {{user_form.username|setclass:"form-control" }}
         {{ user_form.username.errors }}
+        {{ user_form.username.help_text }}
       </div>
       <div class="form-group">      
         {{ user_form.first_name.label_tag }}      
         {{ user_form.first_name|setclass:"form-control" }}
         {{ user_form.first_name.errors }}
+        {{ user_form.first_name.help_text }}
       </div>
       <div class="form-group">      
         {{ user_form.last_name.label_tag }}      
         {{ user_form.last_name|setclass:"form-control" }}
         {{ user_form.last_name.errors }}
+        {{ user_form.last_name.help_text }}
       </div>
 
     <div class="panel-heading">
@@ -66,16 +70,19 @@ Log in details
       <div class="form-group">      
         {{ group_form.aim.label_tag }}      
         {{ group_form.aim|setclass:"form-control" }}
+        {{ group_form.aim.help_text }}
         {{ group_form.aim.errors }}
       </div>
       <div class="form-group">      
         {{ group_form.focus.label_tag }}      
         {{ group_form.focus|setclass:"form-control" }}
+        {{ group_form.focus.help_text }}
         {{ group_form.focus.errors }}
       </div>
       <div class="form-group">      
         {{ group_form.country.label_tag }}      
         {{ group_form.country|setclass:"form-control" }}
+        {{ group_form.country.help_text }}
         {{ group_form.country.errors }}
       </div>
       <div class="pull-right">
@@ -101,7 +108,7 @@ Log in details
     jQuery.validator.addMethod("passwordCheck", function(value, element) {
       return this.optional(element) || /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W)[a-zA-Z0-9\S]{8,}$/.test(value);
     },
-    "Passwords must be least 8 characters long, contain at least one digit and one special character, and have no spaces.");
+    "This password does not meet the requirements.");
 
     jQuery.validator.addMethod("usernameCheck", function(value, element) {
       return this.optional(element) || /^[\w]+$/.test(value);
@@ -159,10 +166,10 @@ Log in details
         },
         password2: {
           required: "Please enter a password confirmation.",
-          equalTo: "The two passwords you have entered must match exactly.",
+          equalTo: "Please enter a password which matches the one above.",
         },
         username: {
-          required: "Please enter your preferred username.",
+          required: "Please enter a username.",
         },
         first_name: {
           maxlength: 30,
@@ -175,15 +182,15 @@ Log in details
           maxlength: 100,
         },
         aim: {
-          required: "Please enter a brief description of your group's main aim.",
-          maxlength: 200,
+          required: "Please enter your group's aim.",
+          maxlength: 100,
         },
         focus: {
-          required: "Please enter the main issue your group focuses on.",
+          required: "Please enter your group's area of focus.",
           maxlength: 40,
         },
         country: {
-          required: "Please enter the country which your group operates in.",
+          required: "Please enter your group's country.",
           maxlength: 40,
         },
       },

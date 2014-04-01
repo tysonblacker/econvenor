@@ -22,15 +22,11 @@ class UserRegisterForm(forms.ModelForm):
     email = forms.EmailField(label=_("Email address"),
         error_messages={
             'invalid': _("This must be a valid email address.")})
-    first_name = forms.CharField(label=_("Given name (optional)"),
-                                 required=False)
-    last_name = forms.CharField(label=_("Family name (optional)"),
-                                required=False)
     password1 = forms.RegexField(label=_("Password"), min_length=8,
         regex=r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W)[a-zA-Z0-9\S]{8,}$',
         widget=forms.PasswordInput,
-        help_text=_("At least 8 characters long. Must have at least 1 letter, " 
-                    "1 digit and 1 special character."),
+        help_text=_("At least 8 characters long with at least 1 letter, " 
+                    "1 digit, 1 special character and no spaces."),
         error_messages={
             'invalid': _("Passwords must be at least 8 characters long and "
                          "include at least 1 digit and 1 special character.")})
@@ -48,6 +44,14 @@ class UserRegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("email", "username", "first_name", "last_name")
+        help_texts = {
+            'first_name': _('Optional'),
+            'last_name': _('Optional'), 
+        }
+        labels = {
+            'first_name': _('Given name'),
+            'last_name': _('Family name'), 
+        }
 
     def clean_email(self):
         email = self.cleaned_data["email"]
@@ -99,12 +103,21 @@ class GroupRegisterForm(forms.ModelForm):
     error_messages = {
         'name_blank': _("You must enter the name of your group."),
     }
-    name = forms.CharField(label=_("Group name"), max_length=70,
-        help_text=_("Required. 70 characters or fewer."))
+    name = forms.CharField(label=_("Group name"), max_length=100,
+        help_text=_("Required. 100 characters or fewer."))
         
     class Meta:
         model = Group
         fields = ('name', 'aim', 'focus', 'country')
+        help_texts = {
+            'aim': _('A short statement of your group\'s main aim '
+                     '(100 characters max.)'),
+            'focus': _('e.g. refugee rights, climate change '
+                       '(40 characters max.)'),
+            'country': _('Your main country of operation '
+                         '(40 characters max.)'),
+        }
+
         
     def clean_name(self):
         name = self.cleaned_data["name"]

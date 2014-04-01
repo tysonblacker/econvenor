@@ -8,11 +8,10 @@ class Group(TimeStampedModel):
 
     users = models.ManyToManyField(User)
     
-    aim = models.CharField('group aim', max_length=200, null=False,
+    aim = models.CharField('group aim', max_length=100, null=False,
                            blank=True)
     country = models.CharField(max_length=40, null=False, blank=True)
-    focus = models.CharField('main area of focus e.g. refugee rights, \
-                             climate change', max_length=40, null=False,
+    focus = models.CharField('main area of focus', max_length=40, null=False,
                              blank=True)
     logo = models.FileField(upload_to='logos')
     name = models.CharField(max_length=100, null=False, blank=True)
