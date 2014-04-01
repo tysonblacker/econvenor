@@ -321,23 +321,25 @@
           task{{ task.prefix }}: "'{{ task.prefix }}-description' '{{ task.prefix }}-participant' '{{ task.prefix }}-deadline'",
         {% endfor %}
       },
-      errorPlacement: function(error, element) {
-        {% for task in task_formlist %}
-          {% if task.prefix == "t1" %} if {% else %} else if {% endif %}
-            (element.attr("name") == "{{ task.prefix }}-description" || element.attr("name") == "{{ task.prefix }}-participant" || element.attr("name") == "{{ task.prefix }}-deadline") {
-            error.insertAfter("#id_{{ task.prefix }}-heading");
-          }
-        {% endfor %}
-        {% for decision in decision_formlist %}
-          {% if task_formlist %} else if {% elif decision.prefix == "d1" %} if {% else %} else if {% endif %}
-            (element.attr("name") == "{{ decision.prefix }}-description") {
-            error.insertAfter("#id_{{ decision.prefix }}-heading");
-          }
-        {% endfor %}
-          else {
-            error.insertAfter(element);
-          }        
-      },
+      {% if task_formlist or decision_formlist %}
+        errorPlacement: function(error, element) {
+          {% for task in task_formlist %}
+            {% if task.prefix == "t1" %} if {% else %} else if {% endif %}
+              (element.attr("name") == "{{ task.prefix }}-description" || element.attr("name") == "{{ task.prefix }}-participant" || element.attr("name") == "{{ task.prefix }}-deadline") {
+              error.insertAfter("#id_{{ task.prefix }}-heading");
+            }
+          {% endfor %}
+          {% for decision in decision_formlist %}
+            {% if task_formlist %} else if {% elif decision.prefix == "d1" %} if {% else %} else if {% endif %}
+              (element.attr("name") == "{{ decision.prefix }}-description") {
+              error.insertAfter("#id_{{ decision.prefix }}-heading");
+            }
+          {% endfor %}
+            else {
+              error.insertAfter(element);
+            }        
+        },
+        {% endif %}
       messages: {
         date_actual: {
           required: "Please select the date that the meeting happened",
