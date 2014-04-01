@@ -839,12 +839,26 @@ def distribute_pdf(request, group, meeting, doc_type):
         meeting.minutes_pdf.save(pdf_name, pdf, save=True)    
 
     # set up the email fields
-    subject = group_name + ': Your agenda is attached'
-    body = 'Here is your agenda'
-    sender = 'noreply@econvenor.org'
+    sender = group_name + ' <' + request.user.email + '>'
+    if doc_type == 'agenda':
+        subject = group_name + ' Meeting ' + meeting.meeting_no +\
+                  ': Agenda for the meeting on ' + \
+                  meeting.date_scheduled.strftime("%d %B %Y")
+        body = 'The agenda for ' + group_name + ' Meeting ' + \
+               meeting.meeting_no + ' scheduled for ' + \
+               meeting.date_scheduled.strftime("%d %B %Y") + \
+               ' is attached.\n\nThis email was sent by eConvenor.org'
+    elif doc_type == 'minutes':
+        subject = group_name + ' Meeting ' + meeting.meeting_no + \
+                  ': Minutes of the meeting on ' + \
+                  meeting.date_actual.strftime("%d %B %Y")
+        body = 'The minutes of ' + group_name + ' Meeting ' + \
+               meeting.meeting_no + ' held on ' + \
+               meeting.date_scheduled.strftime("%d %B %Y") + \
+               ' are attached.\n\nThis email was sent by eConvenor.org'
 
     # email the agenda
-    email = EmailMessage(subject, body, sender, recipients)
+    email = EmailMessage(subject, body, sender, bcc=recipients)
     email.attach_file(pdf_name)
     email.send()
 
