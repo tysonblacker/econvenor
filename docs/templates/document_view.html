@@ -64,18 +64,6 @@
               Zoom out
           </button>
         </li>        
-        <li>
-          {% if doc_type == 'agenda' %}
-            <a href={% url 'agenda-edit' meeting_id %} type="button" 
-              class="btn btn-toolbar">
-          {% elif doc_type == 'minutes' %}
-            <a href={% url 'minutes-edit' meeting_id %} type="button" 
-              class="btn btn-toolbar">
-          {% endif %}
-            <i class="fa fa-edit fa-fw"></i>&nbsp;
-            Edit {{ doc_type }}
-          </a>
-        </li>
       </ul>
        
     </div><!-- /.col-xs-2 -->
