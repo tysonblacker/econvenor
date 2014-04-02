@@ -73,16 +73,14 @@
 
     <div class="container">
     
-      <h1 class="text-center">eConvenor will go live in early April.</h1>
-  
-      <h2 class="text-center red">Accounts will be available then.</h2>
-      
-      <h4 class="text-center">Return to the eConvenor <a href="https://www.econvenor.org/">main page</a>.</h4>
-      
+      <h1 class="text-center">eConvenor beta version is now live.</h1>
       <br>
+      
+      <h3 class="text-center">To sign up for an account click <a href={% url 'qualify' 'step0' %} class="red">here</a>.</h3>
+      
       <br>
  
-      <h3 class="text-center">This is a login page for people who are testing eConvenor prior to its release.</h3>
+      <h3 class="text-center">If you have an account, sign in below.</h3>
   
       <form class="form-signin" role="form" method="POST">
         {% csrf_token %}
