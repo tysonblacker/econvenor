@@ -406,6 +406,12 @@ body {
   overflow-y: auto;
 }
 
+.panel-welcome .panel-body {
+  background-color: #ffffff;
+  max-height: 295px;
+  overflow-y: auto;
+}
+
 
 /* TABLES
 -------------------------------------------------- */
