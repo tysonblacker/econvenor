@@ -839,7 +839,7 @@ def distribute_pdf(request, group, meeting, doc_type):
         meeting.minutes_pdf.save(pdf_name, pdf, save=True)    
 
     # set up the email fields
-    sender = group_name + ' <' + request.user.email + '>'
+    sender = 'eConvenor <noreply@econvenor.org>'
     if doc_type == 'agenda':
         subject = group_name + ' Meeting ' + meeting.meeting_no +\
                   ': Agenda for the meeting on ' + \
