@@ -82,6 +82,8 @@ ROOT_URLCONF = 'econvenor.urls'
 
 WSGI_APPLICATION = 'econvenor.wsgi.application'
 
+ADMINS = (('Error Notifications', 'errors@econvenor.org'),)
+
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
