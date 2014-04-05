@@ -20,6 +20,8 @@ urlpatterns = patterns('',
 	url(r'^welcome/$', 'registration.views.welcome', name="welcome"),
 		
 	url(r'^dashboard/$', 'dashboard.views.dashboard', name="dashboard"),
+	url(r'^dashboard-admin/$', 'dashboard.views.dashboard_admin',
+	    name="dashboard-admin"),
     
 	url(r'^participants/$', 'participants.views.participant_list',
 		name="participant-list"),

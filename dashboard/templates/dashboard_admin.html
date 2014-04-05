@@ -1,0 +1,70 @@
+{% extends "app_base.html" %}
+
+{% block content %}
+
+<div class="well-sm" id="dashboard-header">
+  <h1>Superuser</h1>
+</div>
+
+<div class="col-sm-6">
+  <div class="panel panel-primary panel-dashboard">
+    <div class="panel-heading">
+	  <i class="fa fa-bug fa-fw"></i>&nbsp;
+	  Number of open bug reports
+    </div>
+    <div class="panel-body text-center">
+      <br/>
+      <span class="feature-text">
+        {% if no_of_open_bug_reports %}
+          {% if no_of_open_bug_reports == 1 %}
+            1 bug report
+          {% else %}
+            {{ no_of_open_bug_reports }} bug reports
+          {% endif %}
+        {% else %}
+          No bug reports
+        {% endif %}
+      </span>
+    </div>
+  </div>  
+</div>
+
+<div class="col-sm-6">
+  <div class="panel panel-default panel-dashboard">
+    <div class="panel-heading">
+	  <i class="fa fa-wrench fa-fw"></i>&nbsp;
+	  Number of open feature requests
+    </div>
+    <div class="panel-body text-center">
+      <br/>
+      <span class="feature-text">
+        {% if no_of_open_feature_requests %}
+          {% if no_of_open_feature_requests == 1 %}
+            1 feature request
+          {% else %}
+            {{ no_of_open_feature_requests }} feature requests
+          {% endif %}
+        {% else %}
+          No feature requests
+        {% endif %}
+      </span>
+    </div>
+  </div>  
+</div>
+
+<div class="col-sm-6">
+  <div class="panel panel-default panel-dashboard">
+    <div class="panel-heading">
+	  <i class="fa fa-users fa-fw"></i>&nbsp;
+      Number of users<br/>
+    </div>
+    <div class="panel-body text-center">
+      <br/>
+      <span class="feature-text">
+        {{ no_of_users }} users
+      </span>
+    </div>
+  </div>  
+</div>
+
+{% endblock content %}

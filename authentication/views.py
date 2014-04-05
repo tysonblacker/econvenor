@@ -13,7 +13,10 @@ def user_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse('dashboard'))
+                if user.id == 1:
+                    return HttpResponseRedirect(reverse('dashboard-admin'))      
+                else:
+                    return HttpResponseRedirect(reverse('dashboard'))
             else:
                 error = 'Your account is not active.'
         else:

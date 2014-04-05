@@ -3,7 +3,9 @@ from datetime import date
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
+from bugs.models import Bug, Feature
 from meetings.models import Meeting
 from tasks.models import Task
 from utilities.commonutils import get_current_group
@@ -39,4 +41,22 @@ def dashboard(request):
                   'top_pending_tasks': top_pending_tasks,
                   'task_headings': task_headings,
                   })
+
+
+def dashboard_admin(request):
+    if (not request.user.is_authenticated()) or (request.user.id != 1):
+        return HttpResponseRedirect(reverse('index'))
+
+    no_of_users = User.objects.all().count() - 1
+    no_of_open_bug_reports = Bug.lists.open_bugs().count()
+    no_of_open_feature_requests = Feature.lists.open_features().count()
+
+    menu = {'parent': 'dashboard'}        
+    return render(request, 'dashboard_admin.html', {
+                  'menu': menu,
+                  'no_of_users': no_of_users,
+                  'no_of_open_bug_reports': no_of_open_bug_reports,
+                  })
+
+
 	
