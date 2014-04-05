@@ -21,7 +21,7 @@
 				<tr id={{ bug.id }} onclick="document.location='{% url 'bug-edit' bug.id %}';">
 					<td>{{ bug.id }}</td>
 					<td>{{ bug.title }}</td>
-					<td>{{ bug.date }}</td>
+					<td>{{ bug.created }}</td>
 					<td>{{ bug.status }}</td>
 				</tr>
 			{% empty %}

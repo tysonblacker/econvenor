@@ -21,7 +21,7 @@
 				<tr id={{ feature.id }} onclick="document.location='{% url 'feature-edit' feature.id %}';">
 					<td>{{ feature.id }}</td>
 					<td>{{ feature.title }}</td>
-					<td>{{ feature.date }}</td>
+					<td>{{ feature.created }}</td>
 					<td>{{ feature.status }}</td>
 				</tr>
 			{% empty %}
