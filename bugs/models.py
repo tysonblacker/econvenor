@@ -28,6 +28,7 @@ class Bug(TimeStampedModel):
             ('Open', 'Open'),
             ('Closed', 'Closed')
             ),
+        default='Open',
         null=False, blank=True
     )  	
     title = models.CharField(max_length=100, null=False, blank=True)
@@ -59,6 +60,7 @@ class Feature(TimeStampedModel):
                 ('Open', 'Open'),
                 ('Closed', 'Closed')
             ),
+        default='Open',
         null=False, blank=True
     )
     suggestion = models.TextField(null=False, blank=True)
