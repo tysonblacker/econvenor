@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 from docs.models import Item
 from participants.models import Participant
@@ -14,11 +15,6 @@ class AgendaItemForm(forms.ModelForm):
     class Meta:
         
         model = Item
-        
-        widgets = {
-		   	'background': forms.Textarea(attrs={'rows': 3}),
-        }
-        
         fields = ['item_no',
                   'title',
                   'time_limit',
@@ -39,10 +35,17 @@ class AgendaItemForm(forms.ModelForm):
                 }),
             'background': forms.Textarea(attrs={
                 'class': 'form-control',
-                'rows': 4,
+                'rows': 3,
                 'placeholder': '200 characters maximum',
                 }),
             }              
+        labels = {
+            'title': _('Item title'),
+            'time_limit': _('Time limit (recommended)'),
+            'explainer': _('To be explained by (optional)'),
+            'background': _('Background information (optional)'),
+        }
+
        
     def clean_item_no(self):
         return self.instance.item_no
@@ -84,6 +87,11 @@ class MinutesItemForm(forms.ModelForm):
                 'placeholder': '2000 characters maximum',
                 }),
             }    
+        labels = {
+            'title': _('Item title'),
+            'explainer': _('To be explained by'),
+            'background': _('Background information'),
+        }
 
     def clean_added_in_meeting(self):
         return self.instance.added_in_meeting
