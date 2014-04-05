@@ -22,7 +22,6 @@ class UserRegisterForm(forms.ModelForm):
     email = forms.EmailField(label=_("Email address"),
         error_messages={
             'invalid': _("This must be a valid email address.")})
-    first_name = forms.CharField(max_length=30)
     password1 = forms.RegexField(label=_("Password"), min_length=8,
         regex=r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W)[a-zA-Z0-9\S]{8,}$',
         widget=forms.PasswordInput,
