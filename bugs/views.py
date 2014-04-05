@@ -34,7 +34,7 @@ def bug_edit(request, bug_id):
     allow_status_editing = False
     bug_form = {}
     bug = Bug.objects.get(pk=bug_id)
-    if (request.user.id == administrator) or (request.user.id == int(bug.owner_id)):
+    if (request.user.id == administrator) or (request.user == bug.user):
         display_mode = 'edit'
         if request.user.id == administrator:
             allow_status_editing = True
@@ -103,7 +103,7 @@ def feature_edit(request, feature_id):
     allow_status_editing = False
     feature_form = {}
     feature = Feature.objects.get(pk=feature_id)
-    if (request.user.id == administrator) or (request.user.id == int(feature.owner_id)):
+    if (request.user.id == administrator) or (request.user == feature.user):
         display_mode = 'edit'
         if request.user.id == administrator:
             allow_status_editing = True
