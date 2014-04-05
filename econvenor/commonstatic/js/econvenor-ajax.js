@@ -142,5 +142,5 @@ function saveWithoutRefresh( button_data, next_page ) {
 
 $(function() {
   var interval = setInterval("saveWithoutRefresh('ajax_button=save_agenda')",
-    3600 * 1000);
+    60 * 1000);
 });
