@@ -56,6 +56,7 @@ def dashboard_admin(request):
                   'menu': menu,
                   'no_of_users': no_of_users,
                   'no_of_open_bug_reports': no_of_open_bug_reports,
+                  'no_of_open_feature_requests': no_of_open_feature_requests,
                   })
 
 
