@@ -3,6 +3,14 @@ from django.contrib.auth.models import User
 
 from utilities.models import TimeStampedModel
 
+class BugManager(models.Manager):
+
+    def all_bugs(self):
+        return self.get_queryset().all().order_by('created').reverse()
+                
+    def open_bugs(self):
+        return self.get_queryset().filter(status='Open').\
+            order_by('created').reverse()
 
 class Bug(TimeStampedModel):
 
@@ -33,10 +41,23 @@ class Bug(TimeStampedModel):
     )  	
     title = models.CharField(max_length=100, null=False, blank=True)
     trigger = models.TextField(null=False, blank=True)
-    
+
+    objects = models.Manager()
+    lists = BugManager()
+        
     def __unicode__(self):
         return 'Bug ' + self.id + ': ' + self.title
 
+
+class FeatureManager(models.Manager):
+
+    def all_features(self):
+        return self.get_queryset().all().order_by('created').reverse()
+                
+    def open_features(self):
+        return self.get_queryset().filter(status='Open').\
+            order_by('created').reverse()
+            
 
 class Feature(TimeStampedModel):
 
@@ -66,5 +87,8 @@ class Feature(TimeStampedModel):
     suggestion = models.TextField(null=False, blank=True)
     title = models.CharField(max_length=100, null=False, blank=True)
 
+    objects = models.Manager()
+    lists = FeatureManager()
+    
     def __unicode__(self):
         return 'Feature request ' + self.id + ': ' + self.title 
