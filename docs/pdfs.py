@@ -195,6 +195,26 @@ MINUTES_ITEMS_TABLE_STYLE = TableStyle([
     ('BOTTOMPADDING', (0,2), (-1,-1), 0),
     ])
 
+MINUTES_ITEMS_NO_MINUTE_NOTES_STYLE = TableStyle([
+    ('GRID', (0,0), (1,-1), line_width, table_color),
+    ('VALIGN',(0,0),(-1,-1),'TOP'),
+    ('BACKGROUND', (0,0), (-1,0), table_color),
+    ('LEFTPADDING', (0,0), (-1,-1), 0),
+    ('TOPPADDING', (0,0), (-1,0), 0),
+    ('BOTTOMPADDING', (0,0), (-1,0), 0),
+    ('TOPPADDING', (0,1), (-1,-1), 0),
+    ('BOTTOMPADDING', (0,1), (-1,-1), 0),
+    ])
+
+MINUTES_ITEMS_HEADING_ONLY_STYLE = TableStyle([
+    ('GRID', (0,0), (1,-1), line_width, table_color),
+    ('VALIGN',(0,0),(-1,-1),'TOP'),
+    ('BACKGROUND', (0,0), (-1,0), table_color),
+    ('LEFTPADDING', (0,0), (-1,-1), 0),
+    ('TOPPADDING', (0,0), (-1,0), 0),
+    ('BOTTOMPADDING', (0,0), (-1,0), 0),
+    ])
+
 MINUTES_ITEMS_SUBTABLE_STYLE = TableStyle([
     ('GRID', (0,0), (-1,-1), line_width, table_color),
     ('VALIGN',(0,0),(-1,-1),'TOP'),
@@ -260,6 +280,8 @@ def create_details_table(meeting, doc_type, Document):
         start_time = meeting.start_time_scheduled
         end_time = calculate_meeting_end_time(meeting)
         location = insert_line_breaks(meeting.location_scheduled)
+        facilitator = meeting.facilitator_scheduled
+        minute_taker = meeting.minute_taker_scheduled
         notes = insert_line_breaks(meeting.instructions_scheduled)
     if doc_type == 'minutes':
         date = meeting.date_actual
@@ -277,6 +299,14 @@ def create_details_table(meeting, doc_type, Document):
         right_column_contents.append(
             (Paragraph('Location', shadedItemStyle),
                 Paragraph(location, normalStyle)))
+        if facilitator:
+            right_column_contents.append(
+                (Paragraph('Facilitator', shadedItemStyle),
+                   Paragraph(str(facilitator), normalStyle)))
+        if minute_taker:
+            right_column_contents.append(
+                (Paragraph('Minutes', shadedItemStyle),
+                   Paragraph(str(minute_taker), normalStyle)))
     if doc_type == 'minutes':
         right_column_contents.append(
             (Paragraph('Facilitator', shadedItemStyle),
@@ -395,12 +425,9 @@ def create_agenda_item_table(items, Document):
         Document.append(t)
         Document.append(Spacer(0,7*mm))
     
-    Document.append(Paragraph('A summary of tasks for review',
-                              shadedItemStyle))
-    Document.append(Paragraph('is on the next page.', shadedItemStyle))
+    Document.append(Paragraph('NOTE: A summary of tasks for review is on the '
+                              'next page.', shadedItemStyle))
     Document.append(PageBreak())
-
-
 
 
 def create_minutes_item_table(items, group, Document):
@@ -417,11 +444,11 @@ def create_minutes_item_table(items, group, Document):
             colWidths=[160*mm]
             )
         # Set up the minute notes as a sub-table
-        
-        notes_t = Table([
-                    (Paragraph(minute_notes, normalStyle),),
-                    ],
-                colWidths=[160*mm])
+        if minute_notes:
+            notes_t = Table([
+                        (Paragraph(minute_notes, normalStyle),),
+                        ],
+                    colWidths=[160*mm])
         # Set up decisions as a sub-table
         decisions_list = Decision.objects.filter(group=group, item=item)
         if decisions_list:
@@ -453,13 +480,21 @@ def create_minutes_item_table(items, group, Document):
                             colWidths=[90*mm,40*mm,30*mm])
             tasks_t.setStyle(MINUTES_ITEMS_SUBTABLE_STYLE) 
         # Generate the complete table
-        table_contents = [[(heading_t,)], [(notes_t,)]]
+        table_contents = [[(heading_t,)]]
+        if minute_notes:
+            table_contents.append([(notes_t,)]) 
         if decisions_list:
             table_contents.append([(decisions_t,)])        
         if tasks_list:
             table_contents.append([(tasks_t,)])
         t = Table(table_contents, colWidths=[160*mm])
-        t.setStyle(MINUTES_ITEMS_TABLE_STYLE)
+        # Style the table
+        if minute_notes:
+            t.setStyle(MINUTES_ITEMS_TABLE_STYLE)
+        elif decisions_list or tasks_list:
+            t.setStyle(MINUTES_ITEMS_NO_MINUTE_NOTES_STYLE)        
+        else:
+            t.setStyle(MINUTES_ITEMS_HEADING_ONLY_STYLE)   
         # Add this table to the document and put some space after it
         Document.append(t)
         Document.append(Spacer(0,7*mm))
@@ -516,8 +551,8 @@ def create_next_meeting_table(meeting, Document):
     date = meeting.next_meeting_date
     start_time = meeting.next_meeting_start_time
     location = insert_line_breaks(meeting.next_meeting_location)
-    facilitator = str(meeting.next_meeting_facilitator)
-    minute_taker = str(meeting.next_meeting_minute_taker)
+    facilitator = meeting.next_meeting_facilitator
+    minute_taker = meeting.next_meeting_minute_taker
     notes = insert_line_breaks(meeting.next_meeting_instructions)
     # Set up the heading row as a sub-table   
     heading_t = Table([((
@@ -542,28 +577,28 @@ def create_next_meeting_table(meeting, Document):
     if facilitator:
        contents.append(
             (Paragraph('Facilitator', shadedItemStyle),
-             Paragraph(facilitator, normalStyle)))
+             Paragraph(str(facilitator), normalStyle)))
     if minute_taker:
         contents.append(
             (Paragraph('Minutes', shadedItemStyle),
-             Paragraph(minute_taker, normalStyle)))
+             Paragraph(str(minute_taker), normalStyle)))
     if notes:
         contents.append(
             (Paragraph('Notes', shadedItemStyle),
                 Paragraph(notes, normalStyle)))
     # Set up the body sub-table                                  
-    body_t = Table(contents, colWidths=[25*mm,55*mm])
-    body_t.setStyle(MEETING_COLUMN_STYLE)
-    # Set up the whole table
-    table_contents = [[(heading_t,)], [(body_t,)]]
-    t = Table(table_contents, colWidths=[80*mm])
-    t.setStyle(NEXT_MEETING_TABLE_STYLE)
-    t.hAlign = 'LEFT'
-    Document.append(t)
-    Document.append(Spacer(0,5*mm))
-    Document.append(Paragraph('A summary of tasks assigned in this meeting',
-                              shadedItemStyle))
-    Document.append(Paragraph('is on the next page.', shadedItemStyle))
+    if contents:
+        body_t = Table(contents, colWidths=[25*mm,55*mm])
+        body_t.setStyle(MEETING_COLUMN_STYLE)
+        # Set up the whole table
+        table_contents = [[(heading_t,)], [(body_t,)]]
+        t = Table(table_contents, colWidths=[80*mm])
+        t.setStyle(NEXT_MEETING_TABLE_STYLE)
+        t.hAlign = 'LEFT'
+        Document.append(t)
+        Document.append(Spacer(0,5*mm))
+    Document.append(Paragraph('NOTE: A summary of tasks assigned in this '
+                              'meeting is on the next page.', shadedItemStyle))
     Document.append(PageBreak())
 
 
