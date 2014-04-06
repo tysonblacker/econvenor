@@ -814,7 +814,7 @@ def distribute_pdf(request, group, meeting, doc_type):
 
     # build recipients list if "all_participants" box is checked
     if 'all_participants' in request.POST:
-        participants = Participant.objects.filter(group=group)
+        participants = Participant.lists.active().filter(group=group)
         for participant in participants:
             email = participant.email
             recipients.append(email)
