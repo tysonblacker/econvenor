@@ -112,7 +112,7 @@ def agenda_distribute(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
     
     doc_type = 'agenda'
-    participants = Participant.objects.filter(group=group)
+    participants = Participant.lists.active().filter(group=group)
     pages = create_pdf(request, group, meeting, doc_type)
     
     if request.method == "POST":
@@ -292,7 +292,7 @@ def minutes_distribute(request, meeting_id):
         return HttpResponseRedirect(reverse('index'))
 
     doc_type = 'minutes'
-    participants = Participant.objects.filter(group=group)
+    participants = Participant.lists.active().filter(group=group)
     pages = create_pdf(request, group, meeting, doc_type)
     
     if request.method == "POST":
