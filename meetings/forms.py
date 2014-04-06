@@ -36,7 +36,8 @@ class NewMeetingForm(forms.ModelForm):
         widgets = {
             'meeting_no': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': '30 characters maximum',
+                'placeholder': 'For example: \"Mtg4/2014\" or \"June 2014\".  '
+                               '30 characters maximum.',
                 }),
             'meeting_type': forms.Select(attrs={
                 'class': 'form-control',
