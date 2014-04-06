@@ -16,14 +16,11 @@
       <br/>
       <span class="feature-text">
         {% if no_of_open_bug_reports %}
-          {% if no_of_open_bug_reports == 1 %}
-            1 bug report
-          {% else %}
-            {{ no_of_open_bug_reports }} bug reports
-          {% endif %}
+          {{ no_of_open_bug_reports }}
         {% else %}
-          No bug reports
+          0
         {% endif %}
+	    <i class="fa fa-bug fa-fw"></i>&nbsp;
       </span>
     </div>
   </div>  
@@ -39,14 +36,11 @@
       <br/>
       <span class="feature-text">
         {% if no_of_open_feature_requests %}
-          {% if no_of_open_feature_requests == 1 %}
-            1 feature request
-          {% else %}
-            {{ no_of_open_feature_requests }} feature requests
-          {% endif %}
+          {{ no_of_open_feature_requests }}
         {% else %}
-          No feature requests
+          0
         {% endif %}
+	    <i class="fa fa-wrench fa-fw"></i>&nbsp;
       </span>
     </div>
   </div>  
@@ -61,7 +55,8 @@
     <div class="panel-body text-center">
       <br/>
       <span class="feature-text">
-        {{ no_of_users }} users
+        {{ no_of_users }}
+  	    <i class="fa fa-users fa-fw"></i>&nbsp;
       </span>
     </div>
   </div>  
