@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from docs.models import Item
-from meetings.forms import AgendaMeetingForm
+from meetings.forms import NewMeetingForm
 from meetings.models import Meeting
 from meetings.utils import archive_meeting, \
                            delete_meeting, \
@@ -17,7 +17,7 @@ def meeting_add(request):
         return HttpResponseRedirect(reverse('index'))
 
     if request.method == "POST":
-        form = AgendaMeetingForm(group, request.POST, label_suffix='')
+        form = NewMeetingForm(group, request.POST, label_suffix='')
         if form.is_valid() :
             # save the data
             meeting = form.save(group)
@@ -29,7 +29,7 @@ def meeting_add(request):
             return HttpResponseRedirect(reverse('agenda-edit',
                                                 args=(meeting_id,)))
     else:
-        form = AgendaMeetingForm(group, label_suffix='')
+        form = NewMeetingForm(group, label_suffix='')
 
     menu = {'parent': 'meetings', 'child': 'new_meeting'}            
     return render(request, 'meeting_add.html', {
