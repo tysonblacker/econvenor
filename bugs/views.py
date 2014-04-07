@@ -41,7 +41,7 @@ def bug_edit(request, bug_id):
         if request.method == "POST":
             bug_form = BugForm(request.POST, instance=bug)
             if bug_form.is_valid():
-                bug_form.save()
+                bug_form.save(request.user)
                 return HttpResponseRedirect(reverse('bug-list'))
         else:
             bug_form = BugForm(instance=bug)
@@ -108,8 +108,10 @@ def feature_edit(request, feature_id):
         if request.user.id == administrator:
             allow_status_editing = True
         if request.method == "POST":
-            save_and_add_owner(request, FeatureForm(request.POST, instance=feature))
-            return HttpResponseRedirect(reverse('feature-list'))
+            feature_form = FeatureForm(request.POST, instance=feature)
+            if feature_form.is_valid():
+                feature_form.save(request.user)
+                return HttpResponseRedirect(reverse('feature-list'))
         else:
             feature_form = FeatureForm(instance=feature)
     else:

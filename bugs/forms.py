@@ -24,7 +24,10 @@ class BugForm(forms.ModelForm):
 
     def save(self, user, commit=True):
         bug = super(BugForm, self).save(commit=False)
-        bug.user = user
+        if not bug.user:
+            bug.user = user
+        else:
+            bug.user = self.instance.user
         if commit:
             bug.save()
         return bug
@@ -50,7 +53,10 @@ class FeatureForm(forms.ModelForm):
 
     def save(self, user, commit=True):
         feature = super(FeatureForm, self).save(commit=False)
-        feature.user = user
+        if not feature.user:
+            feature.user = user
+        else:
+            feature.user = self.instance.user
         if commit:
             feature.save()
         return feature
