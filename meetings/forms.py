@@ -12,9 +12,9 @@ class NewMeetingForm(forms.ModelForm):
         self.group = group
         super(NewMeetingForm, self).__init__(*args, **kwargs)
         self.fields['facilitator_scheduled'].queryset = \
-            Participant.objects.filter(group=group, status='Active')
+            Participant.lists.active().filter(group=group)
         self.fields['minute_taker_scheduled'].queryset = \
-            Participant.objects.filter(group=group, status='Active')
+            Participant.lists.active().filter(group=group)
             
     error_messages = {
         'duplicate_meeting_no': _('That meeting number has already been used.'\
@@ -102,9 +102,9 @@ class AgendaMeetingForm(forms.ModelForm):
         self.group = group
         super(AgendaMeetingForm, self).__init__(*args, **kwargs)
         self.fields['facilitator_scheduled'].queryset = \
-            Participant.objects.filter(group=group, status='Active')
+            Participant.lists.active().filter(group=group)
         self.fields['minute_taker_scheduled'].queryset = \
-            Participant.objects.filter(group=group, status='Active')
+            Participant.lists.active().filter(group=group)
 
             
     error_messages = {
@@ -189,9 +189,9 @@ class MinutesMeetingForm(forms.ModelForm):
     def __init__(self, group, *args, **kwargs):
         super(MinutesMeetingForm, self).__init__(*args, **kwargs)
         self.fields['facilitator_actual'].queryset = \
-            Participant.objects.filter(group=group, status='Active')
+            Participant.lists.active().filter(group=group)
         self.fields['minute_taker_actual'].queryset = \
-            Participant.objects.filter(group=group, status='Active')
+            Participant.lists.active().filter(group=group)
                     
     class Meta:
         model = Meeting
@@ -256,9 +256,9 @@ class NextMeetingForm(forms.ModelForm):
     def __init__(self, group, *args, **kwargs):
         super(NextMeetingForm, self).__init__(*args, **kwargs)
         self.fields['next_meeting_facilitator'].queryset = \
-            Participant.objects.filter(group=group, status='Active')
+            Participant.lists.active().filter(group=group)
         self.fields['next_meeting_minute_taker'].queryset = \
-            Participant.objects.filter(group=group, status='Active')
+            Participant.lists.active().filter(group=group)
                                   
     class Meta:
         model = Meeting

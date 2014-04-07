@@ -9,7 +9,7 @@ class AddTaskForm(forms.ModelForm):
     def __init__(self, group, *args, **kwargs):
         super(AddTaskForm, self).__init__(*args, **kwargs)
         self.fields['participant'].queryset = \
-            Participant.objects.filter(group=group, status='Active')
+            Participant.lists.active().filter(group=group)
         
     class Meta:
         model = Task
@@ -50,7 +50,7 @@ class EditTaskForm(forms.ModelForm):
     def __init__(self, group, *args, **kwargs):
         super(EditTaskForm, self).__init__(*args, **kwargs)
         self.fields['participant'].queryset = \
-            Participant.objects.filter(group=group, status='Active')
+            Participant.lists.active().filter(group=group)
         
     class Meta:
         model = Task
@@ -99,7 +99,7 @@ class MinutesTaskForm(forms.ModelForm):
     def __init__(self, group, *args, **kwargs):
         super(MinutesTaskForm, self).__init__(*args, **kwargs)
         self.fields['participant'].queryset = \
-            Participant.objects.filter(group=group, status='Active')
+            Participant.lists.active().filter(group=group)
         
     class Meta:
         model = Task

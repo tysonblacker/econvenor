@@ -10,7 +10,7 @@ class AgendaItemForm(forms.ModelForm):
     def __init__(self, group, *args, **kwargs):
         super(AgendaItemForm, self).__init__(*args, **kwargs)
         self.fields['explainer'].queryset = \
-            Participant.objects.filter(group=group)
+            Participant.lists.active().filter(group=group)
 
     class Meta:
         
@@ -63,7 +63,7 @@ class MinutesItemForm(forms.ModelForm):
     def __init__(self, group, *args, **kwargs):
         super(MinutesItemForm, self).__init__(*args, **kwargs)
         self.fields['explainer'].queryset = \
-            Participant.objects.filter(group=group)
+            Participant.lists.active().filter(group=group)
        
     class Meta:
         model = Item
