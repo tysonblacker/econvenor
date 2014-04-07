@@ -55,8 +55,9 @@ function updatePage( resp ) {
   });
   $( '.spinner' ).spinner({ min: 0, max: 600, });
   $('.timepicker').timepicker({
-    timeFormat: 'H:i',
-    step: 15,
+    'timeFormat': 'g:i a',
+    'step': 15,
+    'scrollDefaultTime': '9:15 am',
   });
   $('body').css( 'cursor', 'default' );
 };

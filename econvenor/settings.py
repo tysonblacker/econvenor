@@ -154,11 +154,17 @@ if socket.gethostname() == 'web439.webfaction.com':
 else:
 	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Dates
+# Dates and times
 # --------------------------------------------------------
 
 DATE_FORMAT = 'd M Y'
 
 DATE_INPUT_FORMATS = (
     '%d %b %Y',
+)
+
+TIME_FORMAT = 'g:i a'
+
+TIME_INPUT_FORMATS = (
+    '%I:%M %p',
 )

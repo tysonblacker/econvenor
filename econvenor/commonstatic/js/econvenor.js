@@ -59,8 +59,9 @@ $(function enableBootstrapFeatures() {
 -------------------------------------------------- */
 $(function enableTimepicker() {
   $('.timepicker').timepicker({
-    timeFormat: 'H:i',
-    step: 15,
+    'timeFormat': 'g:i a',
+    'step': 15,
+    'scrollDefaultTime': '9:15 am',
   });
 });
 

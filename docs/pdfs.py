@@ -338,16 +338,19 @@ def create_details_table(meeting, doc_type, Document):
         (Paragraph('Date', shadedItemStyle),
             Paragraph(date.strftime("%A %B %d, %Y"), normalStyle)),
         (Paragraph('Start time', shadedItemStyle),
-            Paragraph(start_time.strftime("%H:%M"), normalStyle)),]     
+            Paragraph(start_time.strftime("%I:%M %p").lstrip('0').lower(),
+                      normalStyle)),]     
     if doc_type == 'agenda':
         if duration != 0:
             left_column_contents.append(        
             (Paragraph('End time', shadedItemStyle),
-                Paragraph(end_time.strftime("%H:%M"), normalStyle)))
+                Paragraph(end_time.strftime("%I:%M %p").lstrip('0').lower(),
+                          normalStyle)))
     if doc_type == 'minutes':
         left_column_contents.append(        
             (Paragraph('End time', shadedItemStyle),
-             Paragraph(end_time.strftime("%H:%M"), normalStyle)))
+             Paragraph(end_time.strftime("%I:%M %p").lstrip('0').lower(),
+                       normalStyle)))
         left_column_contents.append(        
             (Paragraph('Location', shadedItemStyle),
              Paragraph(location, normalStyle)))
@@ -569,7 +572,8 @@ def create_next_meeting_table(meeting, Document):
     if start_time:
         contents.append(
             (Paragraph('Start time', shadedItemStyle),
-             Paragraph(start_time.strftime("%H:%M"), normalStyle)))  
+             Paragraph(start_time.strftime("%I:%M %p").lstrip('0').lower(),
+                       normalStyle)))  
     if location:
         contents.append(
             (Paragraph('Location', shadedItemStyle),
