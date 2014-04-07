@@ -32,6 +32,38 @@ $(document).on("click", ".ajax-button", function(){
 });
 
 
+/* Save button behaviour
+-------------------------------------------------- */
+
+$(document).on("click", "#save_document", function savingNow(){ 
+  $('#save_document').html('<i class="fa fa-refresh fa-fw fa-spin"></i>&nbsp; Saving changes');
+});
+
+function savingOff() {
+  $('#save_document').html('<i class="fa fa-save fa-fw"></i>&nbsp; Save changes');
+};
+
+
+/* Add item button behaviour
+-------------------------------------------------- */
+
+$(document).on("click", "#add_item", function addingItemNow(){ 
+  $('#add_item').html('<i class="fa fa-refresh fa-fw fa-spin"></i>&nbsp; Adding an item');
+});
+
+function addingItemOff() {
+  $('#add_item').html('<i class="fa fa-plus-circle fa-fw"></i>&nbsp; Add an item');
+};
+
+
+/* Preview and send button behaviour
+-------------------------------------------------- */
+
+function preparingPreview(){ 
+  $('#submit_agenda, #submit_minutes').html('<i class="fa fa-refresh fa-fw fa-spin"></i>&nbsp; Preparing preview');
+};
+
+
 /* Update page using AJAX
 -------------------------------------------------- */
 
@@ -60,6 +92,8 @@ function updatePage( resp ) {
     'scrollDefaultTime': '9:15 am',
   });
   $('body').css( 'cursor', 'default' );
+  savingOff();
+  addingItemOff();
 };
 
 function printError( req, status, err ) {

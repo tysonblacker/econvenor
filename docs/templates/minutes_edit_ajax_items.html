@@ -379,6 +379,7 @@
       },
       submitHandler: function(form) {
         $('body').css( 'cursor', 'wait' );
+        preparingPreview();        
         var next_page = $("#submit_minutes").attr('goto');
         saveWithoutRefresh('ajax_button=save_minutes', next_page);
       },

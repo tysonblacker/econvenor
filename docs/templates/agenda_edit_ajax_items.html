@@ -175,6 +175,7 @@
       },
       submitHandler: function(form) {
         $('body').css( 'cursor', 'wait' );
+        preparingPreview();
         var next_page = $("#submit_agenda").attr('goto');
         saveWithoutRefresh('ajax_button=save_agenda', next_page);
       },
