@@ -11,11 +11,64 @@
 
 {% block content %}
 
-<p class="lead"><span class="red">Your group is eligible for an account</span></p>
+{% if trial_account %}
 
-<p>Your group meets eConvenor's eligibility criteria! We'd love you to use the service.</p>
+  <p class="lead">
+    <span class="red">Unions or parties in high-income, reasonably democratic countries</span>
+  </p>
+  
+  <p>As a union or party in a high-income, reasonably democratic country, your group is eligible to use eConvenor for a fee. You can set up a <span class="red">free 30-day trial</span> account to evaluate the service.</p>
 
-<p> The final few steps take you through our terms and conditions. Once you have read and agreed to them, you can set up your account.</p>
+  <p>If you're a very small political party and we like what you stand for, we may bend this rule and provide you with free access to eConvenor. Feel free to <a href="mailto:fees@econvenor.org?subject=Fee+exemption+enquiry">email us</a>&nbsp;to put your case.</p>
+
+  <p> The final few steps take you through our terms and conditions. Once you have read and agreed to them, you can set up your account.</p>
+
+  <p class="lead"><span class="red">Account pricing</span></p>
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th>Number of groups</th>
+          <th>Paid quarterly (AU$)</th>
+          <th>Paid yearly (AU$)</th>
+        </tr>
+        <tr>
+          <td>1 to 9</td>
+          <td>$50 per group</td>
+          <td>$180 per group</td>
+        </tr>
+        <tr>
+          <td>10 +</td>
+          <td>$500 + $45 per extra group</td>
+          <td>$1,800 + $160 per extra group</td>
+        </tr>
+        <tr>
+          <td>20 +</td>
+          <td>$950 + $40 per extra group</td>
+          <td>$3,400 + $140 per extra group</td>
+        </tr>
+        <tr>
+          <td>50 +</td>
+          <td>$2,150 + $35 per extra group</td>
+          <td>$7,600 + $120 per extra group</td>
+        </tr>
+      </tbody>
+    </table>
+
+  <p>For example: The fee for 25 groups, if paid quarterly, is $950 + (5 x $40) = $1,150.</p>
+
+{% else %}
+
+  <p class="lead">
+    <span class="red">Your group is eligible for an account</span>
+  </p>
+
+  <p>Your group meets eConvenor's eligibility criteria! We'd love you to use the service.</p>
+
+  <p>The final few steps take you through our terms and conditions. Once you have read and agreed to them, you can set up your account.</p>
+
+{% endif %}
+
+
 
 <p class="lead"><span class="red">eConvenor is currently a beta release</span></p>
 
@@ -36,7 +89,11 @@
       <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
       Quit
     </a>
-    <a href="{% url 'qualify' 'step6' %}" class="btn btn-primary">
+    {% if trial_account %}
+      <a href="{% url 'qualify' 'step6a' %}" class="btn btn-primary">
+    {% else %}
+      <a href="{% url 'qualify' 'step6' %}" class="btn btn-primary">    
+    {% endif %}
       <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
       I understand
     </a>

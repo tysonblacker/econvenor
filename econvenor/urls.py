@@ -13,9 +13,9 @@ urlpatterns = patterns('',
 	url(r'^login/$', 'authentication.views.user_login', name="login"),
 	url(r'^logout/$', 'authentication.views.user_logout', name="logout"),
 
-	url(r'^qualify/(step\d{1,2})/$', 'registration.views.qualify',
+	url(r'^qualify/(step\d[a]?)/$', 'registration.views.qualify',
 	    name="qualify"),
-	url(r'^register/$', 'registration.views.register',
+	url(r'^register/(\w*)$', 'registration.views.register',
 	    name="register"),
 	url(r'^welcome/$', 'registration.views.welcome', name="welcome"),
 		

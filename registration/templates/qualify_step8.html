@@ -57,7 +57,11 @@
 <p>The service is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and non-infringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the service or the use or other dealings in the service.</p>
 
   <div class="pull-right">
-    <a href="{% url 'qualify' 'step7' %}" class="btn btn-default">
+    {% if trial_account %}
+      <a href="{% url 'qualify' 'step7a' %}" class="btn btn-default">
+    {% else %}
+      <a href="{% url 'qualify' 'step7' %}" class="btn btn-default">    
+    {% endif %}
       <i class="fa fa-arrow-circle-left fa-lg fa-fw"></i>&nbsp;
       Back
     </a>
@@ -65,7 +69,11 @@
       <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
       Quit
     </a>
-    <a href="{% url 'qualify' 'step9' %}" class="btn btn-primary">
+    {% if trial_account %}
+      <a href="{% url 'qualify' 'step9a' %}" class="btn btn-primary">
+    {% else %}
+      <a href="{% url 'qualify' 'step9' %}" class="btn btn-primary">    
+    {% endif %}
       <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
       I understand
     </a>

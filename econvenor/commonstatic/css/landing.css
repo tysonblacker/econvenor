@@ -506,6 +506,24 @@ form .panel-heading {
 font-size: 0.6em;
 }
 
+.panel-register .table.table-bordered {
+  width: 97%;
+  margin: 0 0 25px 10px;
+}
+
+.panel-register .table th {
+  color: #333333;
+  font-size: 0.85em;
+  font-weight: normal;
+  background-color: #e9e9e9;
+}
+
+.panel-register .table td {
+  color: #333333;
+  font-size: 0.80em;
+  background-color: #fafafa;
+}
+
 .panel-register .form-group {
   margin: 10px 10px 25px 10px;
 }

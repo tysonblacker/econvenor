@@ -11,9 +11,10 @@ from utilities.commonutils import get_current_group
 
 
 def qualify(request, step):
-    template = 'qualify_' + step + '.html'
+    template = 'qualify_' + step.rstrip('a') + '.html'
     page_type = 'qualify'
-    step_number = int(step[4:])
+    step_number = int(step.lstrip('step').rstrip('a'))
+    # Set the page heading
     if step_number == 0:
         section = 'start'
     elif step_number>0 and step_number<6:
@@ -22,17 +23,27 @@ def qualify(request, step):
         section = 'terms'
     elif step_number == 9:
         section = 'complete'
-         
+    # Set whether this will be a trial account
+    if step[-1:] == 'a':
+        trial_account = True 
+    else:
+        trial_account = False
+    
     return render(request, template, {
+        'trial_account': trial_account,
         'page_type': page_type,
         'section': section,
     })
 
 
-def register(request):
+def register(request, trial):
 
     page_type = 'register'
-
+    if trial == 'trial':
+        trial_account = True
+    else:
+        trial_account = False
+            
     if request.method == 'POST':
         user_form = UserRegisterForm(request.POST, label_suffix='')
         group_form = GroupRegisterForm(request.POST, label_suffix='')
@@ -68,6 +79,7 @@ def register(request):
     return render(request, 'register.html', {
         'group_form': group_form,
         'page_type': page_type,
+        'trial_account': trial_account,
         'user_form': user_form,
     })
 

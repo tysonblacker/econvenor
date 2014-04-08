@@ -76,7 +76,11 @@
                     <i class="fa fa-circle fa-stack-2x white"></i>
                     <i class="fa fa-flash fa-stack-1x red"></i>
                   </span>&nbsp;
-                  Register an account
+                  {% if trial_account %}
+                    Set up a free 30-day trial
+                  {% else %}
+                    Register an account
+                  {% endif %}
                 {% endif %}
               </h1>
             </div>

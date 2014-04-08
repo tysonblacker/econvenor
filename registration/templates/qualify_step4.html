@@ -25,44 +25,15 @@
       <i class="fa fa-arrow-circle-left fa-lg fa-fw"></i>&nbsp;
       Back
     </a>
-    <button type="button" class="btn btn-primary" id="exit_button">
+    <a href="{% url 'qualify' 'step5a' %}" class="btn btn-primary">
       <i class="fa fa-check-circle fa-lg fa-fw"></i>&nbsp;
       Yes
-    </button>
+    </a>
     <a href="{% url 'qualify' 'step5' %}" class="btn btn-primary">
       <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
       No
     </a>
   </div>
   
-  <div class="modal-data" id="exit_modal_title">
-    <i class="fa fa-star fa-lg"></i>&nbsp;
-    Contact eConvenor
-  </div>
-  <div class="modal-data" id="exit_modal_body">
-    <p>As a union or political party in a high-income, reasonably democratic country, you must pay a fee to use eConvenor.</p>
-    <p>Click the "Email eConvenor" button below, or email <a href="mailto:fees@econvenor.org?subject=Fee+enquiry">fees@econvenor.org</a> and include this information so that your annual fee can be calculated:</p>
-    <ul>
-      <li>
-        <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-        The country you operate in</li>
-      <li>
-        <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-        The number of participants in the group which will be using eConvenor</li>
-      <li>
-        <i class="fa fa-arrow-circle-right fa-lg fa-fw red"></i>&nbsp;
-        The address of your website</li>
-    </ul>    
-    <p>Do not continue with this eligibility check. We will set up your account once your fee is paid.</p>
-  </div>
-  <div class="modal-data" id="exit_modal_button">
-    <i class="fa fa-envelope fa-lg fa-fw"></i>&nbsp;
-    Email eConvenor
-  </div>
-  <div class="modal-data" id="exit_modal_button_target">
-    mailto:fees@econvenor.org?subject=Fee+enquiry
-  </div>
-
-       
 {% endblock content %}
 
