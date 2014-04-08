@@ -62,6 +62,10 @@ def register(request, trial):
             slug = slugify(group.name)[:20]
             group.slug = slug
             group.save()
+            # set the account status to trial if required
+            if trial_account == True:
+                group.account_type = 'Trial'
+                group.save()
             # log the new user in
             user = authenticate(username=new_user.username,
                                 password=password)
