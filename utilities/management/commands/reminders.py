@@ -18,7 +18,8 @@ class Command(BaseCommand):
         groups = Group.objects.all()
         yesterday = date.today() - timedelta(1)
         for group in groups:
-            participants = Participant.objects.filter(group=group)
+            participants = Participant.lists.receiving_reminders().\
+                           filter(group=group)
             all_due_tasks = []
             all_new_overdue_tasks = []
             all_old_overdue_tasks = []

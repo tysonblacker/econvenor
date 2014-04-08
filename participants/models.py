@@ -27,6 +27,9 @@ class ParticipantManager(models.Manager):
         return self.get_queryset().filter(status='Former').\
             order_by('first_name')  
 
+    def receiving_reminders(self):
+        return self.get_queryset().filter(status='Active', reminders=True).\
+            order_by('first_name')  
         
 class Participant(TimeStampedModel):
     
