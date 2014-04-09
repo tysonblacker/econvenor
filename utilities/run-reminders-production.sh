@@ -4,8 +4,8 @@
 # To be run once each day by cron
 
 
-cd /home/econvener/DjangoProjects/econvenor
-source /home/econvenor/bin/virtualenvwrapper.sh
+cd ~/webapps/econvenor/econvenor
+source ~/bin/virtualenvwrapper.sh
 workon env
-python manage.py reminders
+python2.7 manage.py reminders
 deactivate env
