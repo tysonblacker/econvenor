@@ -4,6 +4,16 @@ from utilities.models import TimeStampedModel
 from django.contrib.auth.models import User
 
 
+class GroupManager(models.Manager):
+
+    def all_groups(self):
+        return self.get_queryset().all().order_by('name')
+                
+    def active_groups(self):
+        return self.get_queryset().filter(account_status='Active').\
+            order_by('name')
+            
+
 class Group(TimeStampedModel):
 
     ACCOUNT_TYPE_CHOICES = (
@@ -35,6 +45,9 @@ class Group(TimeStampedModel):
                                     choices=ACCOUNT_TYPE_CHOICES,
                                     default='Free', null=False, blank=True)
 
+    objects = models.Manager()
+    lists = GroupManager()
+    
     def __unicode__(self):
         return self.name
         
