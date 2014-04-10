@@ -1,0 +1,83 @@
+{% extends "app_base.html" %}
+{% load setclass %}
+
+{% block content %}
+
+<div class="col-sm-10 col-md-8 col-lg-6 no-toolbar">
+  <div class="panel panel-default panel-account">
+    <div class="panel-heading">
+	  <i class="fa fa-user fa-fw fa-lg"></i>&nbsp;
+	  User settings
+    </div>
+    <table class="table table-account"> 
+      <tbody>
+        <tr>
+          <td>Email</td>
+          <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+          <td>Username</td>
+          <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+          <td>Given name</td>
+          <td>{{ user.first_name }}</td>
+        </tr>
+        <tr>
+          <td>Family name</td>
+          <td>{{ user.last_name }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="panel-footer text-right">
+        <a href={% url 'password-change' %}
+          class="btn btn-primary">
+	        <i class="fa fa-key fa-rotate-180 fa-fw fa-lg"></i>&nbsp;
+            Change your password
+        </a>
+        <a href={% url 'user-edit' %}
+          class="btn btn-primary">
+	        <i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
+            Edit user settings
+        </a>
+    </div><!-- /.panel-footer -->
+
+  </div><!-- /.panel -->
+
+  <div class="panel panel-default panel-account">
+    <div class="panel-heading">
+	  <i class="fa fa-users fa-fw fa-lg"></i>&nbsp;
+	  Group settings
+    </div>
+    <table class="table table-account"> 
+      <tbody>
+        <tr>
+          <td>Name</td>
+          <td>{{ group.name }}</td>
+        </tr>
+        <tr>
+          <td>Aim</td>
+          <td>{{ group.aim }}</td>
+        </tr>
+        <tr>
+          <td>Focus</td>
+          <td>{{ group.focus }}</td>
+        </tr>
+        <tr>
+          <td>Country</td>
+          <td>{{ group.country }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="panel-footer text-right">
+      <a href={% url 'group-edit' %}
+         class="btn btn-primary">
+	       <i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
+           Edit group settings
+      </a>
+    </div><!-- /.panel-footer -->
+  </div><!-- /.panel -->
+</div><!-- /.col -->
+    
+{% endblock content %}
+

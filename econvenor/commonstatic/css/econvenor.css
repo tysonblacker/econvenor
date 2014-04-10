@@ -57,6 +57,10 @@ label.error {
   font-weight: bold;
 }
 
+.red {
+  color: #ff0066;
+}
+
 
 /* BODY
 -------------------------------------------------- */
@@ -412,6 +416,9 @@ body {
   overflow-y: auto;
 }
 
+.panel-account .panel-body {
+  background-color: #ffffff;
+}
 
 /* TABLES
 -------------------------------------------------- */
@@ -462,6 +469,12 @@ body {
 #view_participant_tasks td:nth-child(0n+2) {
   width: 100px;
 }
+
+.table-account td:first-child {
+  background-color: #aaaaaa;
+  width: 150px;
+}
+
 
 /* Set row height for current and archived meetings tables */
 
