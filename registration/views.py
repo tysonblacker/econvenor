@@ -5,6 +5,8 @@ from django.shortcuts import render
 from django.utils.text import slugify
 
 from accounts.models import UserSettings
+from common.utils import snapshot_group_details, \
+                         snapshot_user_details
 from participants.models import Participant
 from registration.forms import GroupRegisterForm, UserRegisterForm
 from utilities.commonutils import get_current_group
@@ -66,6 +68,9 @@ def register(request, trial):
             if trial_account == True:
                 group.account_type = 'Trial'
                 group.save()
+            # save initial snapshots of new user and group details
+            snapshot_user_details(u, password='set')
+            snapshot_group_details(group)
             # log the new user in
             user = authenticate(username=new_user.username,
                                 password=password)

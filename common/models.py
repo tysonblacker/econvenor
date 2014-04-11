@@ -25,14 +25,32 @@ class Update(TimeStampedModel):
     new_value = models.TextField(null=False, blank=True)
 
 
-class AccountUpdate(TimeStampedModel):
+class UserUpdate(TimeStampedModel):
     """
-    The is only used for recording updates
-    to a user's account settings.
+    Records changes to a user's details.
     """
     
     user = models.ForeignKey(User)
 
-    field = models.CharField(max_length=100, null=False, blank=True)
-    old_value = models.TextField(null=False, blank=True)
-    new_value = models.TextField(null=False, blank=True)
+    username = models.CharField(max_length=30, null=False, blank=True)
+    first_name = models.CharField(max_length=30,null=False, blank=True)
+    last_name = models.CharField(max_length=30, null=False, blank=True)
+    email = models.EmailField(null=False, blank=True)
+    password = models.CharField(max_length=20, null=False, blank=True)
+
+class GroupUpdate(TimeStampedModel):
+    """
+    Records changes to a group's details.
+    """
+    
+    group = models.ForeignKey(Group)
+    
+    aim = models.CharField(max_length=100, null=False, blank=True)
+    country = models.CharField(max_length=40,null=False, blank=True)
+    focus = models.CharField(max_length=40, null=False, blank=True)
+    logo = models.FileField(upload_to='logos')
+    name = models.CharField(max_length=100, null=False, blank=True)
+    slug = models.SlugField(null=False, blank=True)
+    account_status = models.CharField(max_length=20, null=False, blank=True)
+    account_type = models.CharField(max_length=20, null=False, blank=True)
+

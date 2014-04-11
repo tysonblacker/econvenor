@@ -6,6 +6,8 @@ from accounts.models import UserSettings
 from accounts.forms import GroupDetailsForm, \
                            PasswordChangeForm, \
                            UserDetailsForm
+from common.utils import snapshot_group_details, \
+                         snapshot_user_details
 from utilities.commonutils import get_current_group
 
 
@@ -32,6 +34,7 @@ def password_change(request):
         form = PasswordChangeForm(request.user, request.POST, label_suffix='')
         if form.is_valid():
             form.save()    
+            snapshot_user_details(request.user, password='changed')
             return HttpResponseRedirect(reverse('password-changed'))
     else:
         form = PasswordChangeForm(request.user, label_suffix='')
@@ -61,7 +64,8 @@ def user_edit(request):
         form = UserDetailsForm(request.POST, instance=request.user,
                                 label_suffix='')
         if form.is_valid():
-            form.save()    
+            form.save()
+            snapshot_user_details(request.user, password='unchanged')
             return HttpResponseRedirect(reverse('account'))
     else:
         form = UserDetailsForm(instance=request.user, label_suffix='')
@@ -83,6 +87,7 @@ def group_edit(request):
                                 label_suffix='')
         if form.is_valid():
             form.save()    
+            snapshot_group_details(group)
             return HttpResponseRedirect(reverse('account'))
     else:
         form = GroupDetailsForm(instance=group, label_suffix='')
