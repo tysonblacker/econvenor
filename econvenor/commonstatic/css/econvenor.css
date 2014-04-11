@@ -352,6 +352,10 @@ body {
   margin-bottom: 3px;
 }
 
+.form-group .well {
+  background-color: #dddddd;
+  border: 1px solid #999999;
+}
  
 /* PANELS
 -------------------------------------------------- */
