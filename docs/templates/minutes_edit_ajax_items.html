@@ -112,7 +112,7 @@
           <div class="form-group">
             {{ item.background.label_tag }}
             <div class="well well-sm">
-              {{ item.background.value }}
+              {{ item.background.value|linebreaks }}
             </div>
           </div>
         {% endif %}
