@@ -1,0 +1,89 @@
+{% extends "app_base.html" %}
+{% load setclass %}
+
+{% block content %}
+
+<div class="col-sm-10 col-md-8 col-lg-6 no-toolbar">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+	  <i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
+	  Edit user settings
+    </div>
+    <div class="panel-body">
+      <form role="form" id="editusersettingsform" action="" method="POST">
+      {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+          </div>
+        {% endfor %}
+        <div class="pull-right">
+          <a href={% url 'account' %} type="button" class="btn btn-default" >
+            <i class="fa fa-minus-circle fa-lg"></i>&nbsp;
+            Cancel
+          </a>
+          <button type="submit" class="btn btn-primary" name="button">
+            <i class="fa fa-check-circle fa-lg"></i>&nbsp;
+            Save changes
+          </button>
+        </div><!-- /.pull-right -->
+      </form>
+    </div><!-- /.panel-body -->
+  </div><!-- /.panel -->  
+</div><!-- /.col -->
+
+{% endblock content %}
+
+{% block extrajs %}
+
+<script>
+
+  $(function() {
+  
+    jQuery.validator.addMethod("usernameCheck", function(value, element) {
+      return this.optional(element) || /^[\w]+$/.test(value);
+    },
+    "This username does not meet the requirements.");
+
+    $("#editusersettingsform").validate({
+      rules: {
+        email: {
+          required: true,
+          email: true,
+        },
+        username: {
+          required: true,
+          usernameCheck: true,
+        },
+        first_name: {
+          required: true,
+          maxlength: 30,
+        },
+        last_name: {
+          maxlength: 30,
+        },
+      },
+      messages: {
+        email: {
+          required: "Please enter an email address.",
+          email: "Please enter a valid email address.",
+        },
+        username: {
+          required: "Please enter a username.",
+        },
+        first_name: {
+          required: "Please enter a given name.",
+          maxlength: "Maximum of 30 characters",
+        },
+        last_name: {
+          maxlength: "Maximum of 30 characters",
+        },
+      },
+    });
+  })
+  
+</script>
+
+{% endblock extrajs %}

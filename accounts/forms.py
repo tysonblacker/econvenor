@@ -70,15 +70,92 @@ class PasswordChangeForm(forms.ModelForm):
         return self.user
 
 
-class GroupRegisterForm(forms.ModelForm):
+class UserDetailsForm(forms.ModelForm):
     """
-    A form that sets up basic user information once an account has been
-    created. Is displayed with UserSetupForm on the one page.
+    A form that allows a user to edit their details.
     """
     error_messages = {
-        'name_blank': _("You must enter the name of your group."),
+        'duplicate_email': _("A user with that email address already exists. "
+                             "Please try again."),
+        'duplicate_username': _("A user with that username already exists. "
+                                "Please try again."),
     }
+    email = forms.EmailField(label=_("Email address"),
+        widget=forms.EmailInput(attrs={
+                                   'class': 'form-control field-medium',
+                                   }),
+        error_messages={
+            'invalid': _("This must be a valid email address.")})
+    username = forms.RegexField(label=_("Preferred username"), min_length=2,
+                                max_length=30,
+        regex=r'^[\w]+$',
+        widget=forms.TextInput(attrs={
+                                   'class': 'form-control field-medium',
+                                   }),
+        help_text=_("30 characters or fewer. Letters, digits and underscores "
+                    "('_') only."),
+        error_messages={
+            'invalid': _("You username may contain only letters, numbers and "
+                         "underscore ('_') characters.")})
+    
+    class Meta:
+        model = User
+        fields = ("email", "username", "first_name", "last_name")
+        labels = {
+            'first_name': _('Given name'),
+            'last_name': _('Family name (optional)'), 
+        }
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control field-medium',
+                }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control field-medium',
+                }),
+        }
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        try:
+            User._default_manager.get(email=email)
+        except User.DoesNotExist:
+            return email
+        if email == self.instance.email:
+            return email
+        raise forms.ValidationError(
+            self.error_messages['duplicate_email'],
+            code='duplicate_email',
+        )
+
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+        try:
+            User._default_manager.get(username=username)
+        except User.DoesNotExist:
+            return username
+        if username == self.instance.username:
+            return username
+        raise forms.ValidationError(
+            self.error_messages['duplicate_username'],
+            code='duplicate_username',
+        )
+            
+    def save(self, commit=True):
+        user = super(UserDetailsForm, self).save(commit=False)
+        if commit:
+            user.save()
+        return user
+
+
+class GroupDetailsForm(forms.ModelForm):
+    """
+    A form that allows a user to edit their group details.
+    """
+
     name = forms.CharField(label=_("Group name"), max_length=100,
+        widget=forms.TextInput(attrs={
+                                   'class': 'form-control',
+                                   }),
         help_text=_("Required. 100 characters or fewer."))
         
     class Meta:
@@ -92,13 +169,14 @@ class GroupRegisterForm(forms.ModelForm):
             'country': _('Your main country of operation '
                          '(40 characters max.)'),
         }
-
-        
-    def clean_name(self):
-        name = self.cleaned_data["name"]
-        if name == '':
-            raise forms.ValidationError(
-                self.error_messages['name_blank'],
-                code='name_blank',
-            )
-        return name
+        widgets = {
+            'aim': forms.TextInput(attrs={
+                'class': 'form-control',
+                }),
+            'focus': forms.TextInput(attrs={
+                'class': 'form-control',
+                }),
+            'country': forms.TextInput(attrs={
+                'class': 'form-control',
+                }),
+        }
