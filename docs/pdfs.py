@@ -510,7 +510,7 @@ def create_task_table(section_heading, task_list, task_type, Document):
     if task_type == 'overdue':
         empty_message = 'There are no overdue tasks.'
         time_column_heading = 'Deadline'
-    elif task_type == 'incomplete':
+    elif task_type == 'outstanding':
         empty_message = 'There are no tasks to be completed.'
         time_column_heading = 'Deadline'
     elif task_type == 'completed':
@@ -650,15 +650,15 @@ def create_pdf(request, group, meeting, doc_type):
     # Add task review to agenda
     if doc_type == 'agenda':
         overdue_tasks_list = Task.lists.overdue_tasks().filter(group=group)
-        incomplete_tasks_list = Task.lists.incomplete_tasks().\
+        outstanding_tasks_list = Task.lists.pending_tasks().\
                                 filter(group=group)
         completed_tasks_list = get_completed_tasks_list(group)
         create_task_table(
-            'Attachment 1:  Overdue tasks',
+            'Attachment 1:  Tasks overdue',
             overdue_tasks_list, 'overdue', Document)
         create_task_table(
-            'Attachment 2:  Tasks to be completed',
-            incomplete_tasks_list, 'incomplete', Document)
+            'Attachment 2:  Tasks outstanding',
+            outstanding_tasks_list, 'outstanding', Document)
         create_task_table(
             'Attachment 3:  Tasks completed since last meeting',
             completed_tasks_list, 'completed', Document)
