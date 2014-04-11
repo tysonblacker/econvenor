@@ -35,7 +35,7 @@ class TaskManager(models.Manager):
             .order_by('deadline')
             
     def by_participant(self):
-        return self.get_queryset().all().order_by('participant')
+        return self.get_queryset().all().order_by('participant', 'deadline')
                     
 
 class Task(TimeStampedModel):
