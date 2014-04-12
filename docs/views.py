@@ -206,9 +206,11 @@ def minutes_edit(request, meeting_id):
     doc_type = 'minutes'
     request_type = 'refresh'
   
-    decisions = meeting.decision_set.filter(group=group)  
+    decisions = meeting.decision_set.filter(group=group).\
+                order_by('item', 'decision_no')
     items = meeting.item_set.filter(group=group).order_by('item_no')
-    tasks = meeting.task_set.filter(group=group)
+    tasks = meeting.task_set.filter(group=group).\
+            order_by('item', 'task_no')
     
     completed_tasks_list = get_completed_tasks_list(group=group)
     incomplete_tasks_list = Task.lists.incomplete_tasks().filter(group=group)
@@ -240,9 +242,11 @@ def minutes_edit(request, meeting_id):
         if request.POST['ajax_button'][:11]=='delete_task':
             delete_task(request, group, meeting)
 
-        decisions = meeting.decision_set.filter(group=group)
+        decisions = meeting.decision_set.filter(group=group).\
+                    order_by('item', 'decision_no')
         items = meeting.item_set.filter(group=group).order_by('item_no')
-        tasks = meeting.task_set.filter(group=group)
+        tasks = meeting.task_set.filter(group=group).\
+                order_by('item', 'task_no')
    
     decision_formlist = build_formlist(group, decisions, 'decisions',
                                        'minutes')
