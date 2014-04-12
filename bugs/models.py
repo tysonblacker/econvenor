@@ -17,6 +17,7 @@ class Bug(TimeStampedModel):
     user = models.ForeignKey(User)
 
     behaviour = models.TextField(null=False, blank=True)
+    comment_closing = models.TextField(null=False, blank=True)	
     comment = models.TextField(null=False, blank=True)	
     goal = models.TextField(null=False, blank=True)
     priority = models.CharField(
@@ -63,6 +64,7 @@ class Feature(TimeStampedModel):
 
     user = models.ForeignKey(User)
 
+    comment_closing = models.TextField(null=False, blank=True)
     comment = models.TextField(null=False, blank=True)	
     goal = models.TextField(null=False, blank=True)
     priority = models.CharField(
