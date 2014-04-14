@@ -12,7 +12,10 @@ class GroupManager(models.Manager):
     def active_groups(self):
         return self.get_queryset().filter(account_status='Active').\
             order_by('name')
-            
+
+    def newest_groups(self):
+        return self.get_queryset().filter(account_status='Active').\
+            order_by('created').reverse()[:5]            
 
 class Group(TimeStampedModel):
 

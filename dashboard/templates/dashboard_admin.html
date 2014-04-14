@@ -8,35 +8,39 @@
 
 <div class="col-sm-6">
   <div class="panel panel-primary panel-dashboard">
-    <div class="panel-heading">
-	  <i class="fa fa-bug fa-fw"></i>&nbsp;
-	  Number of open bug reports
-    </div>
+    <a href={% url 'bug-list' %}>
+      <div class="panel-heading">
+        <i class="fa fa-bug fa-fw"></i>&nbsp;
+	    Number of open bug reports
+      </div>
+    </a>
     <div class="panel-body text-center">
       <br/>
       <span class="feature-text">
-        {% if no_of_open_bug_reports %}
-          {{ no_of_open_bug_reports }}
+        {% if total_open_bug_reports %}
+          {{ total_open_bug_reports }}
         {% else %}
           0
         {% endif %}
 	    <i class="fa fa-bug fa-fw"></i>&nbsp;
       </span>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="col-sm-6">
   <div class="panel panel-default panel-dashboard">
-    <div class="panel-heading">
-	  <i class="fa fa-wrench fa-fw"></i>&nbsp;
-	  Number of open feature requests
-    </div>
+    <a href={% url 'feature-list' %}>
+      <div class="panel-heading">
+	    <i class="fa fa-wrench fa-fw"></i>&nbsp;
+	    Number of open feature requests
+      </div>
+    </a>
     <div class="panel-body text-center">
       <br/>
       <span class="feature-text">
-        {% if no_of_open_feature_requests %}
-          {{ no_of_open_feature_requests }}
+        {% if total_open_feature_requests %}
+          {{ total_open_feature_requests }}
         {% else %}
           0
         {% endif %}
@@ -49,17 +53,73 @@
 <div class="col-sm-6">
   <div class="panel panel-default panel-dashboard">
     <div class="panel-heading">
-	  <i class="fa fa-users fa-fw"></i>&nbsp;
-      Number of users<br/>
+      <i class="fa fa-users fa-fw"></i>&nbsp;
+	  Newest groups
     </div>
-    <div class="panel-body text-center">
-      <br/>
-      <span class="feature-text">
-        {{ no_of_users }}
-  	    <i class="fa fa-users fa-fw"></i>&nbsp;
-      </span>
+    <div class="table-dashboard">
+      <table class="table task-table">
+        <thead>
+          <tr>
+            <th>Group name</th>
+            <th>Group aim</th>
+          </tr>
+        </thead>
+        <tbody> 
+          {% for group in newest_groups %}
+            <tr>
+              <td>{{ group.name }}</td>
+              <td>{{ group.aim }}</td>
+            </tr>
+          {% endfor%}
+        </tbody>
+      </table>
     </div>
   </div>  
 </div>
+
+<div class="col-sm-6">
+  <div class="panel panel-default panel-dashboard">
+    <a href={% url 'meeting-list-current' %}>
+      <div class="panel-heading">
+	    <i class="fa fa-align-justify fa-fw"></i>&nbsp;
+	    Miscellaneous statistics
+      </div>
+    </a>
+    <table class="table table-dashboard admin-dashboard-meeting-table"> 
+      <tbody>
+        <tr>
+          <td>Number of accounts</td>
+          <td>{{ total_free_accounts }} free &nbsp;/&nbsp; {{ total_trial_accounts }} trial &nbsp;/&nbsp; {{ total_paid_accounts }} paid &nbsp;/&nbsp; {{ total_accounts }} in total</td>
+        </tr>
+        <tr>
+          <td>Number of participants</td>
+          <td>{{ total_participants }}</td>
+        </tr>
+        <tr>
+          <td>Number of tasks</td>
+          <td>{{ total_tasks }}</td>
+        </tr>
+        <tr>
+          <td>Number of decisions</td>
+          <td>{{ total_decisions }}</td>
+        </tr>
+        <tr>
+          <td>Number of meetings</td>
+          <td>{{ total_meetings }}</td>
+        </tr>
+        <tr>
+          <td>Agendas sent out</td>
+          <td>{{ total_decisions }}</td>
+        </tr>
+        <tr>
+          <td>Minutes sent out</td>
+          <td>{{ total_minutes }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>  
+</div>
+
+
 
 {% endblock content %}

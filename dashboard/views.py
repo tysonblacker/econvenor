@@ -5,8 +5,11 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
+from accounts.models import Group
 from bugs.models import Bug, Feature
-from meetings.models import Meeting
+from decisions.models import Decision
+from meetings.models import DistributionRecord, Meeting
+from participants.models import Participant
 from tasks.models import Task
 from utilities.commonutils import get_current_group
 
@@ -47,17 +50,37 @@ def dashboard_admin(request):
     if (not request.user.is_authenticated()) or (request.user.id != 1):
         return HttpResponseRedirect(reverse('index'))
 
-    no_of_users = User.objects.all().count() - 1
-    no_of_open_bug_reports = Bug.lists.open_bugs().count()
-    no_of_open_feature_requests = Feature.lists.open_features().count()
-
+    newest_groups = Group.lists.newest_groups()
+    total_accounts = Group.lists.all_groups().count() - 1
+    total_agendas = DistributionRecord.objects.filter(doc_type='agenda').\
+                    count()
+    total_decisions = Decision.objects.all().count()
+    total_free_accounts = Group.objects.filter(account_type='Free').count() - 1
+    total_meetings = Meeting.objects.all().count()
+    total_minutes = DistributionRecord.objects.filter(doc_type='minutes').\
+                    count()
+    total_open_bug_reports = Bug.lists.open_bugs().count()
+    total_open_feature_requests = Feature.lists.open_features().count()
+    total_paid_accounts = Group.objects.filter(account_type='Paid').count()
+    total_participants = Participant.objects.all().count()
+    total_tasks = Task.objects.all().count()
+    total_trial_accounts = Group.objects.filter(account_type='Trial').count()
+        
     menu = {'parent': 'dashboard'}        
     return render(request, 'dashboard_admin.html', {
                   'menu': menu,
-                  'no_of_users': no_of_users,
-                  'no_of_open_bug_reports': no_of_open_bug_reports,
-                  'no_of_open_feature_requests': no_of_open_feature_requests,
+                  'newest_groups': newest_groups,
+                  'total_accounts': total_accounts,
+                  'total_agendas': total_agendas,
+                  'total_decisions': total_decisions,
+                  'total_free_accounts': total_free_accounts,
+                  'total_meetings': total_meetings,
+                  'total_minutes': total_minutes,
+                  'total_open_bug_reports': total_open_bug_reports,
+                  'total_open_feature_requests': total_open_feature_requests,
+                  'total_paid_accounts': total_paid_accounts,
+                  'total_participants': total_participants,
+                  'total_tasks': total_tasks,
+                  'total_trial_accounts': total_trial_accounts,
                   })
-
-
 	

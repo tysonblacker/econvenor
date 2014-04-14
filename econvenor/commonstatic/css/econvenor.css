@@ -522,6 +522,11 @@ body {
   width: 120px;
 }
 
+.admin-dashboard-meeting-table td:first-child {
+  background-color: #aaaaaa;
+  width: 170px;
+}
+
 /* Set up task tables on dashboard */
 
 .task-table {
