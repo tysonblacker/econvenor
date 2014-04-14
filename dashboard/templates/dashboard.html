@@ -65,7 +65,11 @@
           </tr>
           <tr>
             <td>Date</td>
-            <td>{{ last_meeting.date_scheduled }}</td>
+            {% if last_meeting.date_actual %}
+              <td>{{ last_meeting.date_actual }}</td>      
+            {% else %}
+              <td>{{ last_meeting.date_scheduled }}</td>
+            {% endif %}
           </tr>
           <tr>
             <td>Type</td>
@@ -108,7 +112,7 @@
          </tr>
          <tr>
            <td>Date</td>
-           <td>{{ next_meeting.date_scheduled }}</td>
+           <td>{{ next_meeting.date_scheduled }} at {{ next_meeting.start_time_scheduled }}</td>
          </tr>
          <tr>
            <td>Type</td>
