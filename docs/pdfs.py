@@ -344,8 +344,8 @@ def create_details_table(meeting, doc_type, Document):
         if duration != 0:
             left_column_contents.append(        
             (Paragraph('End time', shadedItemStyle),
-                Paragraph(end_time.strftime("%I:%M %p").lstrip('0').lower(),
-                          normalStyle)))
+                Paragraph(end_time.strftime("%I:%M %p").lstrip('0').lower() + \
+                          ' (approximately)', normalStyle)))
     if doc_type == 'minutes':
         left_column_contents.append(        
             (Paragraph('End time', shadedItemStyle),
