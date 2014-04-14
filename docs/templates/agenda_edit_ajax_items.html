@@ -149,6 +149,9 @@
             digits: true,
             range: [0, 600],
           },
+          "{{ item.prefix }}-background": {
+            maxlength: 200,          
+          },
         {% endfor %}
       },
       messages: {
