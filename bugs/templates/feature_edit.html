@@ -3,86 +3,95 @@
 
 {% block content %}
 
-
 <div class="page-header">
-	<h1>{{ page_heading }}</h1>
+  <h1>{{ page_heading }}</h1>
 </div>
-
 
 {% ifequal display_mode 'edit' %}
-
-<div class="well"> 
-      
-	<form role="form" action="" method="POST">
-		{% csrf_token %}
-    	
-    	{% for hidden in feature_form.hidden_fields %}
-   			<div class="form-group">
-   				{{ hidden }}
-   			</div>
-		{% endfor %}
-    	
-    	<div class="form-group">
-			<label>Title for this feature request</label>
-      		{{ feature_form.title|setclass:"form-control" }}
-      	</div>
-      	<div class="form-group">
-			<label>What is it that you would like to do but can't?</label>
-      		{{ feature_form.goal|setclass:"form-control" }}
-      	</div>
-      	<div class="form-group">
-			<label>Why can't you do it?</label>
-      		{{ feature_form.shortcoming|setclass:"form-control" }}
-      	</div>
-      	<div class="form-group">
-			<label>How would you like to be able to do it?</label>
-      		{{ feature_form.suggestion|setclass:"form-control" }}
-      	</div>
-        {% comment %}
-      	{% ifequal allow_status_editing True %}
-		<div class="form-group">
-			<label>feature status</label>
-      		{{ feature_form.status|setclass:"form-control" }}
-      	</div>
-      	{% endifequal %}
-        {% endcomment %}       
-     	<button type="submit" class="btn btn-primary" data-toggle="button">Save feature</button>
-     	<a href={% url 'feature-list' %}><button type="button" class="btn btn-default" data-toggle="button">Cancel</button></a>
-	</form>
-
-</div>
-
+  <div class="well"> 
+    <form role="form" action="" method="POST">
+      {% csrf_token %}
+      {% for hidden in feature_form.hidden_fields %}
+        <div class="form-group">
+          {{ hidden }}
+        </div>
+      {% endfor %}
+      <div class="form-group">
+        <label>Title for this feature request</label>
+        {{ feature_form.title|setclass:"form-control" }}
+      </div>
+      <div class="form-group">
+        <label>What is it that you would like to do but can't?</label>
+        {{ feature_form.goal|setclass:"form-control" }}
+      </div>
+      <div class="form-group">
+        <label>Why can't you do it?</label>
+        {{ feature_form.shortcoming|setclass:"form-control" }}
+      </div>
+      <div class="form-group">
+        <label>How would you like to be able to do it?</label>
+        {{ feature_form.suggestion|setclass:"form-control" }}
+      </div>
+      <div class="form-group">
+        <label>Any other comments?</label>
+        {{ feature_form.comment|setclass:"form-control" }}
+      </div>
+      {% ifequal allow_status_editing True %}
+        <div class="form-group">
+          <label>Status</label>
+          {{ feature_form.status|setclass:"form-control" }}
+        </div>
+        <div class="form-group">
+          <label>Closing comment</label>
+          {{ feature_form.comment_closing|setclass:"form-control" }}
+        </div>
+      {% endifequal %}
+      <button type="submit" class="btn btn-primary">
+        Save feature
+      </button>
+      <a href={% url 'feature-list' %}>
+        <button type="button" class="btn btn-default">
+          Cancel
+        </button>
+      </a>
+    </form>
+  </div><!-- /.well -->
 {% endifequal %}
-
 
 {% ifequal display_mode 'view' %}
-
-<div class="well"> 
-      
-<p><strong>Title for this feature request</strong></p>
-{{ feature.title }}
-<br><br>
-<p><strong>Date</strong></p>
-{{ feature.date }}
-<br><br>
-<p><strong>What is it that you would like to do but can't?</strong></p>
-{{ feature.goal }}
-<br><br>
-<p><strong>Why can't you do it?</strong></p>
-{{ feature.shortcoming }}
-<br><br>
-<p><strong>How would you like to be able to do it?</strong></p>
-{{ feature.suggestion }}
-<br><br>	
-<p><strong>feature status</strong></p>
-{{ feature.status }}
-<br><br>
-<a href={% url 'feature-list' %}><button type="button" class="btn btn-default" data-toggle="button">Back to feature list</button></a>
-</form>
-
-</div>
-
+  <div class="well"> 
+    <p><strong>Title for this feature request</strong></p>
+    {{ feature.title }}
+    <br><br>
+    <p><strong>Date</strong></p>
+    {{ feature.date }}
+    <br><br>
+    <p><strong>What is it that you would like to do but can't?</strong></p>
+    {{ feature.goal }}
+    <br><br>
+    <p><strong>Why can't you do it?</strong></p>
+    {{ feature.shortcoming }}
+    <br><br>
+    <p><strong>How would you like to be able to do it?</strong></p>
+    {{ feature.suggestion }}
+    <br><br>	
+    <p><strong>Any other comments?</strong></p>
+    {{ feature.comment }}
+    <br><br>	
+    <p><strong>feature status</strong></p>
+    {{ feature.status }}
+    <br><br>
+    {% if feature.comment_closing %}
+      <p><strong>Closing comment</strong></p>
+      {{ feature.comment_closing }}
+      <br><br>
+    {% endif %}
+    <a href={% url 'feature-list' %}>
+      <button type="button" class="btn btn-default">
+        Back to feature list
+      </button>
+    </a>
+  </div><!-- /.well -->
 {% endifequal %}
-
 
 {% endblock %}

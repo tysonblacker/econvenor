@@ -3,93 +3,96 @@
 
 {% block content %}
 
-
 <div class="page-header">
-	<h1>{{ page_heading }}</h1>
+  <h1>{{ page_heading }}</h1>
 </div>
-
 
 {% ifequal display_mode 'edit' %}
-
-<div class="well"> 
-      
-	<form role="form" action="" method="POST">
-		{% csrf_token %}
-    	
-    	{% for hidden in bug_form.hidden_fields %}
-   			<div class="form-group">
-   				{{ hidden }}
-   			</div>
-		{% endfor %}
-    	
-    	<div class="form-group">
-			<label>Title for this bug report</label>
-      		{{ bug_form.title|setclass:"form-control" }}
-      	</div>
-      	<div class="form-group">
-			<label>Which page were you on?</label>
-      		{{ bug_form.location|setclass:"form-control" }}
-      	</div>
-      	<div class="form-group">
-			<label>What action triggered the bug?</label>
-      		{{ bug_form.trigger|setclass:"form-control" }}
-      	</div>
-      	<div class="form-group">
-			<label>What task were you trying to accomplish?</label>
-      		{{ bug_form.goal|setclass:"form-control" }}
-      	</div>
-      	<div class="form-group">
-			<label>What did the the bug display on the screen?</label>
-      		{{ bug_form.behaviour|setclass:"form-control" }}
-      	</div>
-        {% comment %}
-      	{% ifequal allow_status_editing True %}
-		<div class="form-group">
-			<label>Bug status</label>
-      		{{ bug_form.status|setclass:"form-control" }}
-      	</div>
-      	{% endifequal %}
-        {% endcomment %}       
-     	<button type="submit" class="btn btn-primary" data-toggle="button">Save bug</button>
-     	<a href={% url 'bug-list' %}><button type="button" class="btn btn-default" data-toggle="button">Cancel</button></a>
-	</form>
-
-</div>
-
+  <div class="well"> 
+    <form role="form" action="" method="POST">
+      {% csrf_token %}
+      {% for hidden in bug_form.hidden_fields %}
+        <div class="form-group">
+          {{ hidden }}
+        </div>
+      {% endfor %}
+      <div class="form-group">
+        <label>Title for this bug report</label>
+        {{ bug_form.title|setclass:"form-control" }}
+      </div>
+      <div class="form-group">
+        <label>Which page were you on?</label>
+        {{ bug_form.location|setclass:"form-control" }}
+      </div>
+      <div class="form-group">
+        <label>What action triggered the bug?</label>
+        {{ bug_form.trigger|setclass:"form-control" }}
+      </div>
+      <div class="form-group">
+        <label>What task were you trying to accomplish?</label>
+        {{ bug_form.goal|setclass:"form-control" }}
+      </div>
+      <div class="form-group">
+        <label>What did the the bug display on the screen?</label>
+        {{ bug_form.behaviour|setclass:"form-control" }}
+      </div>
+      <div class="form-group">
+        <label>Any other comments?</label>
+        {{ bug_form.comment|setclass:"form-control" }}
+      </div>
+      {% ifequal allow_status_editing True %}
+        <div class="form-group">
+          <label>Bug status</label>
+          {{ bug_form.status|setclass:"form-control" }}
+        </div>
+        <div class="form-group">
+          <label>Closing comment</label>
+          {{ bug_form.comment_closing|setclass:"form-control" }}
+        </div>
+      {% endifequal %}
+      <button type="submit" class="btn btn-primary" data-toggle="button">Save bug</button>
+      <a href={% url 'bug-list' %}><button type="button" class="btn btn-default" data-toggle="button">Cancel</button></a>
+    </form>
+  </div><!-- /.well -->
 {% endifequal %}
-
 
 {% ifequal display_mode 'view' %}
-
-<div class="well"> 
-      
-<p><strong>Title for this bug report</strong></p>
-{{ bug.title }}
-<br><br>
-<p><strong>Date</strong></p>
-{{ bug.date }}
-<br><br>
-<p><strong>Which page were you on?</strong></p>
-{{ bug.location }}
-<br><br>
-<p><strong>What action triggered the bug?</strong></p>
-{{ bug.trigger }}
-<br><br>
-<p><strong>What task were you trying to accomplish?</strong></p>
-{{ bug.goal }}
-<br><br>
-<p><strong>What did the the bug display on the screen?</strong></p>
-{{ bug.behaviour }}
-<br><br>	
-<p><strong>Bug status</strong></p>
-{{ bug.status }}
-<br><br>
-<a href={% url 'bug-list' %}><button type="button" class="btn btn-default" data-toggle="button">Back to bug list</button></a>
-</form>
-
-</div>
-
+  <div class="well"> 
+    <p><strong>Title for this bug report</strong></p>
+    {{ bug.title }}
+    <br><br>
+    <p><strong>Date</strong></p>
+    {{ bug.date }}
+    <br><br>
+    <p><strong>Which page were you on?</strong></p>
+    {{ bug.location }}
+    <br><br>
+    <p><strong>What action triggered the bug?</strong></p>
+    {{ bug.trigger }}
+    <br><br>
+    <p><strong>What task were you trying to accomplish?</strong></p>
+    {{ bug.goal }}
+    <br><br>
+    <p><strong>What did the the bug display on the screen?</strong></p>
+    {{ bug.behaviour }}
+    <br><br>	
+    <p><strong>Any other comments?</strong></p>
+    {{ bug.comment }}
+    <br><br>	
+    <p><strong>Bug status</strong></p>
+    {{ bug.status }}
+    <br><br>	
+    {% if bug.comment_closing %}
+      <p><strong>Closing comment</strong></p>
+      {{ bug.comment_closing }}
+      <br><br>
+    {% endif %}
+    <a href={% url 'bug-list' %}>
+      <button type="button" class="btn btn-default">
+        Back to bug list
+      </button>
+    </a>
+  </div><!-- /.well -->
 {% endifequal %}
-
 
 {% endblock %}

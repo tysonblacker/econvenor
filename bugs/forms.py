@@ -20,6 +20,8 @@ class BugForm(forms.ModelForm):
             'goal',
             'behaviour',
             'comment',
+            'status',
+            'comment_closing',
             ]
 
     def save(self, user, commit=True):
@@ -49,6 +51,8 @@ class FeatureForm(forms.ModelForm):
             'shortcoming',
             'suggestion',
             'comment',
+            'status',
+            'comment_closing',
             ]
 
     def save(self, user, commit=True):
