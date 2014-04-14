@@ -8,10 +8,12 @@
 
 <div class="col-sm-6">
   <div class="panel panel-primary panel-dashboard">
-    <div class="panel-heading">
-	  <i class="fa fa-bug fa-fw"></i>&nbsp;
-	  Number of open bug reports
-    </div>
+    <a href={% url 'bug-list' %}>
+      <div class="panel-heading">
+        <i class="fa fa-bug fa-fw"></i>&nbsp;
+	    Number of open bug reports
+      </div>
+    </a>
     <div class="panel-body text-center">
       <br/>
       <span class="feature-text">
@@ -23,15 +25,17 @@
 	    <i class="fa fa-bug fa-fw"></i>&nbsp;
       </span>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="col-sm-6">
   <div class="panel panel-default panel-dashboard">
-    <div class="panel-heading">
-	  <i class="fa fa-wrench fa-fw"></i>&nbsp;
-	  Number of open feature requests
-    </div>
+    <a href={% url 'feature-list' %}>
+      <div class="panel-heading">
+	    <i class="fa fa-wrench fa-fw"></i>&nbsp;
+	    Number of open feature requests
+      </div>
+    </a>
     <div class="panel-body text-center">
       <br/>
       <span class="feature-text">
@@ -61,5 +65,46 @@
     </div>
   </div>  
 </div>
+
+<div class="col-sm-6">
+  <div class="panel panel-default panel-dashboard">
+    <a href={% url 'meeting-list-current' %}>
+      <div class="panel-heading">
+	    <i class="fa fa-align-justify fa-fw"></i>&nbsp;
+	    Miscellaneous statistics
+      </div>
+    </a>
+    <table class="table table-dashboard admin-dashboard-meeting-table"> 
+      <tbody>
+        <tr>
+          <td>Number of tasks</td>
+          <td>{{ total_tasks }}</td>
+        </tr>
+        <tr>
+          <td>Number of participants</td>
+          <td>{{ total_participants }}</td>
+        </tr>
+        <tr>
+          <td>Number of meetings</td>
+          <td>{{ total_meetings }}</td>
+        </tr>
+        <tr>
+          <td>Number of decisions</td>
+          <td>{{ total_decisions }}</td>
+        </tr>
+        <tr>
+          <td>Agendas sent out</td>
+          <td>{{ total_decisions }}</td>
+        </tr>
+        <tr>
+          <td>Minutes sent out</td>
+          <td>{{ total_minutes }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>  
+</div>
+
+
 
 {% endblock content %}

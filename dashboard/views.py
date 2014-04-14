@@ -6,7 +6,9 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
 from bugs.models import Bug, Feature
-from meetings.models import Meeting
+from decisions.models import Decision
+from meetings.models import DistributionRecord, Meeting
+from participants.models import Participant
 from tasks.models import Task
 from utilities.commonutils import get_current_group
 
@@ -50,13 +52,27 @@ def dashboard_admin(request):
     no_of_users = User.objects.all().count() - 1
     no_of_open_bug_reports = Bug.lists.open_bugs().count()
     no_of_open_feature_requests = Feature.lists.open_features().count()
-
+    total_agendas = DistributionRecord.objects.filter(doc_type='agenda').\
+                    count()
+    total_decisions = Decision.objects.all().count()
+    total_meetings = Meeting.objects.all().count()
+    total_minutes = DistributionRecord.objects.filter(doc_type='minutes').\
+                    count()
+    total_participants = Participant.objects.all().count()
+    total_tasks = Task.objects.all().count()
+        
     menu = {'parent': 'dashboard'}        
     return render(request, 'dashboard_admin.html', {
                   'menu': menu,
                   'no_of_users': no_of_users,
                   'no_of_open_bug_reports': no_of_open_bug_reports,
                   'no_of_open_feature_requests': no_of_open_feature_requests,
+                  'total_agendas': total_agendas,
+                  'total_decisions': total_decisions,
+                  'total_meetings': total_meetings,
+                  'total_minutes': total_minutes,
+                  'total_tasks': total_tasks,
+                  'total_participants': total_participants,
                   })
 
 
