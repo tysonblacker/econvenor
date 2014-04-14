@@ -62,7 +62,7 @@ def bug_edit(request, bug_id):
 def bug_list(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('index'))
-    bugs = Bug.objects.all()
+    bugs = Bug.lists.all_bugs()
     page_heading = 'Bugs reported'
     table_headings = ('Bug number', 'Description', 'Date reported', 'Status')
 
@@ -131,7 +131,7 @@ def feature_edit(request, feature_id):
 def feature_list(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('index'))
-    features = Feature.objects.all()
+    features = Feature.lists.all_features()
     page_heading = 'Features/changes requested'
     table_headings = ('Request number', 'Description', 'Date requested', 'Status',)
 

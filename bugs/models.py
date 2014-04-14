@@ -6,12 +6,14 @@ from utilities.models import TimeStampedModel
 class BugManager(models.Manager):
 
     def all_bugs(self):
-        return self.get_queryset().all().order_by('created').reverse()
+        return self.get_queryset().all().order_by('id')
                 
     def open_bugs(self):
-        return self.get_queryset().filter(status='Open').\
-            order_by('created').reverse()
+        return self.get_queryset().filter(status='Open').order_by('id')
 
+    def closed_bugs(self):
+        return self.get_queryset().filter(status='Closed').order_by('id')
+        
 class Bug(TimeStampedModel):
 
     user = models.ForeignKey(User)
@@ -53,12 +55,13 @@ class Bug(TimeStampedModel):
 class FeatureManager(models.Manager):
 
     def all_features(self):
-        return self.get_queryset().all().order_by('created').reverse()
+        return self.get_queryset().all().order_by('id')
                 
     def open_features(self):
-        return self.get_queryset().filter(status='Open').\
-            order_by('created').reverse()
-            
+        return self.get_queryset().filter(status='Open').order_by('id')
+
+    def closed_features(self):
+        return self.get_queryset().filter(status='Closed').order_by('id')
 
 class Feature(TimeStampedModel):
 
