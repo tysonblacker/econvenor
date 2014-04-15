@@ -1,5 +1,6 @@
-import socket
 import os
+import reportlab.rl_config
+import socket
 
 from io import BytesIO
 from string import replace
@@ -12,7 +13,7 @@ from django.http import HttpResponse
 from django.utils.text import slugify
 
 from reportlab.lib.colors import black, CMYKColor, white
-from reportlab.lib.enums import TA_JUSTIFY, TA_RIGHT
+from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_RIGHT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
@@ -20,8 +21,6 @@ from reportlab.pdfbase.pdfmetrics import registerFont, registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, \
                                PageBreak, Paragraph, Spacer, Table, TableStyle 
-
-import reportlab.rl_config
 
 from accounts.models import Group
 from decisions.models import Decision
@@ -63,40 +62,48 @@ reportlab.rl_config.warnOnMissingFontGlyphs = 0
 # Create text style sheet
 styles = getSampleStyleSheet()
 
-# Define 'normal' text style
+# Define 'Normal' text style
 normalStyle = styles['Normal']
 normalStyle.fontName = body_font
 normalStyle.textColor = body_color
 normalStyle.alignment = TA_JUSTIFY
 normalStyle.fontSize=10
 normalStyle.leading=14
+normalStyle.spaceBefore=2
+normalStyle.spaceAfter=2
 
-# Define 'item' text style
+# Define 'LeftAligned' text style
 styles.add(ParagraphStyle(
-           name='Item',
+           name='LeftAligned',
+           parent=styles['Normal'],
+           alignment = TA_LEFT
+           ))
+leftAlignedStyle = styles['LeftAligned']
+
+# Define 'ItemHeading' text style
+styles.add(ParagraphStyle(
+           name='ItemHeading',
            parent=styles['Normal'],
            fontName = body_font,
-           spaceBefore=2,
-           spaceAfter=2,
            textColor = white
            ))
-itemStyle = styles['Item']
+itemHeadingStyle = styles['ItemHeading']
 
-# Define 'rightitem' text style
+# Define 'ItemHeadingRight' text style
 styles.add(ParagraphStyle(
-           name='RightItem',
-           parent=styles['Item'],
+           name='ItemHeadingRight',
+           parent=styles['ItemHeading'],
            alignment = TA_RIGHT
            ))
-rightItemStyle = styles['RightItem']
+itemHeadingRightStyle = styles['ItemHeadingRight']
 
-# Define 'shadeditem' text style
+# Define 'Shaded' text style
 styles.add(ParagraphStyle(
-           name='ShadedItem',
-           parent=styles['Item'],
+           name='Shaded',
+           parent=styles['Normal'],
            textColor = heading_color
            ))
-shadedItemStyle = styles['ShadedItem']
+shadedStyle = styles['Shaded']
 
 # Define 'heading1' text style
 heading1Style = styles['Heading1']
@@ -114,30 +121,20 @@ heading2Style.fontSize=14
 heading2Style.leading=18
 heading2Style.spaceBefore=12
 heading2Style.spaceAfter=6
-                                  
-# Define 'heading3' text style
-heading3Style = styles['Heading3']
-heading3Style.fontName = heading_font
-heading3Style.textColor = heading_color
-heading3Style.fontSize=11
-heading3Style.leading=13
-heading3Style.spaceBefore=3
-heading3Style.spaceAfter=6
 
 # Define table styles
-MEETING_COLUMN_STYLE = TableStyle([
-    ('GRID', (0,0), (-1,-1), line_width, table_color),
-    ('VALIGN',(0,0),(-1,-1),'TOP'),
-    ('BACKGROUND', (0,0), (-0,-1), shading_color),
-    ])
-
-MEETING_TABLE_STYLE = TableStyle([
-    ('VALIGN',(0,0),(-1,-1),'TOP'),
+SUPERSTRUCTURE_STYLE = TableStyle([
+    ('VALIGN',(0,0),(-1,-1), 'TOP'),
     ('LEFTPADDING', (0,0), (-1,-1), 0),
     ('RIGHTPADDING', (0,0), (-1,-1), 0),
     ('TOPPADDING', (0,0), (-1,-1), 0),
     ('BOTTOMPADDING', (0,0), (-1,-1), 0),
-    ('ROWBACKGROUNDS', (0,1), (-1,-1), [white, shading_color]),
+    ])
+
+MEETING_DETAILS_STYLE = TableStyle([
+    ('GRID', (0,0), (-1,-1), line_width, table_color),
+    ('VALIGN',(0,0),(-1,-1), 'TOP'),
+    ('BACKGROUND', (0,0), (-0,-1), shading_color),
     ])
 
 TASK_TABLE_STYLE = TableStyle([
@@ -232,7 +229,7 @@ NEXT_MEETING_TABLE_STYLE = TableStyle([
     
 def insert_line_breaks(string_data):
     """
-    Replaces line break characters in strings with <br> tags.
+    Replaces line break characters in strings with <br/> tags.
     """
     formatted_string = replace(string_data, '\n', '<br/>')
     return formatted_string
@@ -267,7 +264,7 @@ def create_document_header(meeting, group_name, doc_type, Document):
     Document.append(Paragraph(group_name, heading2Style))
     Document.append(Paragraph(title, heading1Style))    
     Document.append(Paragraph(meeting.meeting_type, heading2Style))
-    Document.append(Spacer(0,7*mm))    
+    Document.append(Spacer(0,5*mm))    
 
 
 def create_details_table(meeting, doc_type, Document):
@@ -275,96 +272,98 @@ def create_details_table(meeting, doc_type, Document):
     Creates the meeting details table.
     """
     if doc_type == 'agenda':
-        date = meeting.date_scheduled
+        date = meeting.date_scheduled.strftime("%A %B %d, %Y")
+        start_time = meeting.start_time_scheduled.strftime("%I:%M %p").\
+                     lstrip('0').lower()
         duration = calculate_meeting_duration(meeting)
-        start_time = meeting.start_time_scheduled
-        end_time = calculate_meeting_end_time(meeting)
+        if duration != 0:
+            end_time = calculate_meeting_end_time(meeting).\
+                       strftime("%I:%M %p").lstrip('0').lower() + \
+                       ' (approximately)'
+        else:
+            end_time = 'To be decided'
         location = insert_line_breaks(meeting.location_scheduled)
-        facilitator = meeting.facilitator_scheduled
-        minute_taker = meeting.minute_taker_scheduled
+        if meeting.facilitator_scheduled:
+            facilitator = str(meeting.facilitator_scheduled)
+        else:
+            facilitator = 'To be decided'
+        if meeting.minute_taker_scheduled:
+            minute_taker = str(meeting.minute_taker_scheduled)
+        else:
+            minute_taker = 'To be decided'
         notes = insert_line_breaks(meeting.instructions_scheduled)
     if doc_type == 'minutes':
-        date = meeting.date_actual
-        start_time = meeting.start_time_actual
-        end_time = meeting.end_time_actual
+        date = meeting.date_actual.strftime("%A %B %d, %Y")
+        start_time = meeting.start_time_actual.strftime("%I:%M %p").\
+                     lstrip('0').lower()
+        end_time = meeting.end_time_actual.strftime("%I:%M %p").lstrip('0').\
+                   lower()
         location = insert_line_breaks(meeting.location_actual)
         notes = insert_line_breaks(meeting.instructions_actual)
         facilitator = str(meeting.facilitator_actual)
         minute_taker = str(meeting.minute_taker_actual)
         attendance = meeting.attendance               
         apologies = meeting.apologies        
-    # Set up the right hand column
-    right_column_contents = []
-    if doc_type == 'agenda':
-        right_column_contents.append(
-            (Paragraph('Location', shadedItemStyle),
-                Paragraph(location, normalStyle)))
-        if facilitator:
-            right_column_contents.append(
-                (Paragraph('Facilitator', shadedItemStyle),
-                   Paragraph(str(facilitator), normalStyle)))
-        if minute_taker:
-            right_column_contents.append(
-                (Paragraph('Minutes', shadedItemStyle),
-                   Paragraph(str(minute_taker), normalStyle)))
+    # Set up top left block
+    top_left_contents = [
+        (Paragraph('Meeting', shadedStyle),
+            Paragraph(meeting.meeting_no, leftAlignedStyle)),
+        (Paragraph('Date', shadedStyle),
+            Paragraph(date, leftAlignedStyle)),
+        (Paragraph('Start time', shadedStyle),
+            Paragraph(start_time, leftAlignedStyle)),
+        (Paragraph('End time', shadedStyle),
+            Paragraph(end_time, leftAlignedStyle)),
+        ]     
+    top_left_block = Table(top_left_contents, colWidths=[21*mm,63*mm],
+                           rowHeights=[7*mm,7*mm,7*mm,7*mm])
+    top_left_block.setStyle(MEETING_DETAILS_STYLE)
+    # Set up top row middle block
+    top_middle_block = Table([
+            ('',), ('',), ('',), ('',),
+            ],
+        colWidths=[2*mm])
+    # Set up the top row right block
+    top_right_contents = [
+        (Paragraph('Location', shadedStyle),
+            Paragraph(location, leftAlignedStyle)),
+        (Paragraph('Facilitator', shadedStyle),
+            Paragraph(facilitator, leftAlignedStyle)),
+        (Paragraph('Minutes', shadedStyle),
+            Paragraph(minute_taker, leftAlignedStyle)),
+        ]     
+    top_right_block = Table(top_right_contents, colWidths=[21*mm,63*mm],
+                            rowHeights=[14*mm,7*mm,7*mm])
+    top_right_block.setStyle(MEETING_DETAILS_STYLE)
+    #Create the top row table
+    top_t = Table([((
+           top_left_block,
+           top_middle_block,
+           top_right_block
+           ))],)
+    top_t.setStyle(SUPERSTRUCTURE_STYLE)
+    # Set up the bottom row
+    bottom_contents = []
     if doc_type == 'minutes':
-        right_column_contents.append(
-            (Paragraph('Facilitator', shadedItemStyle),
-                Paragraph(facilitator, normalStyle)))
-        right_column_contents.append(
-            (Paragraph('Minutes', shadedItemStyle),
-                Paragraph(minute_taker, normalStyle)))
-        right_column_contents.append(
-            (Paragraph('Attendance', shadedItemStyle),
+        if attendance:
+            bottom_contents.append((Paragraph('Attendees', shadedStyle),
                 Paragraph(attendance, normalStyle)))
         if apologies:
-            right_column_contents.append(
-                (Paragraph('Apologies', shadedItemStyle),
-                   Paragraph(apologies, normalStyle)))
+            bottom_contents.append((Paragraph('Apologies', shadedStyle),
+                Paragraph(apologies, normalStyle)))
     if notes:
-        right_column_contents.append((Paragraph('Notes', shadedItemStyle),
-                                     Paragraph(notes, normalStyle)))   
-    right_column = Table(right_column_contents, colWidths=[25*mm,52.5*mm])
-    right_column.setStyle(MEETING_COLUMN_STYLE)
-    # Set up the middle column to seperate the left and right columns
-    middle_column = Table([
-            ('',), ('',),
-            ],
-        colWidths=[5*mm])
-    # Set up the left hand column
-    left_column_contents = [
-        (Paragraph('Meeting', shadedItemStyle),
-            Paragraph(meeting.meeting_no, normalStyle)),
-        (Paragraph('Date', shadedItemStyle),
-            Paragraph(date.strftime("%A %B %d, %Y"), normalStyle)),
-        (Paragraph('Start time', shadedItemStyle),
-            Paragraph(start_time.strftime("%I:%M %p").lstrip('0').lower(),
-                      normalStyle)),]     
-    if doc_type == 'agenda':
-        if duration != 0:
-            left_column_contents.append(        
-            (Paragraph('End time', shadedItemStyle),
-                Paragraph(end_time.strftime("%I:%M %p").lstrip('0').lower() + \
-                          ' (approximately)', normalStyle)))
-    if doc_type == 'minutes':
-        left_column_contents.append(        
-            (Paragraph('End time', shadedItemStyle),
-             Paragraph(end_time.strftime("%I:%M %p").lstrip('0').lower(),
-                       normalStyle)))
-        left_column_contents.append(        
-            (Paragraph('Location', shadedItemStyle),
-             Paragraph(location, normalStyle)))
-             
-    left_column = Table(left_column_contents, colWidths=[25*mm,52.5*mm])
-    left_column.setStyle(MEETING_COLUMN_STYLE)
-    t = Table([((
-           left_column,
-           middle_column,
-           right_column
-           ))],)
-    t.setStyle(MEETING_TABLE_STYLE)
-    Document.append(t)
-    Document.append(Spacer(0,10*mm))
+        bottom_contents.append((Paragraph('Notes', shadedStyle),
+            Paragraph(notes, normalStyle)))
+    #Create the bottom row table
+    if bottom_contents:
+        bottom_t = Table(bottom_contents, colWidths=[21*mm,149*mm])
+        bottom_t.setStyle(MEETING_DETAILS_STYLE)
+    #Add bottom and top rows to the document
+    Document.append(top_t)
+    if bottom_contents:
+       Document.append(Spacer(0,2*mm))
+       Document.append(bottom_t)
+    Document.append(Spacer(0,7*mm))
 
 
 def create_agenda_item_table(items, Document):
@@ -376,13 +375,13 @@ def create_agenda_item_table(items, Document):
             background = insert_line_breaks(item.background)
         if item.time_limit:
             time_limit_content = Paragraph(str(item.time_limit) + ' minutes',
-                                           rightItemStyle)
+                                           itemHeadingRightStyle)
         else: 
             time_limit_content = ''
         
         heading_t = Table([((
                 Paragraph('Item ' + str(item.item_no) + ':&nbsp;&nbsp;' + \
-                          item.title, itemStyle),
+                          item.title, itemHeadingStyle),
                 time_limit_content,
                 ))],
             colWidths=[135*mm,25*mm]
@@ -394,7 +393,7 @@ def create_agenda_item_table(items, Document):
         if item.explainer and item.background:
             body_t = Table([
                     (Paragraph('To be introduced by ' + \
-                          str(item.explainer), shadedItemStyle),),
+                          str(item.explainer), shadedStyle),),
                     (Paragraph(background, normalStyle),)
                     ],
                 colWidths=[160*mm])
@@ -408,7 +407,7 @@ def create_agenda_item_table(items, Document):
         elif item.explainer and (item.background == ''):
             t = Table([(heading_t,),
                        (Paragraph('To be introduced by ' + str(item.explainer),
-                           shadedItemStyle),)
+                           shadedStyle),)
                       ],
                   colWidths=[160*mm])
             t.setStyle(ITEM_EXPLAINER_TABLE_STYLE)
@@ -429,7 +428,7 @@ def create_agenda_item_table(items, Document):
         Document.append(Spacer(0,7*mm))
     
     Document.append(Paragraph('NOTE: A summary of tasks for review is on the '
-                              'next page.', shadedItemStyle))
+                              'next page.', shadedStyle))
     Document.append(PageBreak())
 
 
@@ -442,7 +441,7 @@ def create_minutes_item_table(items, group, Document):
         # Set up the heading row as a sub-table   
         heading_t = Table([((
                 Paragraph('Item ' + str(item.item_no) + ':&nbsp;&nbsp;' + \
-                          item.title, itemStyle),
+                          item.title, itemHeadingStyle),
                 ))],
             colWidths=[160*mm]
             )
@@ -456,7 +455,7 @@ def create_minutes_item_table(items, group, Document):
         decisions_list = Decision.objects.filter(group=group, item=item)
         if decisions_list:
             decisions_heading = (
-                Paragraph('Decisions', shadedItemStyle),
+                Paragraph('Decisions', shadedStyle),
                 )
             decisions = [(
                 Paragraph(decision.description, normalStyle),
@@ -469,9 +468,9 @@ def create_minutes_item_table(items, group, Document):
         tasks_list = Task.objects.filter(group=group, item=item)
         if tasks_list:
             column_headings = (
-                Paragraph('Task', shadedItemStyle),
-                Paragraph('Assigned to', shadedItemStyle),
-                Paragraph('Deadline', shadedItemStyle)
+                Paragraph('Task', shadedStyle),
+                Paragraph('Assigned to', shadedStyle),
+                Paragraph('Deadline', shadedStyle)
                 )
             tasks = [(
                 Paragraph(task.description, normalStyle),
@@ -520,11 +519,11 @@ def create_task_table(section_heading, task_list, task_type, Document):
         empty_message = 'No tasks were assigned in this meeting.'
         time_column_heading = 'Deadline'
             
-    table_heading = (Paragraph(section_heading, itemStyle), '', '')
+    table_heading = (Paragraph(section_heading, itemHeadingStyle), '', '')
     column_headings = (
-        Paragraph('Description', shadedItemStyle),
-        Paragraph('Assigned to', shadedItemStyle),
-        Paragraph(time_column_heading, shadedItemStyle)
+        Paragraph('Description', shadedStyle),
+        Paragraph('Assigned to', shadedStyle),
+        Paragraph(time_column_heading, shadedStyle)
         )
     tasks = [(
         Paragraph(task.description, normalStyle),
@@ -559,7 +558,7 @@ def create_next_meeting_table(meeting, Document):
     notes = insert_line_breaks(meeting.next_meeting_instructions)
     # Set up the heading row as a sub-table   
     heading_t = Table([((
-                Paragraph('Details of next meeting', itemStyle),
+                Paragraph('Details of next meeting', itemHeadingStyle),
                 ))],
             colWidths=[160*mm]
             )    
@@ -567,28 +566,28 @@ def create_next_meeting_table(meeting, Document):
     contents = []
     if date:
         contents.append(
-            (Paragraph('Date', shadedItemStyle),
+            (Paragraph('Date', shadedStyle),
                 Paragraph(date.strftime("%A %B %d, %Y"), normalStyle)))
     if start_time:
         contents.append(
-            (Paragraph('Start time', shadedItemStyle),
+            (Paragraph('Start time', shadedStyle),
              Paragraph(start_time.strftime("%I:%M %p").lstrip('0').lower(),
                        normalStyle)))  
     if location:
         contents.append(
-            (Paragraph('Location', shadedItemStyle),
+            (Paragraph('Location', shadedStyle),
              Paragraph(location, normalStyle)))
     if facilitator:
        contents.append(
-            (Paragraph('Facilitator', shadedItemStyle),
+            (Paragraph('Facilitator', shadedStyle),
              Paragraph(str(facilitator), normalStyle)))
     if minute_taker:
         contents.append(
-            (Paragraph('Minutes', shadedItemStyle),
+            (Paragraph('Minutes', shadedStyle),
              Paragraph(str(minute_taker), normalStyle)))
     if notes:
         contents.append(
-            (Paragraph('Notes', shadedItemStyle),
+            (Paragraph('Notes', shadedStyle),
                 Paragraph(notes, normalStyle)))
     # Set up the body sub-table                                  
     if contents:
@@ -602,7 +601,7 @@ def create_next_meeting_table(meeting, Document):
         Document.append(t)
         Document.append(Spacer(0,5*mm))
     Document.append(Paragraph('NOTE: A summary of tasks assigned in this '
-                              'meeting is on the next page.', shadedItemStyle))
+                              'meeting is on the next page.', shadedStyle))
     Document.append(PageBreak())
 
 
@@ -614,10 +613,10 @@ def create_pdf(request, group, meeting, doc_type):
     group_name = group.name
     buffer = BytesIO()
     doc = BaseDocTemplate(buffer,
-        rightMargin=25*mm,
-        leftMargin=25*mm,
+        rightMargin=20*mm,
+        leftMargin=20*mm,
         topMargin=20*mm,
-        bottomMargin=25*mm,
+        bottomMargin=20*mm,
         title = group_name + "  |  Meeting " +
             meeting.meeting_no,
         pagesize=A4,
