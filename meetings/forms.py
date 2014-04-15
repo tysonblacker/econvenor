@@ -51,6 +51,8 @@ class NewMeetingForm(forms.ModelForm):
             'location_scheduled': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
+                'placeholder': '2 lines maximum. No more than 30 characters '
+                               ' per line.',
                 }),
             'facilitator_scheduled': forms.Select(attrs={
                 'class': 'form-control',
@@ -140,6 +142,8 @@ class AgendaMeetingForm(forms.ModelForm):
             'location_scheduled': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
+                'placeholder': '2 lines maximum. No more than 30 characters '
+                               ' per line.',
                 }),
             'facilitator_scheduled': forms.Select(attrs={
                 'class': 'form-control',
@@ -218,6 +222,8 @@ class MinutesMeetingForm(forms.ModelForm):
             'location_actual': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
+                'placeholder': '2 lines maximum. No more than 30 characters '
+                               ' per line.',
                 }),
             'facilitator_actual': forms.Select(attrs={
                 'class': 'form-control',
@@ -278,8 +284,9 @@ class NextMeetingForm(forms.ModelForm):
                 }),
             'next_meeting_location': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': '200 characters maximum',
                 'rows': 3,
+                'placeholder': '2 lines maximum. No more than 30 characters '
+                               ' per line.',
                 }),
             'next_meeting_facilitator': forms.Select(attrs={
                 'class': 'form-control',
