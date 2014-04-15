@@ -51,11 +51,11 @@ def dashboard_admin(request):
         return HttpResponseRedirect(reverse('index'))
 
     newest_groups = Group.lists.newest_groups()
-    total_accounts = Group.lists.all_groups().count() - 1
+    total_accounts = Group.lists.all_groups().count()
     total_agendas = DistributionRecord.objects.filter(doc_type='agenda').\
                     count()
     total_decisions = Decision.objects.all().count()
-    total_free_accounts = Group.objects.filter(account_type='Free').count() - 1
+    total_free_accounts = Group.objects.filter(account_type='Free').count()
     total_meetings = Meeting.objects.all().count()
     total_minutes = DistributionRecord.objects.filter(doc_type='minutes').\
                     count()
