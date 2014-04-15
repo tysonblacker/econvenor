@@ -14,9 +14,16 @@ class TaskManager(models.Manager):
     def all_tasks(self):
         return self.get_queryset().all().order_by('deadline')
                 
+    def by_participant(self):
+        return self.get_queryset().all().order_by('participant', 'deadline')
+        
     def completed_tasks(self):
         return self.get_queryset().filter(status='Completed').\
             order_by('completion_date').reverse()
+
+    def draft_tasks(self):
+        return self.get_queryset().filter(status='Draft').\
+            order_by('deadline').reverse()
 
     def incomplete_tasks(self):
         return self.get_queryset().filter(status='Incomplete').\
@@ -33,10 +40,7 @@ class TaskManager(models.Manager):
                 status='Incomplete',
                 deadline__gte=datetime.date.today())\
             .order_by('deadline')
-            
-    def by_participant(self):
-        return self.get_queryset().all().order_by('participant', 'deadline')
-                    
+                   
 
 class Task(TimeStampedModel):
 

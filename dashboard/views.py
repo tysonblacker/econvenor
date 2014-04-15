@@ -54,8 +54,11 @@ def dashboard_admin(request):
     total_accounts = Group.lists.all_groups().count()
     total_agendas = DistributionRecord.objects.filter(doc_type='agenda').\
                     count()
+    total_completed_tasks = Task.lists.completed_tasks().count()
     total_decisions = Decision.objects.all().count()
+    total_draft_tasks = Task.lists.draft_tasks().count()
     total_free_accounts = Group.objects.filter(account_type='Free').count()
+    total_incomplete_tasks = Task.lists.incomplete_tasks().count()
     total_meetings = Meeting.objects.all().count()
     total_minutes = DistributionRecord.objects.filter(doc_type='minutes').\
                     count()
@@ -72,8 +75,11 @@ def dashboard_admin(request):
                   'newest_groups': newest_groups,
                   'total_accounts': total_accounts,
                   'total_agendas': total_agendas,
+                  'total_completed_tasks': total_completed_tasks,
                   'total_decisions': total_decisions,
+                  'total_draft_tasks': total_draft_tasks,
                   'total_free_accounts': total_free_accounts,
+                  'total_incomplete_tasks': total_incomplete_tasks,
                   'total_meetings': total_meetings,
                   'total_minutes': total_minutes,
                   'total_open_bug_reports': total_open_bug_reports,
