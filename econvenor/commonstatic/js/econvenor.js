@@ -161,17 +161,22 @@ $(function() {
     this.before(char_counter_div);
     $(".characterCounterDisplay").hide();
 
+    /* This valHook is necessary to get the .val() to correctly count newlines 
+       are two characters and not one */
+    $.valHooks.textarea = {
+      get: function( elem ) {
+        return elem.value.replace( /\r?\n/g, "\r\n" );
+      }
+    };
+
     this.on("focus keyup", function(){ 
-      /* A newline character counts as two characters, so the number of newline
-         characters must be added to the 'normal' character count */
-      var newlines = $(this).val().match(/\n/g);
-      if (newlines) {
-          var newline_count = newlines.length;
-      } else {
-          var newline_count = 0;
-      };
-      var char_count = $(this).val().length + newline_count;
+      var char_count = $(this).val().length;
       var maximum_length = $(this).attr('maxlength');
+      if (char_count > maximum_length) {
+        var trimmed_text = $(this).val().substr(0, maximum_length);
+        $(this).val(trimmed_text);
+        char_count = maximum_length;
+      };
       var warning_length = parseInt(maximum_length * 0.18) * 5
       var chars_remaining = maximum_length - char_count;
       if (char_count == 0) {
@@ -184,10 +189,6 @@ $(function() {
         ($(this)).prev().addClass("red");
       } else {
         ($(this)).prev().removeClass("red");  
-      };
-      if (char_count > maximum_length) {
-        $(this).value = $(this).value.substr(0, maxlength);
-        chars = limit;
       };
       $($(this)).prev().show();
     });
