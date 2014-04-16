@@ -162,7 +162,10 @@ $(function() {
     $(".characterCounterDisplay").hide();
 
     this.on("focus keyup", function(){ 
-      var char_count = $(this).val().length;
+      /* A newline character counts as two characters, so the number of newline
+         characters must be added to the 'normal' character count */
+      var newline_count = $(this).val().match(/\n/g).length;
+      var char_count = $(this).val().length + newline_count;
       var maximum_length = $(this).attr('maxlength');
       var warning_length = parseInt(maximum_length * 0.18) * 5
       var chars_remaining = maximum_length - char_count;
