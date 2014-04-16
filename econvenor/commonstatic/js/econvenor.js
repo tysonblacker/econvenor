@@ -148,3 +148,41 @@ $(".sidebar-item ").click(function() {
   	);
   	item_clicked_arrow.toggleClass("fa-angle-down fa-angle-up");
 });
+
+
+/* Count and limit number of characters 
+-------------------------------------------------- */
+
+$(function() {
+  var char_counter_div = $("<div class='characterCounterDisplay pull-right'/>")
+  $(".characterCounter").before(char_counter_div);
+  $(".characterCounterDisplay").hide();
+});
+
+$(".characterCounter").on("focus keyup", function(){ 
+  var char_count = $(this).val().length;
+  var maximum_length = $(this).attr('maxlength');
+  var warning_length = parseInt(maximum_length * 0.18) * 5
+  var chars_remaining = maximum_length - char_count;
+  if (char_count == 0) {
+    var message = "<p>" + chars_remaining + ' characters maximum</p>'
+  } else {
+    var message = "<p>" + chars_remaining + ' characters remaining</p>'
+  };
+  $(".characterCounterDisplay").html( message );
+  if (char_count >= warning_length) {
+    ($(this)).prev().addClass("red");
+  } else {
+    ($(this)).prev().removeClass("red");  
+  };
+  if (char_count > maximum_length) {
+    $(this).value = $(this).value.substr(0, maxlength);
+    chars = limit;
+  };
+  $($(this)).prev().show();
+});
+
+$(".characterCounter").on("blur", function(){ 
+  $(".characterCounterDisplay").hide();
+});
+
