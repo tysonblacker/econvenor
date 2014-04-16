@@ -17,7 +17,9 @@ from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_RIGHT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
-from reportlab.pdfbase.pdfmetrics import registerFont, registerFontFamily
+from reportlab.pdfbase.pdfmetrics import registerFont, \
+                                         registerFontFamily, \
+                                         stringWidth
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, \
                                PageBreak, Paragraph, Spacer, Table, TableStyle 
@@ -235,6 +237,25 @@ def insert_line_breaks(string_data):
     return formatted_string
 
 
+def fit_to_table_cell(content, cell_width,
+                      font_name=leftAlignedStyle.fontName,
+                      font_size=leftAlignedStyle.fontSize):
+    """
+    Makes sure that single line contents of a table cell always fit within it.
+    They are truncated and ellipsis added if necessary.
+    """
+    available_width = cell_width - 7*mm
+    content_width = stringWidth(content, font_name, font_size)
+    add_ellipsis = False
+    while content_width > available_width:
+        content = content[:-1]
+        content_width = stringWidth(content, font_name, font_size)
+        add_ellipsis = True
+    if add_ellipsis:
+        content += u'\u2026'
+    return content
+
+  
 def footer(canvas, doc):
     """
     Creates the footer for each page of the PDF.
@@ -271,6 +292,7 @@ def create_details_table(meeting, doc_type, Document):
     """
     Creates the meeting details table.
     """
+    # Set up the data
     if doc_type == 'agenda':
         date = meeting.date_scheduled.strftime("%A %B %d, %Y")
         start_time = meeting.start_time_scheduled.strftime("%I:%M %p").\
@@ -304,10 +326,14 @@ def create_details_table(meeting, doc_type, Document):
         minute_taker = str(meeting.minute_taker_actual)
         attendance = meeting.attendance               
         apologies = meeting.apologies        
+    # Trim contents to fit cells where necessary
+    facilitator = fit_to_table_cell(facilitator, 63*mm)
+    meeting_no = fit_to_table_cell(meeting.meeting_no, 63*mm)
+    minute_taker = fit_to_table_cell(minute_taker, 63*mm)
     # Set up top left block
     top_left_contents = [
         (Paragraph('Meeting', shadedStyle),
-            Paragraph(meeting.meeting_no, leftAlignedStyle)),
+            Paragraph(meeting_no, leftAlignedStyle)),
         (Paragraph('Date', shadedStyle),
             Paragraph(date, leftAlignedStyle)),
         (Paragraph('Start time', shadedStyle),
