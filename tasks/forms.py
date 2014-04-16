@@ -19,10 +19,9 @@ class AddTaskForm(forms.ModelForm):
                   'notes',
                   ]
         widgets = {
-            'description': forms.Textarea(attrs={
+            'description': forms.TextInput(attrs={
+                'class': 'charactercounter form-control',
                 'rows': 2,
-                'class': 'form-control',
-                'placeholder': '80 characters maximum',
                 }),
             'participant': forms.Select(attrs={
                 'class': 'form-control',
@@ -31,9 +30,9 @@ class AddTaskForm(forms.ModelForm):
                 'class': 'datepicker form-control',
                 }),
             'notes': forms.Textarea(attrs={
+                'class': 'charactercounter form-control',
+                'maxlength': 300,
                 'rows': 4,
-                'class': 'form-control',
-                'placeholder': '300 characters maximum',
                 }),
             }
                   
@@ -62,10 +61,9 @@ class EditTaskForm(forms.ModelForm):
                   'notes',
                   ]
         widgets = {
-            'description': forms.Textarea(attrs={
+            'description': forms.TextInput(attrs={
+                'class': 'charactercounter form-control',
                 'rows': 2,
-                'class': 'form-control',
-                'placeholder': '80 characters maximum',
                 }),
             'participant': forms.Select(attrs={
                 'class': 'form-control',
@@ -80,9 +78,9 @@ class EditTaskForm(forms.ModelForm):
                 'class': 'datepicker form-control',
                 }),
             'notes': forms.Textarea(attrs={
+                'class': 'charactercounter form-control',
+                'maxlength': 300,
                 'rows': 4,
-                'class': 'form-control',
-                'placeholder': '300 characters maximum',
                 }),
             }
 
@@ -109,7 +107,7 @@ class MinutesTaskForm(forms.ModelForm):
                  ]
         widgets = {
             'description': forms.TextInput(attrs={
-                'class': 'form-control description-field',
+                'class': 'charactercounter form-control description-field',
                 'placeholder': 'Description',
                 }),
             'participant': forms.Select(attrs={

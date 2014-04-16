@@ -65,10 +65,7 @@
   $(function() {
     $("#edittaskform").validate({
       rules: {
-        description: {
-          required: true,
-          maxlength: 80,
-        },
+        description: "required",
         participant: "required",
         deadline: {
           required: true,
@@ -81,17 +78,12 @@
           },
           date: true,
         },
-        notes: {
-          maxlength: 300,
-        },
       },
       messages: {
-        description: {
-          required: "Please enter a description of the task",
-        },
+        description: "Please enter a description of the task",
         participant: "Please select the person responsible for the task",
         deadline: {
-          required: "Please enter a deadline for the task",
+          required: "Please select a deadline for the task",
           date: "Please select a valid date from the calendar",
         },
         status: "Please select a status for the task",

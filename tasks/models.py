@@ -1,12 +1,13 @@
 import datetime
 
+from django.core.validators import MaxLengthValidator
 from django.db import models
-from utilities.models import TimeStampedModel
 
 from accounts.models import Group
 from docs.models import Item
 from meetings.models import Meeting
 from participants.models import Participant
+from utilities.models import TimeStampedModel
 
 
 class TaskManager(models.Manager):
@@ -61,8 +62,9 @@ class Task(TimeStampedModel):
     completion_date = models.DateField('date completed', null=True, blank=True)
     deadline = models.DateField(null=True, blank=True)
     description = models.CharField(max_length=80, null=False, blank=True)
-    notes = models.TextField('notes (optional)', max_length=300, null=False,
-                             blank=True)
+    notes = models.TextField('notes (optional)',
+                             validators=[MaxLengthValidator(300)],
+                             null=False, blank=True)
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
                               default='Incomplete',
