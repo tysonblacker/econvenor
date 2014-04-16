@@ -1,10 +1,11 @@
 import datetime
 
+from django.core.validators import MaxLengthValidator
 from django.db import models
-from utilities.models import TimeStampedModel
 
 from accounts.models import Group
 from participants.models import Participant
+from utilities.models import TimeStampedModel
 
 
 class MeetingManager(models.Manager):
@@ -47,9 +48,11 @@ class Meeting(TimeStampedModel):
     group = models.ForeignKey(Group)
 
     agenda_pdf = models.FileField(upload_to='meeting_docs')
-    apologies = models.TextField('apologies (optional)', max_length=200,
+    apologies = models.TextField('apologies (optional)',
+                                 validators=[MaxLengthValidator(200)],
                                  null=False, blank=True)
-    attendance = models.TextField(max_length=200, null=False, blank=True)            
+    attendance = models.TextField(validators=[MaxLengthValidator(200)],
+                                  null=False, blank=True)            
     meeting_no = models.CharField(max_length=30, null=False, blank=True)
     meeting_type = models.CharField('type of meeting', max_length=30, 
                                     choices=MEETING_TYPE_CHOICES,
@@ -78,13 +81,20 @@ class Meeting(TimeStampedModel):
                                            null=True, blank=True)
     instructions_scheduled = models.TextField(
                              'instructions / notes (optional)',
-                             max_length=200, null=False, blank=True)
-    instructions_actual = models.TextField('notes (optional)', max_length=200,
-                                           null=False, blank=True)
-    location_scheduled = models.TextField('location', max_length=200,
-                                          null=False, blank=True)
-    location_actual = models.TextField('location', max_length=200, null=False,
-                                       blank=True)
+                             validators=[MaxLengthValidator(200)],
+                             null=False, blank=True)
+    instructions_actual = models.TextField(
+                          'notes (optional)',
+                          validators=[MaxLengthValidator(200)],
+                          null=False, blank=True)
+    location_scheduled = models.TextField(
+                         'location',
+                         validators=[MaxLengthValidator(200)],
+                         null=False, blank=True)
+    location_actual = models.TextField(
+                      'location', 
+                      validators=[MaxLengthValidator(200)],
+                      null=False, blank=True)
     minute_taker_scheduled = models.ForeignKey(
                              Participant,
                              verbose_name='minute taker (optional)',
@@ -104,9 +114,12 @@ class Meeting(TimeStampedModel):
                                null=True, blank=True)
     next_meeting_instructions = models.TextField(
                                 'instructions / notes',
-                                max_length=200, null=False, blank=True)
-    next_meeting_location = models.TextField('location', max_length=200,
-                                             null=False, blank=True)
+                                validators=[MaxLengthValidator(200)],
+                                null=False, blank=True)
+    next_meeting_location = models.TextField(
+                            'location',
+                            validators=[MaxLengthValidator(200)],
+                            null=False, blank=True)
     next_meeting_minute_taker = models.ForeignKey(Participant, null=True,
                                 verbose_name='minute taker',
                                 related_name='minutetaker_next', blank=True)
