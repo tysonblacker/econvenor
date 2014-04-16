@@ -40,8 +40,13 @@ label.error {
   font-weight: normal;
 }
 
+.error-container {
+  margin-top: 10px;
+}
+
 .error-container .error {
   margin-top: 0px;
+  margin-bottom: 0px;  
 }
 
 .errorlist > li {
@@ -55,6 +60,10 @@ label.error {
   color: #aaaaaa;
   font-size: 60px;
   font-weight: bold;
+}
+
+.minutes-field-extra .characterCounterDisplay {
+  margin-top: -20px;
 }
 
 .characterCounterDisplay p {
