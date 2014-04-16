@@ -51,7 +51,7 @@ class Meeting(TimeStampedModel):
     apologies = models.TextField('apologies (optional)',
                                  validators=[MaxLengthValidator(200)],
                                  null=False, blank=True)
-    attendance = models.TextField(validators=[MaxLengthValidator(200)],
+    attendance = models.TextField(validators=[MaxLengthValidator(500)],
                                   null=False, blank=True)            
     meeting_no = models.CharField(max_length=30, null=False, blank=True)
     meeting_type = models.CharField('type of meeting', max_length=30, 

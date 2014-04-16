@@ -234,7 +234,7 @@ class MinutesMeetingForm(forms.ModelForm):
             'attendance': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
-                'placeholder': '200 characters maximum',
+                'placeholder': '500 characters maximum',
                 }),
             'apologies': forms.Textarea(attrs={
                 'class': 'form-control',
