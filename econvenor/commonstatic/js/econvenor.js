@@ -150,39 +150,50 @@ $(".sidebar-item ").click(function() {
 });
 
 
-/* Count and limit number of characters 
+/* Character counting and limiting plugin 
 -------------------------------------------------- */
 
 $(function() {
-  var char_counter_div = $("<div class='characterCounterDisplay pull-right'/>")
-  $(".characterCounter").before(char_counter_div);
-  $(".characterCounterDisplay").hide();
+
+  $.fn.charactercounter = function(){
+
+    var char_counter_div = $("<div class='characterCounterDisplay pull-right'/>");
+    this.before(char_counter_div);
+    $(".characterCounterDisplay").hide();
+
+    this.on("focus keyup", function(){ 
+      var char_count = $(this).val().length;
+      var maximum_length = $(this).attr('maxlength');
+      var warning_length = parseInt(maximum_length * 0.18) * 5
+      var chars_remaining = maximum_length - char_count;
+      if (char_count == 0) {
+        var message = "<p>" + chars_remaining + ' characters maximum</p>'
+      } else {
+        var message = "<p>" + chars_remaining + ' characters remaining</p>'
+      };
+      $(".characterCounterDisplay").html( message );
+      if ((char_count >= warning_length) || (char_count === 0)) {
+        ($(this)).prev().addClass("red");
+      } else {
+        ($(this)).prev().removeClass("red");  
+      };
+      if (char_count > maximum_length) {
+        $(this).value = $(this).value.substr(0, maxlength);
+        chars = limit;
+      };
+      $($(this)).prev().show();
+    });
+
+    this.on("blur", function(){ 
+      $(".characterCounterDisplay").hide();
+    });
+
+  };
 });
 
-$(".characterCounter").on("focus keyup", function(){ 
-  var char_count = $(this).val().length;
-  var maximum_length = $(this).attr('maxlength');
-  var warning_length = parseInt(maximum_length * 0.18) * 5
-  var chars_remaining = maximum_length - char_count;
-  if (char_count == 0) {
-    var message = "<p>" + chars_remaining + ' characters maximum</p>'
-  } else {
-    var message = "<p>" + chars_remaining + ' characters remaining</p>'
-  };
-  $(".characterCounterDisplay").html( message );
-  if (char_count >= warning_length) {
-    ($(this)).prev().addClass("red");
-  } else {
-    ($(this)).prev().removeClass("red");  
-  };
-  if (char_count > maximum_length) {
-    $(this).value = $(this).value.substr(0, maxlength);
-    chars = limit;
-  };
-  $($(this)).prev().show();
-});
+/* Enable character counter and limiter
+-------------------------------------------------- */
 
-$(".characterCounter").on("blur", function(){ 
-  $(".characterCounterDisplay").hide();
+$(function() {
+  $('.charactercounter').charactercounter();
 });
-
