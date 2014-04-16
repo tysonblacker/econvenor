@@ -1,7 +1,8 @@
+from django.core.validators import MaxLengthValidator
 from django.db import models
-from utilities.models import TimeStampedModel
 
 from accounts.models import Group
+from utilities.models import TimeStampedModel
 
 
 class ParticipantManager(models.Manager):
@@ -42,13 +43,14 @@ class Participant(TimeStampedModel):
     group = models.ForeignKey(Group)
     
     email = models.EmailField('email address', null=True, blank=True)
-    first_name = models.CharField('given name', max_length=80, null=False,
+    first_name = models.CharField('given name', max_length=25, null=False,
                                   blank=True)
-    last_name = models.CharField('family name (optional)', max_length=80,
+    last_name = models.CharField('family name (optional)', max_length=25,
                                  null=False, blank=True)
     reminders = models.BooleanField(default=True) 
-    notes = models.TextField('notes (optional)', max_length=300, null=False,
-                             blank=True)
+    notes = models.TextField('notes (optional)',
+                             validators=[MaxLengthValidator(300)],
+                             null=False, blank=True)
     phone = models.CharField('phone number (optional)', max_length=20,
                              null=False, blank=True)
     status = models.CharField(max_length=20, 

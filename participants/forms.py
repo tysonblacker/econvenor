@@ -20,21 +20,21 @@ class AddParticipantForm(forms.ModelForm):
                   ]
         widgets = {
             'first_name': forms.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
                 }),
             'last_name': forms.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
                 }),
             'email': forms.EmailInput(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
                 }),
             'phone': forms.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
                 }),
             'notes': forms.Textarea(attrs={
+                'class': 'charactercounter form-control',
+                'maxlength': 300,
                 'rows': 4,
-                'class': 'form-control',
-                'placeholder': '300 characters maximum',
                 }),
             }
 
@@ -67,16 +67,16 @@ class EditParticipantForm(forms.ModelForm):
 
         widgets = {
             'first_name': forms.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
                 }),
             'last_name': forms.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
                 }),
             'email': forms.EmailInput(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
                 }),
             'phone': forms.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
                 }),
             'status': forms.Select(attrs={
                 'class': 'form-control',
@@ -85,9 +85,9 @@ class EditParticipantForm(forms.ModelForm):
                 'class': 'form-control',
                 }),
             'notes': forms.Textarea(attrs={
+                'class': 'charactercounter form-control',
+                'maxlength': 300,
                 'rows': 4,
-                'class': 'form-control',
-                'placeholder': '300 characters maximum',
                 }),
             }
 

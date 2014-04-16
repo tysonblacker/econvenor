@@ -49,42 +49,18 @@
   $(document).ready(function() {
     $("#editparticipantform").validate({
       rules: {
-        first_name: {
-          required: true,
-          maxlength: 80,
-        },
-        last_name: {
-          maxlength: 80,
-        },
+        first_name: "required",
         email: {
           required: true,
           email: true,
         },
-        phone: {
-          maxlength: 20,
-        },
-        notes: {
-          maxlength: 300,
-        },
         status: "required",
       },
       messages: {
-        first_name: {
-          required: "Please enter this participant's first name",
-          maxlength: "The maximum length of this field is 80 characters",
-        },
-        last_name: {
-          maxlength: "The maximum length of this field is 90 characters",
-        },
+        first_name: "Please enter this participant's given name",
         email: {
           required: "Please enter this participant's email address",
           email: "Please enter a valid email address",
-        },
-        phone: {
-          maxlength: "The maximum length of this field is 20 characters",
-        },
-        notes: {
-          maxlength: "The maximum length of this field is 300 characters",
         },
         status: "Each participant must be assigned a status",
       },
