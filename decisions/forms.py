@@ -14,9 +14,9 @@ class MinutesDecisionForm(forms.ModelForm):
         fields = ['description']
         widgets = {
             'description': forms.Textarea(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
+                'maxlength': 300,
                 'rows': 2,
-                'placeholder': '300 characters maximum',
                 }),
             }            
         

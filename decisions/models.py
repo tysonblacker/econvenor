@@ -1,9 +1,10 @@
+from django.core.validators import MaxLengthValidator
 from django.db import models
-from utilities.models import TimeStampedModel
 
 from accounts.models import Group
 from docs.models import Item
 from meetings.models import Meeting
+from utilities.models import TimeStampedModel
 
 
 class TaskManager(models.Manager):
@@ -25,7 +26,8 @@ class Decision(TimeStampedModel):
     meeting = models.ForeignKey(Meeting)
     
     decision_no = models.IntegerField(null=True, blank=True)
-    description = models.TextField(max_length=300, null=False, blank=True)
+    description = models.TextField(validators=[MaxLengthValidator(300)],
+                                   null=False, blank=True)
     status = models.CharField(max_length=20,
                               choices=STATUS_CHOICES,
                               default='Draft',
