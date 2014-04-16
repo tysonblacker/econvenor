@@ -91,6 +91,7 @@ function updatePage( resp ) {
     'step': 15,
     'scrollDefaultTime': '9:15 am',
   });
+  $('.charactercounter').charactercounter();
   $('body').css( 'cursor', 'default' );
   savingOff();
   addingItemOff();
