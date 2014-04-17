@@ -89,11 +89,11 @@ class Meeting(TimeStampedModel):
                           null=False, blank=True)
     location_scheduled = models.TextField(
                          'location',
-                         validators=[MaxLengthValidator(200)],
+                         validators=[MaxLengthValidator(60)],
                          null=False, blank=True)
     location_actual = models.TextField(
                       'location', 
-                      validators=[MaxLengthValidator(200)],
+                      validators=[MaxLengthValidator(60)],
                       null=False, blank=True)
     minute_taker_scheduled = models.ForeignKey(
                              Participant,
@@ -118,7 +118,7 @@ class Meeting(TimeStampedModel):
                                 null=False, blank=True)
     next_meeting_location = models.TextField(
                             'location',
-                            validators=[MaxLengthValidator(200)],
+                            validators=[MaxLengthValidator(60)],
                             null=False, blank=True)
     next_meeting_minute_taker = models.ForeignKey(Participant, null=True,
                                 verbose_name='minute taker',

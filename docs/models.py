@@ -1,9 +1,10 @@
+from django.core.validators import MaxLengthValidator
 from django.db import models
-from utilities.models import TimeStampedModel
 
 from accounts.models import Group
 from meetings.models import Meeting
 from participants.models import Participant
+from utilities.models import TimeStampedModel
 
 
 class ItemManager(models.Manager):
@@ -28,13 +29,15 @@ class Item(TimeStampedModel):
     meeting = models.ForeignKey(Meeting, null=True, blank=True)
 
     added_in_meeting = models.BooleanField(default=False)
-    background = models.TextField(max_length=1000, null=False, blank=True)
+    background = models.TextField(validators=[MaxLengthValidator(1000)],
+                                  null=False, blank=True)
     carry_over = models.BooleanField(default=False)
     item_no = models.IntegerField(null=True, blank=True)
-    minute_notes = models.TextField(max_length=2000,null=False, blank=True)
+    minute_notes = models.TextField(validators=[MaxLengthValidator(2000)],
+                                    null=False, blank=True)
     time_limit = models.IntegerField(choices=TIME_LIMIT_CHOICES,
                                      null=True, blank=True)
-    title = models.CharField(max_length=100, null=False, blank=True)
+    title = models.CharField(max_length=80, null=False, blank=True)
 
     objects = models.Manager()
     lists = ItemManager()

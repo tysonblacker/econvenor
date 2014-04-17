@@ -54,10 +54,7 @@
 
     $("#addmeetingform").validate({
       rules: {
-        meeting_no: {
-          required: true,
-          maxlength: 30,          
-        },
+        meeting_no: "required",
         meeting_type: "required",
         date_scheduled: {
           required: true,
@@ -67,26 +64,20 @@
           required: true,
           timeCheck: true,
         },
-        location_scheduled: {
-          maxlength: 100,          
-        },
+        location_scheduled: "required",
         meeting_status: "required",
-        instructions_scheduled: {
-          maxlength: 100,          
-        },
       },
       messages: {
-        meeting_no: {
-          required: "Please enter a number or name for this meeting",
-        },
+        meeting_no: "Please enter a number or name for this meeting",
         meeting_type: "Please select the type of meeting that this is",
         date_scheduled: {
           required: "Please select a date for the meeting",
           date: "Please select a valid date from the calendar",
         },
         start_time_scheduled: {
-          required: "Please chose a start time - you can change it later",
+          required: "Please choose a start time - you can change it later",
         },
+        location_scheduled: "Please enter the location of the meeting",
         meeting_status: "Please select the current status of the meeting",
       },
     });

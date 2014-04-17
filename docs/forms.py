@@ -24,8 +24,7 @@ class AgendaItemForm(forms.ModelForm):
         widgets = {
             'item_no': forms.HiddenInput(),
             'title': forms.TextInput(attrs={
-                'class': 'form-control item-title',
-                'placeholder': '100 characters maximum',
+                'class': 'charactercounter form-control item-title',
                 }),
             'time_limit': forms.Select(attrs={
                 'class': 'form-control',
@@ -34,9 +33,9 @@ class AgendaItemForm(forms.ModelForm):
                 'class': 'form-control',
                 }),
             'background': forms.Textarea(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
+                'maxlength': 1000,
                 'rows': 3,
-                'placeholder': '200 characters maximum',
                 }),
             }              
         labels = {
@@ -78,13 +77,12 @@ class MinutesItemForm(forms.ModelForm):
         widgets = {
             'item_no': forms.HiddenInput(),
             'title': forms.TextInput(attrs={
-                'class': 'form-control item-title',
-                'placeholder': '100 characters maximum',
+                'class': 'charactercounter form-control item-title',
                 }),
             'minute_notes': forms.Textarea(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
+                'maxlength': 2000,
                 'rows': 4,
-                'placeholder': '2000 characters maximum',
                 }),
             }    
         labels = {

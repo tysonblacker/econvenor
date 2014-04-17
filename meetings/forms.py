@@ -35,9 +35,8 @@ class NewMeetingForm(forms.ModelForm):
                   ]
         widgets = {
             'meeting_no': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'For example: \"Mtg4/2014\" or \"June 2014\".  '
-                               '30 characters maximum.',
+                'class': 'charactercounter form-control',
+                'placeholder': 'e.g. \'Mtg4/2014\' or \'June 2014\'',
                 }),
             'meeting_type': forms.Select(attrs={
                 'class': 'form-control',
@@ -49,10 +48,9 @@ class NewMeetingForm(forms.ModelForm):
                 'class': 'timepicker form-control',
                 }),
             'location_scheduled': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 3,
-                'placeholder': '2 lines maximum. No more than 30 characters '
-                               ' per line.',
+                'class': 'charactercounter form-control',
+                'maxlength': 60,
+                'rows': 2,
                 }),
             'facilitator_scheduled': forms.Select(attrs={
                 'class': 'form-control',
@@ -61,13 +59,14 @@ class NewMeetingForm(forms.ModelForm):
                 'class': 'form-control',
                 }),
             'instructions_scheduled': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 3,
+                'class': 'charactercounter form-control',
+                'maxlength': 200,
+                'rows': 4,
                 }),
             }
         labels = {
             'meeting_no': 'Meeting name or number '
-                          '(must be different for each meeting)',
+                          '(must be unique for each meeting)',
             }
 
     
@@ -127,8 +126,7 @@ class AgendaMeetingForm(forms.ModelForm):
                   ]
         widgets = {
             'meeting_no': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': '30 characters maximum',
+                'class': 'charactercounter form-control',
                 }),
             'meeting_type': forms.Select(attrs={
                 'class': 'form-control',
@@ -140,10 +138,9 @@ class AgendaMeetingForm(forms.ModelForm):
                 'class': 'timepicker form-control',
                 }),
             'location_scheduled': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 3,
-                'placeholder': '2 lines maximum. No more than 30 characters '
-                               ' per line.',
+                'class': 'charactercounter form-control',
+                'maxlength': 60,
+                'rows': 2,
                 }),
             'facilitator_scheduled': forms.Select(attrs={
                 'class': 'form-control',
@@ -152,13 +149,14 @@ class AgendaMeetingForm(forms.ModelForm):
                 'class': 'form-control',
                 }),
             'instructions_scheduled': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 3,
+                'class': 'charactercounter form-control',
+                'maxlength': 200,
+                'rows': 4,
                 }),
             }
         labels = {
             'meeting_no': 'Meeting name or number '
-                          '(unique for each meeting)',
+                          '(unique)',
             }
 
     
@@ -220,10 +218,9 @@ class MinutesMeetingForm(forms.ModelForm):
                 'class': 'timepicker form-control',
                 }),
             'location_actual': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 3,
-                'placeholder': '2 lines maximum. No more than 30 characters '
-                               ' per line.',
+                'class': 'charactercounter form-control',
+                'maxlength': 60,
+                'rows': 2,
                 }),
             'facilitator_actual': forms.Select(attrs={
                 'class': 'form-control',
@@ -232,19 +229,19 @@ class MinutesMeetingForm(forms.ModelForm):
                 'class': 'form-control',
                 }),
             'attendance': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 3,
-                'placeholder': '500 characters maximum',
+                'class': 'charactercounter form-control',
+                'maxlength': 500,
+                'rows': 4,
                 }),
             'apologies': forms.Textarea(attrs={
-                'class': 'form-control',
+                'class': 'charactercounter form-control',
+                'maxlength': 200,
                 'rows': 3,
-                'placeholder': '200 characters maximum',
                 }),
             'instructions_actual': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 3,
-                'placeholder': '200 characters maximum',
+                'class': 'charactercounter form-control',
+                'maxlength': 200,
+                'rows': 4,
                 }),
             }              
 
@@ -283,10 +280,9 @@ class NextMeetingForm(forms.ModelForm):
                 'class': 'timepicker form-control',
                 }),
             'next_meeting_location': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 3,
-                'placeholder': '2 lines maximum. No more than 30 characters '
-                               ' per line.',
+                'class': 'charactercounter form-control',
+                'maxlength': 60,
+                'rows': 2,
                 }),
             'next_meeting_facilitator': forms.Select(attrs={
                 'class': 'form-control',
@@ -295,9 +291,9 @@ class NextMeetingForm(forms.ModelForm):
                 'class': 'form-control',
                 }),
             'next_meeting_instructions': forms.Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': '200 characters maximum',
-                'rows': 3,
+                'class': 'charactercounter form-control',
+                'maxlength': 200,
+                'rows': 4,
                 }),
             }       
 

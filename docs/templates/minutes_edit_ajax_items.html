@@ -150,7 +150,7 @@
             </div>
             <div class="clearfix minutes-field-extra">
               <div class="form-group">
-                {{ decision.description|setclass:"form-control" }}
+                {{ decision.description }}
               </div><!-- /.form-group -->
               <div class="pull-right">
                 <button type="button"
@@ -271,38 +271,16 @@
           required: true,
           timeCheck: true,
         },
-        location_actual: {
-          required: true,
-          maxlength: 200,
-        },
+        location_actual: "required",
         facilitator_actual: "required",
         minute_taker_actual: "required",     
-        attendance: {
-          required: true,
-          maxlength: 500,
-        },
-        apologies: {
-          maxlength: 200,
-        },
-        {% for item in item_formlist %}
-          "{{ item.prefix }}-minute_notes": {
-            maxlength: 5000,
-          },
-        {% endfor %}
+        attendance: "required",
         {% for decision in decision_formlist %}
-          "{{ decision.prefix }}-description": {
-            required: true,
-            maxlength: 2000,
-          },
+          "{{ decision.prefix }}-description": "required",
         {% endfor %}
         {% for task in task_formlist %}
-          "{{ task.prefix }}-description": {
-            required: true,
-            maxlength: 200,
-          },
-          "{{ task.prefix }}-participant": {
-            required: true,
-          },
+          "{{ task.prefix }}-description": "required",
+          "{{ task.prefix }}-participant": "required",
           "{{ task.prefix }}-deadline": {
             required: true,
             date: true,
@@ -344,29 +322,19 @@
           required: "Please select the date that the meeting happened",
           date: "Please select a valid date from the calendar",
         },
-        start_time_actual: {
-          required: "Please select the meeting's start time",
-        },
-        end_time_actual: {
-          required: "Please select the meeting's end time",
-        },
-        location_actual: {
-          required: "Please enter the location of the meeting", 
-        },
+        start_time_actual: "Please select the meeting's start time",
+        end_time_actual: "Please select the meeting's end time",
+        location_actual: "Please enter the location of the meeting", 
         facilitator_actual: "Please select the meeting's facilitator",
         minute_taker_actual: "Please select the meeting's minute-taker",     
-        attendance: {
-            required: "Please enter the names of the people at the meeting", 
-        },
+        attendance: "Please enter the names of the people at the meeting", 
         {% for decision in decision_formlist %}
           "{{ decision.prefix }}-description": {
             required: "Please enter the decision which was made",
           },
         {% endfor %}
         {% for task in task_formlist %}
-          "{{ task.prefix }}-description": {
-            required: "Please enter a description",
-          },
+          "{{ task.prefix }}-description": "Please enter a description",
           "{{ task.prefix }}-participant": {
             required: "Please select the person responsible /&nbsp;",
           },
