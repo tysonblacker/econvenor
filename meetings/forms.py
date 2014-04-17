@@ -48,7 +48,7 @@ class NewMeetingForm(forms.ModelForm):
                 'class': 'timepicker form-control',
                 }),
             'location_scheduled': forms.Textarea(attrs={
-                'class': 'charactercounter form-control',
+                'class': 'charactercounter locationformatter form-control',
                 'maxlength': 60,
                 'rows': 2,
                 }),
@@ -138,7 +138,7 @@ class AgendaMeetingForm(forms.ModelForm):
                 'class': 'timepicker form-control',
                 }),
             'location_scheduled': forms.Textarea(attrs={
-                'class': 'charactercounter form-control',
+                'class': 'charactercounter locationformatter form-control',
                 'maxlength': 60,
                 'rows': 2,
                 }),
@@ -218,7 +218,7 @@ class MinutesMeetingForm(forms.ModelForm):
                 'class': 'timepicker form-control',
                 }),
             'location_actual': forms.Textarea(attrs={
-                'class': 'charactercounter form-control',
+                'class': 'charactercounter locationformatter form-control',
                 'maxlength': 60,
                 'rows': 2,
                 }),
@@ -280,7 +280,7 @@ class NextMeetingForm(forms.ModelForm):
                 'class': 'timepicker form-control',
                 }),
             'next_meeting_location': forms.Textarea(attrs={
-                'class': 'charactercounter form-control',
+                'class': 'charactercounter locationformatter form-control',
                 'maxlength': 60,
                 'rows': 2,
                 }),

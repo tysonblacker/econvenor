@@ -150,7 +150,7 @@ $(".sidebar-item ").click(function() {
 });
 
 
-/* Character counting and limiting plugin 
+/* Character counter/limiter plugin 
 -------------------------------------------------- */
 
 $(function() {
@@ -200,9 +200,92 @@ $(function() {
   };
 });
 
-/* Enable character counter and limiter
+/* Enable character counter/limiter
 -------------------------------------------------- */
 
 $(function() {
   $('.charactercounter').charactercounter();
 });
+
+
+/* Location field formatter 
+-------------------------------------------------- */
+
+$(function() {
+
+  $.fn.locationformatter = function(){
+
+    String.prototype.insert = function (index, string) {
+      return this.substring(0, index) + string + this.substring(index, this.length);
+    };
+
+    var countNewLines = function ( elem ) {
+      var newlines = elem.val().match(/\r\n/g);
+      if (newlines) {
+        var no_of_newlines = newlines.length;
+      } else {
+        var no_of_newlines = 0;
+      };
+      return no_of_newlines;
+    }
+    
+    this.on("focus keyup", function(){ 
+      var maximum_line_length = 30;
+      var maximum_new_lines = 1;
+      /* Calculate length of first line */
+      var first_line = $(this).val().split(/\r\n/).slice(0,1)[0];
+      if (first_line) {
+        var first_line_count = first_line.length;
+      } else {
+        var first_line_count = 0;
+      };
+      /* Cap the number of characters in the first line at 30 */
+      if (first_line_count >= maximum_line_length) {
+        var new_string = $(this).val().insert((maximum_line_length-1), "\r\n");
+        $(this).val(new_string);
+      };
+      /* Forbid more than one newline character */
+      newline_count = countNewLines($(this));
+      if (newline_count > 1) {
+        var strings = $(this).val().split(/\r\n/);
+        strings.splice(1, 0, "\r\n");
+        var new_string = strings.join("");
+        $(this).val(new_string);
+        newline_count = countNewLines($(this));
+      };
+      /* Calculate length of second line*/
+      if (newline_count > 0) {
+        var second_line = $(this).val().split(/\r\n/).slice(1,2)[0];
+        var second_line_count = second_line.length;
+      };
+      /* Trim the number of characters in the second line at 30 if necessary*/
+      if ((newline_count > 0) && (second_line_count >= maximum_line_length)) {
+        var first_line = $(this).val().split(/\r\n/).slice(0,1)[0];
+        var second_line = second_line.slice(0,maximum_line_length);
+        var new_string = first_line + second_line;
+        $(this).val(new_string);
+      };
+      /* Populate and show the character counter message */
+      var first_line = $(this).val().split(/\r\n/).slice(0,1)[0];
+      var second_line = $(this).val().split(/\r\n/).slice(1,2)[0];
+      if (first_line) {
+        var line1_chars_left = maximum_line_length - first_line.length;
+      } else {
+        var line1_chars_left = maximum_line_length;
+      };
+      if (second_line) {
+        var line2_chars_left = maximum_line_length - second_line.length;
+      } else {
+        var line2_chars_left = maximum_line_length;
+      };
+      var message = "<p>Line 1: " + line1_chars_left + ' chars left / Line 2: ' + line2_chars_left + ' chars left</p>'
+      $(".characterCounterDisplay").html( message );
+    });
+
+  };
+});
+
+$(function() {
+  $('.locationformatter').locationformatter();
+});
+

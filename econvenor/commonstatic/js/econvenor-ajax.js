@@ -92,6 +92,7 @@ function updatePage( resp ) {
     'scrollDefaultTime': '9:15 am',
   });
   $('.charactercounter').charactercounter();
+  $('.locationformatter').locationformatter();
   $('body').css( 'cursor', 'default' );
   savingOff();
   addingItemOff();
