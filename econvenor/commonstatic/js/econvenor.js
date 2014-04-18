@@ -306,7 +306,7 @@ $(function() {
       var doublenewline = $(this).val().match(/\r\n\r\n/g);
       if (doublenewline) {
         var clean_text = raw_text.replace( /\r\n\r\n/, "\r\n" );
-        var message = "<p>Space between paragraphs is inserted automatically</p>";
+        var message = "<p>Space between paragraphs added automatically</p>";
         $(".characterCounterDisplay").html( message );
         $(".characterCounterDisplay").addClass("red");
         $(this).val(clean_text);
