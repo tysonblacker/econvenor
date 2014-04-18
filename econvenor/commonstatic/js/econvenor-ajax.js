@@ -93,6 +93,7 @@ function updatePage( resp ) {
   });
   $('.charactercounter').charactercounter();
   $('.locationformatter').locationformatter();
+  $('.charactercounter').newlinecontrol();
   $('body').css( 'cursor', 'default' );
   savingOff();
   addingItemOff();

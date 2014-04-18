@@ -285,7 +285,44 @@ $(function() {
   };
 });
 
+
+/* Enable location field formatter
+-------------------------------------------------- */
+
 $(function() {
   $('.locationformatter').locationformatter();
 });
+
+
+/* Remover of double newlines 
+-------------------------------------------------- */
+
+$(function() {
+
+  $.fn.newlinecontrol = function(){
+
+    this.on("focus keyup", function(){
+      var raw_text = $(this).val();
+      var doublenewline = $(this).val().match(/\r\n\r\n/g);
+      if (doublenewline) {
+        var clean_text = raw_text.replace( /\r\n\r\n/, "\r\n" );
+        var message = "<p>Space between paragraphs is inserted automatically</p>";
+        $(".characterCounterDisplay").html( message );
+        $(".characterCounterDisplay").addClass("red");
+        $(this).val(clean_text);
+      };
+    });
+
+  };
+});
+
+
+/* Enable remover of double newlines 
+-------------------------------------------------- */
+
+$(function() {
+  $('.charactercounter').newlinecontrol();
+});
+
+
 
