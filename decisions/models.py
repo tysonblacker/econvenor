@@ -7,11 +7,14 @@ from meetings.models import Meeting
 from utilities.models import TimeStampedModel
 
 
-class TaskManager(models.Manager):
+class DecisionManager(models.Manager):
+
     def all_decisions(self):
         return self.get_queryset().filter(status='Distributed').\
             order_by('modified').reverse()
 
+    def ordered_decisions(self):
+        return self.get_queryset().all().order_by('decision_no')
 
 class Decision(TimeStampedModel):
 
@@ -35,7 +38,7 @@ class Decision(TimeStampedModel):
                               blank=True)
     
     objects = models.Manager()
-    lists = TaskManager()
+    lists = DecisionManager()
         
     def __unicode__(self):
         return self.description
