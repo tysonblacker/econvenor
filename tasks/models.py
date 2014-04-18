@@ -41,7 +41,10 @@ class TaskManager(models.Manager):
                 status='Incomplete',
                 deadline__gte=datetime.date.today())\
             .order_by('deadline')
-                   
+
+    def ordered_tasks(self):
+        return self.get_queryset().all().order_by('task_no')
+        
 
 class Task(TimeStampedModel):
 
