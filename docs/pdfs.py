@@ -42,21 +42,22 @@ body_color = CMYKColor(0,0,0,0.85)
 table_color = CMYKColor(0,0,0,0.85)
 shading_color = CMYKColor(0,0,0,0.2)
 
-# Define line width
+# Define dimensions
 line_width = 0.75
+printable_width = 170*mm
 
 # Set path to fonts
 FONT_PATH = os.path.join(settings.BASE_DIR, 'commonstatic/fonts/')
 
 # Register fonts
-body_font = 'OpenSans'
-heading_font = 'OpenSans'
-registerFont(TTFont(body_font, FONT_PATH + body_font + "-Regular.ttf"))
+body_font = 'DejaVuSansCondensed'
+heading_font = 'DejaVuSansCondensed'
+registerFont(TTFont(body_font, FONT_PATH + body_font + ".ttf"))
 registerFont(TTFont(body_font + 'Bd', FONT_PATH + body_font + "-Bold.ttf"))
-registerFont(TTFont(body_font + 'It', FONT_PATH + body_font + "-Italic.ttf"))
+registerFont(TTFont(body_font + 'It', FONT_PATH + body_font + "-Oblique.ttf"))
 registerFont(TTFont(body_font + 'BI', 
-                    FONT_PATH + body_font + "-BoldItalic.ttf"))
-registerFont(TTFont(heading_font, FONT_PATH + heading_font + "-Regular.ttf"))
+                    FONT_PATH + body_font + "-BoldOblique.ttf"))
+registerFont(TTFont(heading_font, FONT_PATH + heading_font + ".ttf"))
 registerFontFamily(body_font, normal=body_font, bold=body_font + 'Bd',
 	italic=body_font + 'It', boldItalic=body_font + 'BI')
 reportlab.rl_config.warnOnMissingFontGlyphs = 0
@@ -78,7 +79,7 @@ normalStyle.spaceAfter=2
 styles.add(ParagraphStyle(
            name='LeftAligned',
            parent=styles['Normal'],
-           alignment = TA_LEFT
+           alignment = TA_LEFT,
            ))
 leftAlignedStyle = styles['LeftAligned']
 
@@ -124,7 +125,7 @@ heading2Style.leading=18
 heading2Style.spaceBefore=12
 heading2Style.spaceAfter=6
 
-# Define table styles
+# Define table skeleton style
 SUPERSTRUCTURE_STYLE = TableStyle([
     ('VALIGN',(0,0),(-1,-1), 'TOP'),
     ('LEFTPADDING', (0,0), (-1,-1), 0),
@@ -133,108 +134,60 @@ SUPERSTRUCTURE_STYLE = TableStyle([
     ('BOTTOMPADDING', (0,0), (-1,-1), 0),
     ])
 
+# Define table styles that relate to meeting details
 MEETING_DETAILS_STYLE = TableStyle([
     ('GRID', (0,0), (-1,-1), line_width, table_color),
     ('VALIGN',(0,0),(-1,-1), 'TOP'),
+    ('TOPPADDING', (0,0), (-1,-1), 4),
     ('BACKGROUND', (0,0), (-0,-1), shading_color),
     ])
 
-TASK_TABLE_STYLE = TableStyle([
-    ('GRID', (0,0), (2,-1), line_width, table_color),
-    ('VALIGN',(0,0),(-1,-1),'TOP'),
-    ('BACKGROUND', (0,0), (-1,0), table_color),
-    ('BACKGROUND', (0,1), (-1,1), shading_color),
+SINGLE_DETAILS_ITEM_STYLE = TableStyle([
+    ('BOX', (0,0), (-1,-1), line_width, table_color),
+    ('LINEBEFORE', (1,0), (1,-1), line_width, table_color),
+    ('VALIGN',(0,0),(-1,-1), 'TOP'),
+    ('BACKGROUND', (0,0), (-0,-1), shading_color),
+    ('TOPPADDING', (0,0), (-1, 0), 6),
+    ('BOTTOMPADDING', (0,-1), (-1,-1), 6),
     ])
 
-ITEM_TABLE_STYLE = TableStyle([
-    ('GRID', (0,0), (1,-1), line_width, table_color),
-    ('VALIGN',(0,0),(-1,-1),'TOP'),
-    ('BACKGROUND', (0,0), (-1,0), table_color),
-    ('LEFTPADDING', (0,0), (-1,0), 0),
-    ('TOPPADDING', (0,0), (-1,0), 0),
-    ('BOTTOMPADDING', (0,0), (-1,0), 0),
-    ])
-
-ITEM_INNER_TABLE_STYLE = TableStyle([
-    ('TOPPADDING', (0,0), (-1,-1), 3),
-    ('BACKGROUND', (0,0), (-1,0), shading_color),
+# Define table styles that relate to agenda items only
+AGENDA_ITEM_HEADING_STYLE = TableStyle([
     ('GRID', (0,0), (-1,0), line_width, table_color),
+    ('ALIGN',(-1,0),(-1,0),'RIGHT'),
+    ('TOPPADDING', (0,0), (-1,-1), 4),
+    ('BACKGROUND', (0,0), (-1,-1), table_color),
+    ])    
+
+# Define table styles that relate to minutes items only
+MINUTES_ITEM_HEADING_STYLE = TableStyle([
+    ('GRID', (0,0), (-1,0), line_width, table_color),
+    ('TOPPADDING', (0,0), (-1,-1), 4),
+    ('BACKGROUND', (0,0), (-1,-1), table_color),
     ])
 
-ITEM_EXPLAINER_TABLE_STYLE = TableStyle([
+# Define table styles that relate to agenda and minutes items
+SHADED_STYLE = TableStyle([
     ('GRID', (0,0), (1,-1), line_width, table_color),
     ('VALIGN',(0,0),(-1,-1),'TOP'),
-    ('BACKGROUND', (0,0), (-1,0), table_color),
-    ('BACKGROUND', (0,1), (-1,1), shading_color),
-    ('LEFTPADDING', (0,0), (-1,0), 0),
-    ('TOPPADDING', (0,0), (-1,0), 0),
-    ('BOTTOMPADDING', (0,0), (-1,0), 0),
+    ('TOPPADDING', (0,0), (-1,-1), 4),
+    ('BACKGROUND', (0,0), (-1,-1), shading_color),
     ])
     
-ITEM_EXPLAINER_AND_BACKGROUND_TABLE_STYLE = TableStyle([
-    ('GRID', (0,0), (1,-1), line_width, table_color),
-    ('VALIGN',(0,0),(-1,-1),'TOP'),
-    ('BACKGROUND', (0,0), (-1,0), table_color),
-    ('LEFTPADDING', (0,0), (-1,-1), 0),
-    ('TOPPADDING', (0,0), (-1,0), 0),
-    ('TOPPADDING', (0,1), (-1,-1), 0),
-    ('BOTTOMPADDING', (0,0), (-1,-1), 0),
+ITEM_STYLE = TableStyle([
+    ('BOX', (0,0), (-1,-1), line_width, table_color),
+    ('VALIGN',(0,0),(-1,-1), 'TOP'),
+    ('TOPPADDING', (0,0), (-1, 0), 6),
+    ('BOTTOMPADDING', (0,-1), (-1,-1), 6),
     ])
 
-MINUTES_ITEMS_TABLE_STYLE = TableStyle([
-    ('GRID', (0,0), (1,-1), line_width, table_color),
-    ('VALIGN',(0,0),(-1,-1),'TOP'),
-    ('BACKGROUND', (0,0), (-1,0), table_color),
-    ('LEFTPADDING', (0,0), (-1,-1), 0),
-    ('TOPPADDING', (0,0), (-1,0), 0),
-    ('BOTTOMPADDING', (0,0), (-1,0), 0),
-    ('TOPPADDING', (0,1), (-1,1), 6),
-    ('BOTTOMPADDING', (0,1), (-1,1), 6),
-    ('TOPPADDING', (0,2), (-1,-1), 0),
-    ('BOTTOMPADDING', (0,2), (-1,-1), 0),
-    ])
-
-MINUTES_ITEMS_NO_MINUTE_NOTES_STYLE = TableStyle([
-    ('GRID', (0,0), (1,-1), line_width, table_color),
-    ('VALIGN',(0,0),(-1,-1),'TOP'),
-    ('BACKGROUND', (0,0), (-1,0), table_color),
-    ('LEFTPADDING', (0,0), (-1,-1), 0),
-    ('TOPPADDING', (0,0), (-1,0), 0),
-    ('BOTTOMPADDING', (0,0), (-1,0), 0),
-    ('TOPPADDING', (0,1), (-1,-1), 0),
-    ('BOTTOMPADDING', (0,1), (-1,-1), 0),
-    ])
-
-MINUTES_ITEMS_HEADING_ONLY_STYLE = TableStyle([
-    ('GRID', (0,0), (1,-1), line_width, table_color),
-    ('VALIGN',(0,0),(-1,-1),'TOP'),
-    ('BACKGROUND', (0,0), (-1,0), table_color),
-    ('LEFTPADDING', (0,0), (-1,-1), 0),
-    ('TOPPADDING', (0,0), (-1,0), 0),
-    ('BOTTOMPADDING', (0,0), (-1,0), 0),
-    ])
-
-MINUTES_ITEMS_SUBTABLE_STYLE = TableStyle([
+# Define table style that relates to tasks and decisions
+DECISIONS_AND_TASKS_STYLE = TableStyle([
     ('GRID', (0,0), (-1,-1), line_width, table_color),
     ('VALIGN',(0,0),(-1,-1),'TOP'),
+    ('TOPPADDING', (0,0), (-1,-1), 4),
     ('BACKGROUND', (0,0), (-1,0), shading_color),
     ])
-    
-NEXT_MEETING_TABLE_STYLE = TableStyle([
-    ('GRID', (0,0), (-1,-1), line_width, table_color),
-    ('VALIGN',(0,0),(-1,-1),'TOP'),
-    ('BACKGROUND', (0,0), (-1,0), table_color),
-    ('LEFTPADDING', (0,0), (-1,-1), 0),
-    ('RIGHTPADDING', (0,0), (-1,-1), 0),
-    ('TOPPADDING', (0,0), (-1,-1), 0),
-    ('BOTTOMPADDING', (0,0), (-1,-1), 0),])    
-    
-def insert_line_breaks(string_data):
-    """
-    Replaces line break characters in strings with <br/> tags.
-    """
-    formatted_string = replace(string_data, '\n', '<br/>')
-    return formatted_string
 
 
 def fit_to_table_cell(content, cell_width,
@@ -244,7 +197,7 @@ def fit_to_table_cell(content, cell_width,
     Makes sure that single line contents of a table cell always fit within it.
     They are truncated and ellipsis added if necessary.
     """
-    available_width = cell_width - 7*mm
+    available_width = cell_width - 8*mm
     content_width = stringWidth(content, font_name, font_size)
     add_ellipsis = False
     while content_width > available_width:
@@ -253,7 +206,53 @@ def fit_to_table_cell(content, cell_width,
         add_ellipsis = True
     if add_ellipsis:
         content += u'\u2026'
+#    import pdb; pdb.set_trace()
     return content
+
+
+def insert_line_breaks(string_data):
+    """
+    Replaces line break characters in strings with <br/> tags.
+    """
+    formatted_string = replace(string_data, '\n', '<br/>')
+    return formatted_string
+
+
+def create_paragraph_list(string_data):
+    """
+    Creates a list of paragraphs from a string.
+    """
+    paragraph_list = string_data.splitlines()
+    return paragraph_list
+
+
+def create_details_item_bottom_table(label, field):
+    """
+    Creates a table for each of the fields 'attendance', 'apologies' and 
+    'notes' fields.
+    """
+    paragraphs = create_paragraph_list(field)
+    contents = []
+    for paragraph in paragraphs:
+        contents.append((Paragraph(label, shadedStyle),
+                         Paragraph(paragraph, normalStyle)))
+        label = ''
+    t = Table(contents, colWidths=[21*mm,149*mm])
+    t.setStyle(SINGLE_DETAILS_ITEM_STYLE)
+    return t
+
+
+def create_item_table(field):
+    """
+    Creates a table for 'background' and 'minute_notes' fields.
+    """
+    paragraphs = create_paragraph_list(field)
+    contents = []
+    for paragraph in paragraphs:
+        contents.append((Paragraph(paragraph, normalStyle),))
+    t = Table(contents, colWidths=[printable_width])
+    t.setStyle(ITEM_STYLE)
+    return t
 
   
 def footer(canvas, doc):
@@ -265,11 +264,11 @@ def footer(canvas, doc):
     canvas.setFillColor(body_color)
     canvas.setStrokeColor(table_color)
     canvas.setFont(body_font, normalStyle.fontSize)
-    canvas.line(25*mm,13*mm,185*mm,13*mm)
+    canvas.line(20*mm,13*mm,190*mm,13*mm)
     right_text = "Page %s" % (doc.page)
-    canvas.drawRightString(185*mm, 9*mm, right_text)
+    canvas.drawRightString(190*mm, 9*mm, right_text)
     left_text = doc.title
-    canvas.drawString(25*mm, 9*mm, left_text)
+    canvas.drawString(20*mm, 9*mm, left_text)
     canvas.restoreState()
 
 
@@ -313,7 +312,7 @@ def create_details_table(meeting, doc_type, Document):
             minute_taker = str(meeting.minute_taker_scheduled)
         else:
             minute_taker = 'To be decided'
-        notes = insert_line_breaks(meeting.instructions_scheduled)
+        notes = meeting.instructions_scheduled
     if doc_type == 'minutes':
         date = meeting.date_actual.strftime("%A %B %d, %Y")
         start_time = meeting.start_time_actual.strftime("%I:%M %p").\
@@ -321,7 +320,7 @@ def create_details_table(meeting, doc_type, Document):
         end_time = meeting.end_time_actual.strftime("%I:%M %p").lstrip('0').\
                    lower()
         location = insert_line_breaks(meeting.location_actual)
-        notes = insert_line_breaks(meeting.instructions_actual)
+        notes = meeting.instructions_actual
         facilitator = str(meeting.facilitator_actual)
         minute_taker = str(meeting.minute_taker_actual)
         attendance = meeting.attendance               
@@ -342,7 +341,7 @@ def create_details_table(meeting, doc_type, Document):
             Paragraph(end_time, leftAlignedStyle)),
         ]     
     top_left_block = Table(top_left_contents, colWidths=[21*mm,63*mm],
-                           rowHeights=[7*mm,7*mm,7*mm,7*mm])
+                           rowHeights=[21,21,21,21])
     top_left_block.setStyle(MEETING_DETAILS_STYLE)
     # Set up top row middle block
     top_middle_block = Table([
@@ -359,7 +358,7 @@ def create_details_table(meeting, doc_type, Document):
             Paragraph(minute_taker, leftAlignedStyle)),
         ]     
     top_right_block = Table(top_right_contents, colWidths=[21*mm,63*mm],
-                            rowHeights=[14*mm,7*mm,7*mm])
+                            rowHeights=[42,21,21])
     top_right_block.setStyle(MEETING_DETAILS_STYLE)
     #Create the top row table
     top_t = Table([((
@@ -372,18 +371,25 @@ def create_details_table(meeting, doc_type, Document):
     bottom_contents = []
     if doc_type == 'minutes':
         if attendance:
-            bottom_contents.append((Paragraph('Attendees', shadedStyle),
-                Paragraph(attendance, normalStyle)))
+            attendance_t = create_details_item_bottom_table('Attendees',
+                                                            attendance)
         if apologies:
-            bottom_contents.append((Paragraph('Apologies', shadedStyle),
-                Paragraph(apologies, normalStyle)))
+            apologies_t = create_details_item_bottom_table('Apologies',
+                                                           apologies)
     if notes:
-        bottom_contents.append((Paragraph('Notes', shadedStyle),
-            Paragraph(notes, normalStyle)))
+        notes_t = create_details_item_bottom_table('Notes', notes)
     #Create the bottom row table
+    bottom_contents = []
+    if doc_type == 'minutes':
+        if attendance:
+            bottom_contents.append([(attendance_t,)])
+        if apologies:
+            bottom_contents.append([(apologies_t,)])    
+    if notes:
+        bottom_contents.append([(notes_t,)])
     if bottom_contents:
-        bottom_t = Table(bottom_contents, colWidths=[21*mm,149*mm])
-        bottom_t.setStyle(MEETING_DETAILS_STYLE)
+        bottom_t = Table(bottom_contents, colWidths=[printable_width])
+        bottom_t.setStyle(SUPERSTRUCTURE_STYLE)
     #Add bottom and top rows to the document
     Document.append(top_t)
     if bottom_contents:
@@ -397,64 +403,48 @@ def create_agenda_item_table(items, Document):
     Creates the agenda items tables.
     """
     for item in items:
-        if item.background:
-            background = insert_line_breaks(item.background)
+        # Create the heading sub-table
+        raw_title = 'Item ' + str(item.item_no) + ':&nbsp;&nbsp;' + item.title
+        title = fit_to_table_cell(raw_title, 165*mm,
+                                  font_name=itemHeadingStyle.fontName,
+                                  font_size=itemHeadingStyle.fontSize)
         if item.time_limit:
-            time_limit_content = Paragraph(str(item.time_limit) + ' minutes',
+            time_limit_content = Paragraph(str(item.time_limit) + ' mins',
                                            itemHeadingRightStyle)
         else: 
             time_limit_content = ''
-        
         heading_t = Table([((
-                Paragraph('Item ' + str(item.item_no) + ':&nbsp;&nbsp;' + \
-                          item.title, itemHeadingStyle),
+                Paragraph(title, itemHeadingStyle),
                 time_limit_content,
                 ))],
-            colWidths=[135*mm,25*mm]
+            colWidths=[150*mm,20*mm]
             )
-        heading_t.setStyle(TableStyle([(
-                'ALIGN',(-1,0),(-1,0),'RIGHT'
-                )])
-            )
-        if item.explainer and item.background:
-            body_t = Table([
-                    (Paragraph('To be introduced by ' + \
-                          str(item.explainer), shadedStyle),),
-                    (Paragraph(background, normalStyle),)
-                    ],
-                colWidths=[160*mm])
-            body_t.setStyle(ITEM_INNER_TABLE_STYLE)
-            t = Table([
-                    (heading_t,),
-                    (body_t,)
-                    ],
-                colWidths=[160*mm])
-            t.setStyle(ITEM_EXPLAINER_AND_BACKGROUND_TABLE_STYLE)
-        elif item.explainer and (item.background == ''):
-            t = Table([(heading_t,),
-                       (Paragraph('To be introduced by ' + str(item.explainer),
-                           shadedStyle),)
-                      ],
-                  colWidths=[160*mm])
-            t.setStyle(ITEM_EXPLAINER_TABLE_STYLE)
-        else:				
-            if (item.explainer == None) and item.background:
-                t = Table([
-                        (heading_t,),
-                        (Paragraph(background, normalStyle),)
-                        ],
-                    colWidths=[160*mm])
-            elif (item.explainer == None) and (item.background == ''):
-                t = Table([
-                        (heading_t,)
-                        ],
-                    colWidths=[160*mm])		
-            t.setStyle(ITEM_TABLE_STYLE)
+        heading_t.setStyle(AGENDA_ITEM_HEADING_STYLE)
+        # Create the explainer sub-table
+        if item.explainer:
+            explainer_t = Table([((
+                          Paragraph('To be introduced by '+str(item.explainer),
+                           shadedStyle),))
+                          ],
+                  colWidths=[printable_width])
+            explainer_t.setStyle(SHADED_STYLE)
+        # Create the background sub-table            
+        if item.background:
+            background_t = create_item_table(item.background)
+        #Create the item table
+        item_contents = [[(heading_t,)]]
+        if item.explainer:
+            item_contents.append([(explainer_t,)])
+        if item.background:
+            item_contents.append([(background_t,)])
+        t = Table(item_contents, colWidths=[printable_width])
+        t.setStyle(SUPERSTRUCTURE_STYLE)
+        #Add the item table to the document
         Document.append(t)
         Document.append(Spacer(0,7*mm))
     
     Document.append(Paragraph('NOTE: A summary of tasks for review is on the '
-                              'next page.', shadedStyle))
+                              'next page.', normalStyle))
     Document.append(PageBreak())
 
 
@@ -463,22 +453,23 @@ def create_minutes_item_table(items, group, Document):
     Creates the minutes items tables.
     """
     for item in items:
-        minute_notes = insert_line_breaks(item.minute_notes)
-        # Set up the heading row as a sub-table   
+        # Create the heading sub-table
+        raw_title = 'Item ' + str(item.item_no) + ':&nbsp;&nbsp;' + item.title
+        title = fit_to_table_cell(raw_title, 165*mm,
+                                  font_name=itemHeadingStyle.fontName,
+                                  font_size=itemHeadingStyle.fontSize)
         heading_t = Table([((
-                Paragraph('Item ' + str(item.item_no) + ':&nbsp;&nbsp;' + \
-                          item.title, itemHeadingStyle),
+                Paragraph(title, itemHeadingStyle),
                 ))],
-            colWidths=[160*mm]
+            colWidths=[printable_width]
             )
+        heading_t.setStyle(MINUTES_ITEM_HEADING_STYLE)
         # Set up the minute notes as a sub-table
-        if minute_notes:
-            notes_t = Table([
-                        (Paragraph(minute_notes, normalStyle),),
-                        ],
-                    colWidths=[160*mm])
+        if item.minute_notes:
+            notes_t = create_item_table(item.minute_notes)
         # Set up decisions as a sub-table
-        decisions_list = Decision.objects.filter(group=group, item=item)
+        decisions_list = Decision.lists.ordered_decisions().\
+                         filter(group=group, item=item)
         if decisions_list:
             decisions_heading = (
                 Paragraph('Decisions', shadedStyle),
@@ -488,10 +479,10 @@ def create_minutes_item_table(items, group, Document):
                 )
                 for decision in decisions_list]
             decisions_t = Table([decisions_heading] + decisions,
-                            colWidths=[160*mm])
-            decisions_t.setStyle(MINUTES_ITEMS_SUBTABLE_STYLE)
+                            colWidths=[printable_width])
+            decisions_t.setStyle(DECISIONS_AND_TASKS_STYLE)
         # Set up tasks as a sub-table
-        tasks_list = Task.objects.filter(group=group, item=item)
+        tasks_list = Task.lists.ordered_tasks().filter(group=group, item=item)
         if tasks_list:
             column_headings = (
                 Paragraph('Task', shadedStyle),
@@ -499,30 +490,24 @@ def create_minutes_item_table(items, group, Document):
                 Paragraph('Deadline', shadedStyle)
                 )
             tasks = [(
-                Paragraph(task.description, normalStyle),
-                Paragraph(str(task.participant), normalStyle),
+                Paragraph(task.description, leftAlignedStyle),
+                Paragraph(fit_to_table_cell(str(task.participant), 40*mm), normalStyle),
                 Paragraph(task.deadline.strftime("%d %b %Y"), normalStyle)
                 )
                 for task in tasks_list]
             tasks_t = Table([column_headings] + tasks,
-                            colWidths=[90*mm,40*mm,30*mm])
-            tasks_t.setStyle(MINUTES_ITEMS_SUBTABLE_STYLE) 
+                            colWidths=[100*mm,40*mm,30*mm])
+            tasks_t.setStyle(DECISIONS_AND_TASKS_STYLE) 
         # Generate the complete table
         table_contents = [[(heading_t,)]]
-        if minute_notes:
+        if item.minute_notes:
             table_contents.append([(notes_t,)]) 
         if decisions_list:
             table_contents.append([(decisions_t,)])        
         if tasks_list:
             table_contents.append([(tasks_t,)])
-        t = Table(table_contents, colWidths=[160*mm])
-        # Style the table
-        if minute_notes:
-            t.setStyle(MINUTES_ITEMS_TABLE_STYLE)
-        elif decisions_list or tasks_list:
-            t.setStyle(MINUTES_ITEMS_NO_MINUTE_NOTES_STYLE)        
-        else:
-            t.setStyle(MINUTES_ITEMS_HEADING_ONLY_STYLE)   
+        t = Table(table_contents, colWidths=[printable_width])
+        t.setStyle(SUPERSTRUCTURE_STYLE)
         # Add this table to the document and put some space after it
         Document.append(t)
         Document.append(Spacer(0,7*mm))
@@ -544,30 +529,40 @@ def create_task_table(section_heading, task_list, task_type, Document):
     if task_type == 'new':
         empty_message = 'No tasks were assigned in this meeting.'
         time_column_heading = 'Deadline'
-            
-    table_heading = (Paragraph(section_heading, itemHeadingStyle), '', '')
+    # Create the heading sub-table           
+    heading_t = Table([((
+            Paragraph(section_heading, itemHeadingStyle),
+            ))],
+        colWidths=[printable_width]
+        )
+    heading_t.setStyle(MINUTES_ITEM_HEADING_STYLE)
+    # Create the tasks sub-table           
     column_headings = (
         Paragraph('Description', shadedStyle),
         Paragraph('Assigned to', shadedStyle),
         Paragraph(time_column_heading, shadedStyle)
         )
     tasks = [(
-        Paragraph(task.description, normalStyle),
-        Paragraph(str(task.participant), normalStyle),
+        Paragraph(task.description, leftAlignedStyle),
+        Paragraph(fit_to_table_cell(str(task.participant), 40*mm), normalStyle),
         Paragraph(task.deadline.strftime("%d %b %Y"), normalStyle)
         )
         for task in task_list]
-    
     if task_list:
-        t = Table([table_heading] + [column_headings] + tasks,
-                  colWidths=[90*mm,40*mm,30*mm])
+        tasks_t = Table([column_headings] + tasks,
+                        colWidths=[105*mm,40*mm,25*mm])
+        tasks_t.setStyle(DECISIONS_AND_TASKS_STYLE) 
     else:
-        t = Table([table_heading] + [column_headings] + \
+        tasks_t = Table([column_headings] + \
                   [(Paragraph(empty_message, 
                     normalStyle),'','')],
-              colWidths=[90*mm,40*mm,30*mm]
+              colWidths=[105*mm,40*mm,25*mm]
               )
-    t.setStyle(TASK_TABLE_STYLE)
+    # Generate the complete table
+    table_contents = [[(heading_t,)], [(tasks_t,)]]
+    t = Table(table_contents, colWidths=[printable_width])
+    t.setStyle(SUPERSTRUCTURE_STYLE)
+    # Add this table to the document and put some space after it
     Document.append(t)
     Document.append(Spacer(0,5*mm))
 
@@ -579,15 +574,20 @@ def create_next_meeting_table(meeting, Document):
     date = meeting.next_meeting_date
     start_time = meeting.next_meeting_start_time
     location = insert_line_breaks(meeting.next_meeting_location)
-    facilitator = meeting.next_meeting_facilitator
-    minute_taker = meeting.next_meeting_minute_taker
+    facilitator = str(meeting.next_meeting_facilitator)
+    minute_taker = str(meeting.next_meeting_minute_taker)
     notes = insert_line_breaks(meeting.next_meeting_instructions)
+    # Trim contents to fit cells where necessary
+    facilitator = fit_to_table_cell(facilitator, 64*mm)
+    minute_taker = fit_to_table_cell(minute_taker, 64*mm)
+
     # Set up the heading row as a sub-table   
     heading_t = Table([((
                 Paragraph('Details of next meeting', itemHeadingStyle),
                 ))],
-            colWidths=[160*mm]
+            colWidths=[printable_width/2]
             )    
+    heading_t.setStyle(MINUTES_ITEM_HEADING_STYLE)
     # Set up the contents rows
     contents = []
     if date:
@@ -606,23 +606,23 @@ def create_next_meeting_table(meeting, Document):
     if facilitator:
        contents.append(
             (Paragraph('Facilitator', shadedStyle),
-             Paragraph(str(facilitator), normalStyle)))
+             Paragraph(facilitator, normalStyle)))
     if minute_taker:
         contents.append(
             (Paragraph('Minutes', shadedStyle),
-             Paragraph(str(minute_taker), normalStyle)))
+             Paragraph(minute_taker, normalStyle)))
     if notes:
         contents.append(
             (Paragraph('Notes', shadedStyle),
                 Paragraph(notes, normalStyle)))
     # Set up the body sub-table                                  
     if contents:
-        body_t = Table(contents, colWidths=[25*mm,55*mm])
-        body_t.setStyle(MEETING_COLUMN_STYLE)
+        body_t = Table(contents, colWidths=[21*mm,64*mm])
+        body_t.setStyle(MEETING_DETAILS_STYLE)
         # Set up the whole table
         table_contents = [[(heading_t,)], [(body_t,)]]
-        t = Table(table_contents, colWidths=[80*mm])
-        t.setStyle(NEXT_MEETING_TABLE_STYLE)
+        t = Table(table_contents, colWidths=[printable_width/2])
+        t.setStyle(SUPERSTRUCTURE_STYLE)
         t.hAlign = 'LEFT'
         Document.append(t)
         Document.append(Spacer(0,5*mm))
@@ -697,7 +697,8 @@ def create_pdf(request, group, meeting, doc_type):
         new_tasks_list = Task.lists.by_participant().filter(group=group,
                                                             meeting=meeting)
         create_task_table(
-            'Summary of tasks assigned in this meeting',
+            'Summary of tasks assigned in this meeting'
+            ' (ordered by participant)',
             new_tasks_list, 'new', Document)
        
     # Build the PDF
