@@ -575,13 +575,14 @@ def create_next_meeting_table(meeting, Document):
     date = meeting.next_meeting_date
     start_time = meeting.next_meeting_start_time
     location = insert_line_breaks(meeting.next_meeting_location)
-    facilitator = str(meeting.next_meeting_facilitator)
-    minute_taker = str(meeting.next_meeting_minute_taker)
+    facilitator = meeting.next_meeting_facilitator
+    minute_taker = meeting.next_meeting_minute_taker
     notes = insert_line_breaks(meeting.next_meeting_instructions)
     # Trim contents to fit cells where necessary
-    facilitator = fit_to_table_cell(facilitator, 64*mm)
-    minute_taker = fit_to_table_cell(minute_taker, 64*mm)
-
+    if facilitator:
+        facilitator = fit_to_table_cell(str(facilitator), 64*mm)
+    if minute_taker:
+        minute_taker = fit_to_table_cell(str(minute_taker), 64*mm)
     # Set up the heading row as a sub-table   
     heading_t = Table([((
                 Paragraph('Details of next meeting', itemHeadingStyle),
