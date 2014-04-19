@@ -206,7 +206,6 @@ def fit_to_table_cell(content, cell_width,
         add_ellipsis = True
     if add_ellipsis:
         content += u'\u2026'
-#    import pdb; pdb.set_trace()
     return content
 
 
@@ -645,7 +644,7 @@ def create_pdf(request, group, meeting, doc_type):
         leftMargin=20*mm,
         topMargin=20*mm,
         bottomMargin=20*mm,
-        title = group_name + "  |  Meeting " +
+        title = fit_to_table_cell(group_name, 90*mm) + "  |  Meeting no.: " +
             meeting.meeting_no,
         pagesize=A4,
         allowSplitting = 0,)
