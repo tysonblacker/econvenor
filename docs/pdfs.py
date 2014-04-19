@@ -696,11 +696,11 @@ def create_pdf(request, group, meeting, doc_type):
 
     # Add new task summary to minutes
     if doc_type == 'minutes':
-        new_tasks_list = Task.lists.by_participant().filter(group=group,
+        new_tasks_list = Task.lists.all_tasks().filter(group=group,
                                                             meeting=meeting)
         create_task_table(
             'Summary of tasks assigned in this meeting'
-            ' (ordered by participant)',
+            ' (ordered by deadline)',
             new_tasks_list, 'new', Document)
        
     # Build the PDF

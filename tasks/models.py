@@ -13,7 +13,7 @@ from utilities.models import TimeStampedModel
 class TaskManager(models.Manager):
 
     def all_tasks(self):
-        return self.get_queryset().all().order_by('deadline')
+        return self.get_queryset().all().order_by('deadline', 'participant')
                 
     def by_participant(self):
         return self.get_queryset().all().order_by('participant', 'deadline')
