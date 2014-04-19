@@ -558,6 +558,7 @@ def create_task_table(section_heading, task_list, task_type, Document):
                     normalStyle),'','')],
               colWidths=[105*mm,40*mm,25*mm]
               )
+        tasks_t.setStyle(DECISIONS_AND_TASKS_STYLE) 
     # Generate the complete table
     table_contents = [[(heading_t,)], [(tasks_t,)]]
     t = Table(table_contents, colWidths=[printable_width])
