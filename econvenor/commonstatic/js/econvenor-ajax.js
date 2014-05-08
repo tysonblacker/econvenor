@@ -129,7 +129,7 @@ $(document).on("keyup change", ".item-title", function(){
   item_no = item_no[0];
   item_no = item_no.substr(1);
   var target1_text = changed_text;
-  var target2_text = changed_text.substr(0,35);
+  var target2_text = changed_text.substr(0,25);
   var target1 = '#panel_heading_' + item_no;
   $(target1).text(target1_text);
   var target2 = '#sidebar_heading_' + item_no;
