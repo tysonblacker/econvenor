@@ -13,7 +13,9 @@ def bug_report(request):
     if request.method == "POST":
         bug_form = BugForm(request.POST)
         if bug_form.is_valid():
-            bug_form.save(request.user)
+            bug = bug_form.save(request.user)
+            bug.status = 'Open'
+            bug.save()
             return HttpResponseRedirect(reverse('bug-list'))
     else:
         bug_form = BugForm()
@@ -82,7 +84,9 @@ def feature_request(request):
     if request.method == "POST":
         feature_form = FeatureForm(request.POST)
         if feature_form.is_valid():
-            feature_form.save(request.user)
+            feature = feature_form.save(request.user)
+            feature.status = 'Open'
+            feature.save()
         return HttpResponseRedirect(reverse('feature-list'))
     else:
         feature_form = FeatureForm()
