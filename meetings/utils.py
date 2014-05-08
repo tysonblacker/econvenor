@@ -21,7 +21,7 @@ def find_or_create_distribution_record(group, meeting, doc_type):
 
 def archive_meeting(request, group, **kwargs):
     """
-    Archives a meeting.
+    Archives a meeting and sets its status to 'Completed'.
     """
     if kwargs:
         meeting_id = kwargs['meeting_id']
@@ -29,6 +29,7 @@ def archive_meeting(request, group, **kwargs):
         meeting_id = request.POST['button'][8:]
     meeting = Meeting.objects.get(group=group, pk=int(meeting_id))
     meeting.meeting_archived = True
+    meeting.meeting_status = 'Completed'
     meeting.save()
 
 
@@ -43,7 +44,7 @@ def delete_meeting(request, group):
 
 def unarchive_meeting(request, group):
     """
-    Unarchives a meeting.
+    Unarchives a meeting. Leaves its status as 'Completed'.
     """
     meeting_id = request.POST['button'][10:]
     meeting = Meeting.objects.get(group=group, pk=int(meeting_id))

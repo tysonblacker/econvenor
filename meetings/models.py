@@ -41,7 +41,7 @@ class Meeting(TimeStampedModel):
         )
     MEETING_STATUS_CHOICES = (
         ('Scheduled', 'Scheduled'),
-        ('Complete', 'Complete'),
+        ('Completed', 'Completed'),
         ('Cancelled', 'Cancelled'),
         )
             

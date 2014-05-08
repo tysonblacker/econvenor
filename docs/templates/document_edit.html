@@ -24,9 +24,9 @@
   	      <table class="table cursor-default">
 		    <thead>
 		      <tr>
-			    {% for heading in task_list_headings %}
-			      <th>{{ heading }}</th>
-                {% endfor%}
+                <th>Description</th>
+                <th>Assigned to</th>
+                <th>Deadline</th>
 	          </tr>
 		    </thead>
 		    <tbody> 
@@ -48,14 +48,14 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <i class="fa fa-paperclip fa-fw fa-lg"></i>&nbsp;
-            Attachment 2. &nbsp;&nbsp; Tasks outstanding
+            Attachment 2. &nbsp;&nbsp; Tasks incomplete and not overdue
           </div>
 	      <table class="table cursor-default">
 		    <thead>
 		      <tr>
-			    {% for heading in task_list_headings %}
-			      <th>{{ heading }}</th>
-                {% endfor%}
+                <th>Description</th>
+                <th>Assigned to</th>
+                <th>Deadline</th>
 	          </tr>
 		    </thead>
 		    <tbody> 
@@ -82,9 +82,9 @@
 	      <table class="table cursor-default">
 		    <thead>
 		      <tr>
-			    {% for heading in task_list_headings %}
-			      <th>{{ heading }}</th>
-                {% endfor%}
+                <th>Description</th>
+                <th>Assigned to</th>
+                <th>Completed on</th>
 	          </tr>
 		    </thead>
 		    <tbody> 
@@ -92,7 +92,7 @@
 			    <tr>
 			      <td>{{ task.description }}</td>
                   <td>{{ task.participant }}</td>
-				  <td>{{ task.deadline }}</td>
+				  <td>{{ task.completion_date }}</td>
 			    </tr>
 			  {% empty %}
 			    <tr>

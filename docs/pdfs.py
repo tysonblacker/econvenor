@@ -2,6 +2,7 @@ import os
 import reportlab.rl_config
 import socket
 
+from datetime import datetime
 from io import BytesIO
 from string import replace
 from subprocess import call
@@ -541,12 +542,20 @@ def create_task_table(section_heading, task_list, task_type, Document):
         Paragraph('Assigned to', shadedStyle),
         Paragraph(time_column_heading, shadedStyle)
         )
-    tasks = [(
-        Paragraph(task.description, leftAlignedStyle),
-        Paragraph(fit_to_table_cell(str(task.participant), 40*mm), normalStyle),
-        Paragraph(task.deadline.strftime("%d %b %Y"), normalStyle)
-        )
-        for task in task_list]
+    if task_type == 'completed':
+        tasks = [(
+            Paragraph(task.description, leftAlignedStyle),
+            Paragraph(fit_to_table_cell(str(task.participant), 40*mm), normalStyle),
+            Paragraph(task.completion_date.strftime("%d %b %Y"), normalStyle)
+            )
+            for task in task_list]
+    else:
+        tasks = [(
+            Paragraph(task.description, leftAlignedStyle),
+            Paragraph(fit_to_table_cell(str(task.participant), 40*mm), normalStyle),
+            Paragraph(task.deadline.strftime("%d %b %Y"), normalStyle)
+            )
+            for task in task_list]
     if task_list:
         tasks_t = Table([column_headings] + tasks,
                         colWidths=[105*mm,40*mm,25*mm])
@@ -683,10 +692,11 @@ def create_pdf(request, group, meeting, doc_type):
             'Attachment 1:  Tasks overdue',
             overdue_tasks_list, 'overdue', Document)
         create_task_table(
-            'Attachment 2:  Tasks outstanding',
+            'Attachment 2:  Tasks incomplete and not overdue',
             outstanding_tasks_list, 'outstanding', Document)
         create_task_table(
-            'Attachment 3:  Tasks completed since last meeting',
+            'Attachment 3:  Tasks completed since last meeting (this list ' + \
+            'current at ' + datetime.now().strftime("%d %b %Y") + ')',
             completed_tasks_list, 'completed', Document)
 
     # Add next meeting table to minutes

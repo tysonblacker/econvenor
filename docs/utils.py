@@ -379,8 +379,7 @@ def get_completed_tasks_list(group):
     """
     Returns a list of tasks completed since the last meeting.
     """
-    meetings = Meeting.objects.filter(group=group, meeting_status='Complete',
-                                      meeting_type='Ordinary Meeting')
+    meetings = Meeting.objects.filter(group=group, meeting_status='Completed')
     if meetings:
         preceding_meeting = meetings.order_by('date_actual').last()
         preceding_meeting_date = preceding_meeting.date_actual
@@ -389,9 +388,8 @@ def get_completed_tasks_list(group):
 
     completed_task_list = []
     if preceding_meeting_date != None:
-        completed_task_list = Task.lists.complete_tasks.filter(group=group,
-            deadline__gte=preceding_meeting_date)
-
+        completed_task_list = Task.lists.completed_tasks().filter(group=group,
+            completion_date__gte=preceding_meeting_date)
     return completed_task_list
 
 
