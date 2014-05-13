@@ -14,7 +14,9 @@ import socket
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "econvenor.settings")
 
-if socket.gethostname() == 'web439.webfaction.com':
+HOST_NAME = os.environ['ECONVENOR_HOST_NAME']
+
+if socket.gethostname() == HOST_NAME:
 	site.addsitedir(
 		'/home/econvenor/.virtualenvs/env/lib/python2.7/site-packages'
 	)
