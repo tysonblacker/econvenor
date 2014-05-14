@@ -101,6 +101,9 @@ def welcome(request):
     group = get_current_group(request)
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
+    ########## For testing only ##########
+    send_welcome_email(group=group, user=request.user)
+    ######################################
 
     return render(request, 'welcome.html', {
                   'group': group,    
