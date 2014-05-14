@@ -13,10 +13,10 @@ def save_and_add_owner(request, form_object):
 def set_path(local_path, server_path):
     HOST_NAME = os.environ['ECONVENOR_HOST_NAME']
     if socket.gethostname() == HOST_NAME:
-        FONT_PATH = server_path
+        PATH = server_path
     else:
-        FONT_PATH = local_path
-    return FONT_PATH
+        PATH = local_path
+    return PATH
 
 
 def get_current_group(request):
