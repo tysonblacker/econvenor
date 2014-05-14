@@ -16,10 +16,7 @@ class Command(BaseCommand):
         """
         # Select users who registered before welcome emails were 
         # automatically sent to new users
-        ########## test setting only ##########
-        users = User.objects.filter(id__lte=3, id__gt=1)
-        #######################################
-#        users = User.objects.filter(id__gt=1)
+        users = User.objects.filter(id__gt=1)
         for user in users:
             group = user.usersettings.current_group
             send_belated_welcome_email(group=group, user=user)
@@ -49,10 +46,7 @@ def send_belated_welcome_email(group, user):
     """  	
     recipient_email = user.email
     recipient_name = user.first_name
-    ########## test setting only ##########
-    recipient = ['mail@econvenor.org']
-    #######################################
-#    recipient = [recipient_email]
+    recipient = [recipient_email]
     bcc = ['welcome@econvenor.org']
     group = group.name
     signup_date = user.date_joined.strftime("%B %d")
