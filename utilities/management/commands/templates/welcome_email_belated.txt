@@ -3,7 +3,7 @@ Hi {name},
 Welcome to eConvenor.
 
 On {signup_date} you set up an account for {group}.
-Your login email address is *{address}*.
+Your login email address is *{email}*.
 
 Sorry we're so late in welcoming you. Since launching eConvenor early last month we've been a little busy adding features!
 

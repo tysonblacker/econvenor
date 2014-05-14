@@ -17,7 +17,7 @@ class Command(BaseCommand):
         # Select users who registered before welcome emails were 
         # automatically sent to new users
         ########## test setting only ##########
-        users = User.objects.filter(id__lte=20, id__gt=1)
+        users = User.objects.filter(id__lte=3, id__gt=1)
         #######################################
 #        users = User.objects.filter(id__gt=1)
         for user in users:
