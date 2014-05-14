@@ -1,0 +1,16 @@
+Hi {name},
+
+Welcome to eConvenor.
+
+On {signup_date} you set up an account for {group}.
+Your login email address is *{address}*.
+
+Sorry we're so late in welcoming you. Since launching eConvenor early last month we've been a little busy adding features!
+
+We also wanted to thank you for being among our very first users.
+
+If you need some help getting started, you'll find a handy Quick Start Guide under the Help menu in your eConvenor account.
+
+We hope eConvenor saves you and your group lots of time and effort.
+
+Cheers!
