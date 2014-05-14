@@ -9,6 +9,7 @@ from common.utils import snapshot_group_details, \
                          snapshot_user_details
 from participants.models import Participant
 from registration.forms import GroupRegisterForm, UserRegisterForm
+from registration.utils import send_welcome_email
 from utilities.commonutils import get_current_group
 
 
@@ -80,6 +81,9 @@ def register(request, trial):
                                       first_name=user.first_name,
                                       last_name=user.last_name)
             participant.save()
+            # send the new user a welcome email
+            send_welcome_email(group=group, user=user)
+                        
             return HttpResponseRedirect(reverse('welcome'))
     else:
         user_form = UserRegisterForm(label_suffix='')
@@ -97,7 +101,7 @@ def welcome(request):
     group = get_current_group(request)
     if group == None:	
         return HttpResponseRedirect(reverse('index'))
-    
+
     return render(request, 'welcome.html', {
                   'group': group,    
                   })
