@@ -24,6 +24,7 @@ from reportlab.pdfbase.pdfmetrics import registerFont, \
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, \
                                PageBreak, Paragraph, Spacer, Table, TableStyle 
+from reportlab.platypus.flowables import KeepTogether
 
 from accounts.models import Group
 from decisions.models import Decision
@@ -126,7 +127,7 @@ heading2Style.leading=18
 heading2Style.spaceBefore=12
 heading2Style.spaceAfter=6
 
-# Define table skeleton style
+# Define a skeleton table style
 SUPERSTRUCTURE_STYLE = TableStyle([
     ('VALIGN',(0,0),(-1,-1), 'TOP'),
     ('LEFTPADDING', (0,0), (-1,-1), 0),
@@ -188,6 +189,16 @@ DECISIONS_AND_TASKS_STYLE = TableStyle([
     ('VALIGN',(0,0),(-1,-1),'TOP'),
     ('TOPPADDING', (0,0), (-1,-1), 4),
     ('BACKGROUND', (0,0), (-1,0), shading_color),
+    ])
+
+# Define table style that relates to tasks
+TASKS_STYLE = TableStyle([
+    ('GRID', (0,0), (-1,-1), line_width, table_color),
+    ('VALIGN',(0,0),(-1,-1),'TOP'),
+    ('SPAN', (0,0), (-1,0)),
+    ('TOPPADDING', (0,0), (-1,-1), 4),
+    ('BACKGROUND', (0,0), (-1,0), table_color),
+    ('BACKGROUND', (0,1), (-1,1), shading_color),
     ])
 
 
@@ -440,7 +451,7 @@ def create_agenda_item_table(items, Document):
         t = Table(item_contents, colWidths=[printable_width])
         t.setStyle(SUPERSTRUCTURE_STYLE)
         #Add the item table to the document
-        Document.append(t)
+        Document.append(KeepTogether(t))
         Document.append(Spacer(0,7*mm))
     
     Document.append(Paragraph('NOTE: A summary of tasks for review is on the '
@@ -509,7 +520,7 @@ def create_minutes_item_table(items, group, Document):
         t = Table(table_contents, colWidths=[printable_width])
         t.setStyle(SUPERSTRUCTURE_STYLE)
         # Add this table to the document and put some space after it
-        Document.append(t)
+        Document.append(KeepTogether(t))
         Document.append(Spacer(0,7*mm))
 
 
@@ -529,19 +540,15 @@ def create_task_table(section_heading, task_list, task_type, Document):
     if task_type == 'new':
         empty_message = 'No tasks were assigned in this meeting.'
         time_column_heading = 'Deadline'
-    # Create the heading sub-table           
-    heading_t = Table([((
-            Paragraph(section_heading, itemHeadingStyle),
-            ))],
-        colWidths=[printable_width]
-        )
-    heading_t.setStyle(MINUTES_ITEM_HEADING_STYLE)
-    # Create the tasks sub-table           
+    # Create the heading row           
+    heading = (Paragraph(section_heading, itemHeadingStyle),'','')
+    # Create the column labels row           
     column_headings = (
         Paragraph('Description', shadedStyle),
         Paragraph('Assigned to', shadedStyle),
         Paragraph(time_column_heading, shadedStyle)
         )
+    # Create the tasks rows           
     if task_type == 'completed':
         tasks = [(
             Paragraph(task.description, leftAlignedStyle),
@@ -556,21 +563,18 @@ def create_task_table(section_heading, task_list, task_type, Document):
             Paragraph(task.deadline.strftime("%d %b %Y"), normalStyle)
             )
             for task in task_list]
+    # Generate the complete table
     if task_list:
-        tasks_t = Table([column_headings] + tasks,
-                        colWidths=[105*mm,40*mm,25*mm])
-        tasks_t.setStyle(DECISIONS_AND_TASKS_STYLE) 
+        t = Table([heading] + [column_headings] + tasks,
+                  colWidths=[105*mm,40*mm,25*mm],
+                  repeatRows=2)
     else:
-        tasks_t = Table([column_headings] + \
+        t = Table([heading] + [column_headings] + \
                   [(Paragraph(empty_message, 
                     normalStyle),'','')],
               colWidths=[105*mm,40*mm,25*mm]
               )
-        tasks_t.setStyle(DECISIONS_AND_TASKS_STYLE) 
-    # Generate the complete table
-    table_contents = [[(heading_t,)], [(tasks_t,)]]
-    t = Table(table_contents, colWidths=[printable_width])
-    t.setStyle(SUPERSTRUCTURE_STYLE)
+    t.setStyle(TASKS_STYLE) 
     # Add this table to the document and put some space after it
     Document.append(t)
     Document.append(Spacer(0,5*mm))
@@ -634,7 +638,7 @@ def create_next_meeting_table(meeting, Document):
         t = Table(table_contents, colWidths=[printable_width/2])
         t.setStyle(SUPERSTRUCTURE_STYLE)
         t.hAlign = 'LEFT'
-        Document.append(t)
+        Document.append(KeepTogether(t))
         Document.append(Spacer(0,5*mm))
     Document.append(Paragraph('NOTE: A summary of tasks assigned in this '
                               'meeting is on the next page.', shadedStyle))
@@ -656,7 +660,7 @@ def create_pdf(request, group, meeting, doc_type):
         title = fit_to_table_cell(group_name, 90*mm) + "  |  Meeting no.: " +
             meeting.meeting_no,
         pagesize=A4,
-        allowSplitting = 0,)
+        allowSplitting = 1,)
     body_frame = Frame(doc.leftMargin,
         doc.bottomMargin,
         doc.width,
