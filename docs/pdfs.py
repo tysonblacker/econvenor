@@ -711,14 +711,16 @@ def create_pdf(request, group, meeting, doc_type):
     elif doc_type == 'minutes':
         completed_tasks_heading = 'Existing tasks:&nbsp;&nbsp;' + \
                                   'Completed since last meeting'
-    create_task_table(
-        'Existing tasks:&nbsp;&nbsp;Overdue',
-        overdue_tasks_list, 'overdue', Document)
-    create_task_table(
-        'Existing tasks:&nbsp;&nbsp;Incomplete and not overdue',
-        outstanding_tasks_list, 'outstanding', Document)
-    create_task_table(
-        completed_tasks_heading, completed_tasks_list, 'completed', Document)
+    if (doc_type == 'agenda') or meeting.existing_tasks_in_minutes:
+        create_task_table(
+            'Existing tasks:&nbsp;&nbsp;Overdue',
+            overdue_tasks_list, 'overdue', Document)
+        create_task_table(
+            'Existing tasks:&nbsp;&nbsp;Incomplete and not overdue',
+            outstanding_tasks_list, 'outstanding', Document)
+        create_task_table(
+            completed_tasks_heading, completed_tasks_list, 'completed',
+            Document)
        
     # Build the PDF
     doc.build(Document)

@@ -127,6 +127,7 @@ class Meeting(TimeStampedModel):
                                                blank=True)
     current_agenda_version = models.IntegerField(null=True, blank=True)
     current_minutes_version = models.IntegerField(null=True, blank=True)
+    existing_tasks_in_minutes = models.BooleanField(default=False)
     meeting_archived = models.BooleanField(default=False)
     
     objects = models.Manager()
