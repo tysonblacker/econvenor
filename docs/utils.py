@@ -426,13 +426,18 @@ def get_outstanding_tasks_list(group, meeting, doc_type):
     # If today is on or after the meeting date, return a list of tasks
     # which were outstanding on the meeting date.
     if meeting_date <= today:
+        # Because meeting_date is a date() and it will be compared with a 
+        # datetime() in the query following, day_following_meeting is needed
+        # for the queryset to evaluate to the correct result.
+        day_after_meeting = meeting_date + timedelta(1)
         # 1.Exclude tasks with status cancelled or draft
-        # 2.Only allow tasks created before/on the meeting date
+        # 2.Only allow tasks created before/on the meeting date, or else tasks
+        #   created after the meeting and before minutes are made will appear.
         # 3.Exclude tasks tasks due before the meeting date
         # 4.Exclude tasks completed before/on the meeting date
         tasks_list = Task.objects.filter(group=group).\
                      filter(status__in=['Completed', 'Incomplete']).\
-                     filter(created__lte=meeting_date).\
+                     filter(created__lt=day_after_meeting).\
                      exclude(deadline__lt=meeting_date).\
                      exclude(completion_date__lte=meeting_date).\
                      order_by('deadline')

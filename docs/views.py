@@ -19,6 +19,8 @@ from docs.utils import add_decision, \
                        delete_task, \
                        get_completed_tasks_list, \
                        get_formatted_meeting_duration, \
+                       get_outstanding_tasks_list, \
+                       get_overdue_tasks_list, \
                        get_response, \
                        get_templates, \
                        move_item, \
@@ -52,8 +54,12 @@ def agenda_edit(request, meeting_id):
                           'Assigned to',
                           'Deadline')
     items = meeting.item_set.filter(group=group).order_by('item_no')
-    overdue_tasks_list = Task.lists.overdue_tasks().filter(group=group)
-    pending_tasks_list = Task.lists.pending_tasks().filter(group=group)
+    overdue_tasks_list = get_overdue_tasks_list(group=group,
+                                                meeting=meeting,
+                                                doc_type=doc_type)
+    pending_tasks_list = get_outstanding_tasks_list(group=group,
+                                                    meeting=meeting,
+                                                    doc_type=doc_type)
     completed_tasks_list = get_completed_tasks_list(group=group,
                                                     meeting=meeting,
                                                     doc_type=doc_type)

@@ -2,7 +2,7 @@ import os
 import reportlab.rl_config
 import socket
 
-from datetime import datetime
+from datetime import date, datetime
 from io import BytesIO
 from string import replace
 from subprocess import call
@@ -716,10 +716,15 @@ def create_pdf(request, group, meeting, doc_type):
                                                  meeting=meeting,
                                                  doc_type=doc_type)
     if doc_type == 'agenda':
+        if meeting.date_scheduled < date.today():
+            list_date = meeting.date_scheduled.strftime("%d %b %Y")
+        else:
+            list_date = date.today().strftime("%d %b %Y")
+            
         completed_tasks_heading = 'Existing tasks:&nbsp;&nbsp;' + \
                                   'Completed since last meeting' + \
                                   ' (this list current at ' + \
-                                  datetime.now().strftime("%d %b %Y") + ')'
+                                  list_date + ')'
     elif doc_type == 'minutes':
         completed_tasks_heading = 'Existing tasks:&nbsp;&nbsp;' + \
                                   'Completed since last meeting'
