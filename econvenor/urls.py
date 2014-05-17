@@ -1,3 +1,5 @@
+import os
+
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
@@ -5,9 +7,11 @@ from django.contrib import admin
 
 admin.autodiscover()
 
+ADMIN_URL = os.environ['ECONVENOR_ADMIN_URL'] + '/'
+
 urlpatterns = patterns('',
 
-	url(r'^8X7oRetm8LGCYx9oUFtpJ6Xvb/', include(admin.site.urls)),
+	url(ADMIN_URL, include(admin.site.urls)),
 
 	url(r'^$', 'landing.views.index', name="index"),
 	url(r'^login/$', 'authentication.views.user_login', name="login"),
