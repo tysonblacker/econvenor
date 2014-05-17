@@ -206,7 +206,12 @@ class MinutesMeetingForm(forms.ModelForm):
                   'attendance',
                   'apologies',
                   'instructions_actual',
+                  'existing_tasks_in_minutes',
                   ]
+        labels = {
+            'existing_tasks_in_minutes': _('Check this box to add a summary of'
+                                           ' existing tasks to the minutes'),
+                }
         widgets = {
             'date_actual': forms.DateInput(attrs={
                 'class': 'datepicker form-control',
@@ -242,6 +247,9 @@ class MinutesMeetingForm(forms.ModelForm):
                 'class': 'charactercounter form-control',
                 'maxlength': 200,
                 'rows': 4,
+                }),
+            'existing_tasks_in_minutes': forms.CheckboxInput(attrs={
+                'class': 'form-control',
                 }),
             }              
 
