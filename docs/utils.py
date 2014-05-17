@@ -1,7 +1,7 @@
 import json
 import os
 import string
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
@@ -375,21 +375,102 @@ def get_formatted_meeting_duration(meeting):
     return formatted_duration
 	
 
-def get_completed_tasks_list(group):
+def get_overdue_tasks_list(group, meeting, doc_type):
     """
-    Returns a list of tasks completed since the last meeting.
+    Return overdue tasks for agendas and minutes.
     """
+    today = date.today()
+    if doc_type == "agenda":
+        meeting_date = meeting.date_scheduled
+        # If today's date is before the scheduled meeting date,
+        # return a list of tasks currently overdue.
+        if meeting_date > today:
+            tasks_list = Task.lists.overdue_tasks().filter(group=group)  
+    elif doc_type == "minutes":        
+        meeting_date = meeting.date_actual
+        # If today's date is before the actual meeting date,
+        # return an empty list.
+        if meeting_date > today:
+            tasks_list = []
+    # If today is on or after the meeting date, return a list of tasks
+    # which were overdue on the actual meeting date.
+    if meeting_date <= today:
+        # 1.Exclude tasks with status cancelled or draft
+        # 2.Only allow tasks due before/on the meeting date
+        # 3.Exclude tasks completed before/on the meeting date
+        tasks_list = Task.objects.filter(group=group).\
+                     filter(status__in=['Completed', 'Incomplete']).\
+                     filter(deadline__lt=meeting_date).\
+                     exclude(completion_date__lte=meeting_date).\
+                     order_by('deadline')
+    return tasks_list
+
+
+def get_outstanding_tasks_list(group, meeting, doc_type):
+    """
+    Return outstanding tasks for agendas and minutes.
+    """
+    today = date.today()
+    if doc_type == "agenda":
+        meeting_date = meeting.date_scheduled
+        # If today's date is before the scheduled meeting date,
+        # return a list of tasks currently outstanding.
+        if meeting_date > today:
+            tasks_list = Task.lists.pending_tasks().filter(group=group)
+    elif doc_type == "minutes":        
+        meeting_date = meeting.date_actual
+        # If today's date is before the actual meeting date,
+        # return an empty list.
+        if meeting_date > today:
+            tasks_list = []
+    # If today is on or after the meeting date, return a list of tasks
+    # which were outstanding on the meeting date.
+    if meeting_date <= today:
+        # 1.Exclude tasks with status cancelled or draft
+        # 2.Only allow tasks created before/on the meeting date
+        # 3.Exclude tasks tasks due before the meeting date
+        # 4.Exclude tasks completed before/on the meeting date
+        tasks_list = Task.objects.filter(group=group).\
+                     filter(status__in=['Completed', 'Incomplete']).\
+                     filter(created__lte=meeting_date).\
+                     exclude(deadline__lt=meeting_date).\
+                     exclude(completion_date__lte=meeting_date).\
+                     order_by('deadline')
+    return tasks_list
+
+
+def get_completed_tasks_list(group, meeting, doc_type):
+    """
+    Return completed tasks for agendas and minutes.
+    """
+    # Find the preceding meeting date, if there is one
     meetings = Meeting.objects.filter(group=group, meeting_status='Completed')
     if meetings:
         preceding_meeting = meetings.order_by('date_actual').last()
-        preceding_meeting_date = preceding_meeting.date_actual
+        previous_mtg_date = preceding_meeting.date_actual
     else:
-        preceding_meeting_date = None
-
-    completed_task_list = []
-    if preceding_meeting_date != None:
-        completed_task_list = Task.lists.completed_tasks().filter(group=group,
-            completion_date__gte=preceding_meeting_date)
+        previous_mtg_date = None
+    # Set the meeting_date variable
+    if doc_type == "agenda":
+        meeting_date = meeting.date_scheduled
+    elif doc_type == "minutes":
+        meeting_date = meeting.date_actual
+    # Generate the completed task list if there is a previous meeting
+    if previous_mtg_date != None:
+        # 1.Only allow tasks completed after the previous meeting date
+        # 2.Exclude tasks completed after the meeting date
+        completed_task_list = Task.lists.completed_tasks().\
+                              filter(group=group).\
+                              filter(completion_date__gt=previous_mtg_date).\
+                              exclude(completion_date__gt=meeting_date).\
+                              order_by('deadline')                              
+    # Generate the completed task list if there is no previous meeting
+    elif previous_mtg_date == None:
+        # 1.Allow all tasks completed before the meeting date
+        completed_task_list = Task.lists.completed_tasks().\
+                              filter(group=group).\
+                              filter(completion_date__lte=meeting_date).\
+                              order_by('deadline')                              
     return completed_task_list
 
 

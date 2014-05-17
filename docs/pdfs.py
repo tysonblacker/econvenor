@@ -30,7 +30,9 @@ from accounts.models import Group
 from decisions.models import Decision
 from docs.utils import calculate_meeting_duration, \
                        calculate_meeting_end_time, \
-                       get_completed_tasks_list
+                       get_completed_tasks_list, \
+                       get_outstanding_tasks_list, \
+                       get_overdue_tasks_list
 from meetings.models import Meeting
 from meetings.utils import find_or_create_distribution_record
 from participants.models import Participant
@@ -524,7 +526,8 @@ def create_minutes_item_table(items, group, Document):
         Document.append(Spacer(0,7*mm))
 
 
-def create_task_table(section_heading, task_list, task_type, Document):
+def create_task_table(section_heading, task_list, task_type, meeting, \
+                      doc_type, Document):
     """
     Creates the tasks tables.
     """
@@ -569,6 +572,10 @@ def create_task_table(section_heading, task_list, task_type, Document):
                   colWidths=[105*mm,40*mm,25*mm],
                   repeatRows=2)
     else:
+        if doc_type == 'minutes':
+            if meeting.date_actual > date.today():
+                empty_message = 'This table can\'t be populated before the' \
+                                ' date of the meeting'
         t = Table([heading] + [column_headings] + \
                   [(Paragraph(empty_message, 
                     normalStyle),'','')],
@@ -685,23 +692,6 @@ def create_pdf(request, group, meeting, doc_type):
         create_agenda_item_table(items, Document)
     if doc_type == 'minutes':
         create_minutes_item_table(items, group, Document)
-    
-    # Add task review to agenda
-    if doc_type == 'agenda':
-        overdue_tasks_list = Task.lists.overdue_tasks().filter(group=group)
-        outstanding_tasks_list = Task.lists.pending_tasks().\
-                                filter(group=group)
-        completed_tasks_list = get_completed_tasks_list(group)
-        create_task_table(
-            'Attachment 1:  Tasks overdue',
-            overdue_tasks_list, 'overdue', Document)
-        create_task_table(
-            'Attachment 2:  Tasks incomplete and not overdue',
-            outstanding_tasks_list, 'outstanding', Document)
-        create_task_table(
-            'Attachment 3:  Tasks completed since last meeting (this list ' + \
-            'current at ' + datetime.now().strftime("%d %b %Y") + ')',
-            completed_tasks_list, 'completed', Document)
 
     # Add next meeting table to minutes
     if doc_type == 'minutes':
@@ -712,9 +702,37 @@ def create_pdf(request, group, meeting, doc_type):
         new_tasks_list = Task.lists.all_tasks().filter(group=group,
                                                             meeting=meeting)
         create_task_table(
-            'Summary of tasks assigned in this meeting'
-            ' (ordered by deadline)',
-            new_tasks_list, 'new', Document)
+            'New tasks assigned in this meeting (ordered by deadline)',
+            new_tasks_list, 'new', meeting, doc_type, Document)
+                
+    # Add task review
+    overdue_tasks = get_overdue_tasks_list(group=group,
+                                               meeting=meeting,
+                                               doc_type=doc_type)
+    outstanding_tasks = get_outstanding_tasks_list(group=group,
+                                                   meeting=meeting,
+                                                   doc_type=doc_type)
+    completed_tasks = get_completed_tasks_list(group=group,
+                                                 meeting=meeting,
+                                                 doc_type=doc_type)
+    if doc_type == 'agenda':
+        completed_tasks_heading = 'Existing tasks:&nbsp;&nbsp;' + \
+                                  'Completed since last meeting' + \
+                                  ' (this list current at ' + \
+                                  datetime.now().strftime("%d %b %Y") + ')'
+    elif doc_type == 'minutes':
+        completed_tasks_heading = 'Existing tasks:&nbsp;&nbsp;' + \
+                                  'Completed since last meeting'
+    if (doc_type == 'agenda') or meeting.existing_tasks_in_minutes:
+        create_task_table(
+            'Existing tasks:&nbsp;&nbsp;Overdue',
+            overdue_tasks, 'overdue', meeting, doc_type, Document)
+        create_task_table(
+            'Existing tasks:&nbsp;&nbsp;Incomplete and not overdue',
+            outstanding_tasks, 'outstanding', meeting, doc_type, Document)
+        create_task_table(
+            completed_tasks_heading, completed_tasks, 'completed', meeting,
+            doc_type, Document)
        
     # Build the PDF
     doc.build(Document)

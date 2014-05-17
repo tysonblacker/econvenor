@@ -54,7 +54,9 @@ def agenda_edit(request, meeting_id):
     items = meeting.item_set.filter(group=group).order_by('item_no')
     overdue_tasks_list = Task.lists.overdue_tasks().filter(group=group)
     pending_tasks_list = Task.lists.pending_tasks().filter(group=group)
-    completed_tasks_list = get_completed_tasks_list(group=group)
+    completed_tasks_list = get_completed_tasks_list(group=group,
+                                                    meeting=meeting,
+                                                    doc_type=doc_type)
 
     if request.method == "POST" and 'ajax_button' in request.POST:
         request_type = 'ajax'
@@ -212,7 +214,9 @@ def minutes_edit(request, meeting_id):
     tasks = meeting.task_set.filter(group=group).\
             order_by('item', 'task_no')
     
-    completed_tasks_list = get_completed_tasks_list(group=group)
+    completed_tasks_list = get_completed_tasks_list(group=group,
+                                                    meeting=meeting,
+                                                    doc_type='minutes')
     incomplete_tasks_list = Task.lists.incomplete_tasks().filter(group=group)
     new_tasks = Task.lists.incomplete_tasks().filter(group=group,
                                                      meeting=meeting)	
