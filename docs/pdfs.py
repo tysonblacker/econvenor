@@ -519,10 +519,10 @@ def create_minutes_item_table(items, group, Document):
             table_contents.append([(decisions_t,)])        
         if tasks_list:
             table_contents.append([(tasks_t,)])
-        t = Table(table_contents, colWidths=[printable_width])
+        t = Table(table_contents, colWidths=[printable_width], repeatRows=1)
         t.setStyle(SUPERSTRUCTURE_STYLE)
         # Add this table to the document and put some space after it
-        Document.append(KeepTogether(t))
+        Document.append(t)
         Document.append(Spacer(0,7*mm))
 
 
