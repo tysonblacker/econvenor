@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date,timedelta
 
 from django.core.mail import EmailMultiAlternatives
 from django.core.management.base import BaseCommand, CommandError
@@ -70,11 +70,6 @@ def send_reminder_email(group, participant, reminder_interval, due_tasks,
     they are assigned to.
     """
     # Set up email fields
-    ##########production setting##########
-    ## recipient = [participant.email]    
-    ##########testing setting#############
-    recipient = ['mail@econvenor.org']    
-    ######################################
     recipient = [participant.email]    
     recipient_name = participant.first_name
     group_name = group.name
@@ -112,11 +107,7 @@ def send_summary_email(group, reminder_interval, all_due_tasks,
     convenor_name = group.users.get().first_name
     convenor_email = group.users.get().email
     group_name = group.name
-    ##########production setting##########
-    ## recipient = [convenor_email]    
-    ##########testing setting#############
-    recipient = ['mail@econvenor.org']    
-    ######################################
+    recipient = [convenor_email]    
     sender = 'eConvenor <noreply@econvenor.org>'
     subject = group_name + ': Summary of today\'s task reminders'
     bcc = ['mail@econvenor.org']
