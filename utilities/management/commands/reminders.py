@@ -120,6 +120,9 @@ def send_summary_email(group, reminder_interval, all_due_tasks,
     sender = 'eConvenor <noreply@econvenor.org>'
     subject = group_name + ': Summary of today\'s task reminders'
     bcc = ['mail@econvenor.org']
+    # Sort the task lists by deadline
+    all_overdue_tasks.sort(key=lambda x: str(x.deadline))
+    all_due_tasks.sort(key=lambda x: str(x.deadline))
     # Generate the email body in html and plain text
     context_dictionary = {'all_due_tasks': all_due_tasks,
                           'all_overdue_tasks': all_overdue_tasks,
