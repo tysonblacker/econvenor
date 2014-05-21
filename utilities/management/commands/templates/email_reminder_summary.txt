@@ -1,0 +1,20 @@
+Hi {{ convenor_name }},
+
+Reminders about the tasks listed below have just been emailed to the people responsible for them.
+{% if all_overdue_tasks %}
+***Tasks which are overdue***
+{% for task in all_overdue_tasks %}
+{{ task.description }} (by {{task.participant.first_name}} {{task.participant.last_name}} / due on {{ task.deadline|date:"M j" }})
+{% endfor %}{% endif %}{% if all_due_tasks %}
+***Tasks due within the next {{ reminder_interval }} days***
+{% for task in all_due_tasks %}
+{{ task.description }} (by {{task.participant.first_name}} {{task.participant.last_name}} / due on {{ task.deadline|date:"M j" }})
+{% endfor %}{% endif %}
+
+=============================================================
+
+eConvenor automatically sends a reminder email to a participant when either:
+1) a task assigned to them is recorded as incomplete and becomes due in {{ reminder_interval }} days, or
+2) a task assigned to them is recorded as incomplete and becomes overdue.
+
+eConvenor works out when tasks are overdue based on the time in Melbourne, Australia.

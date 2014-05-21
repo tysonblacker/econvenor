@@ -1,0 +1,105 @@
+{% extends "email_base.html" %}
+
+{% block title %}
+
+  {{ group_name }}: A reminder about your tasks
+
+{% endblock title %}      
+
+
+{% block body %}
+
+  <tr>
+    <td class="bodycopy bodypadding" bgcolor="#ffffff">    
+      Hi {{ recipient_name }},<br/><br/>Just a quick reminder about some things you're responsible for doing for {{ group_name }}.
+    </td>
+  </tr>
+
+  {% if overdue_tasks %}
+    <tr>
+      <td class="heading headingpadding" bgcolor="#ffffff">    
+        Tasks which are overdue
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <!--[if (gte mso 9)|(IE)]>
+          <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td>
+        <![endif]--> 
+        <table align="center" cellpadding="0" cellspacing="0" border="0">
+          {% for task in overdue_tasks %}
+            <tr>
+              <td class="tablecopyleft leftcolumn" bgcolor="#ffffff">
+                {{ task.description }}
+              </td>
+              <td class="tablecopyright rightcolumn" bgcolor="#ffffff">
+                due on&nbsp;{{ task.deadline|date:"M j" }}
+              </td>
+            </tr>
+          {% endfor %}
+          <!--[if (gte mso 9)|(IE)]>
+                </td>
+              </tr>
+            </table>
+          <![endif]-->
+        </table>
+      </td>
+    </tr>   
+    {% if due_tasks %}
+    <tr>
+      <td class="spacer20" bgcolor="#ffffff"></td>
+    </tr>
+    {% endif %}
+  {% endif %}
+
+  {% if due_tasks %}
+    <tr>
+      <td class="heading headingpadding" bgcolor="#ffffff">    
+        Tasks due within the next {{ reminder_interval }} days
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <!--[if (gte mso 9)|(IE)]>
+          <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td>
+        <![endif]--> 
+        <table align="center" cellpadding="0" cellspacing="0" border="0">
+          {% for task in due_tasks %}
+            <tr>
+              <td class="tablecopyleft leftcolumn" bgcolor="#ffffff">
+                {{ task.description }}
+              </td>
+              <td class="tablecopyright rightcolumn" bgcolor="#ffffff">
+                due on&nbsp;{{ task.deadline|date:"M j" }}
+              </td>
+            </tr>
+          {% endfor %}
+          <!--[if (gte mso 9)|(IE)]>
+                </td>
+              </tr>
+            </table>
+          <![endif]-->
+        </table>
+      </td>
+    </tr>   
+  {% endif %}
+
+  <tr>
+    <td class="spacer20" bgcolor="#ffffff"></td>
+  </tr>
+  <tr>
+    <td class="bodycopy bodypadding" bgcolor="#ffffff">   
+      To report tasks in this message as complete, email <a href="mailto:{{ convenor_email }}">{{ convenor_name }}</a>.
+    </td>
+  </tr>
+  <tr>
+    <td class="footercopy footerpadding">
+        eConvenor automatically emails you a reminder like this when either:<br/>1) a task assigned to you is recorded as incomplete and becomes due in {{ reminder_interval }} days, or<br/>2) a task assigned to you is recorded as incomplete and becomes overdue.<br/><br/>eConvenor works out when tasks are overdue based on the time in Melbourne, Australia.
+    </td>
+  </tr>
+
+{% endblock body %}      

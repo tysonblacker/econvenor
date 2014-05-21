@@ -15,7 +15,10 @@ import socket
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # Set the templates directory
-TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+    os.path.join(BASE_DIR, '../utilities/management/commands/templates'),
+    )
 
 # Set the host name
 HOST_NAME = os.environ['ECONVENOR_HOST_NAME']
