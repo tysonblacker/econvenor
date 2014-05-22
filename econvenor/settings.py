@@ -183,3 +183,10 @@ TIME_FORMAT = 'g:i a'
 TIME_INPUT_FORMATS = (
     '%I:%M %p',
 )
+
+# Fixtures
+# https://docs.djangoproject.com/en/1.6/howto/initial-data/#providing-initial-data-with-fixtures
+
+FIXTURE_DIRS = (
+    os.path.join(BASE_DIR, 'fixtures'), 
+    )
