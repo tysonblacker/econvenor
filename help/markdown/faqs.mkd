@@ -2,4 +2,178 @@
 
 ---
 
-Coming soon.
+###1. Can more than one person convene a particular group?
+
+*Short answer:*
+
+Not at the moment, but it will be possible soon.
+
+*Long answer:*
+
+At the moment, only one eConvenor account can convene each group. Setting up eConvenor so that multiple people can convene a group is something that we will do as soon as we have time, hopefully in June or July 2014.
+
+In the meantime, if you want more than one person to be able to convene the one group, you'll have to share the login details of the account amongst yourselves.
+
+
+###2. Can a person convene more than one group?
+
+*Short answer:*
+
+Not at the moment, but it will be possible soon.
+
+*Long answer:*
+
+At the moment, an eConvenor account can only convene one group. Setting up eConvenor so that each account can convene multiple groups is something that we will do as soon as we have time, hopefully in June or July 2014. We'll do this at the same time as we configure eConvenor to allow multiple accounts to convene one group.
+
+The only way for one person to convene multiple groups with eConvenor at the moment is to set up a seperate account for each group. Note that each account requires a different email address.
+
+
+###3. Does each participant get their own eConvenor account?
+
+*Short answer:*
+
+No. Participants don't need an eConvenor account.
+
+*Long answer:*
+
+eConvenor is a tool which is used by the person or people who convene a group, not by the whole group. It's an aid for your group's convenor or secretary which aims to reduce their workload and help them communicate with and organise the group.
+
+Information flows from eConvenor *to* the group's participants in the form of agendas, minutes and task reminders. The only information which eConvenor needs *from* participants is to be told when they have completed a task assigned to them. At the moment, participants provide this information directly to the group's convenor/secretary, and that person enters it into eConvenor. In the future, participants will be able to notify eConvenor directly when they have completed a task, but they still won't need an account to do that -- they will probably do it by clicking a link in a the task reminder email.
+
+eConvenor is neither a sophisticated task/project management tool, nor is it a tool to help groups make decisions without having meetings. There are other tools available on the web which can do those things if that's what you need.
+
+
+###4. Can one task be assigned to multiple participants?
+
+*Short answer:*
+
+No. It can cause confusion.
+
+*Long answer:*
+
+When we were designing eConvenor, we considered allowing one task to be assigned to multiple people. We decided not to because in our experience this can result in every person it is assigned to leaving it for one of the other people it is assigned to to do -- then no one actually does it.
+
+We thought that if each task could only be assigned to one person, then it would always be clear who was responsible for it. That person could never assume that someone else might do it.
+
+In the future, we plan to enable a task to be assigned to one participant who would have primary responsibility for it, and allow other participants to be added to the task as that helpers for the participant who has primary responsibility.
+
+At the moment, you can create an identical task for each participant if multiple participants all need to work on the same task.
+
+
+###5. How do I stop automatic email reminders being sent to a particular participant?
+
+1. Choose "Participants > Manage participants" from the menu on the right side of the screen.
+1. Click on the name of the participant you want to stop sending reminders to.
+1. Click the red button to edit their details
+1. Un-check the checkbox labled "Automatically email reminders about nearly-due and overdue tasks (recommended)"
+
+
+###6. How does eConvenor make money?
+
+*Short answer:*
+
+eConvenor isn't supposed to make money.
+
+*Long answer:*
+
+eConvenor is a tool made by activists to help other activists. Money is not a motivation or a consideration.
+
+Like everything though, eConvenor has some operating costs, so we ask better funded groups to contribute financially if they can, and we require a financial contribution from political parties and trade unions.
+
+Most groups who use eConvenor will have a tiny budget, or no budget at all. These are the groups we had in mind in building eConvenor, and they should eConvenor for free.
+
+eConvenor will never make a profit. All money which we receive for eConvenor will go back into eConvenor -- both into keeping it running and improving it.
+
+
+###7. Is the data in my eConvenor account secure?
+
+*Short answer:*
+
+It's as secure as we can make it.
+
+*Long answer:*
+
+Firstly, there is no such thing as perfect security -- hackers routinely steal data from well-resourced targets such as huge corporations and governments. We do our best to keep eConvenor secure, but we can't give any guarantees.
+
+Broadly speaking, there are three types of security which you need to consider with regard to data held in eConvenor -- security against hackers, security against government agencies and security against accidental loss.
+
+Hackers - eConvenor is built on the Django. Django is a large, mature web application framework which has had plenty of time to get the underlying security right. eConvenor is hosted by Webfaction in the UK. Webfaction are a Platform as a Service (PaaS) provider who make sure that the server which eConvenor runs on is up-to-date and well maintained. eConvenor shouldn't be an easy target for hackers.
+
+Goernment agencies - eConvenor is based in Melbourne, Australia, and runs from servers in the UK. We will only hand data over to a government agency if we are forced to by a *valid* Australian or UK court order, and even then we'll fight against it as hard as possible. 
+
+Accidental loss - We keep multiple backups of your data on our UK server, and multiple backups of your data on our machines in Australia. The possibility of accidental loss of data is remote. Also, eConvernor emails you copies of your agendas and minutes, so you also have copies of most of the data which you store in eConvenor. 
+
+
+###8. Can I confidently store sensitive data in eConvenor?
+
+*Short answer:*
+
+Yes, but be sensible.
+
+*Long answer:*
+
+eConvenor's Terms and Conditions require us to protect your data and keep it confidential. The Terms and Conditions form a contract with you which we are bound by and we take our responsibilities under them very seriously. Any data that you'd trust, for example, to Google Drive or Dropbox will be treated just as confidentally by eConvenor.
+
+Remember though, that if your data is very sensitive, you should not be trusting it to *any* online service. Very sensitive data should be encrypted and stored on computers and storage media which you own and can keep physically secure.
+
+
+###9. Is the data in my eConvenor account shared with third parties?
+
+*Short answer:*
+
+No.
+
+*Long answer:*
+
+We will not voluntarily give/transfer/sell/whatever your data to anyone for any reason.
+
+If we are pressured to hand over data by a government agency, we will resist vigourously, but if we are faced with a *valid* Australian or UK court order (eConvenor is based in Australia and runs on servers in the UK), we will comply with it. 
+
+
+###10. How can I know that eConvenor wasn't set up to spy on activist groups?
+
+*Short answer:*
+
+Sadly, you can't.
+
+*Long answer:*
+
+We don't like it, but we have to say it: setting up a service like eConvenor would be a good way for an intelligence service (or services) to spy on activist groups.
+
+Although we know we're not spies, cops, or anthing of that nature, there's nothing we can do or say that can prove that to you. That said, you can't know whether any other web service might be spying on you, and we know that services like Google and Facebook *are*.
+
+With all data your group puts online, whether with eConvenor or any other web service, ask yourself if it would be a problem if government agencies saw it. For most groups, the answer to that question will be no most of the time. When the answer is yes though, keep that data off the internet unless you're encrypting it with a strong passphrase which no one outside your group knows.
+
+With a bit of luck one day you'll meet us. Then you'll probably realise that it's quite unlikely we're cops or spies.
+
+
+###11. Who is behind eConvenor?
+
+*Short answer:*
+
+Two Australian activists.
+
+*Long answer:*
+
+eConvenor was started by two activists from Melbourne, Australia -- Keira and Sky.
+
+For a few decades we've seen how campaigns and groups struggle to be organised and get things done efficiently. One day in late 2012 we realised that a lot of the work of convening a group could be done by a computer, so although we don't have IT backgrounds, we decided to try an make a "virtual convenor". eConvenor is the result.
+
+
+###12. Can I get involved in the eConvenor project?
+
+*Short answer:*
+
+We're looking for people to work on eConvenor with us.
+
+*Long answer:*
+
+eConvenor has the potential to be a great tool for activists around the world, and it needs a lot of work for it to realise that potential. We are very keen for people to work on it with us.
+
+To work on eConvenor you must be sensible, focused, good at cooperating with other people and have good politics.
+
+As a project, eConvenor has clear goals, high standards, is well organised and produces tangible results. It's coordinated by nice people who are good to work with.
+
+We are looking specifically for people with skills in coding (Python/Django), web development (HTML/CSS/JS), web application security, graphic design and writing/communications. There are also always miscellaneous tasks which need doing, and the only pre-requisite for working on them is an ability to take some initiative and solve problems. If you're interested, please email us!
+
+You probably realised this already, but just to be clear: eConvenor does not offer paid positions. It is a volunteer-run project.
