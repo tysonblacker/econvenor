@@ -32,15 +32,15 @@ The only way for one person to convene multiple groups with eConvenor at the mom
 
 *Short answer:*
 
-No. Participants don't need an eConvenor account.
+No, and that's a good thing for many groups.
 
 *Long answer:*
 
-eConvenor is a tool which is used by the person or people who convene a group, not by the whole group. It's an aid for your group's convenor or secretary which aims to reduce their workload and help them communicate with and organise the group.
+eConvenor is a tool which is used by the person or people who convene a group, not by the whole group. It pushes information from the convenor out to the participants by email, rather than relying on participants coming to get that information by logging in to (yet another) web service. For the groups we had in mind when building eConvenor, it would be a bit much to expect every participant to access eConvenor to check for meeting documents and review their tasks every day or two.
 
-Information flows from eConvenor *to* the group's participants in the form of agendas, minutes and task reminders. The only information which eConvenor needs *from* participants is to be told when they have completed a task assigned to them. At the moment, participants provide this information directly to the group's convenor/secretary, and that person enters it into eConvenor. In the future, participants will be able to notify eConvenor directly when they have completed a task, but they still won't need an account to do that -- they will probably do it by clicking a link in a the task reminder email.
+Information flows from eConvenor *to* the group's participants in the form of agendas, minutes and task reminders. The only information which eConvenor needs *from* participants is to be told when they have completed a task assigned to them. At the moment, participants provide this information directly to the group's convenor, and that person enters it into eConvenor. In the future, participants will be able to notify eConvenor directly when they have completed a task, but they still won't need an account to do that -- they will probably do it by clicking a link in a task reminder email.
 
-eConvenor is neither a sophisticated task/project management tool, nor is it a tool to help groups make decisions without having meetings. There are other tools available on the web which can do those things if that's what you need.
+If you're looking for a tool which every member of your group would log in to every day or two, this could be an indication that you need something a bit different to eConvenor. You might be after a tool with more sophisticated task/project management functionality, or a tool to help your group make decisions without having meetings. If you have a look at other web services, you might find something which suits your needs better than eConvenor does.
 
 
 ###4. Can one task be assigned to multiple participants?
@@ -170,9 +170,9 @@ We're looking for people to work on eConvenor with us.
 
 eConvenor has the potential to be a great tool for activists around the world, and it needs a lot of work for it to realise that potential. We are very keen for people to work on it with us.
 
-To work on eConvenor you must be sensible, focused, good at cooperating with other people and have good politics.
+eConvenor is a very rewarding project to get involved in. It has clear goals, high standards, is well organised and produces tangible results. It's coordinated by nice people who are good to work with.
 
-As a project, eConvenor has clear goals, high standards, is well organised and produces tangible results. It's coordinated by nice people who are good to work with.
+To work on eConvenor you must be sensible, focused, good at cooperating with other people and have good politics.
 
 We are looking specifically for people with skills in coding (Python/Django), web development (HTML/CSS/JS), web application security, graphic design and writing/communications. There are also always miscellaneous tasks which need doing, and the only pre-requisite for working on them is an ability to take some initiative and solve problems. If you're interested, please email us!
 
