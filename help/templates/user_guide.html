@@ -1,0 +1,93 @@
+{% extends "app_base.html" %}
+{% load setclass %}
+
+{% block content %}
+
+<div class="col-sm-10 col-md-10 col-lg-8 no-toolbar">
+  <div class="panel panel-primary panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-file-text-o fa-fw fa-lg"></i>&nbsp;
+	  User Guide
+    </div>
+  </div>
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-search fa-fw fa-lg"></i>&nbsp;
+      Overview of eConvenor
+    </div>
+    <div class="panel-body">
+      <p>1.&nbsp; eConvenor is a tool which helps the convenor/secretary of a group save time and be well organised.</p>
+      <p>2.&nbsp; eConvenor uses email to communicate with your group's participants. Participants don't get an eConvenor account because they don't need one. This keeps things simple for everyone.</p>
+      <p>3.&nbsp; eConvenor produces clear, well-structured meeting agendas and minutes.</p>
+      <p>4.&nbsp; eConvenor tracks tasks assigned to your group's participants and automatically sends participants email reminders when their tasks are becoming due.</p>
+      <p>5.&nbsp; eConvenor keeps an easy-to-navigate list of all the decisions your groups makes.</p>
+    </div>
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      About this User Guide
+    </div>
+    <div class="panel-body">
+      <p>From here on, the user guide is organised by menu item.</p>
+      <p>If you can't find the information you are looking for in this document, try the <i>FAQs</i> which you'll find under the <i>Help</i> menu. If you still can't find your answer there, don't hesitate to drop us an email with your question.</p>
+    </div>
+    <div class="panel-heading">
+	  <i class="fa fa-tachometer fa-fw fa-lg"></i>&nbsp;
+      Dashboard
+    </div>
+    <div class="panel-body">
+      <p>1.&nbsp; The dashboard shows you your group's most important information at a glance.</p>
+      <p>2.&nbsp; You can click the title bar of each task and meeting section to go directly to that area.</p>
+      <p>3.&nbsp; The two lowest sections keep you up to date with changes and improvements to eConvenor.</p>
+    </div>
+    <div class="panel-heading">
+	  <i class="fa fa-comments fa-fw fa-lg"></i>&nbsp;
+      Meetings
+    </div>
+    <div class="panel-body">
+      <p><i><b>New meeting (menu item)</b></i></p>
+      <p>1.&nbsp; This takes you to a page to set up a new meeting so that you can then move on to create an agenda.
+      <p>2.&nbsp; Fill in the details of the meeting and click 'save meeting'. You will then be taken to the  <i>Create agenda</i>page.</p>
+      <p><i><b>Current meetings (menu item)</b></i></p>
+      <p>1.&nbsp; This takes you to a page showing the meetings which need to be worked on.
+      <p>2.&nbsp; Click the red button to work on the next task for a meeting on this page.
+      <p>3.&nbsp; Click the grey button to see the other things you can do with that meeting.
+      <p><i><b>Archived meetings (menu item)</b></i></p>
+      <p>1.&nbsp; Once you've sent the minutes for a meeting it is automatically archived. You can find it through this menu item.</p>
+      <p>2.&nbsp; The agendas and minutes of archived meetings can be viewed by using the red buttons.</p>
+      <p>3.&nbsp; If you need to change agenda or minutes of an archived meeting, you must un-archive it using the grey button. Un-archived meetings can be found under the <i>Current meetings</i> menu item.</p>
+      <p><i><b>Create agenda (page)</b></i></p>
+      <p>1.&nbsp; Click on an item under the <i>Navigation toolbar</i> on the right of the screen to go to it.</p>
+      <p>2.&nbsp; Change the order of agenda items by dragging them in the <i>Navigation toolbar</i>.</p>
+      <p>3.&nbsp; Add an agenda item with the <i>Add an item</i> button in the <i>Actions toolbar</i>.</p>
+      <p>4.&nbsp; Save your changes with the <i>Save changes</i> button in the <i>Actions toolbar</i>. Note tht all data on this page is automatically saved every 60 seconds anyway.</p>
+      <p>5. When you are ready to send the agenda, click the <i>Preview and send</i> button in the <i>Actions toolbar</i>. This will take you to the <i>Review and send agenda</i> page.</p>
+      <p><i><b>Review and send agenda (page)</b></i></p>
+      <p>1.&nbsp; This page shows you exactly what your agenda will look like when it is sent out.</p>
+      <p>2.&nbsp; Click on an page under the <i>Navigation toolbar</i> on the right of the screen to go to it.</p>
+      <p>3.&nbsp; Click on <i>Zoom in</i> or <i>Zoom out</i> under the <i>Actions toolbar</i> to make the agenda preview larger or smaller.</p>
+      <p>4.&nbsp; Click on <i>Make changes</i> under the <i>Actions toolbar</i> to return to the <i>Create agenda</i> page and edit the agenda.</p>
+      <p>5.&nbsp; Click on <i>Send later</i> under the <i>Actions toolbar</i> to go to the dashboard and save the agenda in its current state.</p>
+      <p>6.&nbsp; Click on <i>Open in PDF format</i> under the <i>Actions toolbar</i> to open a PDF file of the agenda in its current state. This is useful if you'd like to read the document with text-to-speech software.</p>
+      <p>7. To send out the agenda, click on <i>To all participants</i> or <i>To selected participants</i> under the <i>Send agenda</i> toolbar and follow the prompts. You will receive a success message when the agenda has sent.</p>
+      <p><i><b>Create minutes (page)</b></i></p>
+      <p>1.&nbsp; Click on an item under the <i>Navigation toolbar</i> on the right of the screen to go to it.</p>
+      <p>2.&nbsp; Add a minutes item with the <i>Add an item</i> button in the <i>Actions toolbar</i>. Note that unlike adding an item for an agenda, new minutes items appear at the bottom of the minutes and can't be re-ordered.</p>
+      <p>3.&nbsp; For each decision which is made, click the <i>Add decision</i> button for that item, and fill the details of the decision into the field that appears.</p>
+      <p>4.&nbsp; For each task assigned to a participant, click the <i>Add task</i> button for that item, and fill the details of the task into the fields which appear.</p>            
+      <p>5.&nbsp; Save your changes with the <i>Save changes</i> button in the <i>Actions toolbar</i>. Note tht all data on this page is automatically saved every 60 seconds anyway.</p>
+      <p>6. When you are ready to send the minutes, click the <i>Preview and send</i> button in the <i>Actions toolbar</i>. This will take you to the <i>Review and send minutes</i> page.</p>
+      <p><i><b>Review and send minutes (page)</b></i></p>
+      <p>1.&nbsp; This page shows you exactly what your minutes will look like when they are sent out.</p>
+      <p>2.&nbsp; Click on an page under the <i>Navigation toolbar</i> on the right of the screen to go to it.</p>
+      <p>3.&nbsp; Click on <i>Zoom in</i> or <i>Zoom out</i> under the <i>Actions toolbar</i> to make the minutes preview larger or smaller.</p>
+      <p>4.&nbsp; Click on <i>Make changes</i> under the <i>Actions toolbar</i> to return to the <i>Create minutes</i> page and edit the minutes.</p>
+      <p>5.&nbsp; Click on <i>Send later</i> under the <i>Actions toolbar</i> to go to the dashboard and save the minutes in their current state.</p>
+      <p>6.&nbsp; Click on <i>Open in PDF format</i> under the <i>Actions toolbar</i> to open a PDF file of the minutes in their current state. This is useful if you'd like to read the document with text-to-speech software.</p>
+      <p>7. To send out the minutes, click on <i>To all participants</i> or <i>To selected participants</i> under the <i>Send minutes</i> toolbar and follow the prompts. You will receive a success message when the minutes have been sent.</p>
+    </div>
+
+  </div><!-- /.panel -->  
+</div><!-- /.col -->
+
+{% endblock content %}
+

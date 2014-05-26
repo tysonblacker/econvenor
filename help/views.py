@@ -13,15 +13,11 @@ def quick_start_guide(request):
 
 
 def user_guide(request):
-    MARKDOWN_PATH = set_path('help/markdown/',
-        '/home/econvenor/webapps/econvenor/econvenor/help/markdown/')
-    page_content = convert_markdown_to_html(MARKDOWN_PATH + 'user_guide.mkd')
 
-    menu = {'parent': 'help'}            	
-    return render(request, 'markdown_template.html', {
+    menu = {'parent': 'help'}            	         
+    return render(request, 'user_guide.html', {
                   'menu': menu,
-                  'page_content': page_content,
-                  })
+    })
 
 
 def faqs(request):
