@@ -442,6 +442,10 @@ body {
   background-color: #ffffff;
 }
 
+.panel-help {
+  margin: 0 0 0 0;
+}
+
 .panel-body-light {
   background-color: #ffffff;
 }
