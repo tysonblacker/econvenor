@@ -1,0 +1,185 @@
+{% extends "app_base.html" %}
+{% load setclass %}
+
+{% block content %}
+
+<div class="col-sm-10 col-md-10 col-lg-8 no-toolbar">
+  <div class="panel panel-primary panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-list-alt fa-fw fa-lg"></i>&nbsp;
+	  Frequently Asked Questions
+    </div>
+  </div>
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      1.&nbsp; Can more than one person convene a particular group?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>Not at the moment, but it will be possible soon.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>At the moment, only one eConvenor account can convene each group. Setting up eConvenor so that multiple people can convene a group is something that we will do as soon as we have time, hopefully in June or July 2014.</p>
+      <p>In the meantime, if you want more than one person to be able to convene the one group, you'll have to share the login details of the account amongst yourselves.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      2.&nbsp; Can a person convene more than one group?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>Not at the moment, but it will be possible soon.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>At the moment, an eConvenor account can only convene one group. Setting up eConvenor so that each account can convene multiple groups is something that we will do as soon as we have time, hopefully in June or July 2014. We'll do this at the same time as we configure eConvenor to allow multiple accounts to convene one group.</p>
+      <p>The only way for one person to convene multiple groups with eConvenor at the moment is to set up a seperate account for each group. Note that each account requires a different email address.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      3.&nbsp; Does each participant get their own eConvenor account?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>No, and that's a good thing for many groups.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>eConvenor is a tool which is used by the person or people who convene a group, not by the whole group. It pushes information from the convenor out to the participants by email, rather than relying on participants coming to get that information by logging in to (yet another) web service. For the groups we had in mind when building eConvenor, it would be a bit much to expect every participant to access eConvenor to check for meeting documents and review their tasks every day or two.</p>
+      <p>Information flows from eConvenor <i>to</i> the group's participants in the form of agendas, minutes and task reminders. The only information which eConvenor needs <i>from</i> participants is to be told when they have completed a task assigned to them. At the moment, participants provide this information directly to the group's convenor, and that person enters it into eConvenor. In the future, participants will be able to notify eConvenor directly when they have completed a task, but they still won't need an account to do that -- they will probably do it by clicking a link in a task reminder email.</p>
+      <p>If you're looking for a tool which every member of your group would log in to every day or two, this could be an indication that you need something a bit different to eConvenor. You might be after a tool with more sophisticated task/project management functionality, or a tool to help your group make decisions without having meetings. If you have a look at other web services, you might find something which suits your needs better than eConvenor does.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      4.&nbsp; Can one task be assigned to multiple participants?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>No. This can cause confusion.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>When we were designing eConvenor, we considered allowing one task to be assigned to multiple people. We decided not to because in our experience this can result in every person it is assigned to leaving it for one of the other people it is assigned to to do -- then no one actually does it.</p>
+      <p>We thought that if each task could only be assigned to one person, then it would always be clear who was responsible for it. That person could never assume that someone else might do it.</p>
+      <p>In the future, we plan to enable a task to be assigned to one participant who would have primary responsibility for it, and allow other participants to be added to the task as that helpers for the participant who has primary responsibility.</p>
+      <p>At the moment, you can create an identical task for each participant if multiple participants all need to work on the same task.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      5.&nbsp; How do I stop automatic email reminders being sent to a particular participant?
+    </div>
+    <div class="panel-body">
+      <p>1.&nbsp; Choose <i>Participants > Manage participants</i> from the menu on the right side of the screen.</p>
+      <p>2.&nbsp; Click on the name of the participant you want to stop sending reminders to.</p>
+      <p>3.&nbsp; Click the red button to edit their details.</p>
+      <p>4.&nbsp; Un-check the checkbox labled "Automatically email reminders about nearly-due and overdue tasks (recommended)".</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      6.&nbsp; How does eConvenor make money?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>eConvenor isn't supposed to make money.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>eConvenor is a tool made by activists to help other activists. Money is not a motivation or a consideration.</p>
+      <p>Like everything though, eConvenor has some operating costs, so we ask better funded groups to contribute financially if they can, and we require a financial contribution from political parties and trade unions.</p>
+      <p>Most groups who use eConvenor will have a tiny budget, or no budget at all. These are the groups we had in mind in building eConvenor, and they should eConvenor for free.</p>
+      <p>eConvenor will never make a profit. All money which we receive for eConvenor will go back into eConvenor -- both into keeping it running and improving it.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      7.&nbsp; Is the data in my eConvenor account secure?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>It's as secure as we can make it.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>Firstly, there is no such thing as perfect security -- hackers routinely steal data from well-resourced targets such as huge corporations and governments. We do our best to keep eConvenor secure, but we can't give any guarantees.</p>
+      <p>Broadly speaking, there are three types of security which you need to consider with regard to data held in eConvenor -- security against hackers, security against government agencies and security against accidental loss.</p>
+      <p>Hackers - eConvenor is built on the Django. Django is a large, mature web application framework which has had plenty of time to get the underlying security right. eConvenor is hosted by Webfaction in the UK. Webfaction are a Platform as a Service (PaaS) provider who make sure that the server which eConvenor runs on is up-to-date and well maintained. eConvenor shouldn't be an easy target for hackers.</p>
+      <p>Goernment agencies - eConvenor is based in Melbourne, Australia, and runs from servers in the UK. We will only hand data over to a government agency if we are forced to by a *valid* Australian or UK court order, and even then we'll fight against it as hard as possible.</p>
+      <p>Accidental loss - We keep multiple backups of your data on our UK server, and multiple backups of your data on our machines in Australia. The possibility of accidental loss of data is remote. Also, eConvernor emails you copies of your agendas and minutes, so you also have copies of most of the data which you store in eConvenor.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      8.&nbsp; Can I confidently store sensitive data in eConvenor?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>Yes, but be sensible.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>eConvenor's Terms and Conditions require us to protect your data and keep it confidential. The Terms and Conditions form a contract with you which we are bound by and we take our responsibilities under them very seriously. Any data that you'd trust, for example, to Google Drive or Dropbox will be treated just as confidentally by eConvenor.</p>
+      <p>Remember though, that if your data is very sensitive, you should not be trusting it to *any* online service. Very sensitive data should be encrypted and stored on computers and storage media which you own and can keep physically secure.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      9.&nbsp; Is the data in my eConvenor account shared with third parties?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>No.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>We will not voluntarily give/transfer/sell/whatever your data to anyone for any reason.</p>
+      <p>If we are pressured to hand over data by a government agency, we will resist vigourously, but if we are faced with a *valid* Australian or UK court order (eConvenor is based in Australia and runs on servers in the UK), we will comply with it.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      10.&nbsp; How can I know that eConvenor wasn't set up to spy on activist groups?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>Sadly, you can't.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>We don't like it, but we have to say it: setting up a service like eConvenor would be a good way for an intelligence service (or services) to spy on activist groups.</p>
+      <p>Although we know we're not spies, cops, or anthing of that nature, there's nothing we can do or say that can prove that to you. That said, you can't know whether any other web service might be spying on you, and we know that services like Google and Facebook <i>are</i>.</p>
+      <p>With all data your group puts online, whether with eConvenor or any other web service, ask yourself if it would be a problem if government agencies saw it. For most groups, the answer to that question will be no most of the time. When the answer is yes though, keep that data off the internet unless you're encrypting it with a strong passphrase which no one outside your group knows.</p>
+      <p>With a bit of luck one day you'll meet us. Then you'll probably realise that it's quite unlikely we're cops or spies</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      11.&nbsp; Who is behind eConvenor?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>Two Australian activists.
+.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>eConvenor was started by two activists from Melbourne, Australia -- Keira and Sky.</p>
+      <p>For a few decades we've seen how campaigns and groups struggle to be organised and get things done efficiently. One day in late 2012 we realised that a lot of the work of convening a group could be done by a computer, so although we don't have IT backgrounds, we decided to try an make a "virtual convenor". eConvenor is the result.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      12.&nbsp; Can I get involved in the eConvenor project?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>We're looking for people to work on eConvenor with us.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>eConvenor has the potential to be a great tool for activists around the world, and it needs a lot of work for it to realise that potential. We are very keen for people to work on it with us.</p>
+      <p>eConvenor is a very rewarding project to get involved in. It has clear goals, high standards, is well organised and produces tangible results. It's coordinated by nice people who are good to work with.</p>
+      <p>To work on eConvenor you must be sensible, focused, good at cooperating with other people and have good politics.</p>
+      <p>We are looking specifically for people with skills in coding (Python/Django), web development (HTML/CSS/JS), web application security, graphic design and writing/communications. There are also always miscellaneous tasks which need doing, and the only pre-requisite for working on them is an ability to take some initiative and solve problems. If you're interested, please email us!</p>
+      <p>You probably realised this already, but just to be clear: eConvenor does not offer paid positions. It is a volunteer-run project.</p>
+    </div>
+  </div><!-- /.panel -->
+</div><!-- /.col -->
+
+{% endblock content %}
+

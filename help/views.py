@@ -21,15 +21,11 @@ def user_guide(request):
 
 
 def faqs(request):
-    MARKDOWN_PATH = set_path('help/markdown/',
-        '/home/econvenor/webapps/econvenor/econvenor/help/markdown/')
-    page_content = convert_markdown_to_html(MARKDOWN_PATH + 'faqs.mkd')
 
-    menu = {'parent': 'help'}            	
-    return render(request, 'markdown_template.html', {
+    menu = {'parent': 'help'}            	         
+    return render(request, 'faqs.html', {
                   'menu': menu,
-                  'page_content': page_content
-                  })
+    })
 
 
 def ask_question(request):
