@@ -438,6 +438,10 @@ body {
   overflow-y: auto;
 }
 
+.panel-help .panel-body {
+  background-color: #ffffff;
+}
+
 .panel-body-light {
   background-color: #ffffff;
 }
