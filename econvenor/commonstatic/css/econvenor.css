@@ -705,3 +705,23 @@ background-color: #000000;
 opacity: 0.80;
 }
 
+/* TIPS
+-------------------------------------------------- */
+
+.tip-box {
+  position: absolute;
+  left:20px;
+  bottom:20px;
+  right:20px;
+  height:20%;
+}
+
+.tip-box .panel-heading {
+  color: #aaaaaa;
+}
+
+.tip-box .panel-body {
+  color: #333333;
+  background-color: #dddddd;
+}
+
