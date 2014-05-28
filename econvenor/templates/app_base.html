@@ -270,12 +270,12 @@
           </ul>
           <div class="tip-box panel panel-default panel-dashboard">
             <div class="panel-heading">
-              <span class="tip-heading">Context-specific tip #1</span>
+              <span id="tip_heading"></span>
               <i class="fa fa-chevron-circle-right pull-right"></i>
               <i class="fa fa-chevron-circle-left pull-right"></i>
             </div>
             <div class="panel-body">
-              <span class="tip-body">This feature will be active by May 29th.</span>
+              <span id="tip_body"></span>
             </div>
           </div> 
         
@@ -319,6 +319,15 @@
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->        
+
+      <div class="tip-content fade">
+        {% ifequal menu.parent 'dashboard' %}
+          <span id="tip_area" type="testing">Dashboard</span>
+          <span id="tip_body_1">This is the text of the first dashboard tip.</span>
+          <span id="tip_body_2">This is the text of the second dashboard tip.</span>
+          <span id="tip_body_3">This is the text of the third dashboard tip.</span>
+        {% endifequal %}
+      </div><!-- /.tip-content -->
 
     </div><!-- /.container-fluid -->
 

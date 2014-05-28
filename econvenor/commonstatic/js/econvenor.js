@@ -325,4 +325,58 @@ $(function() {
 });
 
 
+/* Manage tip box in sidebar
+-------------------------------------------------- */
+
+function renderTip(tip_number) {
+  var tip_area = $("#tip_area").html();
+  var tip_id = "#tip_body_" + tip_number;
+  var tip_body = $(tip_id).html();
+  var tip_heading = tip_area + ' tip #' + tip_number;
+  $("#tip_heading").html(tip_heading);
+  $("#tip_body").html(tip_body);
+};
+
+function showNextTip() {
+  var tip_heading = $("#tip_heading").html();
+  if ( tip_heading.length ) {
+    var current_tip_number = parseInt(tip_heading.split("#")[1]);
+    var next_tip_number = current_tip_number + 1;
+    var next_tip_id = "#tip_body_" + next_tip_number;
+    var next_tip_body = $(next_tip_id).html();
+    if ( !next_tip_body ) {
+      next_tip_number = 1;
+    };
+  } else {
+    var next_tip_number = 1;
+  };
+  renderTip(next_tip_number);
+};
+
+function showPreviousTip() {
+  var tip_heading = $("#tip_heading").html();
+  var current_tip_number = parseInt(tip_heading.split("#")[1]);
+  var previous_tip_number = current_tip_number - 1;
+  if ( previous_tip_number < 1 ) {
+    var previous_tip_number = 1;
+  };
+  renderTip(previous_tip_number);
+};
+
+$("#next_tip").click(function jumpToNextTip() {
+    clearInterval(tip_interval);
+    showNextTip();
+    tip_interval = setInterval("showNextTip()", 2 * 1000);
+});
+
+$("#previous_tip").click(function jumpToPreviousTip() {
+    clearInterval(tip_interval);
+    showPreviousTip();
+    tip_interval = setInterval("showNextTip()", 2 * 1000);
+});
+
+$(function initialiseTipBox() {
+  showNextTip();
+  tip_interval = setInterval("showNextTip()", 2 * 1000);
+});
 
