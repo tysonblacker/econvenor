@@ -332,7 +332,7 @@ function renderTip(tip_number) {
   var tip_area = $("#tip_area").html();
   var tip_id = "#tip_body_" + tip_number;
   var tip_body = $(tip_id).html();
-  var tip_heading = tip_area + ' tip #' + tip_number;
+  var tip_heading = tip_area + ': Tip #' + tip_number;
   $("#tip_heading").html(tip_heading);
   $("#tip_body").html(tip_body);
 };

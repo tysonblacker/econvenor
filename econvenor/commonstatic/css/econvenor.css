@@ -343,6 +343,21 @@ body {
   margin: -6px -13px 0px 0px;
 }
 
+.btn-tips {
+  background-color: #dddddd;
+  color: #555555;
+  border: 0px;
+  padding: 0 0 6px 0;
+}
+
+.btn-tips + .btn-tips {
+  margin-left: 3px;
+}
+.btn-tips:hover,
+.btn-tips:focus {
+  background-color: #dddddd;
+  color: #777777;
+}
 
 /* WELLS
 -------------------------------------------------- */
