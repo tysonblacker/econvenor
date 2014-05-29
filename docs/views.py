@@ -86,7 +86,9 @@ def agenda_edit(request, meeting_id):
     
     templates = get_templates(request_type, doc_type)
     responses = []
-    menu = {'parent': 'meetings'}
+    menu = {'parent': 'meetings',
+            'child': 'current_meetings',
+            'tips': 'create_agenda'}
     for template in templates:
         part_response = render(request, template, {
                                'menu': menu,
@@ -131,7 +133,9 @@ def agenda_distribute(request, meeting_id):
                 return HttpResponseRedirect(reverse('agenda-sent',
                                                     args=(meeting_id,)))
 
-    menu = {'parent': 'meetings'}            	
+    menu = {'parent': 'meetings',
+            'child': 'current_meetings',
+            'tips': 'review_agenda'}
     return render(request, 'document_distribute.html', {
                   'menu': menu,
                   'doc_type': doc_type,
@@ -271,7 +275,9 @@ def minutes_edit(request, meeting_id):
                                         label_suffix='')
     templates = get_templates(request_type, 'minutes')
     responses = []
-    menu = {'parent': 'meetings'}
+    menu = {'parent': 'meetings',
+            'child': 'current_meetings',
+            'tips': 'create_minutes'}
     for template in templates:
         response = render(request, template, {
                           'menu': menu,
@@ -318,7 +324,9 @@ def minutes_distribute(request, meeting_id):
                 return HttpResponseRedirect(reverse('minutes-sent',
                                                     args=(meeting_id,)))
 
-    menu = {'parent': 'meetings'}            	
+    menu = {'parent': 'meetings',
+            'child': 'current_meetings',
+            'tips': 'review_minutes'}
     return render(request, 'document_distribute.html', {
                   'menu': menu,
                   'doc_type': doc_type,

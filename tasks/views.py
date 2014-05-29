@@ -28,7 +28,10 @@ def task_list(request):
             tasks = Task.lists.overdue_tasks().filter(group=group)
             selection = 'overdue'
 
-    menu = {'parent': 'tasks', 'child': 'manage_tasks'} 
+    menu = {'parent': 'tasks',
+            'child': 'manage_tasks',
+            'tips': 'manage_tasks'
+            }
     return render(request, 'task_list.html', {
 	              'menu': menu,
 	              'tasks': tasks,
@@ -84,7 +87,10 @@ def task_edit(request, task_id):
     else:
         form = EditTaskForm(group, instance=task, label_suffix='')
 
-    menu = {'parent': 'tasks'}        		
+    menu = {'parent': 'tasks',
+            'child': 'manage_tasks',
+            'tips': 'edit_task'
+            }
     return render(request, 'task_edit.html', {
 	              'menu': menu,
                   'form': form,

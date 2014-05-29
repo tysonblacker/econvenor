@@ -33,7 +33,7 @@ def dashboard(request):
                      'Deadline',
                      )
 
-    menu = {'parent': 'dashboard'}        
+    menu = {'parent': 'dashboard', 'tips': 'dashboard'}        
     return render(request, 'dashboard.html', {
                   'menu': menu,
                   'group': group,

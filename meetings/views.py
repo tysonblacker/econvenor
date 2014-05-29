@@ -31,7 +31,10 @@ def meeting_add(request):
     else:
         form = NewMeetingForm(group, label_suffix='')
 
-    menu = {'parent': 'meetings', 'child': 'new_meeting'}            
+    menu = {'parent': 'meetings',
+            'child': 'new_meeting',
+            'tips': 'new_meeting'
+            }            
     return render(request, 'meeting_add.html', {
                   'menu': menu,
                   'form': form,
@@ -60,7 +63,10 @@ def meeting_list_current(request):
             archive_meeting(request, group)
         meetings = Meeting.lists.current_meetings().filter(group=group)
                         
-    menu = {'parent': 'meetings', 'child': 'current_meetings'}    
+    menu = {'parent': 'meetings',
+            'child': 'current_meetings',
+            'tips': 'current_meetings'
+            }
     return render(request, 'meeting_list_current.html', {
                   'menu': menu,
                   'meetings': meetings,
@@ -91,7 +97,10 @@ def meeting_list_archive(request):
             unarchive_meeting(request, group)
         meetings = Meeting.lists.archived_meetings().filter(group=group)
                         
-    menu = {'parent': 'meetings', 'child': 'archived_meetings'}    
+    menu = {'parent': 'meetings',
+            'child': 'archived_meetings',
+            'tips': 'archived_meetings'
+            }   
     return render(request, 'meeting_list_archive.html', {
                   'menu': menu,
                   'meetings': meetings,

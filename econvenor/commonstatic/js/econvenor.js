@@ -339,13 +339,17 @@ function renderTip(tip_number) {
 
 function showNextTip() {
   var tip_heading = $("#tip_heading").html();
-  if ( tip_heading.length ) {
-    var current_tip_number = parseInt(tip_heading.split("#")[1]);
-    var next_tip_number = current_tip_number + 1;
-    var next_tip_id = "#tip_body_" + next_tip_number;
-    var next_tip_body = $(next_tip_id).html();
-    if ( !next_tip_body ) {
-      next_tip_number = 1;
+  if (tip_heading) {
+    if ( tip_heading.length ) {
+      var current_tip_number = parseInt(tip_heading.split("#")[1]);
+      var next_tip_number = current_tip_number + 1;
+      var next_tip_id = "#tip_body_" + next_tip_number;
+      var next_tip_body = $(next_tip_id).html();
+      if ( !next_tip_body ) {
+        next_tip_number = 1;
+      };
+    } else {
+      var next_tip_number = 1;
     };
   } else {
     var next_tip_number = 1;
@@ -363,20 +367,24 @@ function showPreviousTip() {
   renderTip(previous_tip_number);
 };
 
+function setTipInterval() {
+  tip_interval = setInterval("showNextTip()", 15 * 1000);
+};
+
 $("#next_tip").click(function jumpToNextTip() {
     clearInterval(tip_interval);
     showNextTip();
-    tip_interval = setInterval("showNextTip()", 2 * 1000);
+    setTipInterval();
 });
 
 $("#previous_tip").click(function jumpToPreviousTip() {
     clearInterval(tip_interval);
     showPreviousTip();
-    tip_interval = setInterval("showNextTip()", 2 * 1000);
+    setTipInterval();
 });
 
 $(function initialiseTipBox() {
   showNextTip();
-  tip_interval = setInterval("showNextTip()", 2 * 1000);
+  setTipInterval();
 });
 

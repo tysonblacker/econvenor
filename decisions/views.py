@@ -17,7 +17,10 @@ def decision_list(request):
                       'Decision',
                       )
 
-    menu = {'parent': 'decisions', 'child': 'view_decisions'}    
+    menu = {'parent': 'decisions',
+            'child': 'view_decisions',
+            'tips': 'decisions'
+            }    
     return render(request, 'decision_list.html', {
                   'menu': menu,
                   'decisions': decisions,

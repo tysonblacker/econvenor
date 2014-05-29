@@ -268,17 +268,28 @@
             </li>
                                 
           </ul>
-          <div class="tip-box panel panel-default panel-dashboard">
-            <div class="panel-heading">
-              <span id="tip_heading"></span>
-              <i class="fa fa-chevron-circle-right pull-right"></i>
-              <i class="fa fa-chevron-circle-left pull-right"></i>
-            </div>
-            <div class="panel-body">
-              <span id="tip_body"></span>
-            </div>
-          </div> 
-        
+          {% if menu.tips %}
+            <div class="tip-box panel panel-default panel-dashboard">
+              <div class="panel-heading clearfix">
+                <span id="tip_heading"></span>
+              </div>
+              <div class="panel-body">
+                <div class="text-center">
+                  <button id="previous_tip" 
+                    class="btn btn-default btn-tips"
+                    title="Previous tip" type="button">
+                    <i class="fa fa-chevron-circle-left"></i>
+                  </button>
+                  <button id="next_tip" 
+                    class="btn btn-default btn-tips"
+                    title="Next tip" type="button">
+                    <i class="fa fa-chevron-circle-right"></i>
+                  </button>
+                </div>
+                <span id="tip_body"></span>
+              </div>
+            </div> 
+          {% endif %}        
         </div><!-- /.sidebar -->
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 content"
@@ -321,12 +332,95 @@
       </div><!-- /.modal -->        
 
       <div class="tip-content fade">
-        {% ifequal menu.parent 'dashboard' %}
-          <span id="tip_area" type="testing">Dashboard</span>
-          <span id="tip_body_1">This is the text of the first dashboard tip.</span>
-          <span id="tip_body_2">This is the text of the second dashboard tip.</span>
-          <span id="tip_body_3">This is the text of the third dashboard tip.</span>
+        {% ifequal menu.tips 'dashboard' %}
+          <span id="tip_area">Dashboard</span>
+          <span id="tip_body_1">eConvenor works best when you make your browser window as large as possible.</span>
+          <span id="tip_body_2">Click the coloured bar at the top of each <i>Dashboard</i> box to go directly to that section.</span>
+          <span id="tip_body_3">If you're wondering how anything works, look up the <i>User Guide</i> and <i>FAQs</i> under the <i>Help</i> menu.</span>
+          <span id="tip_body_4">Found a bug? Please let us know so we can fix it. You can report bugs through the <i>Feedback</i> menu.</span>
         {% endifequal %}
+        {% ifequal menu.tips 'decisions' %}
+          <span id="tip_area">View decisions</span>
+          <span id="tip_body_1">Decisions only appear here after the minutes of the meeting in which they were made are sent out.</span>
+          <span id="tip_body_2">When you make a decision in a meeting, click the <i>Add decision</i> button and enter it in the box which appears.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'create_agenda' %}
+          <span id="tip_area">Create agenda</span>
+          <span id="tip_body_1">If you set a time limit for all agenda items, eConvenor will calculate the meeting's estimated end time.</span>
+          <span id="tip_body_2">Your changes on this page are automatically saved every 60 seconds.</span>
+          <span id="tip_body_3">If you run out of space in the <i>Location</i> box, put additional location information in the <i>Instructions</i> box.</span>
+          <span id="tip_body_4">It's good practice to select a person to explain substantial agenda items. Do this using the <i>To be explained by</i> box.</span>
+          <span id="tip_body_5">Navigate straight to an agenda item by clicking on it in the <i>Navigation toolbar</i>.</span>
+          <span id="tip_body_6">Re-order agenda items by dragging them in the <i>Navigation toolbar</i>.</span>
+          <span id="tip_body_7">Delete an agenda item by clicking the round "x" button on the right hand side of its title bar.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'review_agenda' %}
+          <span id="tip_area">Review agenda</span>
+          <span id="tip_body_1">This page shows you exactly what the agenda will look like when it is sent out.</span>
+          <span id="tip_body_2">To make changes to what you see, click the <i>Make changes</i> button under the <i>Actions toolbar</i>.</span>
+          <span id="tip_body_3">If you'd like to review the agenda with text-to-speech software, click the <i>Open in PDF format</i> button to get a PDF copy.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'create_minutes' %}
+          <span id="tip_area">Create minutes</span>
+          <span id="tip_body_1">To add the group's existing tasks to the end of the minutes, click the <i>add a summary of existing tasks...</i> box in <i>Meeting details</i>.</span>
+          <span id="tip_body_2">Your changes on this page are automatically saved every 60 seconds.</span>
+          <span id="tip_body_3">When the group makes a decision, click the <i>Add decision</i> button and enter the details in the box which appears.</span>
+          <span id="tip_body_4">When a task is assigned to someone, click the <i>Add task</i> button and enter the details in the boxes which appear.</span>
+          <span id="tip_body_5">Navigate straight to a minutes item by clicking on it in the <i>Navigation toolbar</i>.</span>
+          <span id="tip_body_6">It's best practice to keep the <i>Meeting notes</i> as brief as possible, and focus on recording tasks and decisions.</span>
+          <span id="tip_body_7">Items which come from the agenda can't be deleted in the minutes. Just enter "Not discussed" in the <i>Meeting notes</i> if necessary.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'review_minutes' %}
+          <span id="tip_area">Review minutes</span>
+          <span id="tip_body_1">This page shows you exactly what the minutes will look like when they are sent out.</span>
+          <span id="tip_body_2">To make changes to what you see, click the <i>Make changes</i> button under the <i>Actions toolbar</i>.</span>
+          <span id="tip_body_3">If you'd like to review the minutes with text-to-speech software, click the <i>Open in PDF format</i> button to get a PDF copy.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'new_meeting' %}
+          <span id="tip_area">New meeting</span>
+          <span id="tip_body_1">Once you've added a new meeting, you can make its agenda.</span>
+          <span id="tip_body_2">If you run out of space in the <i>Location</i> box, put additional location information in the <i>Instructions</i> box.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'current_meetings' %}
+          <span id="tip_area">Current meetings</span>
+          <span id="tip_body_1">The red button shows the next task for each meeting.</span>
+          <span id="tip_body_2">If you don't see the meeting you are looking for in this list, try looking under <i>Archived meetings</i>.</span>
+          <span id="tip_body_3">Meetings are automatically archived once their minutes are sent out.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'archived_meetings' %}
+          <span id="tip_area">Archived meetings</span>
+          <span id="tip_body_1">Meetings are automatically archived once their minutes are sent out.</span>
+          <span id="tip_body_2">To edit an archived meeting's agenda or minutes, first un-archive it via the <i>Other actions</i> button.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'manage_participants' %}
+          <span id="tip_area">Manage participants</span>
+          <span id="tip_body_1">Click on a participant to see their details and incomplete tasks.</span>
+          <span id="tip_body_2">eConvenor automatically emails participants a reminder about nearly-due and overdue tasks.</span>
+          <span id="tip_body_3">Use the <i>Filter options</i> to see only active participants, inactive participants or former participants.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'new_participant' %}
+          <span id="tip_area">New participant</span>
+          <span id="tip_body_1"><i>Given name</i> can be whatever you like: a real name, nickname, alias or <i>nom de guerre</i>.</span>
+          <span id="tip_body_2">Make sure the email address is correct. This is how eConvenor sends agendas, minutes and reminders to participants.</span>
+          <span id="tip_body_3">eConvenor automatically emails participants a reminder about nearly-due and overdue tasks.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'edit_participant' %}
+          <span id="tip_area">Edit participant</span>
+          <span id="tip_body_1"><i>Given name</i> can be whatever you like: a real name, nickname, alias or <i>nom de guerre</i>.</span>
+          <span id="tip_body_2">Make sure the email address is correct. This is how eConvenor sends agendas, minutes and reminders to participants.</span>
+          <span id="tip_body_3">eConvenor automatically emails participants a reminder about nearly-due and overdue tasks.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'manage_tasks' %}
+          <span id="tip_area">Manage tasks</span>
+          <span id="tip_body_1">Click on a task to see its details and edit it.</span>
+          <span id="tip_body_2">Use the <i>Filter options</i> to see only overdue tasks, incomplete tasks or completed tasks.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'edit_task' %}
+          <span id="tip_area">Edit task</span>
+          <span id="tip_body_1">When a task is complete, change its <i>Status</i> to <i>Completed</i>. This stops reminders about it being sent out.</span>
+          <span id="tip_body_2">You can assign a task to a different participant just by changing <i>Person responsible</i>.</span>
+        {% endifequal %}
+
       </div><!-- /.tip-content -->
 
     </div><!-- /.container-fluid -->

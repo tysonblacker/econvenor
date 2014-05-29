@@ -29,7 +29,10 @@ def participant_list(request):
             participants = Participant.lists.former().filter(group=group)
             selection = 'former'
 
-    menu = {'parent': 'participants', 'child': 'manage_participants'}   
+    menu = {'parent': 'participants',
+            'child': 'manage_participants',
+            'tips': 'manage_participants'
+            }
     return render(request, 'participant_list.html', {
 	              'menu': menu,
                   'participants': participants,
@@ -51,7 +54,10 @@ def participant_add(request):
     else:
         form = AddParticipantForm(group, label_suffix='')
 
-    menu = {'parent': 'participants', 'child': 'new_participant'}               
+    menu = {'parent': 'participants',
+            'child': 'new_participant',
+            'tips': 'new_participant'
+            }
     return render(request, 'participant_add.html', {
 	              'menu': menu,
                   'form': form,
@@ -81,7 +87,10 @@ def participant_edit(request, participant_id):
         form = EditParticipantForm(group, instance=participant,
                                    label_suffix='')
 
-    menu = {'parent': 'participants', 'child': 'manage_participants'}
+    menu = {'parent': 'participants',
+            'child': 'manage_participants',
+            'tips': 'edit_participant'
+            }
     return render(request, 'participant_edit.html', {
 	              'menu': menu,
                   'form': form,
