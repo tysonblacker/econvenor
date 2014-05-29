@@ -313,7 +313,7 @@ def create_details_table(meeting, doc_type, Document):
         if duration != 0:
             end_time = calculate_meeting_end_time(meeting).\
                        strftime("%I:%M %p").lstrip('0').lower() + \
-                       ' (approximately)'
+                       ' (estimated)'
         else:
             end_time = 'To be decided'
         location = insert_line_breaks(meeting.location_scheduled)
