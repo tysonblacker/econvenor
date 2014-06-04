@@ -9,8 +9,9 @@ from subprocess import call
 
 from django.conf import settings
 from django.core.files.base import ContentFile
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django.utils.text import slugify
 
 from reportlab.lib.colors import black, CMYKColor, white
@@ -884,8 +885,7 @@ def distribute_pdf(request, group, meeting, doc_type):
     if 'all_participants' in request.POST:
         participants = Participant.lists.active().filter(group=group)
         for participant in participants:
-            email = participant.email
-            recipients.append(email)
+            recipients.append(participant)
 
     # build recipients list if "all_participants" box is not checked
     else:
@@ -904,8 +904,7 @@ def distribute_pdf(request, group, meeting, doc_type):
         # create recipients list with email addresses
         for item in id_list:
             participant = Participant.objects.get(pk=item, group=group)
-            participant_email = participant.email
-            recipients.append(participant_email)
+            recipients.append(participant)
    
     # retrieve the contents of the temporary PDF
     base_file_name = get_base_file_name(request, group, meeting, doc_type)
@@ -941,31 +940,67 @@ def distribute_pdf(request, group, meeting, doc_type):
     elif doc_type == 'minutes':
         meeting.minutes_pdf.save(pdf_name, pdf, save=True)    
 
-    # set up the email fields
-    sender = 'eConvenor <noreply@econvenor.org>'
+    # Send out the document
+    group_name = group.name
+    convenor_name = group.users.get().first_name
+    convenor_email = convenor_name + ' <' + group.users.get().email + '>'
+    sender = convenor_name + ' via eConvenor <noreply@econvenor.org>'
+    bcc = ['mail@econvenor.org']
     if doc_type == 'agenda':
-        subject = group_name + ' Meeting ' + meeting.meeting_no +\
-                  ': Agenda for the meeting on ' + \
-                  meeting.date_scheduled.strftime("%d %B %Y")
-        body = 'The agenda for ' + group_name + ' Meeting ' + \
-               meeting.meeting_no + ' scheduled for ' + \
-               meeting.date_scheduled.strftime("%d %B %Y") + \
-               ' is attached.\n\nThis email was sent by eConvenor' + \
-               ' (beta version)'
-    elif doc_type == 'minutes':
-        subject = group_name + ' Meeting ' + meeting.meeting_no + \
-                  ': Minutes of the meeting on ' + \
+        subject = group_name + ': Agenda for the meeting on ' + \
+                      meeting.date_scheduled.strftime("%d %B %Y")
+        items = meeting.item_set.filter(group=group).order_by('item_no')
+        for participant in recipients:            
+            recipient_name = participant.first_name
+            recipient_email = participant.first_name + ' <' + participant.email + '>'
+            recipient = [recipient_email]    
+            context_dictionary = {'convenor_email': convenor_email,
+                                  'convenor_name': convenor_name,
+                                  'group_name': group_name,
+                                  'items': items,
+                                  'meeting': meeting,
+                                  'recipient_name': recipient_name,
+                                  }
+            text_content = render_to_string('email_docs_agenda.txt',
+                                            context_dictionary)
+            html_content = render_to_string('email_docs_agenda.html',
+                                            context_dictionary)
+            msg = EmailMultiAlternatives(subject, text_content, sender,
+                                         recipient, bcc,
+                                         headers = {'Reply-To': convenor_email}
+                                         )
+            msg.attach_alternative(html_content, "text/html")
+            msg.attach_file(pdf_name)
+            msg.send()
+    if doc_type == 'minutes':
+        subject = group_name + ': Minutes of the meeting on ' + \
                   meeting.date_actual.strftime("%d %B %Y")
-        body = 'The minutes of ' + group_name + ' Meeting ' + \
-               meeting.meeting_no + ' held on ' + \
-               meeting.date_scheduled.strftime("%d %B %Y") + \
-               ' are attached.\n\nThis email was sent by eConvenor' + \
-               ' (beta version)'
-
-    # email the agenda
-    email = EmailMessage(subject, body, sender, bcc=recipients)
-    email.attach_file(pdf_name)
-    email.send()
+        decisions = Decision.lists.ordered_decisions(). \
+                        filter(group=group, meeting=meeting)
+        tasks = Task.lists.all_tasks().filter(group=group, meeting=meeting)
+        for participant in recipients:            
+            recipient_name = participant.first_name
+            recipient_email = participant.first_name + ' <' + participant.email + '>'
+            recipient = [recipient_email]
+            context_dictionary = {'convenor_email': convenor_email,
+                                  'convenor_name': convenor_name,
+                                  'decisions': decisions,
+                                  'group_name': group_name,
+                                  'meeting': meeting,
+                                  'recipient_name': recipient_name,
+                                  'tasks': tasks,
+                                  }
+            text_content = render_to_string('email_docs_minutes.txt',
+                                            context_dictionary)
+            html_content = render_to_string('email_docs_minutes.html',
+                                            context_dictionary)
+            msg = EmailMultiAlternatives(subject, text_content, sender,
+                                         recipient, bcc,
+                                         headers = {'Reply-To': convenor_email}
+                                         )
+            msg.attach_alternative(html_content, "text/html")
+            msg.attach_file(pdf_name)
+            msg.send()
 
     #record the distribution of the document    
     distribution_record = find_or_create_distribution_record(group, meeting,

@@ -14,7 +14,8 @@ class DecisionManager(models.Manager):
             order_by('modified').reverse()
 
     def ordered_decisions(self):
-        return self.get_queryset().all().order_by('decision_no')
+        return self.get_queryset().all().\
+            order_by('item', 'decision_no')
 
 class Decision(TimeStampedModel):
 

@@ -1,0 +1,121 @@
+{% extends "email_docs_base_before_css_inlining.html" %}
+
+{% block title %}
+
+  {{ group_name }}: Agenda for the meeting on {{ meeting.date_scheduled|date:"M j" }}
+
+{% endblock title %}      
+
+
+{% block body %}
+
+  <tr>
+    <td class="bodycopy bodypadding" bgcolor="#ffffff">    
+      Hi {{ recipient_name }},<br/><br/>
+      The agenda for the {{ group_name }} meeting scheduled for {{ meeting.date_scheduled|date:"M j" }} is attached as a PDF document.<br/><br/>
+      Here's a quick overview of it.<br/>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="heading headingpadding" bgcolor="#ffffff">    
+      Meeting details
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <!--[if (gte mso 9)|(IE)]>
+        <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td>
+      <![endif]--> 
+      <table align="center" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td class="tablecopyleft leftcolumn" bgcolor="#ffffff">
+              Date:
+            </td>
+            <td class="tablecopyright" bgcolor="#ffffff">
+              {{ meeting.date_scheduled }}
+            </td>
+          </tr>
+          <tr>
+            <td class="tablecopyleft leftcolumnagenda" bgcolor="#ffffff">
+              Time:
+            </td>
+            <td class="tablecopyright" bgcolor="#ffffff">
+              {{ meeting.start_time_scheduled }}
+            </td>
+          </tr>
+          <tr>
+            <td class="tablecopyleft leftcolumnagenda" bgcolor="#ffffff">
+              Location:
+            </td>
+            <td class="tablecopyright" bgcolor="#ffffff">
+              {{ meeting.location_scheduled }}
+            </td>
+          </tr>
+          {% if meeting.instructions_scheduled %}
+            <tr>
+              <td class="tablecopyleft leftcolumnagenda" bgcolor="#ffffff">
+                Notes:
+              </td>
+              <td class="tablecopyright" bgcolor="#ffffff">
+                {{ meeting.instructions_scheduled }}
+              </td>
+            </tr>
+          {% endif %}
+        <!--[if (gte mso 9)|(IE)]>
+              </td>
+            </tr>
+          </table>
+        <![endif]-->
+      </table>
+    </td>
+  </tr>   
+  <tr>
+    <td class="heading headingpadding" bgcolor="#ffffff">    
+      <br/>
+      Agenda items
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <!--[if (gte mso 9)|(IE)]>
+        <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td>
+      <![endif]--> 
+      <table align="center" cellpadding="0" cellspacing="0" border="0">
+          {% for item in items %}
+          <tr>
+            <td class="tablecopyleft leftcolumnagenda" bgcolor="#ffffff">
+              Item {{ item.item_no }}.
+            </td>
+            <td class="tablecopyright" bgcolor="#ffffff">
+              {{ item.title }}
+            </td>
+          </tr>
+        {% endfor %}
+        <!--[if (gte mso 9)|(IE)]>
+              </td>
+            </tr>
+          </table>
+        <![endif]-->
+      </table>
+    </td>
+  </tr>   
+  <tr>
+    <td class="spacer20" bgcolor="#ffffff"></td>
+  </tr>
+  <tr>
+    <td class="bodycopy bodypadding" bgcolor="#ffffff">   
+      If you have any questions, you can contact {{ convenor_name }} by replying to this email.
+    </td>
+  </tr>
+  <tr>
+    <td class="footercopy footerpadding">
+      This email and the attached agenda were generated using eConvenor.
+    </td>
+  </tr>
+
+{% endblock body %}      

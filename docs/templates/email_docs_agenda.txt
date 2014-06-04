@@ -1,0 +1,23 @@
+Hi {{ recipient_name }},
+
+The agenda for the {{ group_name }} meeting scheduled for {{ meeting.date_scheduled|date:"M j" }} is attached as a PDF document.
+
+Here's a quick overview of it.
+
+Meeting details
+---------------
+
+Date:      {{ meeting.date_scheduled }}
+Time:      {{ meeting.start_time_scheduled }}
+Location:  {{ meeting.location_scheduled }}
+{% if meeting.instructions_scheduled %}Notes:     {{ meeting.instructions_scheduled }}
+{% endif %}
+Agenda items
+------------
+{% for item in items %}
+Item {{ item.item_no }}.  {{ item.title }}{% endfor %}
+
+If you have any questions, you can contact {{ convenor_name }} by replying to this email.
+
+*This email and the attached agenda were generated using eConvenor (www.econvenor.org).*
+

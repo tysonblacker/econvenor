@@ -1,0 +1,17 @@
+Hi {{ recipient_name }},
+
+The minutes for the {{ group_name }} meeting held on {{ meeting.date_actual|date:"M j" }} are attached as a PDF document.
+
+Here's a quick overview of the decisions and tasks from the meeting.
+
+Decisions
+---------
+{% if decisions %}{% for decision in decisions %}{{ decision.item.item_no }}.{{ decision.decision_no }}.  {{ decision.description }}{% endfor %}{% else %}None{% endif %}
+
+Tasks (ordered by deadline)
+---------------------------
+{% if tasks %}{% for task in tasks %}* {{ task.description }} ({{ task.participant }} / {{ task.deadline }}){% endfor %}{% else %}None{% endif %}
+
+If you have any questions, you can contact {{ convenor_name }} by replying to this email.
+
+*This email and the attached minutes were generated using eConvenor (www.econvenor.org).*

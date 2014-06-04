@@ -1,0 +1,112 @@
+{% extends "email_docs_base.html" %}
+
+{% block title %}
+
+  {{ group_name }}: Minutes for the meeting on {{ meeting.date_actual|date:"M j" }}
+
+{% endblock title %}      
+
+{% block body %}
+
+  <tr>
+    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">    
+      Hi {{ recipient_name }},<br/><br/>
+      The minutes for the {{ group_name }} meeting held on {{ meeting.date_actual|date:"M j" }} are attached as a PDF document.<br/><br/>
+      Here's a quick overview of the decisions and tasks from the meeting.<br/>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">    
+      Decisions
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <!--[if (gte mso 9)|(IE)]>
+        <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td>
+      <![endif]--> 
+      <table align="center" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+        {% if decisions %}
+          {% for decision in decisions %}
+            <tr>
+              <td class="tablecopyleft leftcolumndecisions" bgcolor="#ffffff" style="font-family: sans-serif;font-size: 16px;line-height: 22px;padding: 0 10px 10px 30px;vertical-align: top;color: #444444;width: 5%;">
+                {{ decision.item.item_no }}.{{ decision.decision_no }}.
+              </td>
+              <td class="tablecopyright" bgcolor="#ffffff" style="font-family: sans-serif;font-size: 16px;line-height: 22px;padding: 0 30px 10px 20px;vertical-align: top;color: #444444;">
+                {{ decision.description }}
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td class="tablecopyleft leftcolumndecisions" bgcolor="#ffffff" style="font-family: sans-serif;font-size: 16px;line-height: 22px;padding: 0 10px 10px 30px;vertical-align: top;color: #444444;width: 5%;">
+              None
+            </td>
+          </tr>
+        {% endif %}
+        <!--[if (gte mso 9)|(IE)]>
+              </td>
+            </tr>
+          </table>
+        <![endif]-->
+      </table>
+    </td>
+  </tr>   
+  <tr>
+    <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">    
+      <br/>
+      Tasks (ordered by deadline)
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <!--[if (gte mso 9)|(IE)]>
+        <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td>
+      <![endif]--> 
+      <table align="center" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+        {% if tasks %}
+          {% for task in tasks %}
+            <tr>
+              <td class="tablecopyleft leftcolumntasks" bgcolor="#ffffff" style="font-family: sans-serif;font-size: 16px;line-height: 22px;padding: 0 10px 10px 30px;vertical-align: top;color: #444444;width: 70%;">
+                {{ task.description }} ({{ task.participant }}).
+              </td>
+              <td class="tablecopydeadlines" bgcolor="#ffffff" style="font-family: sans-serif;font-size: 16px;line-height: 22px;padding: 0 30px 10px 20px;vertical-align: top;text-align: right;color: #444444;">
+                {{ task.deadline }}
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td class="tablecopyleft leftcolumndecisions" bgcolor="#ffffff" style="font-family: sans-serif;font-size: 16px;line-height: 22px;padding: 0 10px 10px 30px;vertical-align: top;color: #444444;width: 5%;">
+              None
+            </td>
+          </tr>
+        {% endif %}
+        <!--[if (gte mso 9)|(IE)]>
+              </td>
+            </tr>
+          </table>
+        <![endif]-->
+      </table>
+    </td>
+  </tr>   
+  <tr>
+    <td class="spacer20" bgcolor="#ffffff" style="padding: 20px 0 0 0;"></td>
+  </tr>
+  <tr>
+    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">   
+      If you have any questions, you can contact {{ convenor_name }} by replying to this email.
+    </td>
+  </tr>
+  <tr>
+    <td class="footercopy footerpadding" style="padding: 0 30px 25px 30px;font-family: sans-serif;font-size: 12px;line-height: 18px;text-align: center;color: #999999;">
+      This email and the attached minutes were generated using eConvenor.
+    </td>
+  </tr>
+
+{% endblock body %}
