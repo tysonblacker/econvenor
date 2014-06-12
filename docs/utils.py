@@ -468,14 +468,14 @@ def get_completed_tasks_list(group, meeting, doc_type):
                               filter(group=group).\
                               filter(completion_date__gt=previous_mtg_date).\
                               exclude(completion_date__gt=meeting_date).\
-                              order_by('deadline')                              
+                              order_by('completion_date')                              
     # Generate the completed task list if there is no previous meeting
     elif previous_mtg_date == None:
         # 1.Allow all tasks completed before the meeting date
         completed_task_list = Task.lists.completed_tasks().\
                               filter(group=group).\
                               filter(completion_date__lte=meeting_date).\
-                              order_by('deadline')                              
+                              order_by('completion_date')                              
     return completed_task_list
 
 
