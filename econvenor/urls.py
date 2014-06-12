@@ -15,6 +15,11 @@ urlpatterns = patterns('',
 	url(ADMIN_URL, include(admin.site.urls)),
 
 	url(r'^$', 'landing.views.index', name="index"),
+	url(r'^examples/example-agenda/$', 'landing.views.example_agenda',
+		name="example-agenda"),
+	url(r'^examples/example-minutes/$', 'landing.views.example_minutes',
+		name="example-minutes"),
+
 	url(r'^login/$', 'authentication.views.user_login', name="login"),
 	url(r'^logout/$', 'authentication.views.user_logout', name="logout"),
 

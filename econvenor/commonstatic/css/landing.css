@@ -156,6 +156,8 @@ body {
   background-color: #ff0066;
   border-color: #ff0066;
 }
+
+
 /* JUMBOTRONS
 -------------------------------------------------- */
 
@@ -191,10 +193,6 @@ body {
   height: 350px;
 }
 
-#hero h1 {
-  margin-bottom: 30px;
-}
-
 #hero h2 {
   color: #909090;
 }
@@ -220,11 +218,28 @@ body {
 }
 
 
+
+/* CAROUSELS
+-------------------------------------------------- */
+
+.carousel {
+}
+
+.carousel-frame {
+  background-image: url(../images/landing/carousel-frame-laptop.png);
+  background-position: center center;
+  width: 670px;
+  height: 443px;
+  padding: 26px 50px;
+
+}
+
 /* DIVIDERS
 -------------------------------------------------- */
 
 .divider {
   margin-bottom: 0px;
+  background-image: url(../images/hero.png);
 }
 
 .divider h1 {
@@ -234,12 +249,12 @@ body {
 
 .divider h2 {
   font-size: 1.5em;
-  color: #333333;
+  color: #909090;
   margin-bottom: 10px;
 }
 
-#divider4 h2 {
-  color: #909090;
+#divider4 h1 {
+  margin-bottom: 35px;
 }
 
 
@@ -254,7 +269,7 @@ h1, h2 {
 
 h1 {
   text-align: center;
-  font-size: 3em;
+  font-size: 2.5em;
 }
 
 h2 {
@@ -359,6 +374,31 @@ li p.lead {
   }
 }
 
+#section1a .fa-ul,
+#section1b .fa-ul,
+#section1c .fa-ul {
+  padding-left: 0;
+  padding-top: 15px;
+  margin-left: 10px;
+}
+
+#section1a .fa-li,
+#section1b .fa-li,
+#section1c .fa-li {
+  padding-left: 2em;
+  width: 1em;
+  margin-right: 20px;
+  top: 2px;
+  padding-bottom: 20px;
+}
+
+#section1a li,
+#section1b li,
+#section1c li {
+  padding: 0px 0px 20px 45px;
+}
+
+
 #section3 .fa-ul {
   padding-top: 0px;
 }
@@ -377,31 +417,19 @@ li p.lead {
   padding-bottom: 70px;
 }
 
+.section .btn {
+  margin: 20px 0 0 12px;
+}
 
-/* WIDE COLUMN FORMAT
+.dividing-line {
+  border-bottom: 5px solid #ff0066;
+}
+
+/* SPACERS
 -------------------------------------------------- */
 
-.wide-columns {
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-.wide-columns .col-xs-6 p {
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-
-/* NARROW COLUMN FORMAT
--------------------------------------------------- */
-
-.narrow-columns .col-xs-6 {
-  text-align: center;
-}
-
-.narrow-columns .col-xs-6 p {
-  margin-right: 10px;
-  margin-left: 10px;
+.spacer {
+  padding-top: 20px;
 }
 
 
@@ -503,7 +531,7 @@ form .panel-heading {
 }
 
 .fa-md {
-font-size: 0.6em;
+  font-size: 0.6em;
 }
 
 .panel-register .table.table-bordered {
