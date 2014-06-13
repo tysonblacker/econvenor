@@ -75,13 +75,13 @@
               <li><i class="fa-li fa fa-file-pdf-o fa-lg red"></i>Produces a neat PDF document</li>
               <li><i class="fa-li fa fa-check-circle fa-lg red"></i>Prompts for all the important information</li>
               </ul>            
-          <a href={% url 'example-agenda' %}><button type="button" class="btn btn-primary"><i class="fa-fw fa fa-file-pdf-o fa-lg"></i>&nbsp;See an example agenda</button></a>
+          <a href={% url 'example-agenda' %}><button type="button" class="btn btn-primary visible-md visible-lg"><i class="fa-fw fa fa-file-pdf-o fa-lg"></i>&nbsp;See an example agenda</button></a>
 
           </div><!-- /.col -->
           <div class="col-md-7">
             <div class="spacer visible-md visible-lg">
             </div>
-            <div id="carousel-agenda" class="carousel slide pull-right">
+            <div id="carousel-agenda" class="carousel slide right">
               <div class="carousel-frame">
                 <div class="carousel-inner">
                   <div class="item active">
@@ -104,6 +104,12 @@
             </div><!-- /.carousel -->
           </div><!-- /.col -->
         </div><!-- /.row --> 
+        <a href={% url 'example-agenda' %}>
+          <button type="button" class="btn btn-primary visible-xs visible-sm">
+            <i class="fa-fw fa fa-file-pdf-o fa-lg"></i>
+            &nbsp;See an example agenda
+          </button>
+        </a>
       </div><!-- /.container -->
     </div><!-- /.section -->
     <div class="dividing-line">
@@ -120,6 +126,15 @@
           </div><!-- /.col -->
         </div><!-- /.row -->             
         <div class="row">
+          <div class="col-md-5 visible-xs visible-sm">
+            <ul class="fa-ul">
+              <li><i class="fa-li fa fa-repeat fa-lg red"></i>Agendas automatically create minutes templates</li>
+              <li><i class="fa-li fa fa-copy fa-lg red"></i>Templates have special sections for tasks and decisions</li>
+              <li><i class="fa-li fa fa-file-pdf-o fa-lg red"></i>eConvenor turns minutes into a PDF document and emails them out</li>
+              <li><i class="fa-li fa fa-list fa-lg red"></i>Tasks assigned are summarised in the PDF and the email body</li>
+              <li><i class="fa-li fa fa-cubes fa-lg red"></i>eConvenor's minutes design is based on 30 years of experience</li>
+            </ul>            
+          </div><!-- /.col -->
           <div class="col-md-7">
             <div class="spacer visible-md visible-lg">
             </div>
@@ -145,7 +160,7 @@
               </div><!-- /.carousel-frame -->
             </div><!-- /.carousel -->
           </div><!-- /.col -->
-          <div class="col-md-4 pull-right">
+          <div class="col-md-4 pull-right visible-md visible-lg">
             <ul class="fa-ul">
               <li><i class="fa-li fa fa-repeat fa-lg red"></i>Agendas automatically create minutes templates</li>
               <li><i class="fa-li fa fa-copy fa-lg red"></i>Templates have special sections for tasks and decisions</li>
@@ -156,6 +171,12 @@
           <a href={% url 'example-minutes' %}><button type="button" class="btn btn-primary"><i class="fa-fw fa fa-file-pdf-o fa-lg"></i>&nbsp;See some example minutes</button></a>
           </div><!-- /.col -->
         </div><!-- /.row --> 
+        <a href={% url 'example-minutes' %}>
+          <button type="button" class="btn btn-primary visible-xs visible-sm">
+            <i class="fa-fw fa fa-file-pdf-o fa-lg"></i>
+            &nbsp;See some example minutes
+          </button>
+        </a>
       </div><!-- /.container -->
     </div><!-- /.section -->
     <div class="dividing-line">
@@ -184,7 +205,7 @@
           <div class="col-md-7">
             <div class="spacer visible-md visible-lg">
             </div>
-            <div id="carousel-agenda" class="carousel slide pull-right">
+            <div id="carousel-agenda" class="carousel slide right">
               <div class="carousel-frame">
                 <div class="carousel-inner">
                   <div class="item active">

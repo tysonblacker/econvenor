@@ -197,7 +197,7 @@ body {
   color: #909090;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 1000px) {
   #hero h1 {
     padding-top: 10px;
     font-size: 54px;
@@ -207,7 +207,7 @@ body {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 820px) {
   #hero h1 {
     padding-top: 15px;
     font-size: 46px;
@@ -217,22 +217,51 @@ body {
   }
 }
 
+@media (max-width: 725px) {
+  #hero h1 {
+    padding-top: 15px;
+    font-size: 40px;
+  }
+  #hero h2 {
+    font-size: 25px;
+  }
+}
+
 
 
 /* CAROUSELS
 -------------------------------------------------- */
 
-.carousel {
+.carousel.right {
+  float: right !important;
 }
 
 .carousel-frame {
-  background-image: url(../images/landing/carousel-frame-laptop.png);
+  background-image: url(../images/landing/carousel-frame-large.png);
   background-position: center center;
   width: 670px;
   height: 443px;
   padding: 26px 50px;
-
 }
+
+@media (max-width: 1200px) {
+  .carousel-frame {
+    background-image: url(../images/landing/carousel-frame-medium.png);
+    width: 550px;
+    height: 364px;
+    padding: 22px 40px;
+  }
+}
+
+@media (max-width: 992px) {
+  .carousel {
+    margin: 10px 0 25px 0;
+  }
+  .carousel.right {
+    float: left !important;
+  }
+}
+
 
 /* DIVIDERS
 -------------------------------------------------- */
@@ -430,6 +459,11 @@ li p.lead {
 
 .spacer {
   padding-top: 20px;
+}
+
+@media (max-width: 1200px) {
+.spacer {
+  padding-top: 80px;
 }
 
 
