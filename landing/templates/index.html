@@ -17,6 +17,7 @@
 
 	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 	<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+	<link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet">
     <link href="{% static 'css/landing.css' %}" rel="stylesheet">
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -84,13 +85,19 @@
               <div class="carousel-frame">
                 <div class="carousel-inner">
                   <div class="item active">
-                    <img src="{% static 'images/landing/agendas-screenshot-1-small.png' %}" alt="Agenda screenshot 1">
+                    <a class="popup-image" href="{% static 'images/landing/agendas-screenshot-1-large.png' %}">
+                      <img src="{% static 'images/landing/agendas-screenshot-1-small.png' %}" alt="Agenda screenshot 1">
+                    </a>
                   </div>
                   <div class="item">
-                    <img src="{% static 'images/landing/agendas-screenshot-2-small.png' %}" alt="Agenda screenshot 2">
+                    <a class="popup-image" href="{% static 'images/landing/agendas-screenshot-2-large.png' %}">
+                      <img src="{% static 'images/landing/agendas-screenshot-2-small.png' %}" alt="Agenda screenshot 2">
+                    </a>
                   </div>
                   <div class="item">
-                    <img src="{% static 'images/landing/agendas-screenshot-3-small.png' %}" alt="Agenda screenshot 3">
+                    <a class="popup-image" href="{% static 'images/landing/agendas-screenshot-3-large.png' %}">
+                      <img src="{% static 'images/landing/agendas-screenshot-3-small.png' %}" alt="Agenda screenshot 3">
+                    </a>
                   </div>
                 </div><!-- /.carousel-inner -->
               </div><!-- /.carousel-frame -->
@@ -120,13 +127,19 @@
               <div class="carousel-frame">
                 <div class="carousel-inner">
                   <div class="item active">
-                    <img src="{% static 'images/landing/minutes-screenshot-1-small.png' %}" alt="Agenda screenshot 1">
+                    <a class="popup-image" href="{% static 'images/landing/minutes-screenshot-1-large.png' %}">
+                      <img src="{% static 'images/landing/minutes-screenshot-1-small.png' %}" alt="Agenda screenshot 1">
+                    </a>
                   </div>
                   <div class="item">
-                    <img src="{% static 'images/landing/minutes-screenshot-2-small.png' %}" alt="Agenda screenshot 2">
+                    <a class="popup-image" href="{% static 'images/landing/minutes-screenshot-2-large.png' %}">
+                      <img src="{% static 'images/landing/minutes-screenshot-2-small.png' %}" alt="Agenda screenshot 2">
+                    </a>
                   </div>
                   <div class="item">
-                    <img src="{% static 'images/landing/minutes-screenshot-3-small.png' %}" alt="Agenda screenshot 3">
+                    <a class="popup-image" href="{% static 'images/landing/minutes-screenshot-3-large.png' %}">
+                      <img src="{% static 'images/landing/minutes-screenshot-3-small.png' %}" alt="Agenda screenshot 3">
+                    </a>
                   </div>
                 </div><!-- /.carousel-inner -->
               </div><!-- /.carousel-frame -->
@@ -175,13 +188,19 @@
               <div class="carousel-frame">
                 <div class="carousel-inner">
                   <div class="item active">
-                    <img src="{% static 'images/landing/tasks-screenshot-1-small.png' %}" alt="Agenda screenshot 1">
+                    <a class="popup-image" href="{% static 'images/landing/tasks-screenshot-1-large.png' %}">
+                      <img src="{% static 'images/landing/tasks-screenshot-1-small.png' %}" alt="Agenda screenshot 1">
+                    </a>
                   </div>
                   <div class="item">
-                    <img src="{% static 'images/landing/tasks-screenshot-2-small.png' %}" alt="Agenda screenshot 2">
+                    <a class="popup-image" href="{% static 'images/landing/tasks-screenshot-2-large.png' %}">
+                      <img src="{% static 'images/landing/tasks-screenshot-2-small.png' %}" alt="Agenda screenshot 2">
+                    </a>
                   </div>
                   <div class="item">
-                    <img src="{% static 'images/landing/tasks-screenshot-3-small.png' %}" alt="Agenda screenshot 3">
+                    <a class="popup-image" href="{% static 'images/landing/tasks-screenshot-3-large.png' %}">
+                      <img src="{% static 'images/landing/tasks-screenshot-3-small.png' %}" alt="Agenda screenshot 3">
+                    </a>
                   </div>
                 </div><!-- /.carousel-inner -->
               </div><!-- /.carousel-frame -->
@@ -371,6 +390,7 @@
     ================================================== -->
 	<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script> 
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
 
     <script type="text/javascript">
     var bootstrapButton = $.fn.button.noConflict()
@@ -380,7 +400,17 @@
     <script type="text/javascript">
       $('.carousel').carousel({
         interval: 7000
-      })
+      });
+    </script>
+
+    <script type="text/javascript">
+      $('.popup-image').magnificPopup({ 
+        type: 'image',
+        image: {
+          cursor: 'mfp-zoom-out-cur',
+        },
+        closeOnContentClick: true,
+      });
     </script>
 
   </body>

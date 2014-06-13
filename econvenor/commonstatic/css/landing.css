@@ -399,7 +399,7 @@ li p.lead {
 }
 
 
-#section3 .fa-ul {
+#section2 .fa-ul {
   padding-top: 0px;
 }
 
@@ -438,6 +438,22 @@ li p.lead {
 
 #footer {
   padding: 10px 0 0 0;
+}
+
+
+/* LIGHTBOX - MAGNIFIC POPUP
+-------------------------------------------------- */
+
+/* Darken off the background */
+.mfp-bg {
+  background: #000000;
+  opacity: 0.93;
+  filter: alpha(opacity=93); }
+
+/* Set cursor when hovering over thumbnail */
+.popup-image img {
+  cursor: zoom-in;
+  cursor: -webkit-zoom-in;
 }
 
 
