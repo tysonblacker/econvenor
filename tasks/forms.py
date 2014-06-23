@@ -10,7 +10,7 @@ class AddTaskForm(forms.ModelForm):
         super(AddTaskForm, self).__init__(*args, **kwargs)
         self.fields['participant'].queryset = \
             Participant.lists.active().filter(group=group)
-        
+
     class Meta:
         model = Task
         fields = ['description',
@@ -18,6 +18,7 @@ class AddTaskForm(forms.ModelForm):
                   'deadline',
                   'notes',
                   ]
+
         widgets = {
             'description': forms.TextInput(attrs={
                 'class': 'charactercounter form-control',
@@ -45,12 +46,18 @@ class AddTaskForm(forms.ModelForm):
         
         
 class EditTaskForm(forms.ModelForm):
-    
+
     def __init__(self, group, *args, **kwargs):
         super(EditTaskForm, self).__init__(*args, **kwargs)
         self.fields['participant'].queryset = \
             Participant.lists.active().filter(group=group)
-        
+        EDIT_STATUS_CHOICES = (
+            ('Incomplete', 'Incomplete'),
+            ('Completed', 'Completed'),
+            ('Cancelled', 'Cancelled'),
+        )
+        self.fields['status'].choices = EDIT_STATUS_CHOICES
+
     class Meta:
         model = Task
         fields = ['description',
