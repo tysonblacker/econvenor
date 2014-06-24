@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" 
+          href="{% static 'images/econvenor-favicon-v1.ico' %}">
+    <title>eConvenor --> ADMINISTRATIVE ACCESS</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/jquery-ui-1.10.4.custom.min.css' %}"
+          rel="stylesheet">
+    <link href="{% static 'css/jquery.timepicker-1.3.5.css' %}"
+          rel="stylesheet">
+    <link href="{% static 'css/econvenor.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+    
+    <div class="nav navbar navbar-fixed-top" role="navigation">
+
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse"
+                  data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-brand">
+            <img src="{% static 'images/econvenor-logo-100px-lightgrey.png' %}" width="100" height="23" alt="eConvenor logo">
+          </span>
+        </div><!-- /.navbar-header -->
+
+        <div class="collapse navbar-collapse">
+
+          <ul class="nav navbar-nav navbar-right">
+            {% ifequal menu.parent 'feedback' %}
+              <li class="dropdown active">
+            {% else %}
+              <li class="dropdown">
+            {% endifequal %}
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-flag fa-fw fa-lg"></i>&nbsp;
+                Feedback <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href={% url 'bug-report' %}>
+                  <i class="fa fa-bug fa-fw"></i>&nbsp;
+                  Report a bug</a></li>
+                <li><a href={% url 'feature-request' %}>
+                  <i class="fa fa-wrench fa-fw"></i>&nbsp;
+                  Request a feature/change</a></li>
+                <li class="divider"></li>
+                <li><a href={% url 'bug-list-admin' %}>
+                  <i class="fa fa-list-alt fa-fw"></i>&nbsp;
+                  View all bug reports</a></li>
+                <li><a href={% url 'feature-list-admin' %}>
+                  <i class="fa fa-list-alt fa-fw"></i>&nbsp;
+                  View all feature/change requests</a></li>
+              </ul>
+            </li>
+            {% ifequal menu.parent 'help' %}
+              <li class="dropdown active">
+            {% else %}
+              <li class="dropdown">
+            {% endifequal %}
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-info-circle fa-fw fa-lg"></i>&nbsp;
+                Help <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href={% url 'quick-start-guide' %}>
+                  <i class="fa fa-flash fa-fw"></i>&nbsp;
+                  Quick-start guide</a></li>
+                <li><a href={% url 'user-guide' %}>
+                  <i class="fa fa-file-text-o fa-fw"></i>&nbsp;
+                  User guide</a></li>
+                <li class="divider"></li>
+                <li><a href={% url 'faqs' %}>
+                  <i class="fa fa-list-alt fa-fw"></i>&nbsp;                  
+                  FAQs</a></li>
+                <li><a href={% url 'ask-question' %}>
+                  <i class="fa fa-question-circle fa-fw"></i>&nbsp;
+                  Ask a question</a></li>
+              </ul>
+            </li>
+            {% ifequal menu.parent 'account' %}
+              <li class="dropdown active">
+            {% else %}
+              <li class="dropdown">
+            {% endifequal %}
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user fa-fw fa-lg"></i>&nbsp;
+                Hi, {{ user }} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href={% url 'account' %}>
+                  <i class="fa fa-gear fa-fw"></i>
+                    Account settings</a></li>
+                <li class="divider"></li>
+                <li><a href={% url 'logout' %}>
+                  <i class="fa fa-sign-out fa-fw"></i>
+                  Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.collapse   -->
+      </div><!-- /.container -->
+    </div><!-- /.nav -->
+    
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar" id="leftsidebar">
+            {% ifequal menu.parent 'dashboard' %}
+              <li class="sidebar-item active">
+            {% else %}
+              <li class="sidebar-item">
+            {% endifequal %}
+              <a href={% url 'dashboard-admin' %}>
+                <i class="fa fa-tachometer fa-fw fa-lg"></i>&nbsp;
+                Dashboard
+              </a>
+            </li>
+
+            {% ifequal menu.parent 'meetings' %}
+              <li class="sidebar-item active">
+            {% else %}
+              <li class="sidebar-item">
+            {% endifequal %}
+              <a href="#">
+                <i class="fa fa-comments fa-fw fa-lg"></i>&nbsp;
+                Meetings
+                <i class="fa fa-angle-down pull-right"></i>
+              </a>
+              <ul class="nav nav-second-level">
+                {% ifequal menu.child 'new_meeting' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'meeting-add' %}>
+                    <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
+                      New meeting
+                  </a>
+                </li>
+                {% ifequal menu.child 'current_meetings' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'meeting-list-current' %}>
+                    <i class="fa fa-pencil fa-fw"></i>&nbsp;
+                      Current meetings
+                  </a>
+                </li>
+                {% ifequal menu.child 'archived_meetings' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'meeting-list-archive' %}>
+                    <i class="fa fa-archive fa-fw"></i>&nbsp;
+                      Archived meetings
+                  </a>
+                </li>
+              </ul>
+            </li>
+      
+            {% ifequal menu.parent 'tasks' %}
+              <li class="sidebar-item active">
+            {% else %}
+              <li class="sidebar-item">
+            {% endifequal %}
+              <a href="#">
+                <i class="fa fa-list fa-fw fa-lg"></i>&nbsp;
+                Tasks
+                <i class="fa fa-angle-down pull-right"></i>
+              </a>
+              <ul class="nav nav-second-level">
+                {% ifequal menu.child 'new_task' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'task-add' %}>
+                    <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
+                      New task
+                  </a>
+                </li>
+                {% ifequal menu.child 'manage_tasks' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'task-list' %}>
+                    <i class="fa fa-check-square-o fa-fw"></i>&nbsp;
+                      Manage tasks
+                  </a>
+                </li>
+              </ul>
+            </li>
+                        
+            {% ifequal menu.parent 'decisions' %}
+              <li class="sidebar-item active">
+            {% else %}
+              <li class="sidebar-item">
+            {% endifequal %}
+              <a href="#">
+                <i class="fa fa-star fa-fw fa-lg"></i>&nbsp;
+                Decisions
+                <i class="fa fa-angle-down pull-right"></i>
+              </a>
+              <ul class="nav nav-second-level">
+                {% ifequal menu.child 'view_decisions' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'decision-list' %}>
+                    <i class="fa fa-th fa-fw"></i>&nbsp;
+                      View decisions
+                  </a>
+                </li>
+              </ul>
+            </li>                                
+
+            {% ifequal menu.parent 'participants' %}
+              <li class="sidebar-item active">
+            {% else %}
+              <li class="sidebar-item">
+            {% endifequal %}
+              <a href="#">
+                <i class="fa fa-users fa-fw fa-lg"></i>&nbsp;
+                Participants
+                <i class="fa fa-angle-down pull-right"></i>
+              </a>
+              <ul class="nav nav-second-level">
+                {% ifequal menu.child 'new_participant' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'participant-add' %}>
+                    <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
+                      New participant
+                  </a>
+                </li>
+                {% ifequal menu.child 'manage_participants' %}
+                  <li class="active">
+                {% else %}
+                  <li>
+                {% endifequal %} 
+                  <a href={% url 'participant-list' %}>
+                    <i class="fa fa-pencil fa-fw"></i>&nbsp;
+                      Manage participants
+                  </a>
+                </li>
+              </ul>
+            </li>
+                                
+          </ul>
+          {% if menu.tips %}
+            <div class="tip-box panel panel-default panel-dashboard">
+              <div class="panel-heading clearfix">
+                <span id="tip_heading"></span>
+              </div>
+              <div class="panel-body">
+                <div class="text-center">
+                  <button id="previous_tip" 
+                    class="btn btn-default btn-tips"
+                    title="Previous tip" type="button">
+                    <i class="fa fa-chevron-circle-left"></i>
+                  </button>
+                  <button id="next_tip" 
+                    class="btn btn-default btn-tips"
+                    title="Next tip" type="button">
+                    <i class="fa fa-chevron-circle-right"></i>
+                  </button>
+                </div>
+                <span id="tip_body"></span>
+              </div>
+            </div> 
+          {% endif %}        
+        </div><!-- /.sidebar -->
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 content"
+             id="content-wrapper">
+          {% block content %}
+          {% endblock content %}
+        </div><!-- /.content -->
+
+      </div><!-- /.row -->
+        
+
+      <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" 
+           aria-labelledby="DeleteConfirmation" aria-hidden="true" 
+           aria-describedby="A pop-up to confirm deletion">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">
+                <i class="fa fa-times-circle fa-lg"></i>&nbsp;
+                Confirm deletion
+              </h4>
+            </div><!-- /.modal-header -->
+            <div class="modal-body">
+            </div><!-- /.modal-body -->
+            <div class="modal-footer">
+              <form action="" method="POST">
+                {% csrf_token %} 
+                <button type="button" class="btn btn-default" 
+                        data-dismiss="modal">
+                  No, cancel
+                </button>
+                <button type="submit" class="btn btn-primary modal-button"
+                        name="button">
+                  Yes, delete
+                </button>
+              </form>
+            </div><!-- /.modal-footer -->
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->        
+
+      <div class="tip-content fade">
+        {% ifequal menu.tips 'dashboard' %}
+          <span id="tip_area">Dashboard</span>
+          <span id="tip_body_1">eConvenor works best when you make your browser window as large as possible.</span>
+          <span id="tip_body_2">Click the coloured bar at the top of each <i>Dashboard</i> box to go directly to that section.</span>
+          <span id="tip_body_3">If you're wondering how anything works, look up the <i>User Guide</i> and <i>FAQs</i> under the <i>Help</i> menu.</span>
+          <span id="tip_body_4">Found a bug? Please let us know so we can fix it. You can report bugs through the <i>Feedback</i> menu.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'decisions' %}
+          <span id="tip_area">View decisions</span>
+          <span id="tip_body_1">Decisions only appear here after the minutes of the meeting in which they were made are sent out.</span>
+          <span id="tip_body_2">When you make a decision in a meeting, click the <i>Add decision</i> button and enter it in the box which appears.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'create_agenda' %}
+          <span id="tip_area">Create agenda</span>
+          <span id="tip_body_1">If you set a time limit for all agenda items, eConvenor will calculate the meeting's estimated end time.</span>
+          <span id="tip_body_2">Your changes on this page are automatically saved every 60 seconds.</span>
+          <span id="tip_body_3">If you run out of space in the <i>Location</i> box, put additional location information in the <i>Instructions</i> box.</span>
+          <span id="tip_body_4">It's good practice to select a person to explain substantial agenda items. Do this using the <i>To be explained by</i> box.</span>
+          <span id="tip_body_5">Navigate straight to an agenda item by clicking on it in the <i>Navigation toolbar</i>.</span>
+          <span id="tip_body_6">Re-order agenda items by dragging them in the <i>Navigation toolbar</i>.</span>
+          <span id="tip_body_7">Delete an agenda item by clicking the round "x" button on the right hand side of its title bar.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'review_agenda' %}
+          <span id="tip_area">Review agenda</span>
+          <span id="tip_body_1">This page shows you exactly what the agenda will look like when it is sent out.</span>
+          <span id="tip_body_2">To make changes to what you see, click the <i>Make changes</i> button under the <i>Actions toolbar</i>.</span>
+          <span id="tip_body_3">If you'd like to review the agenda with text-to-speech software, click the <i>Open in PDF format</i> button to get a PDF copy.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'create_minutes' %}
+          <span id="tip_area">Create minutes</span>
+          <span id="tip_body_1">To add the group's existing tasks to the end of the minutes, click the <i>add a summary of existing tasks...</i> box in <i>Meeting details</i>.</span>
+          <span id="tip_body_2">Your changes on this page are automatically saved every 60 seconds.</span>
+          <span id="tip_body_3">When the group makes a decision, click the <i>Add decision</i> button and enter the details in the box which appears.</span>
+          <span id="tip_body_4">When a task is assigned to someone, click the <i>Add task</i> button and enter the details in the boxes which appear.</span>
+          <span id="tip_body_5">Navigate straight to a minutes item by clicking on it in the <i>Navigation toolbar</i>.</span>
+          <span id="tip_body_6">It's best practice to keep the <i>Meeting notes</i> as brief as possible, and focus on recording tasks and decisions.</span>
+          <span id="tip_body_7">Items which come from the agenda can't be deleted in the minutes. Just enter "Not discussed" in the <i>Meeting notes</i> if necessary.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'review_minutes' %}
+          <span id="tip_area">Review minutes</span>
+          <span id="tip_body_1">This page shows you exactly what the minutes will look like when they are sent out.</span>
+          <span id="tip_body_2">To make changes to what you see, click the <i>Make changes</i> button under the <i>Actions toolbar</i>.</span>
+          <span id="tip_body_3">If you'd like to review the minutes with text-to-speech software, click the <i>Open in PDF format</i> button to get a PDF copy.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'new_meeting' %}
+          <span id="tip_area">New meeting</span>
+          <span id="tip_body_1">Once you've added a new meeting, you can make its agenda.</span>
+          <span id="tip_body_2">If you run out of space in the <i>Location</i> box, put additional location information in the <i>Instructions</i> box.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'current_meetings' %}
+          <span id="tip_area">Current meetings</span>
+          <span id="tip_body_1">The red button shows the next task for each meeting.</span>
+          <span id="tip_body_2">If you don't see the meeting you are looking for in this list, try looking under <i>Archived meetings</i>.</span>
+          <span id="tip_body_3">Meetings are automatically archived once their minutes are sent out.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'archived_meetings' %}
+          <span id="tip_area">Archived meetings</span>
+          <span id="tip_body_1">Meetings are automatically archived once their minutes are sent out.</span>
+          <span id="tip_body_2">To edit an archived meeting's agenda or minutes, first un-archive it via the <i>Other actions</i> button.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'manage_participants' %}
+          <span id="tip_area">Manage participants</span>
+          <span id="tip_body_1">Click on a participant to see their details and incomplete tasks.</span>
+          <span id="tip_body_2">eConvenor automatically emails participants a reminder about nearly-due and overdue tasks.</span>
+          <span id="tip_body_3">Use the <i>Filter options</i> to see only active participants, inactive participants or former participants.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'new_participant' %}
+          <span id="tip_area">New participant</span>
+          <span id="tip_body_1"><i>Given name</i> can be whatever you like: a real name, nickname, alias or <i>nom de guerre</i>.</span>
+          <span id="tip_body_2">Make sure the email address is correct. This is how eConvenor sends agendas, minutes and reminders to participants.</span>
+          <span id="tip_body_3">eConvenor automatically emails participants a reminder about nearly-due and overdue tasks.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'edit_participant' %}
+          <span id="tip_area">Edit participant</span>
+          <span id="tip_body_1"><i>Given name</i> can be whatever you like: a real name, nickname, alias or <i>nom de guerre</i>.</span>
+          <span id="tip_body_2">Make sure the email address is correct. This is how eConvenor sends agendas, minutes and reminders to participants.</span>
+          <span id="tip_body_3">eConvenor automatically emails participants a reminder about nearly-due and overdue tasks.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'manage_tasks' %}
+          <span id="tip_area">Manage tasks</span>
+          <span id="tip_body_1">Click on a task to see its details and edit it.</span>
+          <span id="tip_body_2">Use the <i>Filter options</i> to see only overdue tasks, incomplete tasks or completed tasks.</span>
+        {% endifequal %}
+        {% ifequal menu.tips 'edit_task' %}
+          <span id="tip_area">Edit task</span>
+          <span id="tip_body_1">When a task is complete, change its <i>Status</i> to <i>Completed</i>. This stops reminders about it being sent out.</span>
+          <span id="tip_body_2">You can assign a task to a different participant just by changing <i>Person responsible</i>.</span>
+        {% endifequal %}
+
+      </div><!-- /.tip-content -->
+
+    </div><!-- /.container-fluid -->
+
+    <noscript>
+      <div id="noscript-message">
+        <p>Your browser does not appear to have JavaScript enabled.</p>
+        <p>Please enable Javascript or eConvenor will not work.</p>
+      </div>
+      <div id="noscript-cover">
+      </div>
+    </noscript>
+
+    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script> 
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script src="{% static 'js/jquery.timepicker-1.3.5.min.js' %}"></script>
+    <script src="{% static 'js/jquery.validate-1.11.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.metisMenu.js' %}"></script>
+    <script src="{% static 'js/econvenor.js' %}"></script>
+    
+    {% block extrajs %}
+    {% endblock extrajs %}
+
+  </body>
+</html>

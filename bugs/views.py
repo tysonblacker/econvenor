@@ -77,6 +77,21 @@ def bug_list(request):
                   })
 
 
+def bug_list_admin(request):
+    if (not request.user.is_authenticated()) or (request.user.id != 1):
+        return HttpResponseRedirect(reverse('index'))
+    bugs = Bug.lists.all_bugs()
+    page_heading = 'Bugs reported'
+    table_headings = ('Bug number', 'Description', 'Date reported', 'Status', 'Reporter')
+    menu = {'parent': 'feedback'}            	
+    return render(request, 'bug_list_admin.html', {
+                  'menu': menu,
+                  'bugs': bugs,
+                  'page_heading': page_heading,
+                  'table_headings': table_headings,
+                  })
+
+
 def feature_request(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('index'))
@@ -137,10 +152,25 @@ def feature_list(request):
         return HttpResponseRedirect(reverse('index'))
     features = Feature.lists.all_features()
     page_heading = 'Features/changes requested'
-    table_headings = ('Request number', 'Description', 'Date requested', 'Status',)
+    table_headings = ('Request number', 'Description', 'Date requested', 'Status')
 
     menu = {'parent': 'feedback'}            	
     return render(request, 'feature_list.html', {
+                  'menu': menu,
+                  'features': features,
+                  'page_heading': page_heading,
+                  'table_headings': table_headings,
+                  })
+
+def feature_list_admin(request):
+    if (not request.user.is_authenticated()) or (request.user.id != 1):
+        return HttpResponseRedirect(reverse('index'))
+    features = Feature.lists.all_features()
+    page_heading = 'Features/changes requested'
+    table_headings = ('Request number', 'Description', 'Date requested', 'Status', 'Requestor')
+
+    menu = {'parent': 'feedback'}            	
+    return render(request, 'feature_list_admin.html', {
                   'menu': menu,
                   'features': features,
                   'page_heading': page_heading,

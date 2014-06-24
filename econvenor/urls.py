@@ -93,11 +93,13 @@ urlpatterns = patterns('',
 	url(r'^bugs/$', 'bugs.views.bug_list', name="bug-list"),	
 	url(r'^bugs/report/$', 'bugs.views.bug_report', name="bug-report"),
 	url(r'^bugs/(\d{1,4})/edit/$', 'bugs.views.bug_edit', name="bug-edit"),       
+	url(r'^bugs-admin/$', 'bugs.views.bug_list_admin', name="bug-list-admin"),
 	url(r'^features/$', 'bugs.views.feature_list', name="feature-list"),		
 	url(r'^features/request/$', 'bugs.views.feature_request',
 		name="feature-request"),
 	url(r'^features/(\d{1,4})/edit/$', 'bugs.views.feature_edit',
 		name="feature-edit"),       
+	url(r'^features-admin/$', 'bugs.views.feature_list_admin', name="feature-list-admin"),
 	
 	url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
 		

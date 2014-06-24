@@ -1,4 +1,4 @@
-{% extends "app_base.html" %}
+{% extends "app_base_admin.html" %}
 
 {% block content %}
 
@@ -8,7 +8,7 @@
 
 <div class="col-sm-6">
   <div class="panel panel-primary panel-dashboard">
-    <a href={% url 'bug-list' %}>
+    <a href={% url 'bug-list-admin' %}>
       <div class="panel-heading">
         <i class="fa fa-bug fa-fw"></i>&nbsp;
 	    Number of open bug reports
@@ -30,7 +30,7 @@
 
 <div class="col-sm-6">
   <div class="panel panel-default panel-dashboard">
-    <a href={% url 'feature-list' %}>
+    <a href={% url 'feature-list-admin' %}>
       <div class="panel-heading">
 	    <i class="fa fa-wrench fa-fw"></i>&nbsp;
 	    Number of open feature requests
