@@ -16,7 +16,7 @@
     - ECONVENOR_DATABASE_PASSWORD=ncds8rbce7
     - ECONVENOR_DATABASE_USER=eonvenor_database_owner
     - ECONVENOR_EMAIL_PASSWORD=no_email_password
-    - ECONVENOR_ADMIN_URL=admin
+    - ECONVENOR_ADMIN_URL=administration
 1. Set up a local database: `manage.py syncdb`
     - During this process, set up a superuser with account name `superuser`, email `superuser@econvenor.org` and password `superuser`.
 1. Migrate the database: `manage.py migrate`
