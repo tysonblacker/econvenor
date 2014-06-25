@@ -1,10 +1,7 @@
-# Ignore virtualenv folder
-env/
-
 # Ignore all .pyc files
 *.pyc
 
-# Ignore database file
+# Ignore local development database file
 db.sqlite3
 
 # Ignore media folder
