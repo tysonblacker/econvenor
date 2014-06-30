@@ -243,7 +243,7 @@
     <!-- SECTION 2
     ================================================== -->
     <div class="section" id="section2">
-      <div class="container wide-columns">
+      <div class="container">
 
         <div class="row">
           <div class="col-xs-12">    
@@ -313,7 +313,7 @@
     <!-- SECTION 4
     ================================================== -->
     <div class="section" id="section4">
-      <div class="container wide-columns">
+      <div class="container">
     
         <div class="row">
           <div class="col-xs-12">
@@ -399,11 +399,25 @@
   
     <!-- FOOTER
     ================================================== -->  
-    <div class="section" id="footer">
+    <div class="footer">
       <div class="container">
-        <p class="text-center">
-          <img src="{% static 'images/email-address-v1.png' %}" alt="This is an image of our email address. You can email us at 'mail' at this domain.">
-        </p>
+        <div class="row">
+          <div class="col-xs-3 col-xs-offset-2">
+            <p class="lead">More information</p>
+            <p><a href={% url 'landing-faqs' %}>Frequent questions</a></p>
+            <p><a href={% url 'landing-terms' %}>Terms and conditions</a></p>
+          </div><!-- /.col -->
+          <div class="col-xs-3">
+            <p class="lead">About eConvenor</p>      
+            <p><a href={% url 'landing-project' %}>The eConvenor project</a></p>
+            <p><a href={% url 'qualify' 'step0' %}>How to contact us</a></p>
+          </div><!-- /.col -->
+          <div class="col-xs-3">
+            <p class="lead">Contribute</p>      
+            <p><a href={% url 'qualify' 'step0' %}>Work on eConvenor</a></p>
+            <p><a href={% url 'qualify' 'step0' %}>Donate money</a></p>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
       </div>
     </div>
      

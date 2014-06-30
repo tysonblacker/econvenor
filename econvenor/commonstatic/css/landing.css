@@ -457,11 +457,30 @@ li p.lead {
 /* FOOTER
 -------------------------------------------------- */
 
-#footer {
-  padding: 10px 0 0 0;
+.footer {
+  background-color: #666666;
+  padding: 60px 0 50px 0;
 }
 
+.footer p {
+  color: #bbbbbb;
+  line-height: 1.1em;
+  margin: 0 10px 10px 10px;
+}
 
+.footer p.lead{
+  color: #999999;
+}
+
+.footer a {
+  color: #bbbbbb;
+}
+
+.footer a:hover,
+.footer a:focus {
+  color: #ffffff;
+  text-decoration: none;
+}
 /* LIGHTBOX - MAGNIFIC POPUP
 -------------------------------------------------- */
 
