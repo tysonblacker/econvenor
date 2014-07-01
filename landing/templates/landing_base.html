@@ -34,7 +34,9 @@
     <div class="navbar navbar-fixed-top">
       <div class="container">
         <span class="navbar-brand">
-          <img src="{% static 'images/econvenor-logo-v1l.png' %}" width="200" height="45" alt="An image of the eConvenor logo">
+          <a href={% url 'index' %}>
+            <img src="{% static 'images/econvenor-logo-v1l.png' %}" width="200" height="45" alt="An image of the eConvenor logo">
+          </a>
         </span>
         <div class="pull-right">
           <a href={% url 'qualify' 'step0' %}><button type="button" class="btn btn-primary">Sign up</button></a>
