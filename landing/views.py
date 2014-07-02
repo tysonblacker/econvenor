@@ -53,3 +53,6 @@ def volunteer(request):
 
 def donate(request):
     return render(request, 'donate.html')
+
+def source(request):
+    return render(request, 'source.html')
