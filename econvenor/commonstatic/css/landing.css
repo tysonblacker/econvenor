@@ -1,12 +1,18 @@
 /* GLOBAL STYLES
 -------------------------------------------------- */
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
   min-width: 768px;
   color: #555555;
   font-family: 'Body', Helvetica, Arial, sans-serif;
   font-size: 18px;
   padding-top: 75px;
+  margin-bottom: 250px;
   background-image: url(../images/texture.png);
 }
 
@@ -461,6 +467,9 @@ li p.lead {
 .footer {
   background-color: #666666;
   padding: 60px 0 50px 0;
+  width: 100%;
+  position:absolute;
+  bottom:0;
 }
 
 .footer p {
@@ -504,7 +513,7 @@ li p.lead {
 -------------------------------------------------- */
 
 .section.general {
-  padding: 30px 0 50px 0;
+  padding: 30px 0 30px 0;
 }
 
 .general h1 {
