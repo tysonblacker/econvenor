@@ -519,6 +519,10 @@ li p.lead {
   margin: 40px 10px 30px 10px;
 }
 
+.general p {
+  margin: 20px 0px 20px 10px;
+}
+
 .general .fa-ul {
   padding-left: 20px;
   padding-top: 0px;

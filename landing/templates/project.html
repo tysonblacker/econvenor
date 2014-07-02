@@ -1,0 +1,39 @@
+{% extends "landing_base.html" %}
+{% load staticfiles %}
+
+{% block seo %}
+  <title>eConvenor  |  About the eConvenor project</title>
+  <meta name="description" content="Some background information on the eConvenor project.">
+{% endblock seo %}
+
+{% block content %}
+
+    <!-- PAGE HEADER
+    ================================================== -->
+    <div class="jumbotron divider general">
+      <div class="container">
+        <h1 class="text-center">The eConvenor project</h1>
+      </div><!-- /.container -->
+    </div> <!-- /.jumbotron -->
+
+    <!-- BODY
+    ================================================== -->
+    <div class="section general">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10">
+            <h2 class="red">Goal</h2>
+            <p class="lead">The project provides the eConvenor service to help activist groups around the world be better organised and more effective.</p>
+            <h2 class="red">Background</h2>
+            <p class="lead">The eConvenor project is a volunteer-run and not-for-profit.</p>
+            <p>The core of the project are Keira and Sky -- two activists from Melbourne, Australia.</p>
+            <p>The service went live in April 2014.</p>
+            <h2 class="red">Joining</h2>
+            <p class="lead">eConvenor is an exciting project and it's off to a flying start.</p>
+            <p>If you're interested in helping the activist groups of the world be more effective, here's how you can <a href={% url 'volunteer' %}>be part of the project</a>.</p>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container -->
+    </div><!-- /.section -->
+
+{% endblock content %}
