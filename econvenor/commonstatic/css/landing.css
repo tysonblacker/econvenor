@@ -474,7 +474,7 @@ li p.lead {
 }
 
 .footer a {
-  color: #bbbbbb;
+  color: #dddddd;
 }
 
 .footer a:hover,
@@ -535,6 +535,28 @@ li p.lead {
 .general li {
   padding: 0px 0px 20px 35px;
 }
+
+.general li p.lead {
+  margin: 0px 0px 0px 0px;
+  padding: 1px 0px 0px 0px;
+}
+
+.general .faq-title {
+  cursor: pointer;
+}
+
+.general .faq-body {
+  margin: 15px 0px 10px 0px;
+  padding: 20px 30px 20px 30px;
+  background-color: #ffffff;
+}
+
+.general .faq-body p,
+.general .faq-body p.lead {
+  margin: 0px 0px 10px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
 /* REGISTRATION PAGES
 -------------------------------------------------- */
 
