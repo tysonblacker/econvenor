@@ -31,25 +31,25 @@ def example_minutes(request):
     return response
 
 
-def faqs(request):
-    return render(request, 'landing_faqs.html')
+def questions(request):
+    return render(request, 'questions.html')
 
 
 def terms(request):
-    return render(request, 'landing_terms.html')
+    return render(request, 'terms.html')
 
 
 def project(request):
-    return render(request, 'landing_project.html')
+    return render(request, 'project.html')
 
 
 def contact(request):
-    return render(request, 'landing_contact.html')
+    return render(request, 'contact.html')
 
 
 def volunteer(request):
-    return render(request, 'landing_volunteer.html')
+    return render(request, 'volunteer.html')
 
 
 def donate(request):
-    return render(request, 'landing_donate.html')
+    return render(request, 'donate.html')

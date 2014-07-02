@@ -1,13 +1,18 @@
 {% extends "landing_base.html" %}
 {% load staticfiles %}
 
+{% block seo %}
+  <title>eConvenor - Common questions</title>
+  <meta name="description" content="Answers to the most common questions about eConvenor">
+{% endblock seo %}
+
 {% block content %}
 
     <!-- PAGE HEADER
     ================================================== -->
     <div class="jumbotron divider general">
       <div class="container">
-        <h1 class="text-center">Frequent questions</h1>
+        <h1 class="text-center">Common questions</h1>
       </div><!-- /.container -->
     </div> <!-- /.jumbotron -->
 
@@ -105,7 +110,7 @@
                   <p class="lead">Yes.</p>
                   <p>If your group wants the security of running eConvenor on hardware which you control access to, we understand.</p>
                   <p>All of eConvenor's code is available in our <a href="https://github.com/econvenor/econvenor" target="_blank">Github repository</a>. If your group has a progresive focus, is not-for-profit and is not a government agency, feel free to run an eConvenor instance on your own server.</p>
-                  <p>If you're doing this and would like help, <a href={% url 'landing-contact' %}>let us know</a>.</p>
+                  <p>If you're doing this and would like help, <a href={% url 'contact' %}>let us know</a>.</p>
                 </div>
               </li>
             </ul>
@@ -135,7 +140,7 @@
                   <p>We are looking specifically for people with skills in coding (Python/Django), web development (HTML/CSS/JS), web application security, graphic design and writing/communications.</p>
                   <p>There are also always miscellaneous tasks which need doing, and the only pre-requisite for working on them is an ability to take some initiative and solve problems.</p>
                   <p>You probably realise this already, but just to be clear: eConvenor does not offer paid positions. It's a volunteer-run project.</p>
-                  <p>If you're interested, please <a href={% url 'landing-contact' %}>contact us</a>!</p>
+                  <p>If you're interested, please <a href={% url 'contact' %}>contact us</a>!</p>
                 </div>
               </li>
               <li>
@@ -145,7 +150,7 @@
                 </div>
                 <div class="faq-body">
                   <p class="lead">Certainly.</p>
-                  <p>Please go to our <a href={% url 'landing-donate' %}>donations page</a>.</p>
+                  <p>Please go to our <a href={% url 'donate' %}>donations page</a>.</p>
                 </div>
               </li>
             </ul> 
