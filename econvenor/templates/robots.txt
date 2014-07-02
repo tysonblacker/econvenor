@@ -1,4 +1,5 @@
 User-agent: *
-Disallow: /qualify/
-Disallow: /login/
 Disallow: /examples/
+Disallow: /login/
+Disallow: /qualify/
+Disallow: /register/
