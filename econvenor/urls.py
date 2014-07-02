@@ -83,7 +83,7 @@ urlpatterns = patterns('',
 	url(r'^quick-start-guide/$', 'help.views.quick_start_guide',
 	    name="quick-start-guide"),	
 	url(r'^user-guide/$', 'help.views.user_guide', name="user-guide"),
-	url(r'^faqs/$', 'help.views.faqs', name="faqs"),
+	url(r'^qanda/$', 'help.views.qanda', name="qanda"),
 	url(r'^ask-question/$', 'help.views.ask_question', name="ask-question"),
 			
 	url(r'^account/$', 'accounts.views.account', name="account"),

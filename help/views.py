@@ -20,10 +20,10 @@ def user_guide(request):
     })
 
 
-def faqs(request):
+def qanda(request):
 
     menu = {'parent': 'help'}            	         
-    return render(request, 'faqs.html', {
+    return render(request, 'qanda.html', {
                   'menu': menu,
     })
 

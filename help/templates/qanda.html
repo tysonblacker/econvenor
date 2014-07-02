@@ -1,0 +1,83 @@
+{% extends "app_base.html" %}
+{% load setclass %}
+
+{% block content %}
+
+<div class="col-sm-10 col-md-10 col-lg-8 no-toolbar">
+  <div class="panel panel-primary panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-list-alt fa-fw fa-lg"></i>&nbsp;
+	  Questions and Answers
+    </div>
+  </div>
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      1.&nbsp; Can multiple people convene one group?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>Not at the moment, but it will be possible soon.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>At the moment, only one eConvenor account can convene each group. Setting up eConvenor so that multiple people can convene a group is something that we will do as soon as we have time, hopefully in June or July 2014.</p>
+      <p>In the meantime, if you want more than one person to be able to convene the one group, you'll have to share the login details of the account amongst yourselves.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      2.&nbsp; Can one person convene multiple groups?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>Not at the moment, but it will be possible soon.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>At the moment, an eConvenor account can only convene one group. Setting up eConvenor so that each account can convene multiple groups is something that we will do as soon as we have time, hopefully in June or July 2014. We'll do this at the same time as we configure eConvenor to allow multiple accounts to convene one group.</p>
+      <p>The only way for one person to convene multiple groups with eConvenor at the moment is to set up a seperate account for each group. Note that each account requires a different email address.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      3.&nbsp; Does each participant get their own eConvenor account?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>No, and that's a good thing for many groups.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>eConvenor is a tool which is used by the person or people who convene a group, not by the whole group. It pushes information from the convenor out to the participants by email, rather than relying on participants coming to get that information by logging in to (yet another) web service. For the groups we had in mind when building eConvenor, it would be a bit much to expect every participant to access eConvenor to check for meeting documents and review their tasks every day or two.</p>
+      <p>Information flows from eConvenor <i>to</i> the group's participants in the form of agendas, minutes and task reminders. The only information which eConvenor needs <i>from</i> participants is to be told when they have completed a task assigned to them. At the moment, participants provide this information directly to the group's convenor, and that person enters it into eConvenor. In the future, participants will be able to notify eConvenor directly when they have completed a task, but they still won't need an account to do that -- they will probably do it by clicking a link in a task reminder email.</p>
+      <p>If you're looking for a tool which every member of your group would log in to every day or two, this could be an indication that you need something a bit different to eConvenor. You might be after a tool with more sophisticated task/project management functionality, or a tool to help your group make decisions without having meetings. If you have a look at other web services, you might find something which suits your needs better than eConvenor does.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      4.&nbsp; Can one task be assigned to multiple participants?
+    </div>
+    <div class="panel-body">
+      <p><i><b>Short answer</b></i></p>
+      <p>No. This can cause confusion.</p>
+      <p><i><b>Long answer</b></i></p>
+      <p>When we were designing eConvenor, we considered allowing one task to be assigned to multiple people. We decided not to because in our experience this can result in every person it is assigned to leaving it for one of the other people it is assigned to to do -- then no one actually does it.</p>
+      <p>We thought that if each task could only be assigned to one person, then it would always be clear who was responsible for it. That person could never assume that someone else might do it.</p>
+      <p>In the future, we plan to enable a task to be assigned to one participant who would have primary responsibility for it, and allow other participants to be added to the task as that helpers for the participant who has primary responsibility.</p>
+      <p>At the moment, you can create an identical task for each participant if multiple participants all need to work on the same task.</p>
+    </div>
+  </div><!-- /.panel -->
+  <div class="panel panel-default panel-help">
+    <div class="panel-heading">
+	  <i class="fa fa-certificate fa-fw fa-lg"></i>&nbsp;
+      5.&nbsp; How do I stop automatic email reminders being sent to a particular participant?
+    </div>
+    <div class="panel-body">
+      <p>1.&nbsp; Choose <i>Participants > Manage participants</i> from the menu on the right side of the screen.</p>
+      <p>2.&nbsp; Click on the name of the participant you want to stop sending reminders to.</p>
+      <p>3.&nbsp; Click the red button to edit their details.</p>
+      <p>4.&nbsp; Un-check the checkbox labled "Automatically email reminders about nearly-due and overdue tasks (recommended)".</p>
+    </div>
+  </div><!-- /.panel -->
+</div><!-- /.col -->
+
+{% endblock content %}
+
