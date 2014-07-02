@@ -723,3 +723,16 @@ form .panel-heading {
   color: #999999;
   font-size: 0.9em;
 }
+
+/* EMAIL OBFUSCATION
+-------------------------------------------------- */
+
+.dubious,
+.doubtful {
+  display:none;
+}
+
+.actual,
+.real {
+  display:inline;
+}
