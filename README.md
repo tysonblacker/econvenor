@@ -23,6 +23,10 @@
 1. Load test data from fixtures: `manage.py loaddata testdata`
     - This sets up a user with email `ash@econvenor.org` and password `ashanderson1!` and populates that account with test data.
 
+## Issue tracker
+
+eConvenor's issue tracker is at [https://trac.econvenor.org](https://trac.econvenor.org)
+
 ## Licence
 
 Details coming soon.
