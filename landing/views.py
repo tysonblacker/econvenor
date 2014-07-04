@@ -56,3 +56,6 @@ def donate(request):
 
 def source(request):
     return render(request, 'source.html')
+
+def pricing(request):
+    return render(request, 'pricing.html')

@@ -26,6 +26,7 @@ urlpatterns = patterns('',
 	url(r'^volunteer/$', 'landing.views.volunteer', name="volunteer"),
 	url(r'^donate/$', 'landing.views.donate', name="donate"),
 	url(r'^source/$', 'landing.views.source', name="source"),
+	url(r'^pricing/$', 'landing.views.pricing', name="pricing"),
 
 	url(r'^login/$', 'authentication.views.user_login', name="login"),
 	url(r'^logout/$', 'authentication.views.user_logout', name="logout"),
