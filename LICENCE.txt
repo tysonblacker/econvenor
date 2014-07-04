@@ -1,0 +1,3 @@
+The licence for the eConvenor source code and documentation can be found at:
+
+https://www.econvenor.org/source

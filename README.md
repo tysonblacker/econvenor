@@ -26,7 +26,3 @@
 ## Issue tracker
 
 eConvenor's issue tracker is at [https://trac.econvenor.org](https://trac.econvenor.org)
-
-## Licence
-
-Details coming soon.
