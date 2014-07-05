@@ -572,7 +572,6 @@ li p.lead {
 }
 
 .general .table.table-bordered {
-  width: 97%;
   margin: 30px 0 30px 10px;
 }
 
@@ -580,11 +579,13 @@ li p.lead {
   color: #ffffff;
   font-weight: normal;
   background-color: #555555;
+  border: 3px solid #e3e3e3;
 }
 
 .general .table td {
   color: #333333;
   background-color: #fafafa;
+  border: 3px solid #e3e3e3;
 }
 
 /* REGISTRATION PAGES
@@ -690,12 +691,14 @@ form .panel-heading {
   font-size: 0.85em;
   font-weight: normal;
   background-color: #555555;
+  border: 3px solid #ffffff;
 }
 
 .panel-register .table td {
   color: #333333;
   font-size: 0.80em;
-  background-color: #fafafa;
+  background-color: #e3e3e3;
+  border: 3px solid #ffffff;
 }
 
 .panel-register .form-group {
