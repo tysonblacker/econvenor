@@ -362,7 +362,8 @@ a:focus.email-link {
 }
 
 .fa-terminal,
-.fa-bug {
+.fa-bug,
+.fa-lightbulb-o {
 left: 9px; /* centers terminal icon horizonally on box icon */
 }
 

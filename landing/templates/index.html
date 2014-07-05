@@ -3,7 +3,7 @@
 
 {% block seo %}
   <title>eConvenor  |  A virtual convenor for activist groups</title>
-  <meta name="description" content="A free virtual convenor for progressive activist groups. Built by activists for activists!">
+  <meta name="description" content="A virtual convenor for progressive activist groups. Built by activists for activists!">
 {% endblock seo %}
 
 {% block content %}
@@ -31,11 +31,11 @@
           <div class="col-md-5">            
             <ul class="fa-ul">            
               <li><i class="fa-li fa fa-list fa-lg red"></i>Adds lists of outstanding tasks</li>
+              <li><i class="fa-li fa fa-file-pdf-o fa-lg red"></i>Produces a neat PDF document</li>
               <li><i class="fa-li fa fa-envelope-o fa-lg red"></i>Emails it straight to your group</li>
+              <li><i class="fa-li fa fa-align-left fa-lg red"></i>Includes a meeting summary in the email</li>
               <li><i class="fa-li fa fa-cubes fa-lg red"></i>Designed to encourage productive meetings</li>
               <li><i class="fa-li fa fa-clock-o fa-lg red"></i>Calculates the meeting end time</li>
-              <li><i class="fa-li fa fa-align-left fa-lg red"></i>Includes a meeting summary in the email</li>
-              <li><i class="fa-li fa fa-file-pdf-o fa-lg red"></i>Produces a neat PDF document</li>
               <li><i class="fa-li fa fa-check-circle fa-lg red"></i>Prompts for all the important information</li>
               </ul>            
           <a href={% url 'example-agenda' %}><button type="button" class="btn btn-primary visible-md visible-lg"><i class="fa-fw fa fa-file-pdf-o fa-lg"></i>&nbsp;See an example agenda</button></a>
@@ -280,7 +280,7 @@
     
         <div class="row">
           <div class="col-xs-12">
-            <h1 class="red">eConvenor is a free service!</h1>
+            <h1 class="red">eConvenor is free for most groups</h1>
             <p class="lead">We aim to make the eConvenor service available as widely as we can. This means eConvenor is free for almost everyone, and we ask better funded groups to contribute financially.</p>      
           </div><!-- /.col-xs-12 -->
         </div><!-- /.row -->    
@@ -321,20 +321,31 @@
                     <i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
                   </span>
                   <ul>
-                    <li><p class="lead red">Can you code? Do you want to learn how?</p></li>
-                    <li><p>When you write code to improve and extend eConvenor, you help activist groups and campaigns around the world be more effective. If you're looking for a way to make a difference on a large scale, come and work on eConvenor with us.</p></li>
-                    <li><p>If you're an experienced coder, that's great. If not, we'll help you learn. We started coding not that long ago ourselves.</p></li>
-                    
+                    <li><p class="lead red">Got coding or web design skills?</p></li>
+                    <li><p>Help us build eConvenor into a powerful tool which helps activist groups around the world. <a href={% url 'volunteer' %}>We're looking for people</a> with skills in coding (Python/Django), web development (HTML/CSS/JS), web application security, graphic design and writing/communications.</p></li>         
                   </ul>
-                  </li>
-                  <li>
+                </li>
+                <li>
+                  <span class="fa-li fa fa-stack fa-xl">
+                    <i class="fa fa-square fa-stack-2x red"></i>
+                    <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <ul>
+                    <li><p class="lead red">No specialist skills but lots of initiative?</p></li>
+                    <li><p>There are always non-technical tasks which need doing, and the only pre-requisite for working on them is an ability to take some initiative and solve problems. If you're the right sort of person, we'll find ways for you to <a href={% url 'volunteer' %}>work on eConvenor</a> with us no matter what your skills are.</p></li>
+                  
+                  
+                  
+                  </ul>
+                </li>
+                <li>
                   <span class="fa-li fa fa-stack fa-xl">
                     <i class="fa fa-square fa-stack-2x red"></i>
                     <i class="fa fa-bug fa-stack-1x fa-inverse"></i>
                   </span>
                   <ul>
-                    <li><p class="lead red">We like getting bug reports</p></li>
-                    <li><p>Once eConvenor goes live, we will be relying on you to tell us when something doesn't work properly. Your feedback will help make eConvenor better. When you find a bug, please take a few minutes to tell us so that we can fix it.</p></li>
+                    <li><p class="lead red">Got 5 minutes to report a bug?</p></li>
+                    <li><p>If eConvenor does something unexpected while you're using it, take a few minutes to tell us! We'll fix the problem and eConvenor will be a better service for everyone as a result.</p></li>
                   </ul>
                 </li>
               </ul><!-- /.fa-ul -->
