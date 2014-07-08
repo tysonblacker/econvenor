@@ -27,6 +27,7 @@ urlpatterns = patterns('',
 	url(r'^donate/$', 'landing.views.donate', name="donate"),
 	url(r'^source/$', 'landing.views.source', name="source"),
 	url(r'^pricing/$', 'landing.views.pricing', name="pricing"),
+	url(r'^public-key/$', TemplateView.as_view(template_name='econvenor_public_key.txt', content_type='text/plain'), name="public-key"),
 
 	url(r'^login/$', 'authentication.views.user_login', name="login"),
 	url(r'^logout/$', 'authentication.views.user_logout', name="logout"),
