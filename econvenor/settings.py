@@ -20,8 +20,8 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, '../utilities/management/commands/templates'),
     )
 
-# Set the host name
-HOST_NAME = os.environ['ECONVENOR_HOST_NAME']
+# Get the environment (development/test/production)
+ENVIRONMENT= os.environ['ECONVENOR_ENVIRONMENT']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -30,17 +30,16 @@ HOST_NAME = os.environ['ECONVENOR_HOST_NAME']
 SECRET_KEY = os.environ['ECONVENOR_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
-if socket.gethostname() == HOST_NAME:
-	DEBUG = False
-	TEMPLATE_DEBUG = False
-	ALLOWED_HOSTS =[
-		'.econvenor.org',
-	]
+if ENVIRONMENT == 'development':
+    DEBUG = True
+    TEMPLATE_DEBUG = True
+    ALLOWED_HOSTS = []
 else:
-	DEBUG = True
-	TEMPLATE_DEBUG = True
-	ALLOWED_HOSTS = []
+    DEBUG = False
+    TEMPLATE_DEBUG = False
+    ALLOWED_HOSTS =[
+        '.econvenor.org',
+    ]
 
 # Application definition
 # --------------------------------------------------------
@@ -95,27 +94,26 @@ ADMINS = (('Error Notifications', 'errors@econvenor.org'),)
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-
 DATABASE_PASSWORD = os.environ['ECONVENOR_DATABASE_PASSWORD']
 DATABASE_USER = os.environ['ECONVENOR_DATABASE_USER']
 DATABASE_NAME = os.environ['ECONVENOR_DATABASE_NAME']
 
-if socket.gethostname() == HOST_NAME:
-	DATABASES = {
-    	'default': {
-    	    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    	    'NAME': DATABASE_NAME,
-		'USER': DATABASE_USER,
-		'PASSWORD': DATABASE_PASSWORD,
-    	}
-	}
+if ENVIRONMENT == 'development':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 else:
-	DATABASES = {
-	    'default': {
-	        'ENGINE': 'django.db.backends.sqlite3',
-	        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-	    }
-	}
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': DATABASE_NAME,
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
+        }
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -139,9 +137,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'commonstatic'),
 )
 
-if socket.gethostname() == HOST_NAME:
+if ENVIRONMENT == 'production':
     STATIC_ROOT = '/home/econvenor/webapps/econvenor_static/'
-else:
+elif ENVIRONMENT == 'test':
+    STATIC_ROOT = '/home/econvenor/webapps/test_econvenor_static/'
+elif ENVIRONMENT == 'development':
     STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Media files
@@ -149,25 +149,25 @@ else:
 
 MEDIA_URL = '/media/'
 
-if socket.gethostname() == HOST_NAME:
+if ENVIRONMENT == 'production':
     MEDIA_ROOT = '/home/econvenor/webapps/econvenor_media/'
-else:
+elif ENVIRONMENT == 'test':
+    MEDIA_ROOT = '/home/econvenor/webapps/test_econvenor_media/'
+elif ENVIRONMENT == 'development':
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-	
+    
 # Email
 # https://docs.djangoproject.com/en/1.6/topics/email/
 
-
-
-if socket.gethostname() == HOST_NAME:
-	EMAIL_HOST = 'smtp.webfaction.com'
-	EMAIL_PORT = os.environ['ECONVENOR_EMAIL_PORT']
-	EMAIL_HOST_USER = 'econvenor_noreply'
-	EMAIL_HOST_PASSWORD = os.environ['ECONVENOR_EMAIL_PASSWORD']
-	DEFAULT_FROM_EMAIL = 'noreply@econvenor.org'
-	SERVER_EMAIL = 'mail@econvenor.org'
-else:
-	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if ENVIRONMENT == 'development':
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else: 
+    EMAIL_HOST = 'smtp.webfaction.com'
+    EMAIL_PORT = os.environ['ECONVENOR_EMAIL_PORT']
+    EMAIL_HOST_USER = 'econvenor_noreply'
+    EMAIL_HOST_PASSWORD = os.environ['ECONVENOR_EMAIL_PASSWORD']
+    DEFAULT_FROM_EMAIL = 'noreply@econvenor.org'
+    SERVER_EMAIL = 'mail@econvenor.org'
 
 # Dates and times
 # --------------------------------------------------------

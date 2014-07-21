@@ -10,7 +10,7 @@
     - If this fails, do `sudo apt-get install python-dev postgresql libpq-dev` then try again.
 1. Set these environment variables in `.bashrc` (DO NOT use these values for PRODUCTION):
     - ECONVENOR_SECRET_KEY=13480dj3io12nrb4786ydge76gq78yd3b
-    - ECONVENOR_HOST_NAME=no_host
+    - ECONVENOR_ENVIRONMENT=development
     - ECONVENOR_EMAIL_PORT=no_port
     - ECONVENOR_DATABASE_NAME=econvenor_database
     - ECONVENOR_DATABASE_PASSWORD=ncds8rbce7
