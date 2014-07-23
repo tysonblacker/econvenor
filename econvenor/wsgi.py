@@ -21,31 +21,31 @@ if ENVIRONMENT == 'development':
 	application = get_wsgi_application()
 elif ENVIRONMENT == 'test':
 	site.addsitedir(
-		'/home/econvenor/.virtualenvs/env_test/lib/python2.7/site-packages'
+		'/home/econvenor/.virtualenvs/test/lib/python2.7/site-packages'
 	)
 	activate_this = os.path.expanduser(
-		"~/.virtualenvs/env_test/bin/activate_this.py"
+		"~/.virtualenvs/test/bin/activate_this.py"
 	)
 	execfile(activate_this, dict(__file__=activate_this))
 
 	# Calculate the path based on the location of the WSGI script
-	project = '/home/econvenor/webapps/econvenor_test/'
+	project = '/home/econvenor/webapps/test_econvenor/'
 	workspace = os.path.dirname(project)
 	sys.path.append(workspace)
 
-	sys.path = ['/home/econvenor/webapps/econvenor_test/econvenor',
-		'/home/econvenor/webapps/econvenor_test/any_otherPaths?',
-		'/home/econvenor/webapps/econvenor_test'
+	sys.path = ['/home/econvenor/webapps/test_econvenor/econvenor',
+		'/home/econvenor/webapps/test_econvenor/any_otherPaths?',
+		'/home/econvenor/webapps/test_econvenor'
 	]+ sys.path
 
 	from django.core.handlers.wsgi import WSGIHandler
 	application = WSGIHandler()
 elif ENVIRONMENT == 'production':
 	site.addsitedir(
-		'/home/econvenor/.virtualenvs/env/lib/python2.7/site-packages'
+		'/home/econvenor/.virtualenvs/production/lib/python2.7/site-packages'
 	)
 	activate_this = os.path.expanduser(
-		"~/.virtualenvs/env/bin/activate_this.py"
+		"~/.virtualenvs/production/bin/activate_this.py"
 	)
 	execfile(activate_this, dict(__file__=activate_this))
 
