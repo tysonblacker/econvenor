@@ -7,6 +7,6 @@
 cd ~/webapps/econvenor/econvenor
 source ~/.bashrc
 source ~/bin/virtualenvwrapper.sh
-workon env
+workon production
 python2.7 manage.py reminders
-deactivate env
+deactivate
