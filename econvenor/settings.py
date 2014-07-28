@@ -159,15 +159,18 @@ elif ENVIRONMENT == 'development':
 # Email
 # https://docs.djangoproject.com/en/1.6/topics/email/
 
-if ENVIRONMENT == 'development':
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else: 
+if ENVIRONMENT == 'production':
     EMAIL_HOST = 'smtp.webfaction.com'
     EMAIL_PORT = os.environ['ECONVENOR_EMAIL_PORT']
     EMAIL_HOST_USER = 'econvenor_noreply'
     EMAIL_HOST_PASSWORD = os.environ['ECONVENOR_EMAIL_PASSWORD']
     DEFAULT_FROM_EMAIL = 'noreply@econvenor.org'
     SERVER_EMAIL = 'mail@econvenor.org'
+elif ENVIRONMENT == 'test':
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+    EMAIL_FILE_PATH = '/home/econvenor/webapps/test_econvenor/test_data/emails'
+elif ENVIRONMENT == 'development':
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Dates and times
 # --------------------------------------------------------
