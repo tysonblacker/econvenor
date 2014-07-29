@@ -13,11 +13,22 @@
       <form role="form" id="editparticipantform" action="" method="POST">
       {% csrf_token %}
         {% for field in form %}
-          <div class="form-group">
-            {{ field.label_tag }}
-            {{ field }}
-            {{ field.errors }}
-          </div>
+          {% ifequal field.name 'reminders' %}
+            <div class="checkbox">
+              <label for="{{ field.id_for_label }}">
+                {{ field.label_tag }}<br>
+                {{ field }}
+              </label>
+              {{ field.errors }}
+              <br>
+            </div>          
+          {% else %}
+            <div class="form-group">
+              {{ field.label_tag }}
+              {{ field }}
+              {{ field.errors }}
+            </div>
+          {% endifequal %}
         {% endfor %}
         <div class="pull-right">
           <button class="btn btn-default delete-button"

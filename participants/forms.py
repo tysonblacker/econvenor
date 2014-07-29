@@ -81,9 +81,6 @@ class EditParticipantForm(forms.ModelForm):
             'status': forms.Select(attrs={
                 'class': 'form-control',
                 }),
-            'reminders': forms.CheckboxInput(attrs={
-                'class': 'form-control',
-                }),
             'notes': forms.Textarea(attrs={
                 'class': 'charactercounter form-control',
                 'maxlength': 300,

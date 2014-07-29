@@ -55,11 +55,14 @@
           {{ meeting_form.apologies }}
           {{ meeting_form.apologies.errors }}
         </div>
-        <div class="form-group">
-          {{ meeting_form.existing_tasks_in_minutes.label_tag}}
-          {{ meeting_form.existing_tasks_in_minutes }}
+        <div class="checkbox">
+          <label for="{{ meeting_form.existing_tasks_in_minutes.id_for_label }}">
+            {{ meeting_form.existing_tasks_in_minutes.label_tag }}<br>
+            {{ meeting_form.existing_tasks_in_minutes }}
+          </label>
           {{ meeting_form.existing_tasks_in_minutes.errors }}
-        </div> 
+          <br>
+        </div>
         <div class="form-group">
           {{ meeting_form.instructions_actual.label_tag}}
           {{ meeting_form.instructions_actual }}

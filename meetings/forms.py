@@ -248,9 +248,6 @@ class MinutesMeetingForm(forms.ModelForm):
                 'maxlength': 200,
                 'rows': 4,
                 }),
-            'existing_tasks_in_minutes': forms.CheckboxInput(attrs={
-                'class': 'form-control',
-                }),
             }              
 
     def save(self, group, commit=True):
