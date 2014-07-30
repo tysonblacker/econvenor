@@ -64,6 +64,16 @@ function preparingPreview(){
 };
 
 
+/* Highlight "Add decision" and "Add task buttons"
+-------------------------------------------------- */
+
+$(document).on("focus blur", ".minute-notes", function(){ 
+  $(this).parent().next().children().children( ".btn" ).toggleClass(
+    "btn-default btn-primary"
+  );
+});
+
+
 /* Update page using AJAX
 -------------------------------------------------- */
 

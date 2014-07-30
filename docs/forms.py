@@ -80,7 +80,7 @@ class MinutesItemForm(forms.ModelForm):
                 'class': 'charactercounter form-control item-title',
                 }),
             'minute_notes': forms.Textarea(attrs={
-                'class': 'charactercounter form-control',
+                'class': 'charactercounter form-control minute-notes',
                 'maxlength': 2000,
                 'rows': 4,
                 }),
