@@ -24,6 +24,14 @@
         background-color: #eee;
       }
 
+      h3 {
+        margin-left: 10px;
+      }
+      
+      p {
+        margin-bottom: 20px;
+      }
+
       .red {
         color: #ff0066;
       }
@@ -88,8 +96,9 @@
     
       <h1 class="text-center red">Log in to eConvenor</h1>
       <div class="well">
-        <h3 class="text-center red">Service outage</h3>
-        <p class="text-center">The eConvenor service is scheduled to be down between midnight and 6:00am on Saturday August 23rd Australian Eastern Standard Time (2:00pm to 8:00pm Friday UTC).</p>
+        <h3 class="red">Server work was done on Saturday August 23rd</h3>
+        <p>Major work was done on eConvenor's server on Saturday August 23rd.</p>
+        <p>It seemed to go smoothly, but if you experience any unexpected behaviour please <a href="mailto:mail@econvenor.org?subject=The+server+work+broke+something">let us know</a>.</p>
       </div>
       <form class="form-signin" role="form" method="POST">
         {% csrf_token %}
