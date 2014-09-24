@@ -1,13 +1,13 @@
 # eConvenor
 
-[eConvenor](https://www.econvenor.org) is Django web application which helps people convene a group more effectively.
+[eConvenor](https://www.econvenor.org) is a Django web application which helps people convene a group more effectively.
 
 ## Installation for local testing or development
 
 1. Clone the eConvenor Github repository: `git clone https://github.com/econvenor/econvenor.git`
 1. Set up a new virtual environment using virtualenv: `mkvirtualenv development`
     - You need to have `virtualenv` and `virtualenvwrapper` to do this.
-    - Yuo can install them with: `sudo pip install virtualenv virtualenvwrapper`
+    - You can install them with: `sudo pip install virtualenv virtualenvwrapper`
 1. Install requirements.txt: `pip install -r requirements.txt`
     - If this fails, do `sudo apt-get install python-dev postgresql libpq-dev` then try again.
 1. Set these environment variables in your `.bashrc` (DO NOT use these values for PRODUCTION):
