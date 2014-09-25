@@ -945,7 +945,7 @@ def distribute_pdf(request, group, meeting, doc_type):
     convenor_name = group.users.get().first_name
     convenor_email = convenor_name + ' <' + group.users.get().email + '>'
     sender = convenor_name + ' via eConvenor <noreply@econvenor.org>'
-    bcc = ['mail@econvenor.org']
+    bcc = ['qa@econvenor.org']
     if doc_type == 'agenda':
         subject = group_name + ': Agenda for the meeting on ' + \
                       meeting.date_scheduled.strftime("%d %B %Y")

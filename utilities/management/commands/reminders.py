@@ -77,7 +77,7 @@ def send_reminder_email(group, participant, reminder_interval, due_tasks,
     convenor_email = group.users.get().email
     sender = 'eConvenor <noreply@econvenor.org>'
     subject = group_name + ': A reminder about your tasks'       
-    bcc = ['mail@econvenor.org']
+    bcc = ['qa@econvenor.org']
     # Generate the email body in html and plain text
     context_dictionary = {'convenor_email': convenor_email,
                           'convenor_name': convenor_name,
@@ -110,7 +110,7 @@ def send_summary_email(group, reminder_interval, all_due_tasks,
     recipient = [convenor_email]    
     sender = 'eConvenor <noreply@econvenor.org>'
     subject = group_name + ': Summary of today\'s task reminders'
-    bcc = ['mail@econvenor.org']
+    bcc = ['qa@econvenor.org']
     # Sort the task lists by deadline
     all_overdue_tasks.sort(key=lambda x: str(x.deadline))
     all_due_tasks.sort(key=lambda x: str(x.deadline))
