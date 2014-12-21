@@ -103,8 +103,8 @@
       </form>
   	  <p class="text-center red">{{ error }}</p>
       <br>
-      <h3 class="text-center">Forgotten your password?</h3>
-      <p class="text-center">Drop us an <a href="mailto:mail@econvenor.org?subject=I+need+a+password+reset">email</a> and we'll sort you out with password reset.</p>
+      <h3 class="text-center"><a href={% url 'password_reset' %}>Forgotten your
+      password?</a></h3>
       <br>
       <h3 class="text-center">To sign up for an account click <a href={% url 'qualify' 'step0' %} class="red">here</a>.</h3>
   	  

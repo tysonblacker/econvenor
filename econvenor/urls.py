@@ -6,6 +6,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import TemplateView
 
+from accounts.forms import PasswordResetForm
+
 admin.autodiscover()
 
 ADMIN_URL = os.environ['ECONVENOR_ADMIN_URL'] + '/'
@@ -116,6 +118,31 @@ urlpatterns = patterns('',
         name="feature-edit"),
     url(r'^features-admin/$', 'bugs.views.feature_list_admin',
         name="feature-list-admin"),
+
+    url(r'^forgotten-password/reset-request/$',
+        'django.contrib.auth.views.password_reset',
+        {
+            'template_name':'password_reset.html',
+            'email_template_name':'password_reset_email.html',
+            'subject_template_name':'password_reset_subject.txt',
+            'from_email':'noreply@econvenor.org',
+        },
+        name='password_reset'),
+    url(r'^forgotten-password/email-sent/$',
+        'django.contrib.auth.views.password_reset_done',
+        {'template_name':'password_reset_done.html'},
+        name='password_reset_done'),
+    url(r'^forgotten-password/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$',
+        'django.contrib.auth.views.password_reset_confirm',
+        {
+            'set_password_form':PasswordResetForm,
+            'template_name':'password_reset_confirm.html',
+        },
+        name='password_reset_confirm'),
+    url(r'^forgotten-password/reset-succeeded/$',
+        'django.contrib.auth.views.password_reset_complete',
+        {'template_name':'password_reset_complete.html'},
+        name='password_reset_complete'),
 
     url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt',
         content_type='text/plain')),

@@ -7,13 +7,13 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from accounts.models import Group
 
 
-class PasswordChangeForm(forms.ModelForm):
+class BasePasswordForm(forms.ModelForm):
     """
-    A form which changes a user's password.
+    A base class to use for PasswordChangeForm and PasswordResetForm.
     """
     error_messages = {
-        'password_incorrect': _("The current password is incorrect"),
         'password_mismatch': _("The two password fields didn't match."),
+        'password_incorrect': _("The current password is incorrect"),
     }
     password1 = forms.RegexField(label=_("New password"), min_length=8,
         regex=r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W)[a-zA-Z0-9\S]{8,}$',
@@ -28,8 +28,41 @@ class PasswordChangeForm(forms.ModelForm):
                                    }))
 
     def __init__(self, user, *args, **kwargs):
-        super(PasswordChangeForm, self).__init__(*args, **kwargs)
+        super(BasePasswordForm, self).__init__(*args, **kwargs)
         self.user = user
+    
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError(
+                self.error_messages['password_mismatch'],
+                code='password_mismatch',
+            )
+        return password2
+            
+    def save(self, commit=True):
+        self.user.set_password(self.cleaned_data["password1"])
+        if commit:
+            self.user.save()
+        return self.user
+
+
+class PasswordResetForm(BasePasswordForm):
+    """
+    A form which resets a user's password when the user is not logged in to
+    eConvenor.
+    """
+    class Meta:
+        model = User
+        fields = []
+
+
+class PasswordChangeForm(BasePasswordForm):
+    """
+    A form which changes a user's password when the user is logged in to
+    eConvenor.
+    """
     
     class Meta:
         model = User
@@ -52,22 +85,6 @@ class PasswordChangeForm(forms.ModelForm):
                 code='password_incorrect',
             )
         return password
-   
-    def clean_password2(self):
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError(
-                self.error_messages['password_mismatch'],
-                code='password_mismatch',
-            )
-        return password2
-            
-    def save(self, commit=True):
-        self.user.set_password(self.cleaned_data["password1"])
-        if commit:
-            self.user.save()
-        return self.user
 
 
 class UserDetailsForm(forms.ModelForm):
