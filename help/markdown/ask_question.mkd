@@ -1,7 +1,0 @@
-# Ask a question
-
----
-
-If you have a question, please take a look at the Q&A to see if it's been answered there.
-
-If it hasn't, please email it to: mail@econvenor.org

@@ -33,6 +33,12 @@ h2 {
   line-height: 1.1;
 }
 
+a,
+a:hover,
+a:focus {
+  color: #ff0066;
+}
+
 label.error {
   margin-top: 6px;
   color: #ff0066;
@@ -406,11 +412,6 @@ body {
 
 .panel-body {
   background-color: #bbbbbb;
-}
-
-.panel a:hover,
-.panel a:focus {
-  text-decoration: none;
 }
 
 .panel-footer {
