@@ -97,7 +97,7 @@
       <h1 class="text-center red">Log in to eConvenor</h1>
       <form class="form-signin" role="form" method="POST">
         {% csrf_token %}
-        <input type="text" class="form-control" id="id_email" name="email" placeholder="Email" required autofocus>
+        <input type="text" class="form-control email" id="id_email" name="email" placeholder="Email" required autofocus>
         <input type="password" class="form-control" id="id_password" name="password" placeholder="Password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit" name="login_button">Sign in</button>
       </form>
@@ -116,6 +116,12 @@
 	<script type="text/javascript">
 	  var bootstrapButton = $.fn.button.noConflict()
 	  $.fn.bootstrapBtn = bootstrapButton 
+	</script>
+
+	<script type="text/javascript">
+    $('.email').on("keyup", function(){
+      $(this).val($(this).val().toLowerCase());
+    });
 	</script>
 
   </body>

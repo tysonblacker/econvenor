@@ -53,7 +53,7 @@ class UserRegisterForm(forms.ModelForm):
         }
 
     def clean_email(self):
-        email = self.cleaned_data["email"]
+        email = self.cleaned_data["email"].lower()
         try:
             User._default_manager.get(email=email)
         except User.DoesNotExist:

@@ -388,3 +388,10 @@ $(function initialiseTipBox() {
   setTipInterval();
 });
 
+
+/* Force email addresses to lower case
+-------------------------------------------------- */
+
+$('.email').on("keyup", function(){
+  $(this).val($(this).val().toLowerCase());
+});

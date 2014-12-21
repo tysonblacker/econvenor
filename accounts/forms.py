@@ -99,7 +99,7 @@ class UserDetailsForm(forms.ModelForm):
     }
     email = forms.EmailField(label=_("Email address"),
         widget=forms.EmailInput(attrs={
-                                   'class': 'form-control field-medium',
+                                   'class': 'form-control field-medium email',
                                    }),
         error_messages={
             'invalid': _("This must be a valid email address.")})
@@ -132,7 +132,7 @@ class UserDetailsForm(forms.ModelForm):
         }
 
     def clean_email(self):
-        email = self.cleaned_data["email"]
+        email = self.cleaned_data["email"].lower()
         try:
             User._default_manager.get(email=email)
         except User.DoesNotExist:

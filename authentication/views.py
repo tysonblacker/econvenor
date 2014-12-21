@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 def user_login(request):
     error = ''
     if request.method == 'POST':
-        email = request.POST['email']
+        email = request.POST['email'].lower()
         password = request.POST['password']
         user = authenticate(email=email, password=password)
         if user is not None:
