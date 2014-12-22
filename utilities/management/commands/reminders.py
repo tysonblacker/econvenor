@@ -7,7 +7,6 @@ from django.template.loader import render_to_string
 from accounts.models import Group
 from tasks.models import Task
 from participants.models import Participant
-from utilities.commonutils import set_path
 
 
 class Command(BaseCommand): 

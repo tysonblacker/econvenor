@@ -1,9 +1,9 @@
-Hi {name},
+Hi {{ name }},
 
 Welcome to eConvenor!
 
-You've set up an account for {group}.
-Your login email address is *{email}*.
+You've set up an account for {{ group }}.
+Your login email address is *{{ email }}*.
 
 If you need some help getting started, you'll find a handy Quick Start Guide under the Help menu in your eConvenor account.
 

@@ -38,7 +38,6 @@ from meetings.models import Meeting
 from meetings.utils import find_or_create_distribution_record
 from participants.models import Participant
 from tasks.models import Task
-from utilities.commonutils import set_path
 
 
 # Define colors

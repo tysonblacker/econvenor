@@ -1,7 +1,5 @@
 from django.shortcuts import render
 
-from utilities.commonutils import set_path
-
 
 def quick_start_guide(request):
 

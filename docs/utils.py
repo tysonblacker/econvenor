@@ -17,7 +17,6 @@ from meetings.models import Meeting
 from participants.models import Participant
 from tasks.forms import MinutesTaskForm
 from tasks.models import Task
-from utilities.commonutils import set_path
 
 
 def add_item(group, meeting, items, doc_type):
