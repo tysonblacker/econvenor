@@ -1,4 +1,8 @@
-from datetime import date
+from datetime import (
+    date,
+    datetime,
+    timedelta,
+)
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -16,9 +20,9 @@ from utilities.commonutils import get_current_group
 
 def dashboard(request):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-    
+
     last_meeting = Meeting.lists.past_meetings().filter(group=group).last()
     next_meeting = Meeting.lists.future_meetings().filter(group=group).first()
     if last_meeting:
@@ -33,7 +37,7 @@ def dashboard(request):
                      'Deadline',
                      )
 
-    menu = {'parent': 'dashboard', 'tips': 'dashboard'}        
+    menu = {'parent': 'dashboard', 'tips': 'dashboard'}
     return render(request, 'dashboard.html', {
                   'menu': menu,
                   'group': group,
@@ -50,8 +54,16 @@ def dashboard_admin(request):
     if (not request.user.is_authenticated()) or (request.user.id != 1):
         return HttpResponseRedirect(reverse('index'))
 
+    current_time = datetime.now()
+    one_week_ago = current_time - timedelta(days=7)
+    one_month_ago = current_time - timedelta(days=28)
+
     newest_groups = Group.lists.newest_groups()
     total_accounts = Group.lists.all_groups().count()
+    total_active_in_last_week = \
+        User.objects.filter(last_login__gte=one_week_ago).count()
+    total_active_in_last_month = \
+        User.objects.filter(last_login__gte=one_month_ago).count()
     total_agendas = DistributionRecord.objects.filter(doc_type='agenda').\
                     count()
     total_completed_tasks = Task.lists.completed_tasks().count()
@@ -68,12 +80,14 @@ def dashboard_admin(request):
     total_participants = Participant.objects.all().count()
     total_tasks = Task.objects.all().count()
     total_trial_accounts = Group.objects.filter(account_type='Trial').count()
-        
-    menu = {'parent': 'dashboard'}        
+
+    menu = {'parent': 'dashboard'}
     return render(request, 'dashboard_admin.html', {
                   'menu': menu,
                   'newest_groups': newest_groups,
                   'total_accounts': total_accounts,
+                  'total_active_in_last_week': total_active_in_last_week,
+                  'total_active_in_last_month': total_active_in_last_month,
                   'total_agendas': total_agendas,
                   'total_completed_tasks': total_completed_tasks,
                   'total_decisions': total_decisions,
@@ -89,4 +103,3 @@ def dashboard_admin(request):
                   'total_tasks': total_tasks,
                   'total_trial_accounts': total_trial_accounts,
                   })
-	
