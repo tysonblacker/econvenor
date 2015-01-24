@@ -54,8 +54,14 @@ def volunteer(request):
 def donate(request):
     return render(request, 'donate.html')
 
+
 def source(request):
     return render(request, 'source.html')
 
+
 def pricing(request):
     return render(request, 'pricing.html')
+
+
+def hack(request):
+    return render(request, 'hack.html')
