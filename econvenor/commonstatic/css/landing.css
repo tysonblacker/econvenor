@@ -118,6 +118,33 @@ body {
 }
 
 
+/* RIBBON
+-------------------------------------------------- */
+
+.ribbon {
+  color: #ffffff;
+  padding-top: 12px;
+  padding-bottom: 7px;
+  background-color: #ff0066;
+}
+
+.ribbon .message-container {
+  display: table;
+  width: auto;
+  margin: 0 auto;
+}
+
+.ribbon a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.ribbon a:hover,
+.ribbon a:focus {
+  color: #ffb8d4;
+}
+
+
 /* BUTTONS
 -------------------------------------------------- */
 
