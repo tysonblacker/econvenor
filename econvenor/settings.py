@@ -51,7 +51,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'south',
 
     'accounts',
@@ -70,6 +70,14 @@ INSTALLED_APPS = (
     'templatetags',
     'utilities',
 )
+
+try:
+    import django_extensions
+    INSTALLED_APPS += (
+        'django_extensions',
+    )
+except ImportError:
+    pass
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -155,7 +163,7 @@ elif ENVIRONMENT == 'test':
     MEDIA_ROOT = '/home/econvenor/webapps/test_econvenor_media/'
 elif ENVIRONMENT == 'development':
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-    
+
 # Email
 # https://docs.djangoproject.com/en/1.6/topics/email/
 
@@ -191,5 +199,5 @@ TIME_INPUT_FORMATS = (
 # https://docs.djangoproject.com/en/1.6/howto/initial-data/#providing-initial-data-with-fixtures
 
 FIXTURE_DIRS = (
-    os.path.join(BASE_DIR, 'fixtures'), 
+    os.path.join(BASE_DIR, 'fixtures'),
     )
