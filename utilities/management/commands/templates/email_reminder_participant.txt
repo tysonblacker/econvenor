@@ -10,7 +10,9 @@ Just a quick reminder about some things you're responsible for doing for {{ grou
 {% for task in due_tasks %}
 {{ task.description }} (due on {{ task.deadline|date:"M j" }})
 {% endfor %}{% endif %}
-To report tasks in this message as complete, email {{ convenor_name }} at {{ convenor_email }}.
+
+You may view and update your tasks at the following page (link expires after {{ expiry_days }} days):
+{{ participant_task_url }}
 
 =============================================================
 
