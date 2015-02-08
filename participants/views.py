@@ -1,9 +1,15 @@
-from django.http import HttpResponseRedirect
+"""
+Participant views from both user and participant perspectives.
+
+All of participant_(list|add|edit|view) are from the user perspective.
+"""
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 
 from participants.models import Participant
 from participants.forms import AddParticipantForm, EditParticipantForm
+from participants.auth import authenticate, participant_required
 from tasks.forms import AddTaskForm
 from tasks.models import Task
 from utilities.commonutils import get_current_group
@@ -11,7 +17,7 @@ from utilities.commonutils import get_current_group
 
 def participant_list(request):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
 
     participants = Participant.lists.active().filter(group=group)
@@ -34,7 +40,7 @@ def participant_list(request):
             'tips': 'manage_participants'
             }
     return render(request, 'participant_list.html', {
-	              'menu': menu,
+                  'menu': menu,
                   'participants': participants,
                   'selection': selection,
                   'table_headings': table_headings,
@@ -43,13 +49,13 @@ def participant_list(request):
 
 def participant_add(request):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     if request.method == "POST":
         form = AddParticipantForm(group, request.POST, label_suffix='')
         if form.is_valid():
-            form.save(group)    
+            form.save(group)
             return HttpResponseRedirect(reverse('participant-list'))
     else:
         form = AddParticipantForm(group, label_suffix='')
@@ -59,20 +65,20 @@ def participant_add(request):
             'tips': 'new_participant'
             }
     return render(request, 'participant_add.html', {
-	              'menu': menu,
+                  'menu': menu,
                   'form': form,
                   })
 
 
 def participant_edit(request, participant_id):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     participant = Participant.objects.get(pk=int(participant_id))
     if participant.group != group:
         return HttpResponseRedirect(reverse('index'))
-   
+
     if request.method == "POST":
         if request.POST['button']=='delete_participant':
             participant.delete()
@@ -81,7 +87,7 @@ def participant_edit(request, participant_id):
             form = EditParticipantForm(group, request.POST,
                                    instance=participant, label_suffix='')
             if form.is_valid():
-                form.save(group) 
+                form.save(group)
                 return HttpResponseRedirect(reverse('participant-list'))
     else:
         form = EditParticipantForm(group, instance=participant,
@@ -92,7 +98,7 @@ def participant_edit(request, participant_id):
             'tips': 'edit_participant'
             }
     return render(request, 'participant_edit.html', {
-	              'menu': menu,
+                  'menu': menu,
                   'form': form,
                   'participant_id': participant_id
                   })
@@ -100,22 +106,39 @@ def participant_edit(request, participant_id):
 
 def participant_view(request, participant_id):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     participant = Participant.objects.get(pk=int(participant_id))
     if participant.group != group:
         return HttpResponseRedirect(reverse('index'))
-    
+
     incomplete_tasks = Task.lists.incomplete_tasks().\
                        filter(participant=participant)
     table_headings = ('Description', 'Deadline',)
 
     menu = {'parent': 'participants', 'child': 'manage_participants'}
     return render(request, 'participant_view.html', {
-	              'menu': menu,
+                  'menu': menu,
                   'participant': participant,
                   'table_headings': table_headings,
                   'incomplete_tasks': incomplete_tasks,
                   })
-                  
+
+
+def my_tasks_auth(request, participant_id, token):
+    """Authenticate a participant using a token from the last 100 days."""
+    authenticate(request, participant_id, token)
+    return HttpResponseRedirect(
+        reverse(
+            'my-tasks',
+            args=(
+                participant_id,
+            ),
+        ),
+    )
+
+@participant_required
+def my_tasks(request, participant_id):
+    # TODO: write some code!
+    return HttpResponse("Hello participant!")

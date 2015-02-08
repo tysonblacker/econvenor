@@ -2,14 +2,16 @@ from datetime import date,timedelta
 
 from django.core.mail import EmailMultiAlternatives
 from django.core.management.base import BaseCommand, CommandError
+from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 
 from accounts.models import Group
 from tasks.models import Task
+from participants.auth import EXPIRY_DAYS
 from participants.models import Participant
 
 
-class Command(BaseCommand): 
+class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """
@@ -58,7 +60,7 @@ class Command(BaseCommand):
             if all_due_tasks or all_overdue_tasks:
                 # Once all reminders have been sent, send a summary email to
                 # the convenor
-                send_summary_email(group, reminder_interval, all_due_tasks, 
+                send_summary_email(group, reminder_interval, all_due_tasks,
                                    all_overdue_tasks)
 
 
@@ -69,13 +71,13 @@ def send_reminder_email(group, participant, reminder_interval, due_tasks,
     they are assigned to.
     """
     # Set up email fields
-    recipient = [participant.email]    
+    recipient = [participant.email]
     recipient_name = participant.first_name
     group_name = group.name
     convenor_name = group.users.get().first_name
     convenor_email = group.users.get().email
     sender = 'eConvenor <noreply@econvenor.org>'
-    subject = group_name + ': A reminder about your tasks'       
+    subject = group_name + ': A reminder about your tasks'
     bcc = ['qa@econvenor.org']
     # Generate the email body in html and plain text
     context_dictionary = {'convenor_email': convenor_email,
@@ -85,6 +87,17 @@ def send_reminder_email(group, participant, reminder_interval, due_tasks,
                           'overdue_tasks': overdue_tasks,
                           'recipient_name': recipient_name,
                           'reminder_interval': reminder_interval,
+                          'participant': participant,
+                          'expiry_days': EXPIRY_DAYS,
+                          'participant_task_url': 'https://econvenor.org%s' % (
+                              reverse(
+                                'my-tasks-auth',
+                                args=(
+                                    participant.id,
+                                    participant.current_token,
+                                ),
+                              ),
+                          ),
                           }
     text_content = create_email_contents('email_reminder_participant.txt',
                                          context_dictionary)
@@ -106,7 +119,7 @@ def send_summary_email(group, reminder_interval, all_due_tasks,
     convenor_name = group.users.get().first_name
     convenor_email = group.users.get().email
     group_name = group.name
-    recipient = [convenor_email]    
+    recipient = [convenor_email]
     sender = 'eConvenor <noreply@econvenor.org>'
     subject = group_name + ': Summary of today\'s task reminders'
     bcc = ['qa@econvenor.org']

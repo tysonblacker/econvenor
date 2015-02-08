@@ -57,6 +57,11 @@ urlpatterns = patterns('',
     url(r'^participant/(\d{1,4})/edit/$',
         'participants.views.participant_edit', name="participant-edit"),
 
+    url(r'^my-tasks/(?P<participant_id>\d{1,4})/(?P<token>[0-9a-f]{40})$', 'participants.views.my_tasks_auth',
+        name="my-tasks-auth"),
+    url(r'^my-tasks/(?P<participant_id>\d{1,4})/$', 'participants.views.my_tasks',
+        name="my-tasks"),
+
     url(r'^tasks/$', 'tasks.views.task_list', name="task-list"),
     url(r'^tasks/add/$', 'tasks.views.task_add', name="task-add"),
     url(r'^tasks/(\d{1,4})/edit/$', 'tasks.views.task_edit', name="task-edit"),
