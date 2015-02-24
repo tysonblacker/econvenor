@@ -32,7 +32,15 @@ operating system, you will probably need to adjust them.
 When you see text following a ``$`` symbol in grey box, type or paste it
 into a terminal window, then press ``Enter``.
 
-Step 1. Install pip, virtualenv and virtualenvwrapper
+Step 1. Update your source list
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Make sure your source list is up-to-date::
+
+    $ sudo apt-get update
+
+
+Step 2. Install pip, virtualenv and virtualenvwrapper
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you already have these set up, skip to Step 2.
@@ -45,7 +53,7 @@ Install virtualenv and virtualenvwrapper::
 
     $ sudo pip install virtualenv virtualenvwrapper
 
-Open ``~/.bashrc``:: 
+Open ``~/.bashrc``::
 
     $ nano ~/.bashrc
 
@@ -59,19 +67,19 @@ Reload ``~/.bashrc``::
 
     $ source ~/.bashrc
 
-Step 2. Set up a virtualenv
+Step 3. Set up a virtualenv
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Create a virtualenv for your eConvenor development environment::
 
     $ mkvirtualenv econvenor
 
-Open ``~/.virtualenvs/econvenor/bin/postactivate``::
+Open the ``~/.virtualenvs/econvenor/bin/postactivate`` file, which will be
+empty::
 
     $ nano ~/.virtualenvs/econvenor/bin/postactivate
 
-Add these lines to the end of ``~/.virtualenvs/econvenor/bin/postactivate``,
-then save and close it::
+Paste these lines into it::
 
     export ECONVENOR_ADMIN_URL=administration
     export ECONVENOR_DATABASE_NAME=econvenor_database
@@ -82,6 +90,9 @@ then save and close it::
     export ECONVENOR_ENVIRONMENT=development
     export ECONVENOR_SECRET_KEY=13480dj3io12nrb4786ydge76gq78yd3b
 
+Save and close the file. If you're in the Nano editor, you do that with
+``Ctrl + O``, then ``Enter``, then ``Ctrl + X``.
+
 Now we need to restart the virtualenv so that these setting take effect. First,
 deactivate the virtualenv::
 
@@ -91,7 +102,7 @@ Now re-start the virtualenv::
 
     $ workon econvenor
 
-Step 3. Clone the repo
+Step 4. Clone the repo
 ^^^^^^^^^^^^^^^^^^^^^^
 
 For these instructions we'll clone this repo to ``~/Projects/econvenor``, but
@@ -100,7 +111,7 @@ you can put the eConvenor code anywhere you like.
 Make the ``~/Projects/econvenor`` directory::
 
     $ mkdir -p ~/Projects/econvenor
- 
+
 Then open it::
 
     $ cd ~/Projects/econvenor
@@ -111,10 +122,10 @@ now::
     $ sudo apt-get install git
 
 Clone the repo to your computer::
- 
+
     $ git clone https://github.com/econvenor/econvenor.git
 
-Step 4. Install dependencies
+Step 5. Install dependencies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Install some system-wide dependencies which will be needed::
@@ -130,29 +141,29 @@ Install the required Python packages in your virtualenv::
     $ pip install -r requirements.txt
 
 
-Step 5. Set up the database
+Step 6. Set up the database
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Initialise the database::
 
     $ python manage.py syncdb
 
-As the database is being created you'll be prompted to set up a superuser. Do
-so with account name ``superuser``, email ``superuser@econvenor.org`` and
-password ``superuser``.
+As the database is being initialised you'll be asked if you'd like to create a
+superuser. Answer ``yes``. Set up a superuser with account name ``superuser``,
+email ``superuser@econvenor.org`` and password ``superuser``.
 
 Migrate the database::
 
   $ python manage.py migrate
-  
+
 Load the example data::
 
   $ python manage.py loaddata testdata
 
 This has set up a user with email ``ash@econvenor.org`` and password
 ``ashanderson1!`` and populated that account with test data.
-    
-Step 6. Create a directory for user content
+
+Step 7. Create a directory for user content
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Create the directory which will contain user-generated content::
