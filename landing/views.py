@@ -65,3 +65,7 @@ def pricing(request):
 
 def hack(request):
     return render(request, 'hack.html')
+    
+    
+def conduct(request):
+    return render(request, 'conduct.html')
