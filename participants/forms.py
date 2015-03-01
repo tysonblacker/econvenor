@@ -3,7 +3,7 @@ from django import forms
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 from participants.models import Participant
-
+from tasks.models import Task
 
 class AddParticipantForm(forms.ModelForm):
 
@@ -94,4 +94,18 @@ class EditParticipantForm(forms.ModelForm):
         if commit:
             participant.save()
         return participant
-        
+
+
+class MyTasksForm(forms.ModelForm):
+
+    class Meta:
+        model = Task
+        fields = ['completion_date']
+
+    def save(self, commit=True):
+        task = super(MyTasksForm, self).save(commit=False)
+        task.participant_set_status_completed = True
+        task.status = 'Completed'
+        if commit:
+            task.save()
+        return task

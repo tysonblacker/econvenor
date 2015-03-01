@@ -68,6 +68,7 @@ class Task(TimeStampedModel):
     notes = models.TextField('notes (optional)',
                              validators=[MaxLengthValidator(300)],
                              null=False, blank=True)
+    participant_set_status_completed = models.NullBooleanField()
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
                               default='Incomplete',
