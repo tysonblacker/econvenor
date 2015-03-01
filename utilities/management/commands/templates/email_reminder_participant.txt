@@ -11,7 +11,7 @@ Just a quick reminder about some things you're responsible for doing for {{ grou
 {{ task.description }} (due on {{ task.deadline|date:"M j" }})
 {% endfor %}{% endif %}
 
-You may view and update your tasks at the following page (link expires after {{ expiry_days }} days):
+You can mark any of your tasks as completed at this link (which expires after {{ expiry_days }} days):
 {{ participant_task_url }}
 
 =============================================================
