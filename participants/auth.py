@@ -18,7 +18,7 @@ from django.conf import settings
 from django.core import exceptions
 
 
-EXPIRY_DAYS = getattr(settings, 'PARTICIPANT_URL_EXPIRY_DAYS', 100)
+EXPIRY_DAYS = getattr(settings, 'PARTICIPANT_URL_EXPIRY_DAYS', 30)
 SESSION_KEY = getattr(settings, 'PARTICIPANT_AUTH_SESSION_KEY', 'participant')
 
 

@@ -137,7 +137,7 @@ def participant_view(request, participant_id):
 
 
 def my_tasks_auth(request, participant_id, token):
-    """Authenticate a participant using a token from the last 100 days."""
+    """Authenticate a participant using a token from the last 30 days."""
     authenticate(request, participant_id, token)
     return HttpResponseRedirect(reverse('my-tasks'))
 
