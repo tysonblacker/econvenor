@@ -201,6 +201,6 @@ def my_tasks_done(request):
 
     return render(request, 'my_tasks_done.html', {
                   'participant': participant,
-                  'tasks_outstanding': tasks_outstanding,
+                  'no_of_tasks_outstanding': tasks_outstanding.count(),
                   'tasks_just_completed': tasks_just_completed,
                   })

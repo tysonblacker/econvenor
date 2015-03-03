@@ -82,48 +82,20 @@
                   {% endfor%}
                 </tbody>
               </table>
+              {% if no_of_tasks_outstanding %}
+                <div class="pull-right">
+                  <a type="button" class="btn btn-primary"
+                    href="{% url 'my-tasks' %}">
+                    <i class="fa fa-check-square-o fa-fw fa-lg"></i>&nbsp;
+                    View your {{ no_of_tasks_outstanding }} remaining incomplete
+                    tasks
+                  </a>
+                </div><!-- /.pull-right -->
+              {% endif %}
             </div><!-- /.panel-body -->
           {% else %}
            <div class="panel-body text-center">
               You haven't marked any tasks as completed recently.
-            </div>
-          {% endif%}
-        </div><!-- /.panel -->
-
-        <div class="panel panel-default panel-register">
-          <div class="panel-heading red">
-            <i class="fa fa-square-o fa-fw fa-lg"></i>&nbsp;
-            Tasks you still need to do
-          </div><!-- /.panel-heading -->
-          {% if tasks_outstanding %}
-            <div class="panel-body">
-              <table class="table" id="table_outstanding_tasks">
-                <thead>
-                  <tr>
-                    <th>Description</th>
-                    <th>Deadline</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for task in tasks_outstanding %}
-                    <tr>
-                      <td>{{ task.description }}</td>
-                      <td>{{ task.deadline }}</td>
-                    </tr>
-                  {% endfor%}
-                </tbody>
-              </table>
-              <div class="pull-right">
-                <a type="button" class="btn btn-primary"
-                  href="{% url 'my-tasks' %}">
-                  <i class="fa fa-check-square-o fa-fw fa-lg"></i>&nbsp;
-                  Mark more tasks completed
-                </a>
-              </div><!-- /.pull-right -->
-            </div><!-- /.panel-body -->
-          {% else %}
-            <div class="panel-body text-center">
-              Nice work! You have no incomplete tasks!
             </div>
           {% endif%}
         </div><!-- /.panel -->
