@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+{% load setclass %}
+
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon"
+      href="{% static 'images/econvenor-favicon-v1.ico' %}">
+
+    <title>eConvenor - Your virtual convenor</title>
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/jquery-ui-1.10.4.custom.min.css' %}"
+      rel="stylesheet">
+    <link href="{% static 'css/landing.css' %}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and
+         media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
+        </script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js">
+        </script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <!-- NAVBAR
+    ================================================== -->
+
+    <div class="navbar navbar-static-top">
+      <div class="container">
+        <span class="navbar-brand">
+          <a href="{% url 'index' %}">
+            <img src="{% static 'images/econvenor-logo-v1l.png' %}"
+              width="200" height="45" alt="An image of the eConvenor logo">
+          </a>
+        </span>
+      </div>
+    </div>
+
+
+    <!-- MAIN SECTION
+    ================================================== -->
+
+    <div class="container">
+      <div class="col-lg-12">
+
+        <div class="panel panel-default panel-register">
+          <div class="panel-heading red">
+            <i class="fa fa-star fa-fw fa-lg"></i>&nbsp;
+            My incomplete tasks
+          </div><!-- /.panel-heading -->
+          {% if formset_has_contents %}
+            <div class="panel-body">
+              <p class="edit-mode">Check the box next to the tasks you have
+                completed, then select the date on which they were completed.
+              </p>
+              <p class="submit-mode">You are about to mark the following tasks
+                as completed.
+              </p>
+              <form action="" method="POST" id="my_tasks_form">
+                {% csrf_token %}
+                <table class="table" id="table_manage_tasks">
+                  <thead>
+                    <tr>
+                      <th class="edit-mode">Select if completed</th>
+                      <th>Description</th>
+                      <th>Deadline</th>
+                      <th>Date completed</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{ formset.management_form }}
+                    {% for task in formset %}
+                      {{ task.id }}
+                      <tr id="task-{{ task.instance.id }}-row">
+                        <td class="edit-mode">
+                          <div class="checkbox edit-mode">
+                            <label>
+                              <input type="checkbox" class="individual-checkbox"
+                                id="task-{{ task.instance.id }}"
+                                name="task-{{ task.instance.id }}-checkbox"
+                                value="checked">
+                            </label>
+                          </div>
+                        </td>
+                        <td>{{ task.instance.description }}</td>
+                        <td>{{ task.instance.deadline }}</td>
+                        <td>{{ task.completion_date|setclass:"datepicker form-control hidden" }}</td>
+                      </tr>
+                    {% endfor%}
+                  </tbody>
+                </table>
+              <div class="edit-mode pull-right">
+                <button type="button" class="btn btn-primary"
+                  id="modify-button">
+                  <i class="fa fa-check-square-o fa-fw fa-lg"></i>&nbsp;
+                  Mark selected tasks complete
+                </button>
+              </div><!-- ./edit-mode -->
+              <div class="submit-mode pull-right">
+                <button id="cancel-button" type="button" class="btn btn-default"
+                  id="cancel-button">
+                  <i class="fa fa-arrow-circle-left fa-fw fa-lg"></i>&nbsp;
+                  I need to change something
+                </button>
+                <button type="submit" id="submit-button" class="btn btn-primary"
+                  name="complete_tasks_button" value="complete-tasks">
+                  <i class="fa fa-check-circle fa-fw fa-lg"></i>&nbsp;
+                  This is correct
+                </button>
+              </div><!-- ./submit-mode -->
+            </div><!-- /.panel-body -->
+
+          </form>
+        {% else %}
+          <div class="panel-body text-center">
+            Nice work! You have no incomplete tasks!
+          </div>
+        {% endif%}
+        </div><!-- /.panel -->
+      </div><!-- /.col -->
+    </div><!-- /.container -->
+
+    <noscript>
+      <div id="noscript-message">
+        <p>Your browser does not appear to have JavaScript enabled.</p>
+        <p>Please enable Javascript or eConvenor will not work.</p>
+      </div>
+      <div id="noscript-cover">
+      </div>
+    </noscript>
+
+    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script src="{% static 'js/jquery.validate-1.11.1.min.js' %}"></script>
+
+    <script>
+      // Validation
+      $(document).ready(function() {
+        $("#my_tasks_form").validate({
+          onsubmit: false,
+          rules: {
+            {% for task in formset %}
+              "form-{{ forloop.counter0 }}-completion_date": {
+                required: true,
+                date: true,
+              },
+            {% endfor%}
+          },
+          messages: {
+            {% for task in formset %}
+              "form-{{ forloop.counter0 }}-completion_date": {
+                required: "Enter a completion date or unselect this task.",
+                date: "This is not a valid date.",
+              },
+            {% endfor%}
+          },
+        });
+      });
+
+      // When a page loads or reloads, make sure all checkboxes are unchecked
+      $(function(){
+        $( ".edit-mode" ).removeClass( "hidden" );
+        $( ".submit-mode" ).addClass( "hidden" );
+        $( ".individual-checkbox" ).prop( "checked", false );
+        $( ".datepicker").attr( "disabled", false );
+        $( ".datepicker" ).val( "" );
+      });
+
+      // Show datepicker when a task's checkbox is checked, otherwise hide it
+      $( document ).on( "click", ".individual-checkbox", function(){
+        var task_number = $( this ).prop( "id");
+        var task_row = "#" + task_number + "-row";
+        var checkbox_status = $( this ).prop( "checked" );
+        $( task_row ).find( ".datepicker").attr( "disabled", false );
+        if ( checkbox_status == true ) {
+          $( task_row ).find( ".datepicker" ).removeClass( "hidden" );
+          $( task_row ).find( ".datepicker" ).next().removeClass( "hidden" );
+        } else {
+          $( task_row ).find( ".datepicker" ).val( "" );
+          $( task_row ).find( ".datepicker" ).addClass( "hidden" );
+          $( task_row ).find( ".datepicker" ).next().addClass( "hidden" );
+        };
+      });
+
+      // Show the confirm view when the Mark Tasks Complete button is clicked
+      $( document ).on( "click", "#modify-button", function(){
+        var form_valid = $( "#my_tasks_form" ).valid();
+        if ( form_valid ) {
+          $( ".edit-mode" ).addClass( "hidden" );
+          $( ".submit-mode" ).removeClass( "hidden" );
+          $( "tbody tr" ).each(function() {
+            checked = $(this).find( ".individual-checkbox ").prop( "checked" );
+            $( this ).find( ".datepicker").attr( "disabled", true );
+            if ( !checked ) {
+              $( this ).addClass( "hidden" );
+            };
+          });
+        };
+      });
+
+      // When cancel button is pressed, return to edit mode
+      $( document ).on( "click", "#cancel-button", function(){
+        $( ".edit-mode" ).removeClass( "hidden" );
+        $( ".submit-mode" ).addClass( "hidden" );
+        $( ".datepicker" ).next().removeClass( "hidden" );
+        $( "tbody tr" ).each(function() {
+          checked = $(this).find( ".individual-checkbox ").prop( "checked" );
+          if ( !checked ) {
+            $( this ).removeClass( "hidden" );
+          } else {
+            $( this ).find( ".datepicker").attr( "disabled", false );
+          };
+        });
+      });
+
+      // When submit button is pressed, return to edit mode
+      $( document ).on( "click", "#submit-button", function(){
+        $( ".datepicker" ).not( ".hidden" ).attr( "disabled", false );
+      });
+
+      // Activate datepickers
+      $('.datepicker').datepicker({
+        dateFormat: 'dd M yy',
+      });
+
+    </script>
+
+  </body>
+</html>

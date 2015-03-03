@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+{% load setclass %}
+
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon"
+      href="{% static 'images/econvenor-favicon-v1.ico' %}">
+
+    <title>eConvenor - Your virtual convenor</title>
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/jquery-ui-1.10.4.custom.min.css' %}"
+      rel="stylesheet">
+    <link href="{% static 'css/landing.css' %}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and
+         media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
+        </script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js">
+        </script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <!-- NAVBAR
+    ================================================== -->
+
+    <div class="navbar navbar-static-top">
+      <div class="container">
+        <span class="navbar-brand">
+          <a href="{% url 'index' %}">
+            <img src="{% static 'images/econvenor-logo-v1l.png' %}"
+              width="200" height="45" alt="An image of the eConvenor logo">
+          </a>
+        </span>
+      </div>
+    </div>
+
+
+    <!-- MAIN SECTION
+    ================================================== -->
+
+    <div class="container">
+      <div class="col-lg-12">
+
+        <div class="panel panel-default panel-register">
+          <div class="panel-heading red">
+            <i class="fa fa-check-square-o fa-fw fa-lg"></i>&nbsp;
+            Tasks you've recently reported as completed
+          </div><!-- /.panel-heading -->
+          {% if tasks_just_completed %}
+            <div class="panel-body">
+              <table class="table" id="table_completed_tasks">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Deadline</th>
+                    <th>Completion date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for task in tasks_just_completed %}
+                    <tr>
+                      <td>{{ task.description }}</td>
+                      <td>{{ task.deadline }}</td>
+                      <td>{{ task.completion_date }}</td>
+                    </tr>
+                  {% endfor%}
+                </tbody>
+              </table>
+              {% if no_of_tasks_outstanding %}
+                <div class="pull-right">
+                  <a type="button" class="btn btn-primary"
+                    href="{% url 'my-tasks' %}">
+                    <i class="fa fa-check-square-o fa-fw fa-lg"></i>&nbsp;
+                    View your {{ no_of_tasks_outstanding }} remaining incomplete
+                    tasks
+                  </a>
+                </div><!-- /.pull-right -->
+              {% endif %}
+            </div><!-- /.panel-body -->
+          {% else %}
+           <div class="panel-body text-center">
+              You haven't marked any tasks as completed recently.
+            </div>
+          {% endif%}
+        </div><!-- /.panel -->
+      </div><!-- /.col -->
+    </div><!-- /.container -->
+
+    <noscript>
+      <div id="noscript-message">
+        <p>Your browser does not appear to have JavaScript enabled.</p>
+        <p>Please enable Javascript or eConvenor will not work.</p>
+      </div>
+      <div id="noscript-cover">
+      </div>
+    </noscript>
+
+    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+  </body>
+</html>

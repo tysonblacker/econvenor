@@ -3,9 +3,11 @@
 {% block content %}
 
   <h2>There has been an error on the server.</h2>
-  
-  <p>You can use your browser's back button to return to the page you just left.</p>
-  
+
+  <p class="lead">Did you have eConvenor running in more than one browser tab? Sometimes that causes this problem.</p>
+
+  <p class="lead">You can <span class="red">use your browser's back button</span> to return to the page you just left.</p>
+
   <p>If you have time, we'd love it it you would file a <a href="{% url 'bug-report' %}">bug report</a> to let us know about the issue so we can get onto fixing it.</p>
-      
+
 {% endblock %}
