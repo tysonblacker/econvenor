@@ -65,6 +65,7 @@ class Participant(TimeStampedModel):
     def __unicode__(self):
         return ' '.join([self.first_name, self.last_name])
 
+    @property
     def current_token(self):
         """Generate today's token for this participant."""
         return current_participant_token(self.id)
