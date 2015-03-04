@@ -28,6 +28,7 @@ urlpatterns = patterns('',
     url(r'^volunteer/$', 'landing.views.volunteer', name="volunteer"),
     url(r'^donate/$', 'landing.views.donate', name="donate"),
     url(r'^hack/$', 'landing.views.hack', name="hack"),
+    url(r'^conduct/$', 'landing.views.conduct', name="conduct"),
     url(r'^source/$', 'landing.views.source', name="source"),
     url(r'^pricing/$', 'landing.views.pricing', name="pricing"),
     url(r'^public-key/$', TemplateView.as_view(
