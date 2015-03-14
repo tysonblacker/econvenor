@@ -188,6 +188,10 @@ body {
   border-color: #ff0066;
 }
 
+.btn-block {
+  margin: 0 0 0 0 !important;
+}
+
 
 /* JUMBOTRONS
 -------------------------------------------------- */

@@ -1,129 +1,32 @@
-<!DOCTYPE html>
-
+{% extends "login_base.html" %}
+{% load setclass %}
 {% load staticfiles %}
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="{% static 'images/econvenor-favicon-v1.ico' %}">
+{% block content %}
 
-	<title>eConvener</title>
-
-	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-	<link href="{% static 'css/landing.css' %}" rel="stylesheet">
-
-    <style type="text/css">
-  
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-        background-color: #eee;
-      }
-
-      h3 {
-        margin-left: 10px;
-      }
-      
-      p {
-        margin-bottom: 20px;
-      }
-
-      .red {
-        color: #ff0066;
-      }
-
-      .well {
-        min-height: 20px;
-        padding: 10px;
-        margin-top: 40px;
-        margin-bottom: -20px;
-        background-color: #f5f5f5;
-        border: 1px solid #e3e3e3;
-      }
-      
-      .form-signin {
-        max-width: 330px;
-        padding: 80px 15px 15px 15px;
-        margin: 0 auto;
-      }
-
-      .form-signin .form-signin-heading,
-      .form-signin .checkbox {
-        margin-bottom: 10px;
-      }
-      
-      .form-signin .checkbox {
-        font-weight: normal;
-      }
-      
-      .form-signin .form-control {
-        position: relative;
-        height: auto;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 10px;
-        font-size: 16px;
-      }
-
-      .form-signin .form-control:focus {
-        z-index: 2;
-      }
-
-      .form-signin input[type="text"] {
-        margin-bottom: -1px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-
-      .form-signin input[type="password"] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-      }
-
-    </style>
-    
-  </head>
-
-  <body>
-
-    <div class="container">
-    
-      <h1 class="text-center red">Log in to eConvenor</h1>
-      <form class="form-signin" role="form" method="POST">
-        {% csrf_token %}
-        <input type="text" class="form-control email" id="id_email" name="email" placeholder="Email" required autofocus>
-        <input type="password" class="form-control" id="id_password" name="password" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" name="login_button">Sign in</button>
-      </form>
-  	  <p class="text-center red">{{ error }}</p>
-      <br>
-      <h3 class="text-center"><a href={% url 'password_reset' %}>Forgotten your
-      password?</a></h3>
-      <br>
-      <h3 class="text-center">To sign up for an account click <a href={% url 'qualify' 'step0' %} class="red">here</a>.</h3>
-  	  
-    </div> <!-- /container -->
-
-    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script> 
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-						
-	<script type="text/javascript">
-	  var bootstrapButton = $.fn.button.noConflict()
-	  $.fn.bootstrapBtn = bootstrapButton 
-	</script>
-
-	<script type="text/javascript">
-    $('.email').on("keyup", function(){
-      $(this).val($(this).val().toLowerCase());
-    });
-	</script>
-
-  </body>
-</html>
-
+<div class="container">
+  <div class="login-form">
+    <div class="col-md-10 col-md-offset-1 col-lg-5 col-lg-offset-1">
+      <div style="margin:20px; padding:10px; max-width:500px">
+        <form class="form-signin" class="well form-horizontal form-center" 
+          accept-charset="utf-8" role="form" method="POST">
+          {% csrf_token %}
+          <input type="text" class="form-control" id="id_email" name="email" 
+            placeholder="Email" required autofocus><br>
+          <input type="password" class="form-control" id="id_password" 
+            name="password" placeholder="Password" required><br>
+         <button class="btn btn-center btn-lg btn-primary btn-block" type="submit" name="login_button">Sign in</button>
+        </form>
+        <p class="text-center red">{{ error }}</p>
+        <br>
+        <h3 class="text-center"><a href={% url 'password_reset' %}>
+          Forgotten your password?</a>
+        </h3>
+        <h3 class="text-center">To sign up for an account click 
+        <a href={% url 'qualify' 'step0' %} class="red">here</a>.</h3>
+        <br>	
+    </div> 	
+  </div>	  
+</div> <!-- /container -->
+			
+{% endblock content %}
