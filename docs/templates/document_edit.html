@@ -18,8 +18,8 @@
       {% if doc_type == 'agenda' %}
         <div class="panel panel-default" id="tasks">
           <div class="panel-heading">
-            <i class="fa fa-paperclip fa-fw fa-lg"></i>&nbsp;
-            Attachment 1. &nbsp;&nbsp; Tasks overdue
+            <i class="fa fa-file-text fa-fw fa-lg"></i>&nbsp;
+            Task Review 1. &nbsp;&nbsp; Overdue Tasks
           </div>
   	      <table class="table cursor-default">
 		    <thead>
@@ -47,8 +47,8 @@
 
         <div class="panel panel-default">
           <div class="panel-heading">
-            <i class="fa fa-paperclip fa-fw fa-lg"></i>&nbsp;
-            Attachment 2. &nbsp;&nbsp; Tasks incomplete and not overdue
+            <i class="fa fa-file-text fa-fw fa-lg"></i>&nbsp;
+            Task Review 2. &nbsp;&nbsp; Incomplete Tasks
           </div>
 	      <table class="table cursor-default">
 		    <thead>
@@ -76,8 +76,8 @@
 
         <div class="panel panel-default">
           <div class="panel-heading">
-            <i class="fa fa-paperclip fa-fw fa-lg"></i>&nbsp;
-            Attachment 3. &nbsp;&nbsp; Tasks completed since last meeting
+            <i class="fa fa-file-text fa-fw fa-lg"></i>&nbsp;
+            Task Review 3. &nbsp;&nbsp; Completed Tasks
           </div>
 	      <table class="table cursor-default">
 		    <thead>
@@ -136,8 +136,8 @@
         {% if doc_type == 'agenda' %}
           <li>
             <a href="#tasks" class="sidebar-heading">
-                <i class="fa fa-paperclip fa-fw"></i>&nbsp;
-                Attachments
+                <i class="fa fa-file-text fa-fw"></i>&nbsp;
+                Task Review
             </a>
           </li>
         {% elif doc_type == 'minutes' %}
