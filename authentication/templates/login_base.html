@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 {% load staticfiles %}
-{% load as_range %}
 
 <html lang="en">
 
@@ -11,16 +10,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    
+
     <link rel="shortcut icon" 
       href="{% static 'images/econvenor-favicon-v1.ico' %}">
 
     <title>eConvenor - Your virtual convenor</title>
 
-	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-	<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
-	<link href="{% static 'css/landing.css' %}" rel="stylesheet">
-	    
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/landing.css' %}" rel="stylesheet">
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and
          media queries -->
     <!--[if lt IE 9]>
@@ -29,11 +28,11 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js">
         </script>
     <![endif]-->
-        
+
   </head>
-  
+
   <body>
-  
+
     <!-- NAVBAR 
     ================================================== -->
 
@@ -53,19 +52,15 @@
 
     <div class="section-registration">
       <div class="container">
-        <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
           <div class="panel panel-default panel-register">
             <div class="panel-heading red">
               <h1>
-
-                  <span class="fa-stack fa-md fa-fw">
-                    <i class="fa fa-square fa-stack-2x white"></i>
-                    <i class="fa fa-sign-in fa-stack-1x red"></i>
-                  </span>&nbsp;
-                  
-                    Login to eConvenor
-                  
-                
+                <span class="fa-stack fa-md fa-fw">
+                  <i class="fa fa-square fa-stack-2x white"></i>
+                  <i class="fa fa-sign-in fa-stack-1x red"></i>
+                </span>&nbsp;
+                Login to eConvenor
               </h1>
             </div>
             <div class="panel-body">
@@ -74,65 +69,13 @@
             </div>
           </div><!-- panel -->
         </div><!-- col -->
-
-    <!-- MODAL
-    ================================================== -->
-
-        <div class="modal fade" id="exit_modal" tabindex="-1" role="dialog" 
-           aria-labelledby="ExitNotification" aria-hidden="true" 
-           aria-describedby="Exit the qualification process">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title" id="modal_title">
-                </h1>
-              </div><!-- /.modal-header -->
-              <div class="modal-body" id="modal_body">
-              </div><!-- /.modal-body -->
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                  data-dismiss="modal">
-                    <i class="fa fa-times-circle fa-lg fa-fw"></i>&nbsp;
-                    Close this message
-                </button>
-                <a type="button" class="btn btn-primary" id="modal_button">
-                </a>
-              </div><!-- /.modal-footer -->
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->        
-
       </div><!-- container -->
     </div><!-- section -->
 
-    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script> 
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
-    <script src="{% static 'js/jquery.validate-1.11.1.min.js' %}"></script>
-    
-    <script>
+  <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script> 
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+  <script src="{% static 'js/jquery.validate-1.11.1.min.js' %}"></script>
 
-    $( function(){
-      $( ".modal-data" ).hide();
-    }); 
-    
-    $(document).on("click", "#exit_button", function(event){ 
-      var exit_title = $("#exit_modal_title").html();
-      var exit_body = $("#exit_modal_body").html();
-      var exit_button = $("#exit_modal_button").html();
-      var exit_button_target = $("#exit_modal_button_target").html();
-      console.log( exit_button);
-      $('#modal_title').html( exit_title );
-      $('#modal_body').html( exit_body );
-      $('#modal_button').html( exit_button );
-      $('#modal_button').attr( 'href', exit_button_target );
-      $('#exit_modal').modal();
-    });
-    
-    </script>
-    
-    {% block extrajs %}
-    {% endblock extrajs %}
-   
   </body>
 </html>

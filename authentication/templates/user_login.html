@@ -1,32 +1,24 @@
 {% extends "login_base.html" %}
-{% load setclass %}
-{% load staticfiles %}
 
 {% block content %}
 
-<div class="container">
-  <div class="login-form">
-    <div class="col-md-10 col-md-offset-1 col-lg-5 col-lg-offset-1">
-      <div style="margin:20px; padding:10px; max-width:500px">
-        <form class="form-signin" class="well form-horizontal form-center" 
-          accept-charset="utf-8" role="form" method="POST">
-          {% csrf_token %}
-          <input type="text" class="form-control" id="id_email" name="email" 
-            placeholder="Email" required autofocus><br>
-          <input type="password" class="form-control" id="id_password" 
-            name="password" placeholder="Password" required><br>
-         <button class="btn btn-center btn-lg btn-primary btn-block" type="submit" name="login_button">Sign in</button>
-        </form>
-        <p class="text-center red">{{ error }}</p>
-        <br>
-        <h3 class="text-center"><a href={% url 'password_reset' %}>
-          Forgotten your password?</a>
-        </h3>
-        <h3 class="text-center">To sign up for an account click 
-        <a href={% url 'qualify' 'step0' %} class="red">here</a>.</h3>
-        <br>	
-    </div> 	
-  </div>	  
-</div> <!-- /container -->
-			
+  <form role="form" method="POST">
+    {% csrf_token %}
+    <br>
+    <br>
+    <input type="text" class="form-control" id="id_email" name="email"
+      placeholder="Email" required autofocus><br>
+    <input type="password" class="form-control" id="id_password"
+      name="password" placeholder="Password" required><br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"
+      name="login_button">Sign in</button>
+  </form>
+  <p class="text-center red">{{ error }}</p>
+  <br>
+  <h3 class="text-center"><a href={% url 'password_reset' %}>
+    Forgotten your password?</a>
+  </h3>
+  <h3 class="text-center">To sign up for an account click
+    <a href={% url 'qualify' 'step0' %} class="red">here</a>.</h3>
+
 {% endblock content %}
