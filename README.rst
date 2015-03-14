@@ -53,15 +53,18 @@ Install virtualenv and virtualenvwrapper::
 
     $ sudo pip install virtualenv virtualenvwrapper
 
-Open ``~/.bashrc``::
+Open the ``~/.bashrc`` file::
 
     $ nano ~/.bashrc
 
-Add these lines to the end of ``~/.bashrc``, then save and close it::
+Add these lines to the end of it::
 
     export WORKON_HOME=$HOME/.virtualenvs
     export PROJECT_HOME=$HOME/Projects
     source /usr/local/bin/virtualenvwrapper.sh
+
+Save and close the file. If you're in the Nano editor, you do that with
+``Ctrl + O``, then ``Enter``, then ``Ctrl + X``.
 
 Reload ``~/.bashrc``::
 
@@ -89,9 +92,6 @@ Paste these lines into it::
     export ECONVENOR_EMAIL_PORT=no_port
     export ECONVENOR_ENVIRONMENT=development
     export ECONVENOR_SECRET_KEY=13480dj3io12nrb4786ydge76gq78yd3b
-
-Save and close the file. If you're in the Nano editor, you do that with
-``Ctrl + O``, then ``Enter``, then ``Ctrl + X``.
 
 Now we need to restart the virtualenv so that these setting take effect. First,
 deactivate the virtualenv::
