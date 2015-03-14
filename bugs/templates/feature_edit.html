@@ -3,12 +3,14 @@
 
 {% block content %}
 
-<div class="page-header">
-  <h1>{{ page_heading }}</h1>
-</div>
 
 {% ifequal display_mode 'edit' %}
-  <div class="well"> 
+  <div class="page-header">
+    <h1>{{ page_heading }}</h1>
+  </div>
+
+
+  <div class="well">
     <form role="form" action="" method="POST">
       {% csrf_token %}
       {% for hidden in feature_form.hidden_fields %}
@@ -59,39 +61,78 @@
 {% endifequal %}
 
 {% ifequal display_mode 'view' %}
-  <div class="well"> 
-    <p><strong>Title for this feature request</strong></p>
-    {{ feature.title }}
-    <br><br>
-    <p><strong>Date</strong></p>
-    {{ feature.date }}
-    <br><br>
-    <p><strong>What is it that you would like to do but can't?</strong></p>
-    {{ feature.goal }}
-    <br><br>
-    <p><strong>Why can't you do it?</strong></p>
-    {{ feature.shortcoming }}
-    <br><br>
-    <p><strong>How would you like to be able to do it?</strong></p>
-    {{ feature.suggestion }}
-    <br><br>	
-    <p><strong>Any other comments?</strong></p>
-    {{ feature.comment }}
-    <br><br>	
-    <p><strong>feature status</strong></p>
-    {{ feature.status }}
-    <br><br>
+    <div class="col-sm-10 col-md-10 col-lg-8 no-toolbar">
+  <div class="panel panel-primary panel-help">
+    <div class="panel-heading">
+	 <i class="fa fa-star fa-fw fa-lg"></i>&nbsp;
+	 Feature request #{{ feature.id }}
+    </div>
+  </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	  &nbsp;Title for this feature request
+    </div>
+    <div class="panel-body">
+      {{ feature.title }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;Date requested
+    </div>
+    <div class="panel-body">
+      {{ feature.created }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;What would the proposed feature do?
+    </div>
+    <div class="panel-body">
+      {{ feature.goal|linebreaks }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;What prevents this from happening now?
+    </div>
+    <div class="panel-body">
+      {{ feature.shortcoming|linebreaks }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;How would the proposed feature work?
+    </div>
+    <div class="panel-body">
+      {{ feature.suggestion|linebreaks }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;Comments
+    </div>
+    <div class="panel-body">
+      {{ feature.comment|linebreaks }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;Feature request status
+    </div>
+    <div class="panel-body">
+      {{ feature.status }}
+    </div>
+    
     {% if feature.comment_closing %}
       <p><strong>Closing comment</strong></p>
       {{ feature.comment_closing }}
       <br><br>
+   
     {% endif %}
+    
+  <div class="pull-right">
+  <br>
     <a href={% url 'feature-list' %}>
-      <button type="button" class="btn btn-default">
+      <button type="button" class="btn btn-primary">
         Back to feature list
       </button>
     </a>
-  </div><!-- /.well -->
+  </div><!-- /.panel -->
 {% endifequal %}
 
 {% endblock %}

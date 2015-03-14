@@ -3,11 +3,12 @@
 
 {% block content %}
 
-<div class="page-header">
-  <h1>{{ page_heading }}</h1>
-</div>
 
 {% ifequal display_mode 'edit' %}
+  <div class="page-header">
+    <h1>{{ page_heading }}</h1>
+  </div>
+ 
   <div class="well"> 
     <form role="form" action="" method="POST">
       {% csrf_token %}
@@ -57,42 +58,86 @@
 {% endifequal %}
 
 {% ifequal display_mode 'view' %}
-  <div class="well"> 
-    <p><strong>Title for this bug report</strong></p>
-    {{ bug.title }}
-    <br><br>
-    <p><strong>Date</strong></p>
-    {{ bug.date }}
-    <br><br>
-    <p><strong>Which page were you on?</strong></p>
-    {{ bug.location }}
-    <br><br>
-    <p><strong>What action triggered the bug?</strong></p>
-    {{ bug.trigger }}
-    <br><br>
-    <p><strong>What task were you trying to accomplish?</strong></p>
-    {{ bug.goal }}
-    <br><br>
-    <p><strong>What did the the bug display on the screen?</strong></p>
-    {{ bug.behaviour }}
-    <br><br>	
-    <p><strong>Any other comments?</strong></p>
-    {{ bug.comment }}
-    <br><br>	
-    <p><strong>Bug status</strong></p>
-    {{ bug.status }}
-    <br><br>	
+
+  <div class="col-sm-10 col-md-10 col-lg-8 no-toolbar">
+  <div class="panel panel-primary panel-help">
+    <div class="panel-heading">
+	 <i class="fa fa-bug fa-fw fa-lg"></i>&nbsp;
+	 Bug report #{{ bug.id }}
+    </div>
+  </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	  &nbsp;Title for this bug report
+    </div>
+    <div class="panel-body">
+      {{ bug.title }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;Date reported
+    </div>
+    <div class="panel-body">
+      {{ bug.created }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;Which page was the bug found on?
+    </div>
+      <div class="panel-body">
+       {{ bug.location|linebreaks }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;What triggered the bug?
+    </div>
+    <div class="panel-body">
+      {{ bug.trigger|linebreaks }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;What was supposed to happen?
+    </div>
+    <div class="panel-body">
+      {{ bug.goal|linebreaks }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;What displayed on the screen when the bug occurred?
+    </div>
+    <div class="panel-body">
+      {{ bug.behaviour|linebreaks }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;Comments
+    </div>
+    <div class="panel-body">
+      {{ bug.comment|linebreaks }}
+    </div>
+    <div class="panel panel-default panel-help">
+      <div class="panel-heading">
+	    &nbsp;Bug report status
+    </div>
+    <div class="panel-body">
+      {{ bug.status }}
+    </div>
+
     {% if bug.comment_closing %}
       <p><strong>Closing comment</strong></p>
       {{ bug.comment_closing }}
       <br><br>
     {% endif %}
+  </div>
+  
+  <div class="pull-right">  
+  <br> 
     <a href={% url 'bug-list' %}>
-      <button type="button" class="btn btn-default">
+      <button type="button" class="btn btn-primary">
         Back to bug list
       </button>
     </a>
-  </div><!-- /.well -->
+  </div><!-- /.panel -->
 {% endifequal %}
 
 {% endblock %}
