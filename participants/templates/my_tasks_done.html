@@ -102,14 +102,7 @@
       </div><!-- /.col -->
     </div><!-- /.container -->
 
-    <noscript>
-      <div id="noscript-message">
-        <p>Your browser does not appear to have JavaScript enabled.</p>
-        <p>Please enable Javascript or eConvenor will not work.</p>
-      </div>
-      <div id="noscript-cover">
-      </div>
-    </noscript>
+    {% include 'no_javascript.html' %}
 
     <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
