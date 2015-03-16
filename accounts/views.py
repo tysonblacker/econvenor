@@ -13,18 +13,15 @@ from utilities.commonutils import get_current_group
 
 def account(request):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-
-    user = request.user
 
     menu = {'parent': 'account'}
     return render(request, 'account_settings.html', {
                   'menu': menu,
                   'group': group,
-                  'user': user,
                   })
-    
+
 
 def password_change(request):
     if not request.user.is_authenticated():
