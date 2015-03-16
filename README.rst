@@ -168,7 +168,7 @@ Step 7. Create a directory for user content
 
 Create the directory which will contain user-generated content::
 
-    $ mkdir -p ~/Projects/econvenor/econvenor/media
+    $ mkdir -p ~/Projects/econvenor/econvenor/media/meeting_docs
 
 That's it! You should now have a complete eConvenor instance which is ready to
 be started!
