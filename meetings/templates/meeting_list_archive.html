@@ -6,8 +6,8 @@
 <div class="col-lg-10 no-toolbar">
   <div class="panel panel-default">
     <div class="panel-heading">
-	  <i class="fa fa-archive fa-fw fa-lg"></i>&nbsp;
-	  Archived meetings
+      <i class="fa fa-archive fa-fw fa-lg"></i>&nbsp;
+      Archived meetings
     </div>
     {% if meetings %}
       <table class="table" id="table_archived_meetings">
@@ -20,16 +20,16 @@
             {% endfor%}
           </tr>
         </thead>
-        <tbody> 
+        <tbody>
           {% for meeting in meetings %}
             {% with no_of_pdfs=meeting.distributionrecord_set.all|length %}
               <tr>
                 <td>
                   {% if meeting.date_actual %}
                     {{ meeting.date_actual }}
-                  {% else %}  
+                  {% else %}
                     {{ meeting.date_scheduled }}
-                  {% endif %}  
+                  {% endif %}
                 </td>
                 <td>
                   {{ meeting.meeting_no }}
@@ -93,5 +93,5 @@
     {% endif%}
   </div><!-- /.panel -->
 </div><!-- /.col -->
-  	
+
 {% endblock %}

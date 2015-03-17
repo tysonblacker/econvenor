@@ -20,16 +20,16 @@
             {% endfor%}
           </tr>
         </thead>
-        <tbody> 
+        <tbody>
           {% for meeting in meetings %}
             {% with no_of_pdfs=meeting.distributionrecord_set.all|length %}
             <tr>
               <td>
                 {% if meeting.date_actual %}
                   {{ meeting.date_actual }}
-                {% else %}  
+                {% else %}
                   {{ meeting.date_scheduled }}
-                {% endif %}  
+                {% endif %}
               </td>
               <td>
                 {{ meeting.meeting_no }}
@@ -37,16 +37,16 @@
               <td>
                 {% if no_of_pdfs > 0 %}
                   Yes
-                {% else %}  
+                {% else %}
                   No
-                {% endif %}  
+                {% endif %}
               </td>
               <td>
                 {% if no_of_pdfs > 1 %}
                   Yes
-                {% else %}  
+                {% else %}
                   No
-                {% endif %} 
+                {% endif %}
               </td>
               {% if no_of_pdfs == 0 %}
                 <td>
@@ -64,7 +64,7 @@
                       Work on minutes
                   </a>
                 </td>
-              {% elif no_of_pdfs == 2 %}           
+              {% elif no_of_pdfs == 2 %}
                 <td>
                   <form action="" method="POST">
                     {% csrf_token %}
@@ -75,8 +75,8 @@
                         Archive meeting
                     </button>
                   </form>
-                </td>              
-              {% endif %}   
+                </td>
+              {% endif %}
               <td>
                 <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle"
@@ -86,7 +86,7 @@
                       <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    {% if no_of_pdfs == 2 %}           
+                    {% if no_of_pdfs == 2 %}
                       <li>
                         <a href={% url 'minutes-view' meeting.id %}>
                           View sent minutes</a>
@@ -99,7 +99,7 @@
                       </li>
                       <li class="divider"></li>
                     {% endif %}
-                    {% if no_of_pdfs == 2 %}           
+                    {% if no_of_pdfs == 2 %}
                       <li>
                         <a href={% url 'minutes-edit' meeting.id %}>
                           Revise minutes</a>
@@ -134,5 +134,5 @@
     {% endif%}
   </div><!-- /.panel -->
 </div><!-- /.col -->
-	
+
 {% endblock content %}

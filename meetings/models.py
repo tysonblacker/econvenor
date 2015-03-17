@@ -30,7 +30,7 @@ class MeetingManager(models.Manager):
         return self.get_queryset().\
             filter(date_scheduled__gte=datetime.date.today()).\
             order_by('date_scheduled')
-                        
+
 class Meeting(TimeStampedModel):
 
     MEETING_TYPE_CHOICES = (
@@ -44,7 +44,7 @@ class Meeting(TimeStampedModel):
         ('Completed', 'Completed'),
         ('Cancelled', 'Cancelled'),
         )
-            
+
     group = models.ForeignKey(Group)
 
     agenda_pdf = models.FileField(upload_to='meeting_docs')
@@ -52,26 +52,26 @@ class Meeting(TimeStampedModel):
                                  validators=[MaxLengthValidator(200)],
                                  null=False, blank=True)
     attendance = models.TextField(validators=[MaxLengthValidator(500)],
-                                  null=False, blank=True)            
+                                  null=False, blank=True)
     meeting_no = models.CharField(max_length=30, null=False, blank=True)
-    meeting_type = models.CharField('type of meeting', max_length=30, 
+    meeting_type = models.CharField('type of meeting', max_length=30,
                                     choices=MEETING_TYPE_CHOICES,
                                     default='Ordinary Meeting',
                                     null=False,
                                     blank=True)
-    meeting_status = models.CharField('meeting status', max_length=30, 
+    meeting_status = models.CharField('meeting status', max_length=30,
                                       choices=MEETING_STATUS_CHOICES,
                                       default='Scheduled',
                                       null=False, blank=True)
-    minutes_pdf = models.FileField(upload_to='meeting_docs')    
+    minutes_pdf = models.FileField(upload_to='meeting_docs')
     reminder_sent = models.DateTimeField(null=True, blank=True)
     date_scheduled = models.DateField('date', null=True,
                                       blank=True)
     date_actual = models.DateField('date', null=True, blank=True)
     end_time_actual = models.TimeField('meeting end time', null=True,
-                                       blank=True)  
+                                       blank=True)
     facilitator_scheduled = models.ForeignKey(
-                            Participant, 
+                            Participant,
                             verbose_name='facilitator / chair (optional)',
                             related_name='facilitator_sch',
                             null=True, blank=True)
@@ -92,7 +92,7 @@ class Meeting(TimeStampedModel):
                          validators=[MaxLengthValidator(60)],
                          null=False, blank=True)
     location_actual = models.TextField(
-                      'location', 
+                      'location',
                       validators=[MaxLengthValidator(60)],
                       null=False, blank=True)
     minute_taker_scheduled = models.ForeignKey(
@@ -101,7 +101,7 @@ class Meeting(TimeStampedModel):
                              related_name='minutetaker_sch',
                              null=True, blank=True)
     minute_taker_actual = models.ForeignKey(Participant,
-                                            verbose_name='minute taker',    
+                                            verbose_name='minute taker',
                                             related_name='minutetaker_act',
                                             null=True, blank=True)
     start_time_scheduled = models.TimeField('start time', null=True,
@@ -129,10 +129,10 @@ class Meeting(TimeStampedModel):
     current_minutes_version = models.IntegerField(null=True, blank=True)
     existing_tasks_in_minutes = models.BooleanField(default=False)
     meeting_archived = models.BooleanField(default=False)
-    
+
     objects = models.Manager()
     lists = MeetingManager()
-   
+
     def __unicode__(self):
         return ' on '.join([self.meeting_type, str(self.date_scheduled)])
 
@@ -140,13 +140,13 @@ class Meeting(TimeStampedModel):
 class DistributionRecord(TimeStampedModel):
 
     group = models.ForeignKey(Group)
-        
+
     meeting = models.ForeignKey(Meeting, null=True, blank=True)
 
     covering_message = models.TextField(validators=[MaxLengthValidator(1000)],
                                         null=False, blank=True)
     distribution_list = models.TextField(null=False, blank=True)
     doc_type = models.CharField(max_length=30, null=False, blank=True)
-    
+
     def __unicode__(self):
         return 'Distibuted the ' + doc_type + ' on ' + str(modified)

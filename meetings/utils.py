@@ -7,7 +7,7 @@ def find_or_create_distribution_record(group, meeting, doc_type):
     one if none exists. Returns the distribution record.
     """
     try:
-        record = DistributionRecord.objects.get(group=group, meeting=meeting, 
+        record = DistributionRecord.objects.get(group=group, meeting=meeting,
                                                 doc_type=doc_type)
     except DistributionRecord.DoesNotExist:
         record = DistributionRecord(group=group,
@@ -15,7 +15,7 @@ def find_or_create_distribution_record(group, meeting, doc_type):
                                     doc_type=doc_type,
                                     )
         record.save(group)
-    
+
     return record
 
 
@@ -39,7 +39,7 @@ def delete_meeting(request, group):
     """
     meeting_id = request.POST['button'][7:]
     meeting = Meeting.objects.get(group=group, pk=int(meeting_id))
-    meeting.delete()        
+    meeting.delete()
 
 
 def unarchive_meeting(request, group):

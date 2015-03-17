@@ -6,8 +6,8 @@
 <div class="col-sm-10 col-md-8 col-lg-6 no-toolbar">
   <div class="panel panel-default">
     <div class="panel-heading">
-	  <i class="fa fa-plus-circle fa-fw fa-lg"></i>&nbsp;
-	  Add new meeting
+      <i class="fa fa-plus-circle fa-fw fa-lg"></i>&nbsp;
+      Add new meeting
     </div>
     <div class="panel-body">
       <form role="form" id="addmeetingform" action="" method="POST">
@@ -31,7 +31,7 @@
         </div>
       </form>
     </div><!-- /.panel-body -->
-  </div><!-- /.panel -->  
+  </div><!-- /.panel -->
 </div><!-- /.col -->
 
 {% endblock content %}
@@ -46,7 +46,7 @@
   });
 
   $(function() {
-  
+
     jQuery.validator.addMethod("timeCheck", function(value, element) {
       return this.optional(element) || /^ *(1[0-2]|[1-9]):[0-5][0-9] *(a|p|A|P)(m|M) *$/.test(value);
     },

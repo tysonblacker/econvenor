@@ -15,13 +15,13 @@ class NewMeetingForm(forms.ModelForm):
             Participant.lists.active().filter(group=group)
         self.fields['minute_taker_scheduled'].queryset = \
             Participant.lists.active().filter(group=group)
-            
+
     error_messages = {
         'duplicate_meeting_no': _('That meeting number has already been used.'\
         ' Please choose a different one.'),
     }
 
-                    
+
     class Meta:
         model = Meeting
         fields = ['meeting_no',
@@ -69,7 +69,7 @@ class NewMeetingForm(forms.ModelForm):
                           '(must be unique for each meeting)',
             }
 
-    
+
     def clean_meeting_no(self):
         meeting_no = self.cleaned_data["meeting_no"]
         this_meeting = self.instance.meeting_no
@@ -107,12 +107,12 @@ class AgendaMeetingForm(forms.ModelForm):
         self.fields['minute_taker_scheduled'].queryset = \
             Participant.lists.active().filter(group=group)
 
-            
+
     error_messages = {
         'duplicate_meeting_no': _('That meeting number has already been used.'\
         ' Please choose a different one.'),
     }
-                    
+
     class Meta:
         model = Meeting
         fields = ['meeting_no',
@@ -159,7 +159,7 @@ class AgendaMeetingForm(forms.ModelForm):
                           '(unique)',
             }
 
-    
+
     def clean_meeting_no(self):
         meeting_no = self.cleaned_data["meeting_no"]
         this_meeting = self.instance.meeting_no
@@ -194,7 +194,7 @@ class MinutesMeetingForm(forms.ModelForm):
             Participant.lists.active().filter(group=group)
         self.fields['minute_taker_actual'].queryset = \
             Participant.lists.active().filter(group=group)
-                    
+
     class Meta:
         model = Meeting
         fields = ['date_actual',
@@ -248,7 +248,7 @@ class MinutesMeetingForm(forms.ModelForm):
                 'maxlength': 200,
                 'rows': 4,
                 }),
-            }              
+            }
 
     def save(self, group, commit=True):
         meeting = super(MinutesMeetingForm, self).save(commit=False)
@@ -267,7 +267,7 @@ class NextMeetingForm(forms.ModelForm):
             Participant.lists.active().filter(group=group)
         self.fields['next_meeting_minute_taker'].queryset = \
             Participant.lists.active().filter(group=group)
-                                  
+
     class Meta:
         model = Meeting
         fields = ['next_meeting_date',
@@ -300,7 +300,7 @@ class NextMeetingForm(forms.ModelForm):
                 'maxlength': 200,
                 'rows': 4,
                 }),
-            }       
+            }
 
     def save(self, group, commit=True):
         meeting = super(NextMeetingForm, self).save(commit=False)
