@@ -13,20 +13,20 @@
       </div>
 
       {% for page in pages %}
-        <img src="{{ MEDIA_URL }}{{ page.1 }}" class="zoomable" 
-        id="page{{page.0}}" width=100% 
+        <img src="{{ MEDIA_URL }}{{ page.1 }}" class="zoomable"
+        id="page{{page.0}}" width=100%
         alt="A series of images showing the completed {{ doc_type }}. Accesibility note: Choose the PDF button on the sidebar to view the agenda in PDF format.">
         <br/>
         <br/>
       {% endfor %}
-    
+
     </div><!-- /.col-sm-8 -->
 
     <!-- TOOLBAR
     ================================================== -->
 
     <div class="col-xs-2 toolbar">
-      
+
       <ul class="nav nav-toolbar">
         <li class="toolbar-heading">
           <h1><i class="fa fa-check-circle fa-fw fa-lg"></i>&nbsp;
@@ -44,7 +44,7 @@
                 Page {{ page.0 }}
             </a>
           </li>
-        {% endfor %}        
+        {% endfor %}
       </ul>
       <ul class="nav nav-toolbar">
        <li class="toolbar-subheading">
@@ -66,13 +66,13 @@
               <i class="fa fa-search-minus fa-fw"></i>&nbsp;
               Zoom out
           </button>
-        </li>        
+        </li>
         <li>
           {% if doc_type == 'agenda' %}
-            <a href={% url 'agenda-edit' meeting_id %} type="button" 
+            <a href={% url 'agenda-edit' meeting_id %} type="button"
               class="btn btn-toolbar">
           {% elif doc_type == 'minutes' %}
-            <a href={% url 'minutes-edit' meeting_id %} type="button" 
+            <a href={% url 'minutes-edit' meeting_id %} type="button"
               class="btn btn-toolbar">
           {% endif %}
             <i class="fa fa-edit fa-fw"></i>&nbsp;
@@ -118,7 +118,7 @@
           </button>
         </li>
       </ul>
-       
+
     </div><!-- /.col-xs-2 -->
 
     <!-- MODALS
@@ -126,7 +126,7 @@
 
     <div class="modal fade" id="distribute_to_selected_modal" tabindex="-1"
          role="dialog" aria-labelledby="DistributeToSelected"
-         aria-hidden="true" 
+         aria-hidden="true"
          aria-describedby="A pop-up to confirm sending the {{ doc_type }}">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -143,8 +143,8 @@
                 <div class="checkbox">
                   <label>
                     <input type="checkbox" class="individual-checkbox"
-                      id="participant{{ participant.id }}" 
-                      name="participant{{ participant.id }}" value="checked"> 
+                      id="participant{{ participant.id }}"
+                      name="participant{{ participant.id }}" value="checked">
                         {{ participant }}
                   </label>
                 </div><!-- /.checkbox -->
@@ -156,7 +156,7 @@
                 data-toggle="button">
                   Send
               </button>
-              <button type="button" class="btn btn-default" 
+              <button type="button" class="btn btn-default"
                 data-dismiss="modal">
                   Cancel
               </button>
@@ -164,11 +164,11 @@
           </div><!-- /.modal-footer -->
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->        
+    </div><!-- /.modal -->
 
     <div class="modal fade" id="distribute_to_all_modal" tabindex="-1"
          role="dialog" aria-labelledby="DistributeToAll"
-         aria-hidden="true" 
+         aria-hidden="true"
          aria-describedby="A pop-up to confirm sending the {{ doc_type }}">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -183,14 +183,14 @@
           <div class="modal-footer">
             <form action="" method="POST">
             {% csrf_token %}
-              <input type="hidden" name="all_participants" 
+              <input type="hidden" name="all_participants"
                     id="all_participants" value="checked">
               <button type="submit" class="btn btn-primary modal-button"
                 name="distribute_button" value="distribute"
                 data-toggle="button">
                   Send
               </button>
-              <button type="button" class="btn btn-default" 
+              <button type="button" class="btn btn-default"
                 data-dismiss="modal">
                   Cancel
               </button>
@@ -198,7 +198,7 @@
           </div><!-- /.modal-footer -->
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->        
+    </div><!-- /.modal -->
 
 {% endblock %}
 
@@ -206,11 +206,11 @@
 
 <script>
 
-  $(document).on("click", "#selected_participants", function(){ 
+  $(document).on("click", "#selected_participants", function(){
     $('#distribute_to_selected_modal').modal();
   });
 
-  $(document).on("click", "#all_participants", function(){ 
+  $(document).on("click", "#all_participants", function(){
     $('#distribute_to_all_modal').modal();
   });
 

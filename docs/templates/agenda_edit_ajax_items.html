@@ -5,7 +5,7 @@
 
   <!-- MEETING DETAILS
   ================================================== -->
-  
+
   <div class="panel panel-default" id="meeting_details">
     <div class="panel-heading">
       <i class="fa fa-align-justify fa-fw fa-lg"></i>&nbsp;
@@ -37,14 +37,14 @@
           {{ meeting_form.location_scheduled.label_tag}}
           {{ meeting_form.location_scheduled }}
           {{ meeting_form.location_scheduled.errors }}
-        </div>    
+        </div>
       </div><!-- /.col -->
       <div class="col-md-6">
         <div class="form-group">
           {{ meeting_form.facilitator_scheduled.label_tag}}
           {{ meeting_form.facilitator_scheduled }}
           {{ meeting_form.facilitator_scheduled.errors }}
-        </div>        
+        </div>
         <div class="form-group">
           {{ meeting_form.minute_taker_scheduled.label_tag}}
           {{ meeting_form.minute_taker_scheduled }}
@@ -54,14 +54,14 @@
           {{ meeting_form.instructions_scheduled.label_tag}}
           {{ meeting_form.instructions_scheduled }}
           {{ meeting_form.instructions_scheduled.errors }}
-        </div>    
+        </div>
       </div><!-- /.col -->
-    </div>    
+    </div>
   </div>
 
   <!-- ITEMS
   ================================================== -->
-  
+
   {% for item in item_formlist %}
     <div class="panel panel-default" id="panel_{{ item.item_no.value}}">
       <div class="panel-heading">
@@ -70,7 +70,7 @@
         <span id="panel_heading_{{ item.item_no.value}}">
             {{ item.title.value }}
           </span>
-        <button type="button" title="Delete item" 
+        <button type="button" title="Delete item"
           class="btn btn-default btn-item-delete ajax-button pull-right"
           id="delete_item_{{ item.item_no.value}}">
             <i class="fa fa-times-circle fa-lg"></i>
@@ -104,7 +104,7 @@
             {{ item.background }}
             {{ item.background.errors }}
           </div>
-        </div><!-- /.col -->      
+        </div><!-- /.col -->
         {% for field in item.hidden_fields %}
             {{ field }}
         {% endfor %}
@@ -116,7 +116,7 @@
 
   <!-- FORM VALIDATION
   ================================================== -->
-  
+
 <script>
 
   $(function() {
@@ -155,7 +155,7 @@
           required: "Please select a date for the meeting",
           date: "Please select a valid date from the calendar",
         },
-        start_time_scheduled: "Please select the meeting's start time",        
+        start_time_scheduled: "Please select the meeting's start time",
         location_scheduled: "Please enter the location of the meeting",
         meeting_status: "Please select the current status of the meeting",
         {% for item in item_formlist %}
@@ -175,7 +175,7 @@
     });
   })
 
-  $(document).on("click", "#submit_agenda", function(){     
+  $(document).on("click", "#submit_agenda", function(){
     $( "#editagendaform" ).submit();
   });
 

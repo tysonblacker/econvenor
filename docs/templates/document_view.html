@@ -10,20 +10,20 @@
     <div class="col-sm-8 col-md-9 with-toolbar">
 
       {% for page in pages %}
-        <img src="{{ MEDIA_URL }}{{ page.1 }}" class="zoomable" 
-        id="page{{page.0}}" width=100% 
+        <img src="{{ MEDIA_URL }}{{ page.1 }}" class="zoomable"
+        id="page{{page.0}}" width=100%
         alt="A series of images showing the completed {{ doc_type }}. Accesibility note: Choose the PDF button on the sidebar to view the {{ doc_type }} in PDF format.">
         <br/>
         <br/>
       {% endfor %}
-     
+
     </div><!-- /.col-sm-8 -->
 
     <!-- TOOLBAR
     ================================================== -->
 
     <div class="col-xs-2 toolbar">
-      
+
       <ul class="nav nav-toolbar">
         <li class="toolbar-heading">
           <h1><i class="fa fa-search fa-fw fa-lg"></i>&nbsp;
@@ -41,7 +41,7 @@
                 Page {{ page.0 }}
             </a>
           </li>
-        {% endfor %}        
+        {% endfor %}
       </ul>
       <ul class="nav nav-toolbar">
        <li class="toolbar-subheading">
@@ -63,10 +63,10 @@
               <i class="fa fa-search-minus fa-fw"></i>&nbsp;
               Zoom out
           </button>
-        </li>        
+        </li>
       </ul>
-       
+
     </div><!-- /.col-xs-2 -->
- 
+
 {% endblock content %}
 

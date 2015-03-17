@@ -41,9 +41,9 @@ from utilities.commonutils import get_current_group
 
 def agenda_edit(request, meeting_id):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
@@ -66,24 +66,24 @@ def agenda_edit(request, meeting_id):
 
     if request.method == "POST" and 'ajax_button' in request.POST:
         request_type = 'ajax'
-        if request.POST['ajax_button'] != 'page_refresh':              
+        if request.POST['ajax_button'] != 'page_refresh':
             save_formlist(request, group, items, 'items', doc_type)
-            meeting_form = save_meeting_form(request, group, meeting, doc_type)            
+            meeting_form = save_meeting_form(request, group, meeting, doc_type)
         if request.POST['ajax_button']=='add_item':
             add_item(group, meeting, items, doc_type)
         if request.POST['ajax_button'][0:11] =='delete_item':
             delete_item(request, group, meeting)
         if request.POST['ajax_button'] == 'move_item':
-            move_item(request, group, meeting)                          
+            move_item(request, group, meeting)
         items = meeting.item_set.filter(group=group).order_by('item_no')
 
     item_formlist = build_formlist(group, items, 'items', doc_type)
-    
+
     meeting_form = AgendaMeetingForm(group=group, instance=meeting,
                                      label_suffix='')
     meeting_duration = get_formatted_meeting_duration(meeting_id)
     meeting_end_time = calculate_meeting_end_time(meeting)
-    
+
     templates = get_templates(request_type, doc_type)
     responses = []
     menu = {'parent': 'meetings',
@@ -101,35 +101,35 @@ def agenda_edit(request, meeting_id):
                                'meeting_duration': meeting_duration,
                                'meeting_end_time': meeting_end_time,
                                'meeting_form': meeting_form,
-                               'meeting_id': meeting_id,                      
+                               'meeting_id': meeting_id,
                                'overdue_tasks_list': overdue_tasks_list,
                                'pending_tasks_list': pending_tasks_list,
                                'task_list_headings': task_list_headings,
                                })
         responses.append(part_response)
     response = get_response(responses, request_type)
-    
+
     return response
-    
+
 
 def agenda_distribute(request, meeting_id):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
-    
+
     doc_type = 'agenda'
     participants = Participant.lists.active().filter(group=group)
     pages = create_pdf(request, group, meeting, doc_type)
-    
+
     if request.method == "POST":
         if 'distribute_button' in request.POST:
             if request.POST['distribute_button']=='distribute':
-            	distribute_pdf(request, group, meeting, doc_type)
-            	populate_minutes_meeting_details(group, meeting)
+                distribute_pdf(request, group, meeting, doc_type)
+                populate_minutes_meeting_details(group, meeting)
                 return HttpResponseRedirect(reverse('agenda-sent',
                                                     args=(meeting_id,)))
 
@@ -147,16 +147,16 @@ def agenda_distribute(request, meeting_id):
 
 def agenda_print(request, meeting_id):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
 
     pdf_contents = get_pdf_preview_contents(request, group, meeting, 'agenda')
     file_name = group.slug + '_agenda_' + meeting.meeting_no + '.pdf'
-    
+
     response = HttpResponse(pdf_contents, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=' + file_name
 
@@ -165,9 +165,9 @@ def agenda_print(request, meeting_id):
 
 def agenda_sent(request, meeting_id):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
@@ -175,7 +175,7 @@ def agenda_sent(request, meeting_id):
     doc_type = 'agenda'
     meeting_no = meeting.meeting_no
 
-    menu = {'parent': 'meetings'}    
+    menu = {'parent': 'meetings'}
     return render(request, 'document_sent.html', {
                   'menu': menu,
                   'meeting_no': meeting_no,
@@ -187,17 +187,17 @@ def agenda_view(request, meeting_id):
     group = get_current_group(request)
     if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
-    
+
     doc_type = 'agenda'
     version = meeting.current_agenda_version
     base_file_name = get_base_file_name(request, group, meeting, 'agenda')
     pages = create_images_from_pdf(base_file_name, version=version)
 
-    menu = {'parent': 'meetings'}            	
+    menu = {'parent': 'meetings'}
     return render(request, 'document_view.html', {
                   'menu': menu,
                   'doc_type': doc_type,
@@ -208,33 +208,33 @@ def agenda_view(request, meeting_id):
 
 def minutes_edit(request, meeting_id):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
-    
+
     doc_type = 'minutes'
     request_type = 'refresh'
-  
+
     decisions = meeting.decision_set.filter(group=group).\
                 order_by('item', 'decision_no')
     items = meeting.item_set.filter(group=group).order_by('item_no')
     tasks = meeting.task_set.filter(group=group).\
             order_by('item', 'task_no')
-    
+
     completed_tasks_list = get_completed_tasks_list(group=group,
                                                     meeting=meeting,
                                                     doc_type='minutes')
     incomplete_tasks_list = Task.lists.incomplete_tasks().filter(group=group)
     new_tasks = Task.lists.incomplete_tasks().filter(group=group,
-                                                     meeting=meeting)	
+                                                     meeting=meeting)
 
     if request.method == "POST" and 'ajax_button' in request.POST:
         request_type = 'ajax'
         # before changing any data, save everything
-        if request.POST['ajax_button'] != 'page_refresh':              
+        if request.POST['ajax_button'] != 'page_refresh':
             save_formlist(request, group, decisions, 'decisions', doc_type)
             save_formlist(request, group, items, 'items', doc_type)
             save_formlist(request, group, tasks, 'tasks', doc_type)
@@ -252,7 +252,7 @@ def minutes_edit(request, meeting_id):
         if request.POST['ajax_button'][:15]=='delete_decision':
             delete_decision(request, group, meeting)
         if request.POST['ajax_button'][:11]=='delete_item':
-            delete_item(request, group, meeting)            
+            delete_item(request, group, meeting)
         if request.POST['ajax_button'][:11]=='delete_task':
             delete_task(request, group, meeting)
 
@@ -261,16 +261,16 @@ def minutes_edit(request, meeting_id):
         items = meeting.item_set.filter(group=group).order_by('item_no')
         tasks = meeting.task_set.filter(group=group).\
                 order_by('item', 'task_no')
-   
+
     decision_formlist = build_formlist(group, decisions, 'decisions',
                                        'minutes')
     item_formlist = build_formlist(group, items, 'items', 'minutes')
     task_formlist = build_formlist(group, tasks, 'tasks', 'minutes')
-        
+
     item_count = items.count()
     meeting_duration = get_formatted_meeting_duration(meeting)
     meeting_end_time = calculate_meeting_end_time(meeting)
-    meeting_form = MinutesMeetingForm(group, instance=meeting, label_suffix='') 
+    meeting_form = MinutesMeetingForm(group, instance=meeting, label_suffix='')
     next_meeting_form = NextMeetingForm(group, instance=meeting,
                                         label_suffix='')
     templates = get_templates(request_type, 'minutes')
@@ -298,15 +298,15 @@ def minutes_edit(request, meeting_id):
                           })
         responses.append(response)
     response = get_response(responses, request_type)
-    
+
     return response
 
 
 def minutes_distribute(request, meeting_id):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
@@ -314,13 +314,13 @@ def minutes_distribute(request, meeting_id):
     doc_type = 'minutes'
     participants = Participant.lists.active().filter(group=group)
     pages = create_pdf(request, group, meeting, doc_type)
-    
+
     if request.method == "POST":
         if 'distribute_button' in request.POST:
             if request.POST['distribute_button']=='distribute':
-            	undraft_tasks_and_decisions(group, meeting)
-            	distribute_pdf(request, group, meeting, doc_type)
-            	archive_meeting(request, group, meeting_id=meeting_id)
+                undraft_tasks_and_decisions(group, meeting)
+                distribute_pdf(request, group, meeting, doc_type)
+                archive_meeting(request, group, meeting_id=meeting_id)
                 return HttpResponseRedirect(reverse('minutes-sent',
                                                     args=(meeting_id,)))
 
@@ -335,19 +335,19 @@ def minutes_distribute(request, meeting_id):
                   'participants': participants,
                   })
 
-    
+
 def minutes_print(request, meeting_id):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
 
     pdf_contents = get_pdf_preview_contents(request, group, meeting, 'minutes')
     file_name = group.slug + '_minutes_' + meeting.meeting_no + '.pdf'
-    
+
     response = HttpResponse(pdf_contents, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=' + file_name
 
@@ -356,9 +356,9 @@ def minutes_print(request, meeting_id):
 
 def minutes_sent(request, meeting_id):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
@@ -366,7 +366,7 @@ def minutes_sent(request, meeting_id):
     doc_type = 'minutes'
     meeting_no = meeting.meeting_no
 
-    menu = {'parent': 'meetings'}    
+    menu = {'parent': 'meetings'}
     return render(request, 'document_sent.html', {
                   'menu': menu,
                   'meeting_no': meeting_no,
@@ -378,17 +378,17 @@ def minutes_view(request, meeting_id):
     group = get_current_group(request)
     if group == None:
         return HttpResponseRedirect(reverse('index'))
-        
+
     meeting = Meeting.objects.get(pk=int(meeting_id))
     if meeting.group != group:
         return HttpResponseRedirect(reverse('index'))
-    
+
     doc_type = 'minutes'
     version = meeting.current_minutes_version
     base_file_name = get_base_file_name(request, group, meeting, 'minutes')
     pages = create_images_from_pdf(base_file_name, version=version)
 
-    menu = {'parent': 'meetings'}            	
+    menu = {'parent': 'meetings'}
     return render(request, 'document_view.html', {
                   'menu': menu,
                   'doc_type': doc_type,

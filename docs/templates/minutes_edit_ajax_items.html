@@ -5,11 +5,11 @@
 
   <!-- MEETING DETAILS
   ================================================== -->
-  
+
   <div class="panel panel-default" id="meeting_details">
     <div class="panel-heading">
       <i class="fa fa-align-justify fa-fw fa-lg"></i>&nbsp;
-      Meeting details                
+      Meeting details
     </div>
     <div class="panel-body">
       <div class="col-md-6">
@@ -32,12 +32,12 @@
           {{ meeting_form.location_actual.label_tag}}
           {{ meeting_form.location_actual }}
           {{ meeting_form.location_actual.errors }}
-        </div>    
+        </div>
         <div class="form-group">
           {{ meeting_form.facilitator_actual.label_tag}}
           {{ meeting_form.facilitator_actual }}
           {{ meeting_form.facilitator_actual.errors }}
-        </div>        
+        </div>
         <div class="form-group">
           {{ meeting_form.minute_taker_actual.label_tag}}
           {{ meeting_form.minute_taker_actual }}
@@ -67,14 +67,14 @@
           {{ meeting_form.instructions_actual.label_tag}}
           {{ meeting_form.instructions_actual }}
           {{ meeting_form.instructions_actual.errors }}
-        </div>               
+        </div>
       </div><!-- /.col -->
     </div><!-- /.panel-body -->
   </div><!-- /.panel -->
-   
+
   <!-- ITEMS - MAIN SECTION
   ================================================== -->
-   
+
   {% for item in item_formlist %}
     <div class="panel panel-default" id="panel_{{ item.item_no.value}}">
       <div class="panel-heading">
@@ -84,7 +84,7 @@
         <span id="panel_heading_{{ item.item_no.value}}">
             {{ item.title.value }}
           </span>
-          <button type="button" title="Delete item" 
+          <button type="button" title="Delete item"
             class="btn btn-default btn-item-delete ajax-button pull-right"
             id="delete_item_{{ item.item_no.value}}">
               <i class="fa fa-times-circle fa-lg"></i>
@@ -92,10 +92,10 @@
         {% else %}
           <i class="fa fa-file-text-o fa-fw fa-lg"></i>&nbsp;
           Item&nbsp;{{ item.item_no.value }}.&nbsp;
-            {{ item.title.value }}                
+            {{ item.title.value }}
           {% if item.time_limit.value != None %}
             <div class="pull-right">
-              {{ item.time_limit.value }}&nbsp;minutes		
+              {{ item.time_limit.value }}&nbsp;minutes
             </div>
           {% endif %}
         {% endif %}
@@ -127,7 +127,7 @@
         <div class="form-group">
           {{ item.minute_notes.label_tag }}
           {{ item.minute_notes }}
-        </div>    
+        </div>
         <div class="clearfix">
           {% for hidden in item.hidden_fields %}
             {{ hidden }}
@@ -204,14 +204,14 @@
     </div>
   {% endfor %}
 </div>
-</div>  
+</div>
   <!-- NEXT MEETING DETAILS
   ================================================== -->
-    
+
   <div class="panel panel-default" id="next_meeting_details">
     <div class="panel-heading">
       <i class="fa fa-align-justify fa-fw fa-lg"></i>&nbsp;
-      Details of next meeting&nbsp;&nbsp;(optional but recommended)         
+      Details of next meeting&nbsp;&nbsp;(optional but recommended)
     </div>
     <div class="panel-body">
       <div class="col-md-6">
@@ -236,12 +236,12 @@
           {{ next_meeting_form.next_meeting_facilitator.label_tag }}
           {{ next_meeting_form.next_meeting_facilitator }}
           {{ next_meeting_form.next_meeting_facilitator.errors }}
-        </div>    
+        </div>
         <div class="form-group">
           {{ next_meeting_form.next_meeting_minute_taker.label_tag }}
           {{ next_meeting_form.next_meeting_minute_taker }}
           {{ next_meeting_form.next_meeting_minute_taker.errors }}
-        </div>        
+        </div>
         <div class="form-group">
           {{ next_meeting_form.next_meeting_instructions.label_tag }}
           {{ next_meeting_form.next_meeting_instructions }}
@@ -250,7 +250,7 @@
       </div><!-- /.col -->
     </div><!-- /.panel-body -->
   </div><!-- /.panel -->
-   
+
 </form>
 
   <!-- FORM VALIDATION
@@ -259,7 +259,7 @@
 <script>
 
   $(function() {
-  
+
     jQuery.validator.addMethod("timeCheck", function(value, element) {
       return this.optional(element) || /^ *(1[0-2]|[1-9]):[0-5][0-9] *(a|p|A|P)(m|M) *$/.test(value);
     },
@@ -281,7 +281,7 @@
         },
         location_actual: "required",
         facilitator_actual: "required",
-        minute_taker_actual: "required",     
+        minute_taker_actual: "required",
         attendance: "required",
         {% for decision in decision_formlist %}
           "{{ decision.prefix }}-description": "required",
@@ -322,7 +322,7 @@
           {% endfor %}
             else {
               error.insertAfter(element);
-            }        
+            }
         },
         {% endif %}
       messages: {
@@ -332,10 +332,10 @@
         },
         start_time_actual: "Please select the meeting's start time",
         end_time_actual: "Please select the meeting's end time",
-        location_actual: "Please enter the location of the meeting", 
+        location_actual: "Please enter the location of the meeting",
         facilitator_actual: "Please select the meeting's facilitator",
-        minute_taker_actual: "Please select the meeting's minute-taker",     
-        attendance: "Please enter the names of the people at the meeting", 
+        minute_taker_actual: "Please select the meeting's minute-taker",
+        attendance: "Please enter the names of the people at the meeting",
         {% for decision in decision_formlist %}
           "{{ decision.prefix }}-description": {
             required: "Please enter the decision which was made",
@@ -357,13 +357,13 @@
       },
       submitHandler: function(form) {
         $('body').css( 'cursor', 'wait' );
-        preparingPreview();        
+        preparingPreview();
         var next_page = $("#submit_minutes").attr('goto');
         saveWithoutRefresh('ajax_button=save_minutes', next_page);
       },
     });
 
-    $(document).on("click", "#submit_minutes", function(){     
+    $(document).on("click", "#submit_minutes", function(){
       $( "#editminutesform" ).submit();
     });
 

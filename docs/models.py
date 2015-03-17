@@ -22,7 +22,7 @@ class Item(TimeStampedModel):
         (60,'60 mins'), (90,'90 mins'), (120,'120 mins'), (150,'150 mins'),
         (180,'180 mins'), (240,'240 mins'), (300,'300 mins'), (360,'360 mins'),
         )
-        
+
     group = models.ForeignKey(Group)
 
     explainer = models.ForeignKey(Participant, null=True, blank=True)

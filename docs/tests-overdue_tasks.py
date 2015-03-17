@@ -10,9 +10,9 @@ from meetings.models import Meeting
 from tasks.models import Task
 
 today = date.today()
-two_weeks_ago = today - timedelta(14) 
-one_week_ago = today - timedelta(7) 
-three_days_ago = today - timedelta(3) 
+two_weeks_ago = today - timedelta(14)
+one_week_ago = today - timedelta(7)
+three_days_ago = today - timedelta(3)
 yesterday = today - timedelta(1)
 tomorrow = today + timedelta(1)
 three_days_away = today + timedelta(3)
@@ -34,7 +34,7 @@ class TaskListsTests(TestCase):
         Task.objects.create(group=TheGroup,
                             meeting=TheMeeting,
                             description='TaskDueToday',
-                            deadline=today)                                   
+                            deadline=today)
         Task.objects.create(group=TheGroup,
                             meeting=TheMeeting,
                             description='TaskDueTomorrow',
@@ -65,7 +65,7 @@ class TaskListsTests(TestCase):
         task_due_yesterday = Task.objects.get(
                                   description='TaskDueYesterday')
         task_due_today = Task.objects.get(
-                         description='TaskDueToday')                                   
+                         description='TaskDueToday')
         task_due_tomorrow = Task.objects.get(
                             description='TaskDueTomorrow')
         task_due_in_one_week = Task.objects.get(
@@ -99,7 +99,7 @@ class TaskListsTests(TestCase):
         task_due_yesterday = Task.objects.get(
                                   description='TaskDueYesterday')
         task_due_today = Task.objects.get(
-                         description='TaskDueToday')                                   
+                         description='TaskDueToday')
         task_due_tomorrow = Task.objects.get(
                             description='TaskDueTomorrow')
         task_due_in_one_week = Task.objects.get(
@@ -121,7 +121,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)              
+        self.assertEqual(task_due_in_one_week_included, False)
         ###########################
         ##Set tasks to 'Incomplete'
         ###########################
@@ -133,7 +133,7 @@ class TaskListsTests(TestCase):
         task_due_yesterday = Task.objects.get(
                                   description='TaskDueYesterday')
         task_due_today = Task.objects.get(
-                         description='TaskDueToday')                                   
+                         description='TaskDueToday')
         task_due_tomorrow = Task.objects.get(
                             description='TaskDueTomorrow')
         task_due_in_one_week = Task.objects.get(
@@ -276,7 +276,7 @@ class TaskListsTests(TestCase):
         task_due_yesterday = Task.objects.get(
                                   description='TaskDueYesterday')
         task_due_today = Task.objects.get(
-                         description='TaskDueToday')                                   
+                         description='TaskDueToday')
         task_due_tomorrow = Task.objects.get(
                             description='TaskDueTomorrow')
         task_due_in_one_week = Task.objects.get(
@@ -347,7 +347,7 @@ class TaskListsTests(TestCase):
         task_due_yesterday = Task.objects.get(
                                   description='TaskDueYesterday')
         task_due_today = Task.objects.get(
-                         description='TaskDueToday')                                   
+                         description='TaskDueToday')
         task_due_tomorrow = Task.objects.get(
                             description='TaskDueTomorrow')
         task_due_in_one_week = Task.objects.get(
@@ -429,7 +429,7 @@ class TaskListsTests(TestCase):
         task_due_yesterday = Task.objects.get(
                                   description='TaskDueYesterday')
         task_due_today = Task.objects.get(
-                         description='TaskDueToday')                                   
+                         description='TaskDueToday')
         task_due_tomorrow = Task.objects.get(
                             description='TaskDueTomorrow')
         task_due_in_one_week = Task.objects.get(
@@ -463,7 +463,7 @@ class TaskListsTests(TestCase):
         task_due_yesterday = Task.objects.get(
                                   description='TaskDueYesterday')
         task_due_today = Task.objects.get(
-                         description='TaskDueToday')                                   
+                         description='TaskDueToday')
         task_due_tomorrow = Task.objects.get(
                             description='TaskDueTomorrow')
         task_due_in_one_week = Task.objects.get(
@@ -485,7 +485,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)              
+        self.assertEqual(task_due_in_one_week_included, False)
         ###########################
         ##Set tasks to 'Incomplete'
         ###########################
@@ -497,7 +497,7 @@ class TaskListsTests(TestCase):
         task_due_yesterday = Task.objects.get(
                                   description='TaskDueYesterday')
         task_due_today = Task.objects.get(
-                         description='TaskDueToday')                                   
+                         description='TaskDueToday')
         task_due_tomorrow = Task.objects.get(
                             description='TaskDueTomorrow')
         task_due_in_one_week = Task.objects.get(
@@ -519,7 +519,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)              
+        self.assertEqual(task_due_in_one_week_included, False)
         ###############################################
         ##Test incomplete tasks for a meeting yesterday
         ###############################################
@@ -537,7 +537,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)         
+        self.assertEqual(task_due_in_one_week_included, False)
         ###########################################
         ##Test incomplete tasks for a meeting today
         ###########################################
@@ -555,7 +555,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)         
+        self.assertEqual(task_due_in_one_week_included, False)
         ##############################################
         ##Test incomplete tasks for a meeting tomorrow
         ##############################################
@@ -573,7 +573,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)    
+        self.assertEqual(task_due_in_one_week_included, False)
         #################################################
         ##Test incomplete tasks for a meeting in one week
         #################################################
@@ -591,7 +591,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)            
+        self.assertEqual(task_due_in_one_week_included, False)
         #################################
         ##Set tasks to as completed today
         #################################
@@ -604,7 +604,7 @@ class TaskListsTests(TestCase):
         task_due_yesterday = Task.objects.get(
                                   description='TaskDueYesterday')
         task_due_today = Task.objects.get(
-                         description='TaskDueToday')                                   
+                         description='TaskDueToday')
         task_due_tomorrow = Task.objects.get(
                             description='TaskDueTomorrow')
         task_due_in_one_week = Task.objects.get(
@@ -626,7 +626,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)                 
+        self.assertEqual(task_due_in_one_week_included, False)
         ##########################################################
         ##Test tasks completed today for a meeting scheduled today
         ##########################################################
@@ -644,7 +644,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)          
+        self.assertEqual(task_due_in_one_week_included, False)
         #############################################################
         ##Test tasks completed today for a meeting scheduled tomorrow
         #############################################################
@@ -662,7 +662,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)          
+        self.assertEqual(task_due_in_one_week_included, False)
         #####################################
         ##Set tasks to as completed yesterday
         #####################################
@@ -675,7 +675,7 @@ class TaskListsTests(TestCase):
         task_due_yesterday = Task.objects.get(
                                   description='TaskDueYesterday')
         task_due_today = Task.objects.get(
-                         description='TaskDueToday')                                   
+                         description='TaskDueToday')
         task_due_tomorrow = Task.objects.get(
                             description='TaskDueTomorrow')
         task_due_in_one_week = Task.objects.get(
@@ -697,7 +697,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)                 
+        self.assertEqual(task_due_in_one_week_included, False)
         ##################################################################
         ##Test tasks completed yesterday for a meeting scheduled yesterday
         ##################################################################
@@ -715,7 +715,7 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)          
+        self.assertEqual(task_due_in_one_week_included, False)
         ##############################################################
         ##Test tasks completed yesterday for a meeting scheduled today
         ##############################################################
@@ -733,5 +733,5 @@ class TaskListsTests(TestCase):
         task_due_tomorrow_included = task_due_tomorrow in overdue_tasks
         self.assertEqual(task_due_tomorrow_included, False)
         task_due_in_one_week_included = task_due_in_one_week in overdue_tasks
-        self.assertEqual(task_due_in_one_week_included, False)          
+        self.assertEqual(task_due_in_one_week_included, False)
 

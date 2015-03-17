@@ -4,12 +4,12 @@
 
   {{ group_name }}: Minutes for the meeting on {{ meeting.date_actual|date:"M j" }}
 
-{% endblock title %}      
+{% endblock title %}
 
 {% block body %}
 
   <tr>
-    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">    
+    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">
       Hi {{ recipient_name }},<br/><br/>
       The minutes for the {{ group_name }} meeting held on {{ meeting.date_actual|date:"M j" }} are attached as a PDF document.<br/><br/>
       Here's a quick overview of the decisions and tasks from the meeting.<br/>
@@ -17,7 +17,7 @@
   </tr>
 
   <tr>
-    <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">    
+    <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">
       Decisions
     </td>
   </tr>
@@ -27,7 +27,7 @@
         <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td>
-      <![endif]--> 
+      <![endif]-->
       <table align="center" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
         {% if decisions %}
           {% for decision in decisions %}
@@ -54,9 +54,9 @@
         <![endif]-->
       </table>
     </td>
-  </tr>   
+  </tr>
   <tr>
-    <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">    
+    <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">
       <br/>
       Tasks (ordered by deadline)
     </td>
@@ -67,7 +67,7 @@
         <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td>
-      <![endif]--> 
+      <![endif]-->
       <table align="center" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
         {% if tasks %}
           {% for task in tasks %}
@@ -94,12 +94,12 @@
         <![endif]-->
       </table>
     </td>
-  </tr>   
+  </tr>
   <tr>
     <td class="spacer20" bgcolor="#ffffff" style="padding: 20px 0 0 0;"></td>
   </tr>
   <tr>
-    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">   
+    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">
       If you have any questions, you can contact {{ convenor_name }} by replying to this email.
     </td>
   </tr>

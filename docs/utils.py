@@ -30,7 +30,7 @@ def add_item(group, meeting, items, doc_type):
     except:
         last_item_no = 0
 
-    new_item_no = last_item_no + 1 
+    new_item_no = last_item_no + 1
     new_item = Item(item_no=new_item_no,
                meeting=meeting,
                group=group,
@@ -72,7 +72,7 @@ def add_task(request, group, meeting):
 def delete_item(request, group, meeting, **kwargs):
     """
     Deletes an agenda item.
-    """    
+    """
     if kwargs:
         item_number = kwargs['item_no']
         item_number = int(item_number)
@@ -95,7 +95,7 @@ def delete_decision(request, group, meeting, **kwargs):
     Deletes a decision from a minutes item. If a decision number is passed via
     **kwargs then it is used, otherwise the decision number is found from the
     request.POST data
-    """    
+    """
     # Get the decision
     if kwargs:
         decision_id = kwargs['decision_id']
@@ -118,14 +118,14 @@ def delete_decision(request, group, meeting, **kwargs):
             new_decision_no = current_decision_no - 1
             decision.decision_no = new_decision_no
             decision.save()
-                
+
 
 def delete_task(request, group, meeting, **kwargs):
     """
     Deletes a task from a minutes item. If a task number is passed via
     **kwargs then it is used, otherwise the task number is found from the
     request.POST data
-    """    
+    """
     # Get the task
     if kwargs:
         task_id = kwargs['task_id']
@@ -149,18 +149,18 @@ def delete_task(request, group, meeting, **kwargs):
             task.task_no = new_task_no
             task.save()
 
-    
+
 def move_item(request, group, meeting):
     """
     Moves an agenda item relative to other agenda items.
-    """   
+    """
     ajax_data = request.POST['new_sidebar_order']
     ajax_data_list = string.split(ajax_data, ',')
 
     last_item = 0
     count = 0
     moved_item = None
-    
+
     for item in ajax_data_list:
         item = int(item)
         difference = item - last_item
@@ -169,10 +169,10 @@ def move_item(request, group, meeting):
             break
         last_item = item
         count += 1
-    
+
     if moved_item == None:
         moved_item = count
-    
+
     old_position = moved_item
 
     position = 1
@@ -182,9 +182,9 @@ def move_item(request, group, meeting):
             new_position = position
             break
         position += 1
-          
+
     items = Item.objects.filter(meeting=meeting, group=group)
-    
+
     for item in items:
         if item.item_no == moved_item:
             item.item_no = new_position
@@ -199,7 +199,7 @@ def move_item(request, group, meeting):
                 new_item_number = item.item_no + 1
                 item.item_no = new_item_number
                 item.save()
-   
+
 
 def build_formlist(group, items, item_type, doc_type):
     """
@@ -214,9 +214,9 @@ def build_formlist(group, items, item_type, doc_type):
         elif item_type == 'tasks':
             prefix = 't' + str(count)
         elif item_type == 'decisions':
-            prefix = 'd' + str(count)           
+            prefix = 'd' + str(count)
         if doc_type == 'agenda':
-            formlist_item = AgendaItemForm(group, prefix=prefix, instance=item, 
+            formlist_item = AgendaItemForm(group, prefix=prefix, instance=item,
                                           label_suffix='')
         elif doc_type == 'minutes':
             if item_type == 'items':
@@ -226,8 +226,8 @@ def build_formlist(group, items, item_type, doc_type):
                 formlist_item = MinutesTaskForm(group, prefix=prefix,
                                                instance=item, label_suffix='')
             if item_type == 'decisions':
-                formlist_item = MinutesDecisionForm(group, prefix=prefix, 
-                                                   instance=item, 
+                formlist_item = MinutesDecisionForm(group, prefix=prefix,
+                                                   instance=item,
                                                    label_suffix='')
         formlist.append(formlist_item)
 
@@ -246,7 +246,7 @@ def save_formlist(request, group, items, item_type, doc_type):
         elif item_type == 'tasks':
             prefix = 't' + str(count)
         elif item_type == 'decisions':
-            prefix = 'd' + str(count)           
+            prefix = 'd' + str(count)
 
         if doc_type == 'agenda':
             updated_item = AgendaItemForm(group, request.POST,
@@ -267,28 +267,28 @@ def save_formlist(request, group, items, item_type, doc_type):
                                                    label_suffix='')
         if updated_item.is_valid():
             updated_item.save(group)
-        
 
-def save_meeting_form(request, group, meeting, doc_type):            
+
+def save_meeting_form(request, group, meeting, doc_type):
     """
     Saves the meeting form.
     """
     if doc_type == 'agenda':
         meeting_form = AgendaMeetingForm(group, request.POST, instance=meeting)
     elif doc_type == 'minutes':
-        meeting_form = MinutesMeetingForm(group, request.POST, instance=meeting)        
+        meeting_form = MinutesMeetingForm(group, request.POST, instance=meeting)
     if meeting_form.is_valid():
         meeting_form.save(group)
     if doc_type == 'agenda':
         return meeting_form
 
 
-def save_next_meeting_form(request, group, meeting):            
+def save_next_meeting_form(request, group, meeting):
     """
     Saves the next meeting form.
     """
-    next_meeting_form = NextMeetingForm(group, request.POST, 
-                                        instance=meeting)        
+    next_meeting_form = NextMeetingForm(group, request.POST,
+                                        instance=meeting)
     if next_meeting_form.is_valid():
         next_meeting_form.save(group)
 
@@ -303,7 +303,7 @@ def clear_minutes(request, group, meeting, decisions, items, tasks):
                         decision_id=decision_id)
     for task in tasks:
         task_id = task.id
-        delete_task(request, group, meeting, task_id=task_id)    
+        delete_task(request, group, meeting, task_id=task_id)
     for item in items:
         if item.minute_notes:
             item.minute_notes = ''
@@ -329,7 +329,7 @@ def clear_minutes(request, group, meeting, decisions, items, tasks):
     meeting.next_meeting_start_time = None
     meeting.save()
 
-            
+
 def calculate_meeting_duration(meeting):
     """
     Returns the duration of a meeting. If any item durations are zero,
@@ -343,7 +343,7 @@ def calculate_meeting_duration(meeting):
             break
         duration += item.time_limit
     return duration
-	
+
 
 def calculate_meeting_end_time(meeting):
     """
@@ -356,8 +356,8 @@ def calculate_meeting_end_time(meeting):
     end_date_and_time = start_date_and_time + timedelta(minutes=duration)
     end_time = end_date_and_time.time()
     return end_time
-	
-	
+
+
 def get_formatted_meeting_duration(meeting):
     """
     Returns the duration of the meeting in hr:min format.
@@ -366,13 +366,13 @@ def get_formatted_meeting_duration(meeting):
     hours = duration / 60
     minutes = duration % 60
     if hours == 0:
-	    formatted_duration = '%s mins (approx.)' % minutes
+        formatted_duration = '%s mins (approx.)' % minutes
     elif hours == 1:
-	    formatted_duration = '%s hr %s mins (approx.)' % (hours, minutes)	
+        formatted_duration = '%s hr %s mins (approx.)' % (hours, minutes)
     else:
-	    formatted_duration = '%s hrs %s mins (approx.)' % (hours, minutes)
+        formatted_duration = '%s hrs %s mins (approx.)' % (hours, minutes)
     return formatted_duration
-	
+
 
 def get_overdue_tasks_list(group, meeting, doc_type):
     """
@@ -384,8 +384,8 @@ def get_overdue_tasks_list(group, meeting, doc_type):
         # If today's date is before the scheduled meeting date,
         # return a list of tasks currently overdue.
         if meeting_date > today:
-            tasks_list = Task.lists.overdue_tasks().filter(group=group)  
-    elif doc_type == "minutes":        
+            tasks_list = Task.lists.overdue_tasks().filter(group=group)
+    elif doc_type == "minutes":
         meeting_date = meeting.date_actual
         # If today's date is before the actual meeting date,
         # return an empty list.
@@ -416,7 +416,7 @@ def get_outstanding_tasks_list(group, meeting, doc_type):
         # return a list of tasks currently outstanding.
         if meeting_date > today:
             tasks_list = Task.lists.pending_tasks().filter(group=group)
-    elif doc_type == "minutes":        
+    elif doc_type == "minutes":
         meeting_date = meeting.date_actual
         # If today's date is before the actual meeting date,
         # return an empty list.
@@ -425,7 +425,7 @@ def get_outstanding_tasks_list(group, meeting, doc_type):
     # If today is on or after the meeting date, return a list of tasks
     # which were outstanding on the meeting date.
     if meeting_date <= today:
-        # Because meeting_date is a date() and it will be compared with a 
+        # Because meeting_date is a date() and it will be compared with a
         # datetime() in the query following, day_following_meeting is needed
         # for the queryset to evaluate to the correct result.
         day_after_meeting = meeting_date + timedelta(1)
@@ -467,14 +467,14 @@ def get_completed_tasks_list(group, meeting, doc_type):
                               filter(group=group).\
                               filter(completion_date__gt=previous_mtg_date).\
                               exclude(completion_date__gt=meeting_date).\
-                              order_by('completion_date')                              
+                              order_by('completion_date')
     # Generate the completed task list if there is no previous meeting
     elif previous_mtg_date == None:
         # 1.Allow all tasks completed before the meeting date
         completed_task_list = Task.lists.completed_tasks().\
                               filter(group=group).\
                               filter(completion_date__lte=meeting_date).\
-                              order_by('completion_date')                              
+                              order_by('completion_date')
     return completed_task_list
 
 
@@ -482,7 +482,7 @@ def get_templates(request_type, doc_type):
     """
     Returns the templates required to render the response
     for an agenda or minutes.
-    """    
+    """
     if request_type == 'refresh':
         templates = ['document_edit.html']
     elif request_type == 'ajax':
@@ -498,7 +498,7 @@ def get_templates(request_type, doc_type):
 def get_response(responses, request_type):
     """
     Returns the response for an agenda or minutes.
-    """      
+    """
     if request_type == 'refresh':
         page_object = responses[0]
         return page_object
@@ -515,26 +515,26 @@ def undraft_tasks_and_decisions(group, meeting):
     """
     Changes the status of tasks and decisions attached to minutes from draft to
     distributed once the minutes are sent out.
-    """      
+    """
     decisions = meeting.decision_set.filter(group=group)
     tasks = meeting.task_set.filter(group=group)
     for decision in decisions:
         decision.status = 'Distributed'
-        decision.save()    
+        decision.save()
     for task in tasks:
         task.status = 'Incomplete'
-        task.save()    
+        task.save()
 
 
 def populate_minutes_meeting_details(group, meeting):
     """
     In minutes have not yet been distributed, populates the meeting details
     form of the minutes edit view with corresponding data from the agenda.
-    """      
+    """
     if not meeting.current_minutes_version:
         meeting.date_actual = meeting.date_scheduled
         meeting.start_time_actual = meeting.start_time_scheduled
         meeting.location_actual = meeting.location_scheduled
-        meeting.facilitator_actual = meeting.facilitator_scheduled        
+        meeting.facilitator_actual = meeting.facilitator_scheduled
         meeting.minute_taker_actual = meeting.minute_taker_scheduled
         meeting.save()
