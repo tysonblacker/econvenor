@@ -8,14 +8,14 @@ def snapshot_user_details(user, **kwargs):
     try:
         password = kwargs['password']
     except:
-        pass        
+        pass
     new_details = UserUpdate()
     new_details.user = user
     new_details.email = user.email
     new_details.username = user.username
     new_details.first_name = user.first_name
-    new_details.last_name = user.last_name    
-    new_details.password = password    
+    new_details.last_name = user.last_name
+    new_details.password = password
     new_details.save()
 
 

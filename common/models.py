@@ -13,7 +13,7 @@ class Update(TimeStampedModel):
     This is used for recording updates everywhere
     but in a user's account settings.
     """
-        
+
     user = models.ForeignKey(User)
 
     group = models.ForeignKey(Group)
@@ -29,7 +29,7 @@ class UserUpdate(TimeStampedModel):
     """
     Records changes to a user's details.
     """
-    
+
     user = models.ForeignKey(User)
 
     username = models.CharField(max_length=30, null=False, blank=True)
@@ -42,9 +42,9 @@ class GroupUpdate(TimeStampedModel):
     """
     Records changes to a group's details.
     """
-    
+
     group = models.ForeignKey(Group)
-    
+
     aim = models.CharField(max_length=100, null=False, blank=True)
     country = models.CharField(max_length=40,null=False, blank=True)
     focus = models.CharField(max_length=40, null=False, blank=True)
