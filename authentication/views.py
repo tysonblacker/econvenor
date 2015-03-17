@@ -14,7 +14,7 @@ def user_login(request):
             if user.is_active:
                 login(request, user)
                 if user.id == 1:
-                    return HttpResponseRedirect(reverse('dashboard-admin'))      
+                    return HttpResponseRedirect(reverse('dashboard-admin'))
                 else:
                     return HttpResponseRedirect(reverse('dashboard'))
             else:
@@ -28,4 +28,3 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index'))
-    

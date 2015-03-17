@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 
 
 class EmailModelBackend(object):
- 
+
     def authenticate(self, email=None, password=None, **kwargs):
         try:
             user = User.objects.get(email=email)
