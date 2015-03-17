@@ -23,12 +23,12 @@ class Decision(TimeStampedModel):
         ('Distributed', 'Distributed'),
         ('Draft', 'Draft'),
         )
-        
+
     group = models.ForeignKey(Group)
 
     item = models.ForeignKey(Item)
     meeting = models.ForeignKey(Meeting)
-    
+
     decision_no = models.IntegerField(null=True, blank=True)
     description = models.TextField(validators=[MaxLengthValidator(300)],
                                    null=False, blank=True)
@@ -37,9 +37,9 @@ class Decision(TimeStampedModel):
                               default='Draft',
                               null=False,
                               blank=True)
-    
+
     objects = models.Manager()
     lists = DecisionManager()
-        
+
     def __unicode__(self):
         return self.description

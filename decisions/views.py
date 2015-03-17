@@ -8,7 +8,7 @@ from utilities.commonutils import get_current_group
 
 def decision_list(request):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
 
     decisions = Decision.lists.all_decisions().filter(group=group)
@@ -20,7 +20,7 @@ def decision_list(request):
     menu = {'parent': 'decisions',
             'child': 'view_decisions',
             'tips': 'decisions'
-            }    
+            }
     return render(request, 'decision_list.html', {
                   'menu': menu,
                   'decisions': decisions,

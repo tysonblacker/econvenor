@@ -21,7 +21,7 @@
               {% endfor%}
             </tr>
           </thead>
-          <tbody> 
+          <tbody>
             {% for decision in decisions %}
               <tr id={{ decision.id }} onclick="document.location='{% url 'minutes-view' decision.meeting_id %}';">
                 <td>{{ decision.meeting.meeting_no }}</td>
