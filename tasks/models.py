@@ -14,10 +14,10 @@ class TaskManager(models.Manager):
 
     def all_tasks(self):
         return self.get_queryset().all().order_by('deadline', 'participant')
-                
+
     def by_participant(self):
         return self.get_queryset().all().order_by('participant', 'deadline')
-        
+
     def completed_tasks(self):
         return self.get_queryset().filter(status='Completed').\
             order_by('completion_date').reverse()
@@ -44,7 +44,7 @@ class TaskManager(models.Manager):
 
     def ordered_tasks(self):
         return self.get_queryset().all().order_by('task_no')
-        
+
 
 class Task(TimeStampedModel):
 
@@ -54,9 +54,9 @@ class Task(TimeStampedModel):
         ('Cancelled', 'Cancelled'),
         ('Draft', 'Draft'),
         )
-   
+
     group = models.ForeignKey(Group)
-    
+
     item = models.ForeignKey(Item, null=True, blank=True)
     meeting = models.ForeignKey(Meeting, null=True, blank=True)
     participant = models.ForeignKey(Participant,
@@ -75,9 +75,9 @@ class Task(TimeStampedModel):
                               null=False,
                               blank=True)
     task_no = models.IntegerField(null=True, blank=True)
-    
+
     objects = models.Manager()
     lists = TaskManager()
-    
+
     def __unicode__(self):
         return self.description

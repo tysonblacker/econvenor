@@ -5,7 +5,7 @@ from tasks.models import Task
 
 
 class AddTaskForm(forms.ModelForm):
-    
+
     def __init__(self, group, *args, **kwargs):
         super(AddTaskForm, self).__init__(*args, **kwargs)
         self.fields['participant'].queryset = \
@@ -36,15 +36,15 @@ class AddTaskForm(forms.ModelForm):
                 'rows': 4,
                 }),
             }
-                  
+
     def save(self, group, commit=True):
         task = super(AddTaskForm, self).save(commit=False)
         task.group = group
         if commit:
             task.save()
         return task
-        
-        
+
+
 class EditTaskForm(forms.ModelForm):
 
     def __init__(self, group, *args, **kwargs):
@@ -97,15 +97,15 @@ class EditTaskForm(forms.ModelForm):
         if commit:
             task.save()
         return task
-        
-        
+
+
 class MinutesTaskForm(forms.ModelForm):
-    
+
     def __init__(self, group, *args, **kwargs):
         super(MinutesTaskForm, self).__init__(*args, **kwargs)
         self.fields['participant'].queryset = \
             Participant.lists.active().filter(group=group)
-        
+
     class Meta:
         model = Task
         fields = ['description',
@@ -126,7 +126,7 @@ class MinutesTaskForm(forms.ModelForm):
                 }),
             }
 
-                  
+
     def save(self, group, commit=True):
         task = super(MinutesTaskForm, self).save(commit=False)
         task.group = group
