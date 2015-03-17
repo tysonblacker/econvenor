@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 def quick_start_guide(request):
 
-    menu = {'parent': 'help'}            	         
+    menu = {'parent': 'help'}
     return render(request, 'quick_start_guide.html', {
                   'menu': menu,
     })
@@ -11,7 +11,7 @@ def quick_start_guide(request):
 
 def user_guide(request):
 
-    menu = {'parent': 'help'}            	         
+    menu = {'parent': 'help'}
     return render(request, 'user_guide.html', {
                   'menu': menu,
     })
@@ -19,7 +19,7 @@ def user_guide(request):
 
 def qanda(request):
 
-    menu = {'parent': 'help'}            	         
+    menu = {'parent': 'help'}
     return render(request, 'qanda.html', {
                   'menu': menu,
     })
@@ -27,7 +27,7 @@ def qanda(request):
 
 def ask_question(request):
 
-    menu = {'parent': 'help'}            	
+    menu = {'parent': 'help'}
     return render(request, 'ask_question.html', {
                   'menu': menu,
                   })
