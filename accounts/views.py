@@ -30,12 +30,12 @@ def password_change(request):
     if request.method == "POST":
         form = PasswordChangeForm(request.user, request.POST, label_suffix='')
         if form.is_valid():
-            form.save()    
+            form.save()
             snapshot_user_details(request.user, password='changed')
             return HttpResponseRedirect(reverse('password-changed'))
     else:
         form = PasswordChangeForm(request.user, label_suffix='')
-        
+
     menu = {'parent': 'account'}
     return render(request, 'password_change.html', {
                   'menu': menu,
@@ -66,29 +66,29 @@ def user_edit(request):
             return HttpResponseRedirect(reverse('account'))
     else:
         form = UserDetailsForm(instance=request.user, label_suffix='')
-        
+
     menu = {'parent': 'account'}
     return render(request, 'user_edit.html', {
                   'menu': menu,
                   'form': form,
                   })
 
-        
+
 def group_edit(request):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
 
     if request.method == "POST":
         form = GroupDetailsForm(request.POST, instance=group,
                                 label_suffix='')
         if form.is_valid():
-            form.save()    
+            form.save()
             snapshot_group_details(group)
             return HttpResponseRedirect(reverse('account'))
     else:
         form = GroupDetailsForm(instance=group, label_suffix='')
-        
+
     menu = {'parent': 'account'}
     return render(request, 'group_edit.html', {
                   'menu': menu,

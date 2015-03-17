@@ -30,7 +30,7 @@ class BasePasswordForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         super(BasePasswordForm, self).__init__(*args, **kwargs)
         self.user = user
-    
+
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
@@ -40,7 +40,7 @@ class BasePasswordForm(forms.ModelForm):
                 code='password_mismatch',
             )
         return password2
-            
+
     def save(self, commit=True):
         self.user.set_password(self.cleaned_data["password1"])
         if commit:
@@ -63,7 +63,7 @@ class PasswordChangeForm(BasePasswordForm):
     A form which changes a user's password when the user is logged in to
     eConvenor.
     """
-    
+
     class Meta:
         model = User
         fields = ("password",)
@@ -114,13 +114,13 @@ class UserDetailsForm(forms.ModelForm):
         error_messages={
             'invalid': _("You username may contain only letters, numbers and "
                          "underscore ('_') characters.")})
-    
+
     class Meta:
         model = User
         fields = ("email", "username", "first_name", "last_name")
         labels = {
             'first_name': _('Given name'),
-            'last_name': _('Family name (optional)'), 
+            'last_name': _('Family name (optional)'),
         }
         widgets = {
             'first_name': forms.TextInput(attrs={
@@ -156,7 +156,7 @@ class UserDetailsForm(forms.ModelForm):
             self.error_messages['duplicate_username'],
             code='duplicate_username',
         )
-            
+
     def save(self, commit=True):
         user = super(UserDetailsForm, self).save(commit=False)
         if commit:
@@ -174,7 +174,7 @@ class GroupDetailsForm(forms.ModelForm):
                                    'class': 'form-control',
                                    }),
         help_text=_("Required. 100 characters or fewer."))
-        
+
     class Meta:
         model = Group
         fields = ('name', 'aim', 'focus', 'country')

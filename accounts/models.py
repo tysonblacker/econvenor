@@ -8,14 +8,14 @@ class GroupManager(models.Manager):
 
     def all_groups(self):
         return self.get_queryset().all().order_by('name')
-                
+
     def active_groups(self):
         return self.get_queryset().filter(account_status='Active').\
             order_by('name')
 
     def newest_groups(self):
         return self.get_queryset().filter(account_status='Active').\
-            order_by('created').reverse()[:5]            
+            order_by('created').reverse()[:5]
 
 class Group(TimeStampedModel):
 
@@ -29,9 +29,9 @@ class Group(TimeStampedModel):
         ('Abandoned', 'Abandoned'),
         ('Suspended', 'Suspended'),
         )
-        
+
     users = models.ManyToManyField(User)
-    
+
     aim = models.CharField('group aim', max_length=100, null=False,
                            blank=True)
     country = models.CharField(max_length=40, null=False, blank=True)
@@ -44,16 +44,16 @@ class Group(TimeStampedModel):
                                       choices=ACCOUNT_STATUS_CHOICES,
                                       default='Active',
                                       null=False, blank=True)
-    account_type = models.CharField(max_length=20, 
+    account_type = models.CharField(max_length=20,
                                     choices=ACCOUNT_TYPE_CHOICES,
                                     default='Free', null=False, blank=True)
 
     objects = models.Manager()
     lists = GroupManager()
-    
+
     def __unicode__(self):
         return self.name
-        
+
 
 class UserSettings(TimeStampedModel):
 
