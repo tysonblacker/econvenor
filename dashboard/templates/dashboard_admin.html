@@ -11,7 +11,7 @@
     <a href={% url 'bug-list-admin' %}>
       <div class="panel-heading">
         <i class="fa fa-bug fa-fw"></i>&nbsp;
-	    Number of open bug reports
+        Number of open bug reports
       </div>
     </a>
     <div class="panel-body text-center">
@@ -22,7 +22,7 @@
         {% else %}
           0
         {% endif %}
-	    <i class="fa fa-bug fa-fw"></i>&nbsp;
+        <i class="fa fa-bug fa-fw"></i>&nbsp;
       </span>
     </div>
   </div>
@@ -32,8 +32,8 @@
   <div class="panel panel-default panel-dashboard">
     <a href={% url 'feature-list-admin' %}>
       <div class="panel-heading">
-	    <i class="fa fa-wrench fa-fw"></i>&nbsp;
-	    Number of open feature requests
+        <i class="fa fa-wrench fa-fw"></i>&nbsp;
+        Number of open feature requests
       </div>
     </a>
     <div class="panel-body text-center">
@@ -44,17 +44,17 @@
         {% else %}
           0
         {% endif %}
-	    <i class="fa fa-wrench fa-fw"></i>&nbsp;
+        <i class="fa fa-wrench fa-fw"></i>&nbsp;
       </span>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="col-sm-6">
   <div class="panel panel-default panel-dashboard">
     <div class="panel-heading">
       <i class="fa fa-users fa-fw"></i>&nbsp;
-	  Newest groups
+      Newest groups
     </div>
     <div class="table-dashboard">
       <table class="table task-table">
@@ -65,7 +65,7 @@
             <th>Country</th>
           </tr>
         </thead>
-        <tbody> 
+        <tbody>
           {% for group in newest_groups %}
             <tr>
               <td>{{ group.name }}</td>
@@ -76,18 +76,18 @@
         </tbody>
       </table>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="col-sm-6">
   <div class="panel panel-default panel-dashboard">
     <a href={% url 'meeting-list-current' %}>
       <div class="panel-heading">
-	    <i class="fa fa-align-justify fa-fw"></i>&nbsp;
-	    Miscellaneous statistics
+        <i class="fa fa-align-justify fa-fw"></i>&nbsp;
+        Miscellaneous statistics
       </div>
     </a>
-    <table class="table table-dashboard admin-dashboard-meeting-table"> 
+    <table class="table table-dashboard admin-dashboard-meeting-table">
       <tbody>
         <tr>
           <td>Number of accounts</td>
@@ -126,7 +126,7 @@
         </tr>
       </tbody>
     </table>
-  </div>  
+  </div>
 </div>
 
 {% endblock content %}

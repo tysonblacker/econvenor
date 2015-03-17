@@ -11,9 +11,9 @@
   <div class="panel panel-primary panel-dashboard">
     <a href={% url 'task-list' %}>
       <div class="panel-heading">
-	    <i class="fa fa-list fa-fw"></i>&nbsp;
-	    Most overdue tasks
-	    <i class="fa fa-arrow-circle-right pull-right"></i>
+        <i class="fa fa-list fa-fw"></i>&nbsp;
+        Most overdue tasks
+        <i class="fa fa-arrow-circle-right pull-right"></i>
       </div>
       </a>
       {% if top_overdue_tasks %}
@@ -26,9 +26,9 @@
             {% endfor%}
           </tr>
         </thead>
-        <tbody> 
+        <tbody>
           {% for task in top_overdue_tasks %}
-            <tr id={{ task.id }} 
+            <tr id={{ task.id }}
               onclick="document.location='{% url 'task-edit' task.id %}';">
               <td>{{ task.description }}</td>
               <td>{{ task.deadline }}</td>
@@ -44,20 +44,20 @@
         <p>Nice work!</p>
       </div>
       {% endif%}
-  </div>  
+  </div>
 </div>
 
 <div class="col-sm-6">
   <div class="panel panel-default panel-dashboard">
     <a href={% url 'meeting-list-current' %}>
       <div class="panel-heading">
-	    <i class="fa fa-comments fa-fw"></i>&nbsp;
-	    Last meeting
-	    <i class="fa fa-arrow-circle-right pull-right"></i>
+        <i class="fa fa-comments fa-fw"></i>&nbsp;
+        Last meeting
+        <i class="fa fa-arrow-circle-right pull-right"></i>
       </div>
     </a>
     {% if last_meeting %}
-      <table class="table dashboard-meeting-table"> 
+      <table class="table dashboard-meeting-table">
         <tbody>
           <tr>
             <td>Number</td>
@@ -66,7 +66,7 @@
           <tr>
             <td>Date</td>
             {% if last_meeting.date_actual %}
-              <td>{{ last_meeting.date_actual }}</td>      
+              <td>{{ last_meeting.date_actual }}</td>
             {% else %}
               <td>{{ last_meeting.date_scheduled }}</td>
             {% endif %}
@@ -92,20 +92,20 @@
         </p>
       </div>
     {% endif%}
-  </div>  
+  </div>
 </div>
 
 <div class="col-sm-6">
   <div class="panel panel-primary panel-dashboard">
     <a href={% url 'meeting-list-current' %}>
       <div class="panel-heading">
-	    <i class="fa fa-comments fa-fw"></i>&nbsp;
+        <i class="fa fa-comments fa-fw"></i>&nbsp;
         Next meeting
-	    <i class="fa fa-arrow-circle-right pull-right"></i>
+        <i class="fa fa-arrow-circle-right pull-right"></i>
       </div>
     </a>
     {% if next_meeting %}
-      <table class="table dashboard-meeting-table"> 
+      <table class="table dashboard-meeting-table">
          <tr>
            <td>Number</td>
            <td>{{ next_meeting.meeting_no }}</td>
@@ -134,16 +134,16 @@
         <p/>
       </div>
     {% endif%}
-  </div>  
-</div>  
+  </div>
+</div>
 
 <div class="col-sm-6">
   <div class="panel panel-default panel-dashboard">
     <a href={% url 'task-list' %}>
       <div class="panel-heading">
-	    <i class="fa fa-list fa-fw"></i>&nbsp;
-	    Tasks due soon
-	    <i class="fa fa-arrow-circle-right pull-right"></i>
+        <i class="fa fa-list fa-fw"></i>&nbsp;
+        Tasks due soon
+        <i class="fa fa-arrow-circle-right pull-right"></i>
       </div>
     </a>
     {% if top_pending_tasks %}
@@ -156,9 +156,9 @@
             {% endfor%}
           </tr>
         </thead>
-        <tbody> 
+        <tbody>
           {% for task in top_pending_tasks %}
-            <tr id={{ task.id }} 
+            <tr id={{ task.id }}
                 onclick="document.location='{% url 'task-edit' task.id %}';">
               <td>{{ task.description }}</td>
               <td>{{ task.deadline }}</td>
@@ -173,14 +173,14 @@
         <p>There are no tasks due soon.</p>
       </div>
     {% endif%}
-  </div>  
+  </div>
 </div>
 
 <div class="col-sm-6">
   <div class="panel panel-default panel-dashboard">
     <div class="panel-heading">
-	  <i class="fa fa-exclamation-triangle fa-fw"></i>&nbsp;
-	  Recent eConvenor updates
+      <i class="fa fa-exclamation-triangle fa-fw"></i>&nbsp;
+      Recent eConvenor updates
     </div>
     <div class="table-dashboard">
       <table class="table task-table">
@@ -190,7 +190,7 @@
             <th>Date</th>
           </tr>
         </thead>
-        <tbody> 
+        <tbody>
           <tr>
             <td>
               <span class="red">
@@ -242,14 +242,14 @@
         </tbody>
       </table>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="col-sm-6">
   <div class="panel panel-default panel-dashboard">
     <div class="panel-heading">
-	  <i class="fa fa-calendar fa-fw"></i>&nbsp;
-	  Features coming to eConvenor soon
+      <i class="fa fa-calendar fa-fw"></i>&nbsp;
+      Features coming to eConvenor soon
     </div>
     <div class="table-dashboard">
       <table class="table task-table">
@@ -259,7 +259,7 @@
             <th>Date</th>
           </tr>
         </thead>
-        <tbody> 
+        <tbody>
           <tr>
             <td>Increase character limits for some fields (<a href="https://trac.econvenor.org/ticket/45" target="_blank">Ticket #45</a>).</td>
             <td>Mar 2015</td>
@@ -279,14 +279,14 @@
         </tbody>
       </table>
     </div>
-  </div>  
+  </div>
 </div>
 
 {% comment %}
 <div class="col-sm-6">
   <div class="panel panel-default panel-dashboard">
     <div class="panel-heading">
-	  <i class="fa fa-calendar fa-fw"></i>&nbsp;
+      <i class="fa fa-calendar fa-fw"></i>&nbsp;
       Time since last meeting<br/>
     </div>
     <div class="panel-body text-center">
@@ -302,9 +302,9 @@
       {% else %}
         <br/>
         <p>This box will be empty until eConvenor has more data.<p/>
-      {% endif %}    
+      {% endif %}
     </div>
-  </div>  
+  </div>
 </div>
 {% endcomment %}
 
