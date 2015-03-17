@@ -4,36 +4,36 @@
 
 
 <div class="page-header">
-	<h1>{{ page_heading }}</h1>
+    <h1>{{ page_heading }}</h1>
 </div>
 
 <div class="panel panel-primary">
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				{% for table_heading in table_headings %}
-					<th>{{ table_heading }}</th>
-				{% endfor%}
-			</tr>
-		</thead>
-		<tbody> 
-			{% for bug in bugs %}
-				<tr id={{ bug.id }} onclick="document.location='{% url 'bug-edit' bug.id %}';">
-					<td>{{ bug.id }}</td>
-					<td>{{ bug.title }}</td>
-					<td>{{ bug.created }}</td>
-					<td>{{ bug.status }}</td>
-				</tr>
-			{% empty %}
-				<tr>
-					<td>No bugs have been reported yet.</td>
-				</tr>
-			{% endfor%}
-		</tbody>
-	</table>
+    <table class="table table-hover">
+    	<thead>
+    		<tr>
+    			{% for table_heading in table_headings %}
+    				<th>{{ table_heading }}</th>
+    			{% endfor%}
+    		</tr>
+    	</thead>
+    	<tbody>
+    		{% for bug in bugs %}
+    			<tr id={{ bug.id }} onclick="document.location='{% url 'bug-edit' bug.id %}';">
+    				<td>{{ bug.id }}</td>
+    				<td>{{ bug.title }}</td>
+    				<td>{{ bug.created }}</td>
+    				<td>{{ bug.status }}</td>
+    			</tr>
+    		{% empty %}
+    			<tr>
+    				<td>No bugs have been reported yet.</td>
+    			</tr>
+    		{% endfor%}
+    	</tbody>
+    </table>
 </div>
 
 <a href={% url 'bug-report' %}><button type="button" class="btn btn-primary">Report a bug</button></a>
-	
-	
+
+
 {% endblock %}

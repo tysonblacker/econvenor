@@ -20,7 +20,7 @@ def bug_report(request):
     else:
         bug_form = BugForm()
 
-    menu = {'parent': 'feedback'}            	
+    menu = {'parent': 'feedback'}
     return render(request, 'bug_report.html', {
                   'menu': menu,
                   'bug_form': bug_form,
@@ -50,7 +50,7 @@ def bug_edit(request, bug_id):
     else:
         display_mode = 'view'
 
-    menu = {'parent': 'feedback'}            	
+    menu = {'parent': 'feedback'}
     return render(request, 'bug_edit.html', {
                   'menu': menu,
                   'display_mode': display_mode,
@@ -68,7 +68,7 @@ def bug_list(request):
     page_heading = 'Bugs reported'
     table_headings = ('Bug number', 'Description', 'Date reported', 'Status')
 
-    menu = {'parent': 'feedback'}            	
+    menu = {'parent': 'feedback'}
     return render(request, 'bug_list.html', {
                   'menu': menu,
                   'bugs': bugs,
@@ -83,7 +83,7 @@ def bug_list_admin(request):
     bugs = Bug.lists.all_bugs()
     page_heading = 'Bugs reported'
     table_headings = ('Bug number', 'Description', 'Date reported', 'Status', 'Reporter')
-    menu = {'parent': 'feedback'}            	
+    menu = {'parent': 'feedback'}
     return render(request, 'bug_list_admin.html', {
                   'menu': menu,
                   'bugs': bugs,
@@ -106,7 +106,7 @@ def feature_request(request):
     else:
         feature_form = FeatureForm()
 
-    menu = {'parent': 'feedback'}            	
+    menu = {'parent': 'feedback'}
     return render(request, 'feature_request.html', {
                   'menu': menu,
                   'feature_form': feature_form,
@@ -136,7 +136,7 @@ def feature_edit(request, feature_id):
     else:
         display_mode = 'view'
 
-    menu = {'parent': 'feedback'}            	
+    menu = {'parent': 'feedback'}
     return render(request, 'feature_edit.html', {
                   'menu': menu,
                   'display_mode': display_mode,
@@ -154,7 +154,7 @@ def feature_list(request):
     page_heading = 'Features/changes requested'
     table_headings = ('Request number', 'Description', 'Date requested', 'Status')
 
-    menu = {'parent': 'feedback'}            	
+    menu = {'parent': 'feedback'}
     return render(request, 'feature_list.html', {
                   'menu': menu,
                   'features': features,
@@ -169,7 +169,7 @@ def feature_list_admin(request):
     page_heading = 'Features/changes requested'
     table_headings = ('Request number', 'Description', 'Date requested', 'Status', 'Requestor')
 
-    menu = {'parent': 'feedback'}            	
+    menu = {'parent': 'feedback'}
     return render(request, 'feature_list_admin.html', {
                   'menu': menu,
                   'features': features,

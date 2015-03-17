@@ -4,7 +4,7 @@ from bugs.models import Bug, Feature
 
 
 class BugForm(forms.ModelForm):
-                               
+
     class Meta:
         model = Bug
         widgets = {
@@ -27,7 +27,7 @@ class BugForm(forms.ModelForm):
     def save(self, user, commit=True):
         bug = super(BugForm, self).save(commit=False)
         try:
-            bug.user = self.instance.user  
+            bug.user = self.instance.user
         except:
             bug.user = user
         if commit:
@@ -58,10 +58,10 @@ class FeatureForm(forms.ModelForm):
     def save(self, user, commit=True):
         feature = super(FeatureForm, self).save(commit=False)
         try:
-            feature.user = self.instance.user  
+            feature.user = self.instance.user
         except:
             feature.user = user
         if commit:
             feature.save()
         return feature
-        
+

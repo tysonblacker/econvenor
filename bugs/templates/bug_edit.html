@@ -8,8 +8,8 @@
   <div class="page-header">
     <h1>{{ page_heading }}</h1>
   </div>
- 
-  <div class="well"> 
+
+  <div class="well">
     <form role="form" action="" method="POST">
       {% csrf_token %}
       {% for hidden in bug_form.hidden_fields %}
@@ -62,62 +62,62 @@
   <div class="col-sm-10 col-md-10 col-lg-8 no-toolbar">
   <div class="panel panel-primary panel-help">
     <div class="panel-heading">
-	 <i class="fa fa-bug fa-fw fa-lg"></i>&nbsp;
-	 Bug report #{{ bug.id }}
+     <i class="fa fa-bug fa-fw fa-lg"></i>&nbsp;
+     Bug report #{{ bug.id }}
     </div>
   </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	  &nbsp;Title for this bug report
+      &nbsp;Title for this bug report
     </div>
     <div class="panel-body">
       {{ bug.title }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;Date reported
+        &nbsp;Date reported
     </div>
     <div class="panel-body">
       {{ bug.created }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;Which page was the bug found on?
+        &nbsp;Which page was the bug found on?
     </div>
       <div class="panel-body">
        {{ bug.location|linebreaks }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;What triggered the bug?
+        &nbsp;What triggered the bug?
     </div>
     <div class="panel-body">
       {{ bug.trigger|linebreaks }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;What was supposed to happen?
+        &nbsp;What was supposed to happen?
     </div>
     <div class="panel-body">
       {{ bug.goal|linebreaks }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;What displayed on the screen when the bug occurred?
+        &nbsp;What displayed on the screen when the bug occurred?
     </div>
     <div class="panel-body">
       {{ bug.behaviour|linebreaks }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;Comments
+        &nbsp;Comments
     </div>
     <div class="panel-body">
       {{ bug.comment|linebreaks }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;Bug report status
+        &nbsp;Bug report status
     </div>
     <div class="panel-body">
       {{ bug.status }}
@@ -129,9 +129,9 @@
       <br><br>
     {% endif %}
   </div>
-  
-  <div class="pull-right">  
-  <br> 
+
+  <div class="pull-right">
+  <br>
     <a href={% url 'bug-list' %}>
       <button type="button" class="btn btn-primary">
         Back to bug list

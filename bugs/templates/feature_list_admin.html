@@ -16,7 +16,7 @@
         {% endfor%}
       </tr>
     </thead>
-    <tbody> 
+    <tbody>
       {% for feature in features %}
         <tr id={{ feature.id }} onclick="document.location='{% url 'feature-edit' feature.id %}';">
           <td>{{ feature.id }}</td>

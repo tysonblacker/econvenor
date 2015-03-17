@@ -4,36 +4,36 @@
 
 
 <div class="page-header">
-	<h1>{{ page_heading }}</h1>
+    <h1>{{ page_heading }}</h1>
 </div>
 
 <div class="panel panel-primary">
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				{% for table_heading in table_headings %}
-					<th>{{ table_heading }}</th>
-				{% endfor%}
-			</tr>
-		</thead>
-		<tbody> 
-			{% for feature in features %}
-				<tr id={{ feature.id }} onclick="document.location='{% url 'feature-edit' feature.id %}';">
-					<td>{{ feature.id }}</td>
-					<td>{{ feature.title }}</td>
-					<td>{{ feature.created }}</td>
-					<td>{{ feature.status }}</td>
-				</tr>
-			{% empty %}
-				<tr>
-					<td>No features have been requested yet.</td>
-				</tr>
-			{% endfor%}
-		</tbody>
-	</table>
+    <table class="table table-hover">
+    	<thead>
+    		<tr>
+    			{% for table_heading in table_headings %}
+    				<th>{{ table_heading }}</th>
+    			{% endfor%}
+    		</tr>
+    	</thead>
+    	<tbody>
+    		{% for feature in features %}
+    			<tr id={{ feature.id }} onclick="document.location='{% url 'feature-edit' feature.id %}';">
+    				<td>{{ feature.id }}</td>
+    				<td>{{ feature.title }}</td>
+    				<td>{{ feature.created }}</td>
+    				<td>{{ feature.status }}</td>
+    			</tr>
+    		{% empty %}
+    			<tr>
+    				<td>No features have been requested yet.</td>
+    			</tr>
+    		{% endfor%}
+    	</tbody>
+    </table>
 </div>
 
 <a href={% url 'feature-request' %}><button type="button" class="btn btn-primary" data-toggle="button">Request a feature/change</button></a>
-	
-	
+
+
 {% endblock %}

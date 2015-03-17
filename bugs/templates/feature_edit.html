@@ -64,67 +64,67 @@
     <div class="col-sm-10 col-md-10 col-lg-8 no-toolbar">
   <div class="panel panel-primary panel-help">
     <div class="panel-heading">
-	 <i class="fa fa-star fa-fw fa-lg"></i>&nbsp;
-	 Feature request #{{ feature.id }}
+     <i class="fa fa-star fa-fw fa-lg"></i>&nbsp;
+     Feature request #{{ feature.id }}
     </div>
   </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	  &nbsp;Title for this feature request
+      &nbsp;Title for this feature request
     </div>
     <div class="panel-body">
       {{ feature.title }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;Date requested
+        &nbsp;Date requested
     </div>
     <div class="panel-body">
       {{ feature.created }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;What would the proposed feature do?
+        &nbsp;What would the proposed feature do?
     </div>
     <div class="panel-body">
       {{ feature.goal|linebreaks }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;What prevents this from happening now?
+        &nbsp;What prevents this from happening now?
     </div>
     <div class="panel-body">
       {{ feature.shortcoming|linebreaks }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;How would the proposed feature work?
+        &nbsp;How would the proposed feature work?
     </div>
     <div class="panel-body">
       {{ feature.suggestion|linebreaks }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;Comments
+        &nbsp;Comments
     </div>
     <div class="panel-body">
       {{ feature.comment|linebreaks }}
     </div>
     <div class="panel panel-default panel-help">
       <div class="panel-heading">
-	    &nbsp;Feature request status
+        &nbsp;Feature request status
     </div>
     <div class="panel-body">
       {{ feature.status }}
     </div>
-    
+
     {% if feature.comment_closing %}
       <p><strong>Closing comment</strong></p>
       {{ feature.comment_closing }}
       <br><br>
-   
+
     {% endif %}
-    
+
   <div class="pull-right">
   <br>
     <a href={% url 'feature-list' %}>
