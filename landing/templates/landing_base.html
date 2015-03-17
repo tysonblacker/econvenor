@@ -11,14 +11,14 @@
 
     {% block seo %}
     {% endblock seo %}
-        
+
     <link rel="shortcut icon" href="{% static 'images/econvenor-favicon-v1.ico' %}">
 
-	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-	<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
-	<link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet">
     <link href="{% static 'css/landing.css' %}" rel="stylesheet">
-    
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -28,7 +28,7 @@
 
   <body>
 
-    <!-- NAVBAR 
+    <!-- NAVBAR
     ================================================== -->
     <div class="navbar navbar-fixed-top">
       <div class="container">
@@ -62,7 +62,7 @@
     {% endblock content %}
 
     <!-- FOOTER
-    ================================================== -->  
+    ================================================== -->
     <div class="footer">
       <div class="container">
         <div class="row">
@@ -72,13 +72,13 @@
             <p><a href={% url 'terms' %}>Terms and conditions</a></p>
           </div><!-- /.col -->
           <div class="col-xs-3">
-            <p class="lead">About eConvenor</p>      
+            <p class="lead">About eConvenor</p>
             <p><a href={% url 'project' %}>The eConvenor project</a></p>
             <p><a href={% url 'contact' %}>How to contact us</a></p>
             <p><a href={% url 'source' %}>Source code</a></p>
           </div><!-- /.col -->
           <div class="col-xs-3">
-            <p class="lead">Contribute</p>      
+            <p class="lead">Contribute</p>
             <p><a href={% url 'volunteer' %}>Work on eConvenor</a></p>
             <p><a href={% url 'hack' %}>Monthly hack day</a></p>
             <p><a href={% url 'donate' %}>Donate money</a></p>
@@ -87,16 +87,16 @@
         </div><!-- /.row -->
       </div><!-- /.container -->
     </div><!-- /.footer -->
-     
+
     <!-- JavaScript
     ================================================== -->
-	<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script> 
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
 
     <script type="text/javascript">
     var bootstrapButton = $.fn.button.noConflict()
-    $.fn.bootstrapBtn = bootstrapButton 
+    $.fn.bootstrapBtn = bootstrapButton
     </script>
 
     <script type="text/javascript">
@@ -106,7 +106,7 @@
     </script>
 
     <script type="text/javascript">
-      $('.popup-image').magnificPopup({ 
+      $('.popup-image').magnificPopup({
         type: 'image',
         image: {
           cursor: 'mfp-zoom-out-cur',

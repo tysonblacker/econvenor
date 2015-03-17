@@ -14,18 +14,18 @@ def example_agenda(request):
     f = open(path_to_pdf, 'r')
     pdf_contents = f.read()
     f.close()
-    
+
     response = HttpResponse(pdf_contents, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=econvenor-example-agenda.pdf'
     return response
-    
+
 
 def example_minutes(request):
     path_to_pdf = os.path.join(settings.BASE_DIR, '../landing/pdfs/example_minutes.pdf')
     f = open(path_to_pdf, 'r')
     pdf_contents = f.read()
     f.close()
-    
+
     response = HttpResponse(pdf_contents, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=econvenor-example-minutes.pdf'
     return response
@@ -65,7 +65,7 @@ def pricing(request):
 
 def hack(request):
     return render(request, 'hack.html')
-    
-    
+
+
 def conduct(request):
     return render(request, 'conduct.html')
