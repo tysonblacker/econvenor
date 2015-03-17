@@ -4,19 +4,19 @@
 
   {{ group_name }}: Summary of today's task reminders
 
-{% endblock title %}      
+{% endblock title %}
 
 {% block body %}
 
   <tr>
-    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">    
+    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">
       Hi {{ convenor_name }},<br/><br/>Reminders about the tasks listed below have just been emailed to the people responsible for them.
     </td>
   </tr>
 
   {% if all_overdue_tasks %}
     <tr>
-      <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">    
+      <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">
         Tasks which are overdue
       </td>
     </tr>
@@ -26,12 +26,12 @@
           <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
             <tr>
               <td>
-        <![endif]--> 
+        <![endif]-->
         <table align="center" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
           {% for task in all_overdue_tasks %}
             <tr>
               <td class="tablecopyleft leftcolumn" bgcolor="#ffffff" style="font-family: sans-serif;font-size: 16px;line-height: 22px;padding: 0 10px 10px 30px;vertical-align: top;color: #444444;width: 70%;">
-                {{ task.description }} (by {{task.participant.first_name}} {{task.participant.last_name}}) 
+                {{ task.description }} (by {{task.participant.first_name}} {{task.participant.last_name}})
               </td>
               <td class="tablecopyright rightcolumn" bgcolor="#ffffff" style="font-family: sans-serif;font-size: 16px;line-height: 22px;padding: 0 30px 10px 20px;vertical-align: top;text-align: right;color: #999999;">
                 due on&nbsp;{{ task.deadline|date:"M j" }}
@@ -45,7 +45,7 @@
           <![endif]-->
         </table>
       </td>
-    </tr>   
+    </tr>
     {% if all_due_tasks %}
     <tr>
       <td class="spacer20" bgcolor="#ffffff" style="padding: 20px 0 0 0;"></td>
@@ -55,7 +55,7 @@
 
   {% if all_due_tasks %}
     <tr>
-      <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">    
+      <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">
         Tasks due within the next {{ reminder_interval }} days
       </td>
     </tr>
@@ -65,12 +65,12 @@
           <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
             <tr>
               <td>
-        <![endif]--> 
+        <![endif]-->
         <table align="center" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
           {% for task in all_due_tasks %}
             <tr>
               <td class="tablecopyleft leftcolumn" bgcolor="#ffffff" style="font-family: sans-serif;font-size: 16px;line-height: 22px;padding: 0 10px 10px 30px;vertical-align: top;color: #444444;width: 70%;">
-                {{ task.description }} (by {{task.participant.first_name}} {{task.participant.last_name}}) 
+                {{ task.description }} (by {{task.participant.first_name}} {{task.participant.last_name}})
               </td>
               <td class="tablecopyright rightcolumn" bgcolor="#ffffff" style="font-family: sans-serif;font-size: 16px;line-height: 22px;padding: 0 30px 10px 20px;vertical-align: top;text-align: right;color: #999999;">
                 due on&nbsp;{{ task.deadline|date:"M j" }}
@@ -84,7 +84,7 @@
           <![endif]-->
         </table>
       </td>
-    </tr>   
+    </tr>
   {% endif %}
 
   <tr>

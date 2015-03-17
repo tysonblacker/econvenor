@@ -4,19 +4,19 @@
 
   {{ group_name }}: A reminder about your tasks
 
-{% endblock title %}      
+{% endblock title %}
 
 {% block body %}
 
   <tr>
-    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">    
+    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">
       Hi {{ recipient_name }},<br/><br/>Just a quick reminder about some things you're responsible for doing for {{ group_name }}.
     </td>
   </tr>
 
   {% if overdue_tasks %}
     <tr>
-      <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">    
+      <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">
         Tasks which are overdue
       </td>
     </tr>
@@ -26,7 +26,7 @@
           <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
             <tr>
               <td>
-        <![endif]--> 
+        <![endif]-->
         <table align="center" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
           {% for task in overdue_tasks %}
             <tr>
@@ -45,7 +45,7 @@
           <![endif]-->
         </table>
       </td>
-    </tr>   
+    </tr>
     {% if due_tasks %}
     <tr>
       <td class="spacer20" bgcolor="#ffffff" style="padding: 20px 0 0 0;"></td>
@@ -55,7 +55,7 @@
 
   {% if due_tasks %}
     <tr>
-      <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">    
+      <td class="heading headingpadding" bgcolor="#ffffff" style="padding: 0 30px 10px 30px;font-family: sans-serif;font-size: 16px;line-height: 16px;text-align: left;color: #ff0066;">
         Tasks due within the next {{ reminder_interval }} days
       </td>
     </tr>
@@ -65,7 +65,7 @@
           <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
             <tr>
               <td>
-        <![endif]--> 
+        <![endif]-->
         <table align="center" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
           {% for task in due_tasks %}
             <tr>
@@ -84,16 +84,16 @@
           <![endif]-->
         </table>
       </td>
-    </tr>   
+    </tr>
   {% endif %}
 
   <tr>
     <td class="spacer20" bgcolor="#ffffff" style="padding: 20px 0 0 0;"></td>
   </tr>
   <tr>
-    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">   
-	  You can mark any of your tasks as completed at this link (which expires after {{ expiry_days }} days):<br />
-	  <a href="{{ participant_task_url }}" style="color: #ff0066;text-decoration: none;">{{ participant_task_url }}</a>
+    <td class="bodycopy bodypadding" bgcolor="#ffffff" style="padding: 0 30px 30px 30px;font-family: sans-serif;font-size: 16px;line-height: 22px;text-align: left;color: #444444;">
+      You can mark any of your tasks as completed at this link (which expires after {{ expiry_days }} days):<br />
+      <a href="{{ participant_task_url }}" style="color: #ff0066;text-decoration: none;">{{ participant_task_url }}</a>
     </td>
   </tr>
   <tr>

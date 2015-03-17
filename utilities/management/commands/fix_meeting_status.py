@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand, CommandError
 from meetings.models import Meeting
 
 
-class Command(BaseCommand): 
+class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """

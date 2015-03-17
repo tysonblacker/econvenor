@@ -4,20 +4,20 @@
 
   {{ group_name }}: A reminder about your tasks
 
-{% endblock title %}      
+{% endblock title %}
 
 
 {% block body %}
 
   <tr>
-    <td class="bodycopy bodypadding" bgcolor="#ffffff">    
+    <td class="bodycopy bodypadding" bgcolor="#ffffff">
       Hi {{ recipient_name }},<br/><br/>Just a quick reminder about some things you're responsible for doing for {{ group_name }}.
     </td>
   </tr>
 
   {% if overdue_tasks %}
     <tr>
-      <td class="heading headingpadding" bgcolor="#ffffff">    
+      <td class="heading headingpadding" bgcolor="#ffffff">
         Tasks which are overdue
       </td>
     </tr>
@@ -27,7 +27,7 @@
           <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
             <tr>
               <td>
-        <![endif]--> 
+        <![endif]-->
         <table align="center" cellpadding="0" cellspacing="0" border="0">
           {% for task in overdue_tasks %}
             <tr>
@@ -46,7 +46,7 @@
           <![endif]-->
         </table>
       </td>
-    </tr>   
+    </tr>
     {% if due_tasks %}
     <tr>
       <td class="spacer20" bgcolor="#ffffff"></td>
@@ -56,7 +56,7 @@
 
   {% if due_tasks %}
     <tr>
-      <td class="heading headingpadding" bgcolor="#ffffff">    
+      <td class="heading headingpadding" bgcolor="#ffffff">
         Tasks due within the next {{ reminder_interval }} days
       </td>
     </tr>
@@ -66,7 +66,7 @@
           <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
             <tr>
               <td>
-        <![endif]--> 
+        <![endif]-->
         <table align="center" cellpadding="0" cellspacing="0" border="0">
           {% for task in due_tasks %}
             <tr>
@@ -85,14 +85,14 @@
           <![endif]-->
         </table>
       </td>
-    </tr>   
+    </tr>
   {% endif %}
 
   <tr>
     <td class="spacer20" bgcolor="#ffffff"></td>
   </tr>
   <tr>
-    <td class="bodycopy bodypadding" bgcolor="#ffffff">   
+    <td class="bodycopy bodypadding" bgcolor="#ffffff">
       To report tasks in this message as complete, email <a href="mailto:{{ convenor_email }}">{{ convenor_name }}</a>.
     </td>
   </tr>
@@ -102,4 +102,4 @@
     </td>
   </tr>
 
-{% endblock body %}      
+{% endblock body %}

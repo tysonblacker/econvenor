@@ -7,14 +7,14 @@ from django.core.management.base import BaseCommand, CommandError
 from utilities.commonutils import set_path
 
 
-class Command(BaseCommand): 
+class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """
         Initialises the user and group update logs.
         For use once only, on 11APR2014.
         """
-        # Select users who registered before welcome emails were 
+        # Select users who registered before welcome emails were
         # automatically sent to new users
         users = User.objects.filter(id__gt=1)
         for user in users:
@@ -36,14 +36,14 @@ def create_email_contents(template_file, name, signup_date, group, email):
     contents = contents.replace('{signup_date}', signup_date, 1)
     contents = contents.replace('{group}', group, 1)
     contents = contents.replace('{email}', email, 1)
-    
+
     return contents
 
 
 def send_belated_welcome_email(group, user):
     """
     Sends a welcome email when a user sets up an account.
-    """  	
+    """
     recipient_email = user.email
     recipient_name = user.first_name
     recipient = [recipient_email]
@@ -58,7 +58,7 @@ def send_belated_welcome_email(group, user):
         'commands/templates/')
 
     text_template_file = EMAIL_PATH + 'welcome_email_belated.txt'
-    html_template_file = EMAIL_PATH + 'welcome_email_belated.html'	
+    html_template_file = EMAIL_PATH + 'welcome_email_belated.html'
     sender = 'eConvenor <mail@econvenor.org>'
     subject = 'A belated welcome to eConvenor!'
     text_content = create_email_contents(text_template_file, recipient_name,

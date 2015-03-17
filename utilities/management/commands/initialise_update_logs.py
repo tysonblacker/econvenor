@@ -5,7 +5,7 @@ from accounts.models import Group
 from common.utils import snapshot_group_details, \
                          snapshot_user_details
 
-class Command(BaseCommand): 
+class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """
