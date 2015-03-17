@@ -44,7 +44,7 @@ class AddParticipantForm(forms.ModelForm):
         if commit:
             participant.save()
         return participant
-        
+
 
 class EditParticipantForm(forms.ModelForm):
 

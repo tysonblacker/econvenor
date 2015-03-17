@@ -6,7 +6,7 @@
   <!-- TABLE
   ================================================== -->
 
-  <div class="col-sm-9 with-toolbar">      
+  <div class="col-sm-9 with-toolbar">
     <div class="panel panel-default">
       <div class="panel-heading">
         {% if selection == "active" %}
@@ -29,7 +29,7 @@
               {% endfor%}
             </tr>
           </thead>
-          <tbody> 
+          <tbody>
             {% for participant in participants %}
               <tr id={{ participant.id }}
                 onclick="document.location='{% url 'participant-view' participant.id %}';">
@@ -57,7 +57,7 @@
 
   <div class="col-sm-2 toolbar">
     <form role="form" action="" method="POST">
-      {% csrf_token %}      
+      {% csrf_token %}
       <ul class="nav nav-toolbar">
         <li class="toolbar-heading">
           <h1><i class="fa fa-pencil fa-fw fa-lg"></i>&nbsp;
@@ -103,5 +103,5 @@
       </ul>
     </form>
   </div><!-- /.col -->
-		
+
 {% endblock content %}

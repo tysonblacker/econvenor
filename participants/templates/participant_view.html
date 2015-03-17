@@ -7,11 +7,11 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-	  <i class="fa fa-user fa-fw fa-lg"></i>&nbsp;
-	  {{ participant.first_name }}'s details
+      <i class="fa fa-user fa-fw fa-lg"></i>&nbsp;
+      {{ participant.first_name }}'s details
     </div>
     <table class="table" id="view_participant_details">
-      <tbody> 
+      <tbody>
         <tr>
           <td>Given name</td>
           <td>{{ participant.first_name }}</td>
@@ -49,16 +49,16 @@
     <div class="panel-footer text-right">
         <a href={% url 'participant-edit' participant.id %}
           class="btn btn-primary">
-	        <i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
+            <i class="fa fa-edit fa-fw fa-lg"></i>&nbsp;
             Edit {{ participant.first_name }}'s details
         </a>
     </div><!-- /.panel-footer -->
-  </div><!-- /.panel -->  
+  </div><!-- /.panel -->
 
   <div class="panel panel-default">
     <div class="panel-heading">
-	  <i class="fa fa-star-o fa-fw fa-lg"></i>&nbsp;
-	  {{ participant.first_name }}'s incomplete tasks
+      <i class="fa fa-star-o fa-fw fa-lg"></i>&nbsp;
+      {{ participant.first_name }}'s incomplete tasks
     </div>
     {% if incomplete_tasks %}
       <table class="table table-hover" id="view_participant_tasks">
@@ -69,9 +69,9 @@
             {% endfor%}
           </tr>
         </thead>
-        <tbody> 
+        <tbody>
           {% for task in incomplete_tasks %}
-            <tr id={{ task.id }} 
+            <tr id={{ task.id }}
               onclick="document.location='{% url 'task-edit' task.id %}';">
                 <td>{{ task.description }}</td>
                 <td>{{ task.deadline }}</td>
@@ -84,7 +84,7 @@
         {{ participant.first_name }} has no incomplete tasks.
       </div>
     {% endif%}
-  </div><!-- /.panel -->  
+  </div><!-- /.panel -->
 
 </div><!-- /.col -->
 
