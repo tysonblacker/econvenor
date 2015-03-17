@@ -52,7 +52,7 @@ label.error {
 
 .error-container .error {
   margin-top: 0px;
-  margin-bottom: 0px;  
+  margin-bottom: 0px;
 }
 
 .errorlist > li {
@@ -112,7 +112,7 @@ body {
   text-shadow: 0 0 0;
   background-color: #333333;
   border: 0px;
-  
+
 }
 
 
@@ -219,7 +219,7 @@ body {
 .nav-sidebar .nav-second-level li a:focus {
   text-decoration: none;
   background-color: #444444;
-  color: #ffffff; 
+  color: #ffffff;
 }
 
 .nav-sidebar .nav-second-level .active a {
@@ -321,7 +321,7 @@ body {
 
 .btn-primary {
   color: #ffffff;
-  background-color: #ff0066; 
+  background-color: #ff0066;
   border-color: #ff0066;
 }
 
@@ -384,7 +384,7 @@ body {
 
 #dashboard-header {
   font-size: 1em;
-  text-align: center;  
+  text-align: center;
   background-color: #555555;
   height: 40px;
   margin: 0px -15px 30px -15px;
@@ -403,7 +403,7 @@ body {
   background-color: #dddddd;
   border: 1px solid #999999;
 }
- 
+
 /* PANELS
 -------------------------------------------------- */
 

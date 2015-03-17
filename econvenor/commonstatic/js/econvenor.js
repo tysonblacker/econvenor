@@ -1,7 +1,7 @@
 /*!
- * 
+ *
  * eConvenor base JavaScript
- * 
+ *
  */
 
 
@@ -34,7 +34,7 @@ $(function enableJQueryUIFeatures() {
     dateFormat: 'dd M yy',
     onClose: function() {
       $(this).valid();
-    },  
+    },
   });
   $( '.sortable' ).sortable({
     axis: 'y',
@@ -69,7 +69,7 @@ $(function enableTimepicker() {
 /* Enable automatic vertical scrolling to a target
 -------------------------------------------------- */
 
-$("html").on("click", ".sidebar-heading", function(event){ 
+$("html").on("click", ".sidebar-heading", function(event){
   var $anchor = $(this);
   $("html").stop().animate({
     scrollTop: $($anchor.attr('href')).offset().top-90
@@ -81,7 +81,7 @@ $("html").on("click", ".sidebar-heading", function(event){
 /* Enable zooming of images
 -------------------------------------------------- */
 
-$(document).on("click", ".zoom-button", function(){ 
+$(document).on("click", ".zoom-button", function(){
   var current_zoom = $('.zoomable').attr('width');
   current_zoom = current_zoom.slice(0, -1);
   current_zoom = parseInt(current_zoom, 10)
@@ -99,14 +99,14 @@ $(document).on("click", ".zoom-button", function(){
 /* Clear distribution list checkboxes when required
 -------------------------------------------------- */
 
-$(document).on("click", ".checkbox #all_participants", function(){ 
+$(document).on("click", ".checkbox #all_participants", function(){
   var checkbox_status = $(this).prop('checked');
   if (checkbox_status == true) {
     $(".individual-checkbox").prop('checked', false);
   };
 });
 
-$(document).on("click", ".individual-checkbox", function(){ 
+$(document).on("click", ".individual-checkbox", function(){
   var checkbox_status = $(this).prop('checked');
   if (checkbox_status == true) {
     $(".checkbox #all_participants").prop('checked', false);
@@ -117,7 +117,7 @@ $(document).on("click", ".individual-checkbox", function(){
 /* Populate deletion confirmation modal
 -------------------------------------------------- */
 
-$(document).on("click", ".delete-button", function(event){ 
+$(document).on("click", ".delete-button", function(event){
   event.preventDefault();
   var instruction = $(this).attr('id');
   var description = $(this).attr('name');
@@ -142,15 +142,15 @@ $(function removeActiveItemCarat() {
 });
 
 $(".sidebar-item ").click(function() {
-  	var item_clicked_arrow = $(this).children().first().children().next()
-  	$("i").filter(".fa-angle-up").not(item_clicked_arrow).toggleClass(
-  	  "fa-angle-down fa-angle-up"
-  	);
-  	item_clicked_arrow.toggleClass("fa-angle-down fa-angle-up");
+      var item_clicked_arrow = $(this).children().first().children().next()
+      $("i").filter(".fa-angle-up").not(item_clicked_arrow).toggleClass(
+        "fa-angle-down fa-angle-up"
+      );
+      item_clicked_arrow.toggleClass("fa-angle-down fa-angle-up");
 });
 
 
-/* Character counter/limiter plugin 
+/* Character counter/limiter plugin
 -------------------------------------------------- */
 
 $(function() {
@@ -161,7 +161,7 @@ $(function() {
     this.before(char_counter_div);
     $(".characterCounterDisplay").hide();
 
-    /* This valHook is necessary to get the .val() to correctly count newlines 
+    /* This valHook is necessary to get the .val() to correctly count newlines
        are two characters and not one */
     $.valHooks.textarea = {
       get: function( elem ) {
@@ -169,7 +169,7 @@ $(function() {
       }
     };
 
-    this.on("focus keyup", function(){ 
+    this.on("focus keyup", function(){
       var char_count = $(this).val().length;
       var maximum_length = $(this).attr('maxlength');
       if (char_count > maximum_length) {
@@ -188,12 +188,12 @@ $(function() {
       if ((char_count >= warning_length) || (char_count === 0)) {
         ($(this)).prev().addClass("red");
       } else {
-        ($(this)).prev().removeClass("red");  
+        ($(this)).prev().removeClass("red");
       };
       $($(this)).prev().show();
     });
 
-    this.on("blur", function(){ 
+    this.on("blur", function(){
       $(".characterCounterDisplay").hide();
     });
 
@@ -208,7 +208,7 @@ $(function() {
 });
 
 
-/* Location field formatter 
+/* Location field formatter
 -------------------------------------------------- */
 
 $(function() {
@@ -228,8 +228,8 @@ $(function() {
       };
       return no_of_newlines;
     }
-    
-    this.on("focus keyup", function(){ 
+
+    this.on("focus keyup", function(){
       var maximum_line_length = 30;
       var maximum_new_lines = 1;
       /* Calculate length of first line */
@@ -294,7 +294,7 @@ $(function() {
 });
 
 
-/* Remover of double newlines 
+/* Remover of double newlines
 -------------------------------------------------- */
 
 $(function() {
@@ -317,7 +317,7 @@ $(function() {
 });
 
 
-/* Enable remover of double newlines 
+/* Enable remover of double newlines
 -------------------------------------------------- */
 
 $(function() {

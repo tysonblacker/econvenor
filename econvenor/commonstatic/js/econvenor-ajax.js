@@ -1,7 +1,7 @@
 /*!
- * 
+ *
  * eConvenor AJAX JavaScript
- * 
+ *
  */
 
 
@@ -24,7 +24,7 @@ $(function loadAJAXonRefresh() {
 /* Ajax button handling
 -------------------------------------------------- */
 
-$(document).on("click", ".ajax-button", function(){ 
+$(document).on("click", ".ajax-button", function(){
   $('body').css( 'cursor', 'wait' );
   var button_id = $(this).attr('id');
   var button_data = 'ajax_button=' + button_id;
@@ -35,7 +35,7 @@ $(document).on("click", ".ajax-button", function(){
 /* Save button behaviour
 -------------------------------------------------- */
 
-$(document).on("click", "#save_document", function savingNow(){ 
+$(document).on("click", "#save_document", function savingNow(){
   $('#save_document').html('<i class="fa fa-refresh fa-fw fa-spin"></i>&nbsp; Saving changes');
 });
 
@@ -47,7 +47,7 @@ function savingOff() {
 /* Add item button behaviour
 -------------------------------------------------- */
 
-$(document).on("click", "#add_item", function addingItemNow(){ 
+$(document).on("click", "#add_item", function addingItemNow(){
   $('#add_item').html('<i class="fa fa-refresh fa-fw fa-spin"></i>&nbsp; Adding an item');
 });
 
@@ -59,7 +59,7 @@ function addingItemOff() {
 /* Preview and send button behaviour
 -------------------------------------------------- */
 
-function preparingPreview(){ 
+function preparingPreview(){
   $('#submit_agenda, #submit_minutes').html('<i class="fa fa-refresh fa-fw fa-spin"></i>&nbsp; Preparing preview');
 };
 
@@ -67,7 +67,7 @@ function preparingPreview(){
 /* Highlight "Add decision" and "Add task buttons"
 -------------------------------------------------- */
 
-$(document).on("focus blur", ".minute-notes", function(){ 
+$(document).on("focus blur", ".minute-notes", function(){
   $(this).parent().next().children().children( ".btn" ).toggleClass(
     "btn-default btn-primary"
   );
@@ -88,7 +88,7 @@ function updatePage( resp ) {
     dateFormat: 'dd M yy',
     onClose: function() {
       $(this).valid();
-    },  
+    },
   });
   $( '.sortable' ).sortable({
     axis: 'y',
@@ -131,8 +131,8 @@ function saveForm( button_data ) {
 /* Update sidebar labels in real time
 -------------------------------------------------- */
 
-$(document).on("keyup change", ".item-title", function(){ 
-  
+$(document).on("keyup change", ".item-title", function(){
+
   var changed_text = $(this).val();
   var item = $(this).attr('name');
   var item_no = item.split('-', 1);
@@ -155,7 +155,7 @@ $(document).on( "sortupdate", function( event, ui ) {
   var sidebar_data = $( ".sortable" ).sortable( "serialize",{
     key: "sidebar"
   });
-  sidebar_data = sidebar_data.replace(/&s/g, 's');  
+  sidebar_data = sidebar_data.replace(/&s/g, 's');
   sidebar_data = sidebar_data.replace(/sidebar=/g, ',');
   sidebar_data = sidebar_data.slice(1);
   var sidebar_string = 'ajax_button=move_item\&new_sidebar_order=' +

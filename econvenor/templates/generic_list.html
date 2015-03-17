@@ -8,7 +8,7 @@
 
   <div class="panel panel-primary">
     <table class="table table-hover">
-      
+
       <thead>
         <tr>
           {% for table_heading in table_headings %}
@@ -16,14 +16,14 @@
           {% endfor%}
         </tr>
       </thead>
-      
-      <tbody> 
+
+      <tbody>
         {% for item in item_list %}
           <tr id={{ item.id }} onclick="document.location='{% url 'participant-view' item.id %}';">
-          {% for field in fields %} 
+          {% for field in fields %}
             <td>{% item.field %}</td>
           {% endfor%}
-            
+
           </tr>
         {% empty %}
           <tr>

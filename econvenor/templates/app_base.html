@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" 
+    <link rel="shortcut icon"
           href="{% static 'images/econvenor-favicon-v1.ico' %}">
     <title>eConvenor - Your virtual convenor</title>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
@@ -23,7 +23,7 @@
   </head>
 
   <body>
-    
+
     <div class="nav navbar navbar-fixed-top" role="navigation">
 
       <div class="container-fluid">
@@ -65,7 +65,7 @@
                   <i class="fa fa-list-alt fa-fw"></i>&nbsp;
                   View all bug reports</a></li>
                 <li><a href={% url 'feature-list' %}>
-                  <i class="fa fa-list-alt fa-fw"></i>&nbsp;                  
+                  <i class="fa fa-list-alt fa-fw"></i>&nbsp;
                   View all feature/change requests</a></li>
               </ul>
             </li>
@@ -86,7 +86,7 @@
                   User guide</a></li>
                 <li class="divider"></li>
                 <li><a href={% url 'qanda' %}>
-                  <i class="fa fa-list-alt fa-fw"></i>&nbsp;                  
+                  <i class="fa fa-list-alt fa-fw"></i>&nbsp;
                   Q&A</a></li>
                 <li><a href={% url 'ask-question' %}>
                   <i class="fa fa-question-circle fa-fw"></i>&nbsp;
@@ -115,7 +115,7 @@
         </div><!-- /.collapse   -->
       </div><!-- /.container -->
     </div><!-- /.nav -->
-    
+
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
@@ -146,7 +146,7 @@
                   <li class="active">
                 {% else %}
                   <li>
-                {% endifequal %} 
+                {% endifequal %}
                   <a href={% url 'meeting-add' %}>
                     <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
                       New meeting
@@ -156,7 +156,7 @@
                   <li class="active">
                 {% else %}
                   <li>
-                {% endifequal %} 
+                {% endifequal %}
                   <a href={% url 'meeting-list-current' %}>
                     <i class="fa fa-pencil fa-fw"></i>&nbsp;
                       Current meetings
@@ -166,7 +166,7 @@
                   <li class="active">
                 {% else %}
                   <li>
-                {% endifequal %} 
+                {% endifequal %}
                   <a href={% url 'meeting-list-archive' %}>
                     <i class="fa fa-archive fa-fw"></i>&nbsp;
                       Archived meetings
@@ -174,7 +174,7 @@
                 </li>
               </ul>
             </li>
-      
+
             {% ifequal menu.parent 'tasks' %}
               <li class="sidebar-item active">
             {% else %}
@@ -190,7 +190,7 @@
                   <li class="active">
                 {% else %}
                   <li>
-                {% endifequal %} 
+                {% endifequal %}
                   <a href={% url 'task-add' %}>
                     <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
                       New task
@@ -200,7 +200,7 @@
                   <li class="active">
                 {% else %}
                   <li>
-                {% endifequal %} 
+                {% endifequal %}
                   <a href={% url 'task-list' %}>
                     <i class="fa fa-check-square-o fa-fw"></i>&nbsp;
                       Manage tasks
@@ -208,7 +208,7 @@
                 </li>
               </ul>
             </li>
-                        
+
             {% ifequal menu.parent 'decisions' %}
               <li class="sidebar-item active">
             {% else %}
@@ -224,14 +224,14 @@
                   <li class="active">
                 {% else %}
                   <li>
-                {% endifequal %} 
+                {% endifequal %}
                   <a href={% url 'decision-list' %}>
                     <i class="fa fa-th fa-fw"></i>&nbsp;
                       View decisions
                   </a>
                 </li>
               </ul>
-            </li>                                
+            </li>
 
             {% ifequal menu.parent 'participants' %}
               <li class="sidebar-item active">
@@ -248,7 +248,7 @@
                   <li class="active">
                 {% else %}
                   <li>
-                {% endifequal %} 
+                {% endifequal %}
                   <a href={% url 'participant-add' %}>
                     <i class="fa fa-plus-circle fa-fw"></i>&nbsp;
                       New participant
@@ -258,7 +258,7 @@
                   <li class="active">
                 {% else %}
                   <li>
-                {% endifequal %} 
+                {% endifequal %}
                   <a href={% url 'participant-list' %}>
                     <i class="fa fa-pencil fa-fw"></i>&nbsp;
                       Manage participants
@@ -266,7 +266,7 @@
                 </li>
               </ul>
             </li>
-                                
+
           </ul>
           {% if menu.tips %}
             <div class="tip-box panel panel-default panel-dashboard">
@@ -275,12 +275,12 @@
               </div>
               <div class="panel-body">
                 <div class="text-center">
-                  <button id="previous_tip" 
+                  <button id="previous_tip"
                     class="btn btn-default btn-tips"
                     title="Previous tip" type="button">
                     <i class="fa fa-chevron-circle-left"></i>
                   </button>
-                  <button id="next_tip" 
+                  <button id="next_tip"
                     class="btn btn-default btn-tips"
                     title="Next tip" type="button">
                     <i class="fa fa-chevron-circle-right"></i>
@@ -288,8 +288,8 @@
                 </div>
                 <span id="tip_body"></span>
               </div>
-            </div> 
-          {% endif %}        
+            </div>
+          {% endif %}
         </div><!-- /.sidebar -->
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 content"
@@ -299,10 +299,10 @@
         </div><!-- /.content -->
 
       </div><!-- /.row -->
-        
 
-      <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" 
-           aria-labelledby="DeleteConfirmation" aria-hidden="true" 
+
+      <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog"
+           aria-labelledby="DeleteConfirmation" aria-hidden="true"
            aria-describedby="A pop-up to confirm deletion">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
@@ -316,8 +316,8 @@
             </div><!-- /.modal-body -->
             <div class="modal-footer">
               <form action="" method="POST">
-                {% csrf_token %} 
-                <button type="button" class="btn btn-default" 
+                {% csrf_token %}
+                <button type="button" class="btn btn-default"
                         data-dismiss="modal">
                   No, cancel
                 </button>
@@ -329,7 +329,7 @@
             </div><!-- /.modal-footer -->
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->        
+      </div><!-- /.modal -->
 
       <div class="tip-content fade">
         {% ifequal menu.tips 'dashboard' %}
@@ -427,14 +427,14 @@
 
     {% include 'no_javascript.html' %}
 
-    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script> 
+    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
     <script src="{% static 'js/jquery.timepicker-1.3.5.min.js' %}"></script>
     <script src="{% static 'js/jquery.validate-1.11.1.min.js' %}"></script>
     <script src="{% static 'js/jquery.metisMenu.js' %}"></script>
     <script src="{% static 'js/econvenor.js' %}"></script>
-    
+
     {% block extrajs %}
     {% endblock extrajs %}
 

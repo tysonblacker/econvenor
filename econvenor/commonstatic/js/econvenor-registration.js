@@ -1,7 +1,7 @@
 /*!
- * 
+ *
  * eConvenor Registration JavaScript
- * 
+ *
  */
 
 
@@ -16,7 +16,7 @@ $.get( '/data/people.html', function( html ){
 /* Ajax button handling
 -------------------------------------------------- */
 
-$(document).on("click", ".ajax-button", function(){ 
+$(document).on("click", ".ajax-button", function(){
   var button_id = $(this).attr('id');
   loadPage(button_id);
 });
@@ -36,7 +36,7 @@ function updatePage( resp ) {
     dateFormat: 'dd M yy',
     onClose: function() {
       $(this).valid();
-    },  
+    },
   });
   $( '.sortable' ).sortable({
     axis: 'y',
@@ -73,8 +73,8 @@ function saveForm( button_data ) {
 /* Update sidebar labels in real time
 -------------------------------------------------- */
 
-$(document).on("keyup change", ".item-title", function(){ 
-  
+$(document).on("keyup change", ".item-title", function(){
+
   var changed_text = $(this).val();
   var item = $(this).attr('name');
   var item_no = item.split('-', 1);
@@ -97,7 +97,7 @@ $(document).on( "sortupdate", function( event, ui ) {
   var sidebar_data = $( ".sortable" ).sortable( "serialize",{
     key: "sidebar"
   });
-  sidebar_data = sidebar_data.replace(/&s/g, 's');  
+  sidebar_data = sidebar_data.replace(/&s/g, 's');
   sidebar_data = sidebar_data.replace(/sidebar=/g, ',');
   sidebar_data = sidebar_data.slice(1);
   var sidebar_string = 'ajax_button=move_item\&new_sidebar_order=' +
