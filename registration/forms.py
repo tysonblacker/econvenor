@@ -25,7 +25,7 @@ class UserRegisterForm(forms.ModelForm):
     password1 = forms.RegexField(label=_("Password"), min_length=8,
         regex=r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W)[a-zA-Z0-9\S]{8,}$',
         widget=forms.PasswordInput,
-        help_text=_("At least 8 characters long with at least 1 letter, " 
+        help_text=_("At least 8 characters long with at least 1 letter, "
                     "1 digit, 1 special character and no spaces."),
         error_messages={
             'invalid': _("Passwords must be at least 8 characters long and "
@@ -40,16 +40,16 @@ class UserRegisterForm(forms.ModelForm):
         error_messages={
             'invalid': _("You username may contain only letters, numbers and "
                          "underscore ('_') characters.")})
-    
+
     class Meta:
         model = User
         fields = ("email", "username", "first_name", "last_name")
         help_texts = {
-            'last_name': _('Optional'), 
+            'last_name': _('Optional'),
         }
         labels = {
             'first_name': _('Given name'),
-            'last_name': _('Family name'), 
+            'last_name': _('Family name'),
         }
 
     def clean_email(self):
@@ -62,7 +62,7 @@ class UserRegisterForm(forms.ModelForm):
             self.error_messages['duplicate_email'],
             code='duplicate_email',
         )
-    
+
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
@@ -72,7 +72,7 @@ class UserRegisterForm(forms.ModelForm):
                 code='password_mismatch',
             )
         return password2
-    
+
     def clean_username(self):
         username = self.cleaned_data["username"]
         try:
@@ -83,7 +83,7 @@ class UserRegisterForm(forms.ModelForm):
             self.error_messages['duplicate_username'],
             code='duplicate_username',
         )
-            
+
     def save(self, commit=True):
         user = super(UserRegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
@@ -104,7 +104,7 @@ class GroupRegisterForm(forms.ModelForm):
     }
     name = forms.CharField(label=_("Group name"), max_length=100,
         help_text=_("Required. 100 characters or fewer."))
-        
+
     class Meta:
         model = Group
         fields = ('name', 'aim', 'focus', 'country')
@@ -117,7 +117,7 @@ class GroupRegisterForm(forms.ModelForm):
                          '(40 characters max.)'),
         }
 
-        
+
     def clean_name(self):
         name = self.cleaned_data["name"]
         if name == '':

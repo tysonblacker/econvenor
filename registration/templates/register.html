@@ -13,18 +13,18 @@ Log in details
     <form role="form" method="POST" id="registerform">
       {% csrf_token %}
 
-      <div class="form-group">      
-        {{ user_form.email.label_tag }}      
+      <div class="form-group">
+        {{ user_form.email.label_tag }}
         {{user_form.email|setclass:"form-control email" }}
         {{ user_form.email.errors }}
       </div>
-      <div class="form-group">      
-        {{ user_form.password1.label_tag }}      
+      <div class="form-group">
+        {{ user_form.password1.label_tag }}
         {{ user_form.password1|setclass:"form-control" }}
-        {{ user_form.password1.help_text }}      
+        {{ user_form.password1.help_text }}
       </div>
-      <div class="form-group">      
-        {{ user_form.password2.label_tag }}      
+      <div class="form-group">
+        {{ user_form.password2.label_tag }}
         {{ user_form.password2|setclass:"form-control" }}
         {{ user_form.password1.errors }}
         {{ user_form.password2.errors }}
@@ -35,22 +35,22 @@ Log in details
         Your details
       </h2>
     </div><!-- /.panel-heading -->
-    
 
-      <div class="form-group">      
-        {{ user_form.username.label_tag }}      
+
+      <div class="form-group">
+        {{ user_form.username.label_tag }}
         {{user_form.username|setclass:"form-control" }}
         {{ user_form.username.errors }}
         {{ user_form.username.help_text }}
       </div>
-      <div class="form-group">      
-        {{ user_form.first_name.label_tag }}      
+      <div class="form-group">
+        {{ user_form.first_name.label_tag }}
         {{ user_form.first_name|setclass:"form-control" }}
         {{ user_form.first_name.errors }}
         {{ user_form.first_name.help_text }}
       </div>
-      <div class="form-group">      
-        {{ user_form.last_name.label_tag }}      
+      <div class="form-group">
+        {{ user_form.last_name.label_tag }}
         {{ user_form.last_name|setclass:"form-control" }}
         {{ user_form.last_name.errors }}
         {{ user_form.last_name.help_text }}
@@ -62,25 +62,25 @@ Log in details
       </h2>
     </div><!-- /.panel-heading -->
 
-      <div class="form-group">      
-        {{ group_form.name.label_tag }}      
+      <div class="form-group">
+        {{ group_form.name.label_tag }}
         {{ group_form.name|setclass:"form-control" }}
         {{ group_form.name.errors }}
       </div>
-      <div class="form-group">      
-        {{ group_form.aim.label_tag }}      
+      <div class="form-group">
+        {{ group_form.aim.label_tag }}
         {{ group_form.aim|setclass:"form-control" }}
         {{ group_form.aim.help_text }}
         {{ group_form.aim.errors }}
       </div>
-      <div class="form-group">      
-        {{ group_form.focus.label_tag }}      
+      <div class="form-group">
+        {{ group_form.focus.label_tag }}
         {{ group_form.focus|setclass:"form-control" }}
         {{ group_form.focus.help_text }}
         {{ group_form.focus.errors }}
       </div>
-      <div class="form-group">      
-        {{ group_form.country.label_tag }}      
+      <div class="form-group">
+        {{ group_form.country.label_tag }}
         {{ group_form.country|setclass:"form-control" }}
         {{ group_form.country.help_text }}
         {{ group_form.country.errors }}
@@ -95,8 +95,8 @@ Log in details
           Create my account
         </button>
       </div>
-    </form>       
-  
+    </form>
+
 {% endblock content %}
 
 {% block extrajs %}
@@ -104,7 +104,7 @@ Log in details
 <script>
 
   $(function() {
-  
+
     jQuery.validator.addMethod("passwordCheck", function(value, element) {
       return this.optional(element) || /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W)[a-zA-Z0-9\S]{8,}$/.test(value);
     },
@@ -198,7 +198,7 @@ Log in details
       },
     });
   })
-  
+
 </script>
 
 <script type="text/javascript">

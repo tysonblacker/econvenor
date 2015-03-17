@@ -11,16 +11,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    
-    <link rel="shortcut icon" 
+
+    <link rel="shortcut icon"
       href="{% static 'images/econvenor-favicon-v1.ico' %}">
 
     <title>eConvenor - Your virtual convenor</title>
 
-	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-	<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
-	<link href="{% static 'css/landing.css' %}" rel="stylesheet">
-	    
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/landing.css' %}" rel="stylesheet">
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and
          media queries -->
     <!--[if lt IE 9]>
@@ -29,12 +29,12 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js">
         </script>
     <![endif]-->
-        
+
   </head>
-  
+
   <body>
-  
-    <!-- NAVBAR 
+
+    <!-- NAVBAR
     ================================================== -->
 
     <div class="navbar navbar-static-top">
@@ -65,7 +65,7 @@
                   {% if section == 'start' %}
                     Setting up an account
                   {% elif section == 'eligibility' %}
-                    Eligibility check                  
+                    Eligibility check
                   {% elif section == 'terms' %}
                     Terms and conditions
                   {% elif section == 'complete' %}
@@ -102,8 +102,8 @@
     <!-- MODAL
     ================================================== -->
 
-        <div class="modal fade" id="exit_modal" tabindex="-1" role="dialog" 
-           aria-labelledby="ExitNotification" aria-hidden="true" 
+        <div class="modal fade" id="exit_modal" tabindex="-1" role="dialog"
+           aria-labelledby="ExitNotification" aria-hidden="true"
            aria-describedby="Exit the qualification process">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -124,25 +124,25 @@
               </div><!-- /.modal-footer -->
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->        
+        </div><!-- /.modal -->
 
       </div><!-- container -->
     </div><!-- section -->
 
     {% include 'no_javascript.html' %}
 
-    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script> 
+    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
     <script src="{% static 'js/jquery.validate-1.11.1.min.js' %}"></script>
-    
+
     <script>
 
     $( function(){
       $( ".modal-data" ).hide();
-    }); 
-    
-    $(document).on("click", "#exit_button", function(event){ 
+    });
+
+    $(document).on("click", "#exit_button", function(event){
       var exit_title = $("#exit_modal_title").html();
       var exit_body = $("#exit_modal_body").html();
       var exit_button = $("#exit_modal_button").html();
@@ -154,11 +154,11 @@
       $('#modal_button').attr( 'href', exit_button_target );
       $('#exit_modal').modal();
     });
-    
+
     </script>
-    
+
     {% block extrajs %}
     {% endblock extrajs %}
-   
+
   </body>
 </html>

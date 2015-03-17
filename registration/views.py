@@ -28,10 +28,10 @@ def qualify(request, step):
         section = 'complete'
     # Set whether this will be a trial account
     if step[-1:] == 'a':
-        trial_account = True 
+        trial_account = True
     else:
         trial_account = False
-    
+
     return render(request, template, {
         'trial_account': trial_account,
         'page_type': page_type,
@@ -46,7 +46,7 @@ def register(request, trial):
         trial_account = True
     else:
         trial_account = False
-            
+
     if request.method == 'POST':
         user_form = UserRegisterForm(request.POST, label_suffix='')
         group_form = GroupRegisterForm(request.POST, label_suffix='')
@@ -83,12 +83,12 @@ def register(request, trial):
             participant.save()
             # send the new user a welcome email
             send_welcome_email(group=group, user=user)
-                        
+
             return HttpResponseRedirect(reverse('welcome'))
     else:
         user_form = UserRegisterForm(label_suffix='')
         group_form = GroupRegisterForm(label_suffix='')
-        
+
     return render(request, 'register.html', {
         'group_form': group_form,
         'page_type': page_type,
@@ -99,10 +99,10 @@ def register(request, trial):
 
 def welcome(request):
     group = get_current_group(request)
-    if group == None:	
+    if group == None:
         return HttpResponseRedirect(reverse('index'))
 
     return render(request, 'welcome.html', {
-                  'group': group,    
+                  'group': group,
                   })
 
