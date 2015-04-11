@@ -80,8 +80,9 @@ def group_edit(request):
         return HttpResponseRedirect(reverse('index'))
 
     if request.method == "POST":
-        form = GroupDetailsForm(request.POST, instance=group,
+        form = GroupDetailsForm(request.POST, request.FILES, instance=group,
                                 label_suffix='')
+        print repr(request.FILES)
         if form.is_valid():
             form.save()
             snapshot_group_details(group)

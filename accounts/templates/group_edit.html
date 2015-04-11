@@ -10,7 +10,7 @@
       Edit group settings
     </div>
     <div class="panel-body">
-      <form role="form" id="editgroupsettingsform" action="" method="POST">
+      <form role="form" id="editgroupsettingsform" action="" enctype="multipart/form-data" method="POST">
       {% csrf_token %}
         {% for field in form %}
           <div class="form-group">
@@ -76,6 +76,10 @@
         },
         country: {
           required: "Please enter your group's country.",
+          maxlength: "Maximum of 40 characters",
+        },
+        logo: {
+          required: "Please enter your group's logo.",
           maxlength: "Maximum of 40 characters",
         },
       },

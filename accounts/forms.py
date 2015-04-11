@@ -177,7 +177,7 @@ class GroupDetailsForm(forms.ModelForm):
 
     class Meta:
         model = Group
-        fields = ('name', 'aim', 'focus', 'country')
+        fields = ('name', 'aim', 'focus', 'country', 'logo' )
         help_texts = {
             'aim': _('A short statement of your group\'s main aim '
                      '(100 characters max.)'),
@@ -197,3 +197,5 @@ class GroupDetailsForm(forms.ModelForm):
                 'class': 'form-control',
                 }),
         }
+     
+    

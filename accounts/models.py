@@ -1,8 +1,19 @@
 from django.db import models
 from utilities.models import TimeStampedModel
+import uuid
+import os
 
 from django.contrib.auth.models import User
 
+
+def get_file_path(instance, filename):
+    """
+    This is was used to create unique names for uploaded files.
+    Currently not used but left incase it is needed in the future. 
+    """
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    return os.path.join('logos', filename)
 
 class GroupManager(models.Manager):
 
